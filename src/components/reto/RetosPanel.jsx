@@ -19,7 +19,7 @@ import VideoRetos from '../VideoRetos'
 const MODOS = [
   { id: 'directo', emoji: '📺', label: { es: 'En directo', en: 'Live', ca: 'En directe' },
     desc: { es: 'Lo proyectas y cada uno responde en su móvil, con tiempo por pregunta.', en: 'You project it and everyone answers on their phone, against the clock.', ca: 'Ho projectes i cadascú respon al mòbil, amb temps per pregunta.' } },
-  { id: 'deberes', emoji: '🏠', label: { es: 'Deberes', en: 'Homework', ca: 'Deures' },
+  { id: 'deberes', emoji: '🏠', label: { es: 'Para casa', en: 'Homework', ca: 'Per a casa' },
     desc: { es: 'Cada uno hace el examen en casa; tú ves la nota de cada uno.', en: 'Everyone does the exam at home; you see each mark.', ca: 'Cadascú fa l’examen a casa; tu veus la nota de cadascú.' } },
   { id: 'ranking', emoji: '🏆', label: { es: 'Ranking libre', en: 'Open ranking', ca: 'Rànquing lliure' },
     desc: { es: 'Sus récords en cualquier juego suben solos, toda la semana.', en: 'Their best scores in any game go up on their own, all week.', ca: 'Els seus rècords a qualsevol joc pugen sols, tota la setmana.' } },
@@ -82,10 +82,13 @@ function SelectorJuego({ valor, onElige }) {
 const campo = 'w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500'
 const chip = on => `rounded-xl border px-3 py-2 text-sm font-bold ${on ? 'border-teal-400 bg-teal-500/20 text-white' : 'border-white/10 bg-white/[0.04] text-white/70 hover:bg-white/[0.08]'}`
 
-export function CrearReto({ uid, classId: claseFija, nombreClase: nombreFijo = '', onCreado }) {
+// modoFijo: viene ya elegido desde «＋ Mandar a la clase» (no se enseña el selector)
+export function CrearReto({ uid, classId: claseFija, nombreClase: nombreFijo = '', onCreado, modoFijo }) {
   const { tr, lang, localPath } = useLang()
   const navigate = useNavigate()
-  const [modo, setModo] = useState('directo')
+  const [modo, setModo] = useState(modoFijo ?? 'directo')
+  // Para casa: fecha de entrega (por defecto, dentro de una semana)
+  const [fecha, setFecha] = useState(() => new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10))
   const [examen, setExamen] = useState('')
   const [nivel, setNivel] = useState(1)
   const [nPreguntas, setNPreguntas] = useState(10)
@@ -113,7 +116,7 @@ export function CrearReto({ uid, classId: claseFija, nombreClase: nombreFijo = '
     setCreando(true); setError('')
     try {
       const porDefecto = modo === 'ranking' ? (nombreClase || tr({ es: 'Ranking de clase', en: 'Class ranking', ca: 'Rànquing de classe' })) : `${sinColetilla(examLabel(examen, lang))}${nombreClase ? ` · ${nombreClase}` : ''}`
-      const codigo = await crearReto(uid, { nombre: nombre.trim() || porDefecto, modo, examen, nivel, nPreguntas, segundos, nota, classId, claseNombre: nombreClase })
+      const codigo = await crearReto(uid, { nombre: nombre.trim() || porDefecto, modo, examen, nivel, nPreguntas, segundos, nota, classId, claseNombre: nombreClase, fecha })
       onCreado?.(codigo)
       // En directo se abre la pizarra; lo demás, la página para compartirlo y ver resultados
       navigate(localPath(modo === 'directo' ? `/reto/${codigo}` : `/profesor/reto/${codigo}`))
@@ -123,14 +126,14 @@ export function CrearReto({ uid, classId: claseFija, nombreClase: nombreFijo = '
 
   return (
     <form onSubmit={crea} className="space-y-4">
-      <div className="grid gap-2 sm:grid-cols-3">
+      {!modoFijo && <div className="grid gap-2 sm:grid-cols-3">
         {MODOS.map(m => (
           <button key={m.id} type="button" onClick={() => setModo(m.id)} className={`text-left rounded-2xl border p-3 ${modo === m.id ? 'border-teal-400 bg-teal-500/10' : 'border-white/10 bg-white/[0.03] hover:bg-white/[0.06]'}`}>
             <span className="block text-white font-black">{m.emoji} {tr(m.label)}</span>
             <span className="block text-white/50 text-xs mt-0.5 leading-snug">{tr(m.desc)}</span>
           </button>
         ))}
-      </div>
+      </div>}
 
       {!claseFija && clases && (
         <div>
@@ -160,6 +163,12 @@ export function CrearReto({ uid, classId: claseFija, nombreClase: nombreFijo = '
               <span className="block text-white/50 text-xs font-bold mb-1">{tr({ es: 'Preguntas', en: 'Questions', ca: 'Preguntes' })}</span>
               <div className="flex gap-1.5">{N_PREGUNTAS.map(n => <button key={n} type="button" onClick={() => setNPreguntas(n)} className={chip(nPreguntas === n)}>{n}</button>)}</div>
             </div>
+            {modo === 'deberes' && (
+              <label>
+                <span className="block text-white/50 text-xs font-bold mb-1">{tr({ es: 'Para el', en: 'Due', ca: 'Per al' })}</span>
+                <input type="date" value={fecha} onChange={e => setFecha(e.target.value)} className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-teal-500 [color-scheme:dark]" />
+              </label>
+            )}
             {modo === 'directo' && (
               <div>
                 <span className="block text-white/50 text-xs font-bold mb-1">{tr({ es: 'Segundos por pregunta', en: 'Seconds per question', ca: 'Segons per pregunta' })}</span>
@@ -190,7 +199,7 @@ export function CrearReto({ uid, classId: claseFija, nombreClase: nombreFijo = '
 
 // Los retos ya creados (de esta clase si hay classId), con su modo
 export function ListaRetos({ uid, classId }) {
-  const { tr, localPath } = useLang()
+  const { tr } = useLang()
   const [retos, setRetos] = useState(null)
   useEffect(() => {
     let vivo = true
@@ -201,22 +210,31 @@ export function ListaRetos({ uid, classId }) {
   if (!retos.length) return <p className="text-white/35 text-sm">{tr({ es: 'Aún no has creado ninguno.', en: 'You haven’t created any yet.', ca: 'Encara no n’has creat cap.' })}</p>
   return (
     <ul className="space-y-1.5">
-      {retos.map(r => {
-        const m = MODOS.find(x => x.id === (r.modo ?? 'ranking'))
-        return (
-          <li key={r.codigo} className="flex items-center gap-2 rounded-xl bg-white/[0.04] px-3 py-2">
-            <span className="text-lg" title={tr(m.label)}>{m.emoji}</span>
-            <span className="flex-1 min-w-0">
-              <span className="block text-white text-sm font-bold truncate">{r.nombre}{r.cerrado ? ' 🔒' : ''}</span>
-              <span className="block text-white/40 text-[11px] truncate">{r.createdAt?.toDate?.().toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) ?? ''}{!classId && r.claseNombre ? ` · 🏫 ${r.claseNombre}` : ''}{r.enNotas ? ' · 📝' : ''}</span>
-            </span>
-            <span className="font-mono text-teal-300 text-xs">{r.codigo}</span>
-            {r.modo === 'directo' && <Link to={localPath(`/reto/${r.codigo}`)} className="rounded-lg bg-amber-400 text-black text-xs font-black px-2 py-1">📺 {tr({ es: 'Pizarra', en: 'Board', ca: 'Pissarra' })}</Link>}
-            <Link to={localPath(`/profesor/reto/${r.codigo}`)} className="rounded-lg bg-white/10 text-white text-xs font-bold px-2 py-1">{tr({ es: 'Gestionar', en: 'Manage', ca: 'Gestionar' })}</Link>
-          </li>
-        )
-      })}
+      {retos.map(r => <FilaReto key={r.codigo} r={r} conClase={!classId} />)}
     </ul>
+  )
+}
+
+const fechaCorta = (d, lang) => (d ? new Date(`${d}T12:00:00`).toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { day: 'numeric', month: 'short' }) : '')
+// Una actividad de reto en una lista (la del panel, la de la clase): qué es,
+// para cuándo, su código y a dónde ir (la pizarra o su gestión)
+export function FilaReto({ r, conClase = false }) {
+  const { tr, lang, localPath } = useLang()
+  const m = MODOS.find(x => x.id === (r.modo ?? 'ranking'))
+  return (
+    <li className="flex items-center gap-2 rounded-xl bg-white/[0.04] border border-white/[0.06] px-3 py-2 list-none">
+      <span className="text-lg" title={tr(m.label)}>{m.emoji}</span>
+      <span className="flex-1 min-w-0">
+        <span className="block text-white text-sm font-bold truncate">{r.nombre}{r.cerrado ? ' 🔒' : ''}</span>
+        <span className="block text-white/40 text-[11px] truncate">
+          {tr(m.label)}{r.fecha ? ` · ${tr({ es: 'para el', en: 'due', ca: 'per al' })} ${fechaCorta(r.fecha, lang)}` : ''}
+          {' · '}{r.createdAt?.toDate?.().toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) ?? ''}{conClase && r.claseNombre ? ` · 🏫 ${r.claseNombre}` : ''}{r.enNotas ? ' · 📝' : ''}
+        </span>
+      </span>
+      <span className="font-mono text-teal-300 text-xs hidden sm:inline">{r.codigo}</span>
+      {r.modo === 'directo' && <Link to={localPath(`/reto/${r.codigo}`)} className="rounded-lg bg-amber-400 text-black text-xs font-black px-2 py-1">📺 {tr({ es: 'Pizarra', en: 'Board', ca: 'Pissarra' })}</Link>}
+      <Link to={localPath(`/profesor/reto/${r.codigo}`)} className="rounded-lg bg-white/10 text-white text-xs font-bold px-2 py-1">{tr({ es: 'Resultados', en: 'Results', ca: 'Resultats' })}</Link>
+    </li>
   )
 }
 

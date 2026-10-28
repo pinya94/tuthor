@@ -69,22 +69,15 @@ export const TEACHER_MODULES = {
       ca: 'Un informe per alumne i trimestre llest per imprimir o desar en PDF: notes, assistència i observacions en una sola pàgina per a la família.',
     },
   },
-  retos: {
-    emoji: '🏆', nucleo: false, porDefecto: true,
-    label: { es: 'Retos', en: 'Challenges', ca: 'Reptes' },
-    desc: {
-      es: 'Un juego para toda la clase sin que nadie cree cuenta: en directo desde la pizarra (cada uno responde en su móvil) o de deberes, con un código y un apodo.',
-      en: 'A game for the whole class with no accounts: live from the board (everyone answers on their phone) or as homework, with a code and a nickname.',
-      ca: 'Un joc per a tota la classe sense que ningú creï compte: en directe des de la pissarra (cadascú respon al mòbil) o de deures, amb un codi i un sobrenom.',
-    },
-  },
   deberes: {
     emoji: '📚', nucleo: true, porDefecto: true,
-    label: { es: 'Deberes', en: 'Homework', ca: 'Deures' },
+    // «Actividades»: todo lo que se manda a la clase en un solo sitio (el id
+    // sigue siendo 'deberes' para no tocar las clases ya guardadas)
+    label: { es: 'Actividades', en: 'Activities', ca: 'Activitats' },
     desc: {
-      es: 'Lo que mandas: juegos y exámenes de Tuthor, que se marcan solos al jugarlos, y tareas de fuera (una ficha, unas páginas del libro), que marcas tú.',
-      en: 'What you set: Tuthor games and exams, which tick themselves off, and outside work (a worksheet, pages of the book) that you tick off yourself.',
-      ca: 'El que manes: jocs i exàmens de Tuthor, que es marquen sols, i tasques de fora (una fitxa, unes pàgines del llibre), que marques tu.',
+      es: 'Todo lo que mandas a la clase en un solo sitio: jugar en directo en la pizarra, juegos y tests para casa (con o sin cuenta), exámenes tuyos y tareas de fuera.',
+      en: 'Everything you send to the class in one place: live games on the board, games and quizzes for home (with or without accounts), your own exams and outside tasks.',
+      ca: 'Tot el que envies a la classe en un sol lloc: jugar en directe a la pissarra, jocs i tests per a casa (amb compte o sense), exàmens teus i tasques de fora.',
     },
   },
   alumnos: {

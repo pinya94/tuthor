@@ -100,7 +100,9 @@ function Tarea({ task, uid, lang, tr, onAbrir }) {
 
 const ICONO_OBS = { positiva: Estrella, neutra: Libreta, negativa: Fallo }
 
-export default function ClaseAlumno({ clases, tareas, observaciones, uid, lang, tr, onAbrir, unirse }) {
+const fechaDia = (d, lang) => new Date(`${d}T12:00:00`).toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'ca' ? 'ca-ES' : 'es-ES', { weekday: 'long', day: 'numeric', month: 'long' })
+
+export default function ClaseAlumno({ clases, tareas, actividades = [], observaciones, uid, lang, tr, onAbrir, unirse }) {
   const pendientes = tareas.filter(t => !t.completions?.[uid]?.done)
     .sort((a, b) => (a.dueDate?.toMillis?.() ?? Infinity) - (b.dueDate?.toMillis?.() ?? Infinity))
   const hechas = tareas.filter(t => t.completions?.[uid]?.done)
@@ -134,9 +136,32 @@ export default function ClaseAlumno({ clases, tareas, observaciones, uid, lang, 
         )}
       </section>
 
-      <div className="grid lg:grid-cols-[1fr_320px] gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
         {/* Tareas */}
-        <div>
+        <div className="min-w-0">
+          {actividades.length > 0 && (
+            <>
+              <h2 className="text-white font-black text-lg mb-3">{tr({ es: 'Actividades de clase', en: 'Class activities', ca: 'Activitats de classe' })}</h2>
+              <div className="space-y-2.5 mb-8">
+                {actividades.map(a => (
+                  <button key={a.codigo} type="button" onClick={() => onAbrir(`/reto/${a.codigo}`)}
+                    className={`${TARJETA} w-full px-4 py-3 flex items-center gap-3 text-left hover:border-amber-400/40 transition-colors`}>
+                    <span className="text-2xl" aria-hidden="true">{a.modo === 'directo' ? '📺' : a.modo === 'deberes' ? '🏠' : '🏆'}</span>
+                    <span className="flex-1 min-w-0">
+                      <span className="block text-white font-bold truncate">{a.nombre}</span>
+                      <span className="block text-white/45 text-xs">
+                        {a.modo === 'directo' ? tr({ es: 'En directo, en clase', en: 'Live, in class', ca: 'En directe, a classe' })
+                          : a.modo === 'deberes' ? (a.fecha ? tr({ es: `Para el ${fechaDia(a.fecha, lang)}`, en: `Due ${fechaDia(a.fecha, lang)}`, ca: `Per al ${fechaDia(a.fecha, lang)}` }) : tr({ es: 'Para casa', en: 'For home', ca: 'Per a casa' }))
+                          : tr({ es: 'Ranking de la clase', en: 'Class ranking', ca: 'Rànquing de la classe' })}
+                        {clases.length > 1 && a.claseNombre ? ` · ${a.claseNombre}` : ''}
+                      </span>
+                    </span>
+                    <span className="shrink-0 rounded-lg bg-amber-400 text-black text-sm font-black px-3 py-1.5">{a.modo === 'directo' ? tr({ es: 'Entrar →', en: 'Join →', ca: 'Entrar →' }) : tr({ es: 'Hacer →', en: 'Do it →', ca: 'Fer →' })}</span>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
           <h2 className="text-white font-black text-lg mb-3">{tr({ es: 'Por hacer', en: 'To do', ca: 'Per fer' })}</h2>
           {pendientes.length === 0 ? (
             <div className={`${TARJETA} px-5 py-6 flex items-center gap-4 mb-8`}>

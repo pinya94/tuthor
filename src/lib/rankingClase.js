@@ -238,6 +238,8 @@ export async function crearReto(uid, o) {
     if (datos.modo === 'directo') datos.segundos = o.segundos ?? 30
   }
   if (o.nota?.trim()) datos.nota = o.nota.trim().slice(0, 400)
+  // Para casa, con fecha de entrega (AAAA-MM-DD)
+  if (datos.modo === 'deberes' && /^\d{4}-\d{2}-\d{2}$/.test(o.fecha ?? '')) datos.fecha = o.fecha
   if (o.classId) { datos.classId = o.classId; datos.claseNombre = String(o.claseNombre ?? '').slice(0, 60) }
   for (let i = 0; i < 5; i++) {
     const codigo = generaCodigo()
@@ -344,4 +346,12 @@ export function csvResultados(reto, entradas, marcador, tr) {
     filas = [...entradas].sort((a, b) => a.juego.localeCompare(b.juego) || b.puntos - a.puntos).map(e => [e.apodo, e.juego, e.puntos])
   }
   return '﻿' + [cab, ...filas].map(f => f.map(celda).join(';')).join('\r\n')
+}
+
+// Las actividades de una clase: para su profe (la lista de Actividades) y para
+// sus alumnos con cuenta («Mi clase»; las rules lo permiten a los de la clase)
+export async function retosDeClase(classId) {
+  const s = await getDocs(query(collection(db, 'rankingsClase'), where('classId', '==', classId)))
+  return s.docs.map(d => ({ codigo: d.id, ...d.data() }))
+    .sort((a, b) => (b.createdAt?.toMillis?.() ?? 0) - (a.createdAt?.toMillis?.() ?? 0))
 }

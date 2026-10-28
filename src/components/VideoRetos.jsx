@@ -129,7 +129,7 @@ function Crear({ t, tr }) {
   const cursor = [[22, 30], [55, 46], [36, 62], [70, 62], [50, 80]][Math.min(4, Math.floor(Math.max(0, t - a - 0.5) / 1.2))]
   return (
     <div className="absolute inset-[6%_10%_9%] rounded-xl border-[3px] border-slate-500 bg-[#141b2e] p-[2.5%] flex flex-col gap-[3%]">
-      <p className={`text-white/50 font-bold ${txt}`}>🏫 3º ESO B · <span className="text-teal-300">🏆 {tr({ es: 'Retos', en: 'Challenges', ca: 'Reptes' })}</span></p>
+      <p className={`text-white/50 font-bold ${txt}`}>🏫 3º ESO B · <span className="text-teal-300">📋 {tr({ es: 'Actividades', en: 'Activities', ca: 'Activitats' })}</span></p>
       <div className="grid grid-cols-3 gap-[2%]">
         {['📺', '🏠', '🏆'].map((m, i) => (
           <div key={m} className={`rounded-lg border-2 p-[4%] text-white font-black ${txt} ${i === 0 && paso(0) ? 'border-teal-400 bg-teal-500/20' : 'border-white/10'}`}>

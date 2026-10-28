@@ -542,7 +542,10 @@ service cloud.firestore {
           && get(/databases/$(database)/documents/rankingsClase/$(codigo)).data.teacherId == request.auth.uid;
       }
       allow get: if true;
-      allow list: if request.auth != null && resource.data.teacherId == request.auth.uid;
+      // Lista: su profe, o un alumno (con cuenta) de la clase del reto, para
+      // verlos en su «Mi clase» (la consulta va filtrada por classId)
+      allow list: if request.auth != null && (resource.data.teacherId == request.auth.uid
+        || ('classId' in resource.data && request.auth.uid in get(/databases/$(database)/documents/classes/$(resource.data.classId)).data.studentIds));
       // Un reto: ranking libre, deberes (un examen, con nota del profe) o en
       // directo (el profe lleva el ritmo desde la pizarra: campo «directo»).
       function retoValido(d) {
@@ -556,7 +559,8 @@ service cloud.firestore {
           && (!('claseNombre' in d) || (d.claseNombre is string && d.claseNombre.size() <= 60))
           && (!('emparejado' in d) || (d.emparejado is map && d.emparejado.size() <= 200))
           && (!('enNotas' in d) || d.enNotas is string)
-          && (!('amigos' in d) || d.amigos is bool);
+          && (!('amigos' in d) || d.amigos is bool)
+          && (!('fecha' in d) || (d.fecha is string && d.fecha.size() <= 10));
       }
       // Crear: un profesor (retos de clase, como crear una clase) o cualquiera
       // con cuenta una partida con amigos: en directo, sin clase y sin nota
@@ -566,7 +570,7 @@ service cloud.firestore {
           && !('classId' in d) && !('nota' in d);
       }
       allow create: if (isTeacher(request.auth.uid) || partidaConAmigos(request.resource.data))
-        && request.resource.data.keys().hasOnly(['teacherId', 'nombre', 'createdAt', 'cerrado', 'modo', 'examen', 'nivel', 'nPreguntas', 'segundos', 'nota', 'classId', 'claseNombre', 'amigos'])
+        && request.resource.data.keys().hasOnly(['teacherId', 'nombre', 'createdAt', 'cerrado', 'modo', 'examen', 'nivel', 'nPreguntas', 'segundos', 'nota', 'classId', 'claseNombre', 'amigos', 'fecha'])
         && retoValido(request.resource.data)
         && request.resource.data.teacherId == request.auth.uid
         && request.resource.data.nombre is string
@@ -576,7 +580,7 @@ service cloud.firestore {
         && codigo.matches('^[ABCDEFGHJKMNPQRSTUVWXYZ2-9]{6}$');
       allow update: if request.auth != null && !isChildSession()
         && resource.data.teacherId == request.auth.uid
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nombre', 'cerrado', 'directo', 'nota', 'emparejado', 'enNotas'])
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nombre', 'cerrado', 'directo', 'nota', 'emparejado', 'enNotas', 'fecha'])
         && retoValido(request.resource.data)
         && request.resource.data.nombre is string
         && request.resource.data.nombre.size() >= 1 && request.resource.data.nombre.size() <= 60

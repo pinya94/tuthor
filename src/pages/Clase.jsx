@@ -5,6 +5,7 @@ import { useLang } from '../context/LangContext'
 import { joinClassByCode, getStudentClasses, getTeacherProfile, hasTeacherAccess } from '../lib/classes'
 import { getStudentAssignments } from '../lib/assignments'
 import { getMyObservations } from '../lib/observations'
+import { retosDeClase } from '../lib/rankingClase'
 import RecursosInteractivos from '../components/RecursosInteractivos'
 import ClaseAlumno from '../components/ClaseAlumno'
 import { Pizarra } from '../components/Iconos'
@@ -18,6 +19,7 @@ export default function Clase() {
   const [classes, setClasses] = useState([])
   const [tasks, setTasks] = useState([])
   const [observaciones, setObservaciones] = useState([])
+  const [actividades, setActividades] = useState([])
   const [classCode, setClassCode] = useState('')
   const [joinStatus, setJoinStatus] = useState('idle')
   const [showJoinForm, setShowJoinForm] = useState(false)
@@ -48,6 +50,13 @@ export default function Clase() {
     Promise.all(myClasses.map(c =>
       getMyObservations(c.id, user.uid).then(os => os.map(o => ({ ...o, className: c.name }))).catch(() => []),
     )).then(porClase => setObservaciones(porClase.flat()))
+
+    // Las actividades que el profe manda a la clase (retos: en directo o para
+    // casa). Las abiertas y recientes; con su sesión entra sin rellenar nada.
+    const hace30 = Date.now() - 30 * 864e5
+    Promise.all(myClasses.map(c => retosDeClase(c.id).catch(() => []))).then(porClase => setActividades(
+      porClase.flat().filter(r => !r.cerrado && !r.amigos && (r.createdAt?.toMillis?.() ?? 0) > hace30 && !(r.modo === 'directo' && r.directo?.estado === 'fin')),
+    ))
   }
 
   async function handleJoinClass(e) {
@@ -154,7 +163,7 @@ export default function Clase() {
   }
 
   return (
-    <ClaseAlumno clases={classes} tareas={tasks} observaciones={observaciones} uid={user.uid}
+    <ClaseAlumno clases={classes} tareas={tasks} actividades={actividades} observaciones={observaciones} uid={user.uid}
       lang={lang} tr={tr} onAbrir={ruta => navigate(localPath(ruta))} unirse={unirse} />
   )
 }

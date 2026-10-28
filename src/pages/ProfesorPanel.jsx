@@ -14,7 +14,7 @@ import { Trofeo } from '../components/Iconos'
 
 const PESTANAS = [
   { id: 'clases', Icono: Pizarra, fondo: 'bg-teal-500/12', label: { es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' } },
-  { id: 'retos', Icono: Trofeo, fondo: 'bg-amber-400/12', label: { es: 'Retos', en: 'Challenges', ca: 'Reptes' } },
+  { id: 'retos', Icono: Trofeo, fondo: 'bg-amber-400/12', label: { es: 'Actividades', en: 'Activities', ca: 'Activitats' } },
   { id: 'examenes', Icono: Bombilla, fondo: 'bg-amber-500/12', label: { es: 'Mis exámenes', en: 'My exams', ca: 'Els meus exàmens' } },
   { id: 'recursos', Icono: Herramientas, fondo: 'bg-red-500/12', label: { es: 'Recursos', en: 'Resources', ca: 'Recursos' } },
 ]
@@ -191,8 +191,8 @@ export default function ProfesorPanel() {
         className="w-full mb-6 flex items-center gap-3 rounded-2xl border border-amber-400/25 bg-amber-400/[0.05] hover:bg-amber-400/[0.1] px-4 py-3 text-left transition-colors">
         <span className="text-2xl" aria-hidden="true">🏆</span>
         <span className="min-w-0">
-          <span className="block text-white font-black text-sm">{tr({ es: 'Nuevo · Retos de clase: en directo o de deberes', en: 'New · Class challenges: live or as homework', ca: 'Nou · Reptes de classe: en directe o de deures' })}</span>
-          <span className="block text-white/45 text-xs">{tr({ es: 'Proyectas un juego y cada alumno responde en su móvil, o lo mandas de deberes. Sin cuentas para ellos. También en la pestaña Retos de cada clase.', en: 'Project a game and every student answers on their phone, or set it as homework. No accounts for them. Also in each class’s Challenges tab.', ca: 'Projectes un joc i cada alumne respon al mòbil, o l’envies de deures. Sense comptes per a ells. També a la pestanya Reptes de cada classe.' })}</span>
+          <span className="block text-white font-black text-sm">{tr({ es: 'Nuevo · Jugar en directo o mandar para casa', en: 'New · Play live or send for home', ca: 'Nou · Jugar en directe o enviar per a casa' })}</span>
+          <span className="block text-white/45 text-xs">{tr({ es: 'Dentro de cada clase, «＋ Mandar a la clase»: proyectas un juego y cada uno responde en su móvil, o lo mandas para casa. Sin cuentas para ellos.', en: 'Inside each class, “＋ Send to the class”: project a game and everyone answers on their phone, or send it for home. No accounts for them.', ca: 'Dins de cada classe, «＋ Enviar a la classe»: projectes un joc i cadascú respon al mòbil, o l’envies per a casa. Sense comptes per a ells.' })}</span>
         </span>
       </button>
 

@@ -19,7 +19,9 @@ import { desdeDiaISO } from '../lib/attendance'
 import Notas from '../components/Notas'
 import Observaciones from '../components/Observaciones'
 import BoletinFamilias from '../components/BoletinFamilias'
-import RetosPanel from '../components/reto/RetosPanel'
+import { CrearReto, FilaReto } from '../components/reto/RetosPanel'
+import VideoRetos from '../components/VideoRetos'
+import { retosDeClase } from '../lib/rankingClase'
 import CorregirExamen from '../components/examenes/CorregirExamen'
 import { listarExamenes, asignarExamen, autocorregir, preguntasCompletas } from '../lib/examenesProfesor'
 import { puntosTotales, sinCalificar } from '../lib/examenModelo'
@@ -350,6 +352,11 @@ export default function ProfesorClase() {
 
   const [assignments, setAssignments] = useState([])
   const [showForm, setShowForm] = useState(false)
+  // «＋ Mandar a la clase»: qué se está mandando (null = el menú cerrado)
+  //   directo | casa → un reto (juego o test de Tuthor; con o sin cuenta, da igual)
+  //   quiz | text    → una tarea de las de siempre (examen tuyo / tarea de fuera)
+  const [mandar, setMandar] = useState(null)
+  const [retosClase, setRetosClase] = useState(null)
   const [taskKind, setTaskKind] = useState('game') // 'game' | 'exam' | 'text' | 'quiz'
   const [taskGameId, setTaskGameId] = useState('') // kind 'game': id de GAMES
   const [taskExamSubject, setTaskExamSubject] = useState('') // kind 'exam': materia elegida
@@ -373,7 +380,14 @@ export default function ProfesorClase() {
   const [vinculando, setVinculando] = useState(null) // id de la ficha que se está vinculando ahora mismo
   // La pestaña se elige al cargar la clase (loadClase), no aquí: hasta
   // entonces no se sabe qué módulos tiene activos.
-  const [tab, setTab] = useState(() => new URLSearchParams(window.location.search).get('tab'))
+  const [tab, setTab] = useState(() => { const t = new URLSearchParams(window.location.search).get('tab'); return t === 'retos' ? 'deberes' : t })
+  // Actividades: los retos de la clase, para la lista junto a las tareas
+  useEffect(() => {
+    if (tab !== 'deberes' || !classId) return
+    let vivo = true
+    retosDeClase(classId).then(r => { if (vivo) setRetosClase(r) }).catch(() => { if (vivo) setRetosClase([]) })
+    return () => { vivo = false }
+  }, [tab, classId])
 
   useEffect(() => {
     if (user === undefined) return
@@ -536,7 +550,7 @@ export default function ProfesorClase() {
         studentIds: targetIds,
         dueDate: taskDueDate ? desdeDiaISO(taskDueDate) : null,
       })
-      setShowForm(false)
+      setShowForm(false); setMandar(null)
       setTaskKind('game'); setTaskGameId(''); setTaskExamSubject(''); setTaskTema(''); setTaskFormato(''); setTaskNivel('')
       setTaskTitle(''); setTaskExamenId(''); setTaskTarget('all'); setTaskStudentIds([]); setTaskDueDate('')
       await loadAssignments()
@@ -684,10 +698,6 @@ export default function ProfesorClase() {
         <BoletinFamilias classId={classId} claseName={clase.name} students={alumnosYFichas} lang={lang} tr={tr} />
       )}
 
-      {tab === 'retos' && (
-        <RetosPanel uid={user.uid} classId={classId} nombreClase={clase.name} />
-      )}
-
       {tab === 'ajustes' && (
         <AjustesModulos clase={clase} onSave={guardarModulos} lang={lang} tr={tr} />
       )}
@@ -696,16 +706,51 @@ export default function ProfesorClase() {
       {tab === 'deberes' && (
       <section className="mb-8">
         <div className="flex items-center justify-between gap-3 mb-3">
-          <h2 className="font-black text-white text-[15px] uppercase tracking-wide text-white/50">{tr({ es: 'Tareas', en: 'Tasks', ca: 'Tasques' })}</h2>
-          <button type="button" onClick={() => setShowForm(o => !o)}
-            className="text-xs font-bold px-3 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white transition-colors">
-            {showForm ? tr({ es: 'Cancelar', en: 'Cancel', ca: 'Cancel·lar' }) : `+ ${tr({ es: 'Asignar tarea', en: 'Assign task', ca: 'Assignar tasca' })}`}
+          <h2 className="font-black text-white text-[15px] uppercase tracking-wide text-white/50">{tr({ es: 'Actividades', en: 'Activities', ca: 'Activitats' })}</h2>
+          <button type="button" onClick={() => { setMandar(m => (m ? null : 'menu')); setShowForm(false) }}
+            className="text-sm font-black px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white transition-colors">
+            {mandar ? tr({ es: 'Cancelar', en: 'Cancel', ca: 'Cancel·lar' }) : `＋ ${tr({ es: 'Mandar a la clase', en: 'Send to the class', ca: 'Enviar a la classe' })}`}
           </button>
         </div>
 
+        {/* Qué mandar: cuatro opciones y nada más. El profe no tiene que pensar
+            en cuentas: un juego o test se manda con código y quien tiene cuenta
+            en la clase entra solo; los demás, con su nombre. */}
+        {mandar === 'menu' && (
+          <div className="grid gap-2 sm:grid-cols-2 mb-4">
+            {[
+              ['directo', '📺', { es: 'Jugar ahora en la pizarra', en: 'Play now on the board', ca: 'Jugar ara a la pissarra' }, { es: 'Un juego o test en directo: cada uno responde en su móvil.', en: 'A game or quiz live: everyone answers on their phone.', ca: 'Un joc o test en directe: cadascú respon al mòbil.' }],
+              ['casa', '🏠', { es: 'Para casa: un juego o test', en: 'For home: a game or quiz', ca: 'Per a casa: un joc o test' }, { es: 'Con fecha de entrega; ves la nota de cada uno.', en: 'With a due date; you see everyone’s mark.', ca: 'Amb data de lliurament; veus la nota de cadascú.' }],
+              ['quiz', '📝', { es: 'Un examen tuyo', en: 'One of your exams', ca: 'Un examen teu' }, { es: 'De tu biblioteca, con corrección.', en: 'From your library, with marking.', ca: 'De la teva biblioteca, amb correcció.' }],
+              ['text', '📄', { es: 'Una tarea de fuera', en: 'An outside task', ca: 'Una tasca de fora' }, { es: 'El libro, una ficha… la marcas tú.', en: 'The textbook, a worksheet… you tick it off.', ca: 'El llibre, una fitxa… la marques tu.' }],
+            ].map(([id, emoji, titulo, desc]) => (
+              <button key={id} type="button" onClick={() => {
+                if (id === 'quiz' || id === 'text') {
+                  setTaskKind(id); setShowForm(true); setMandar(id)
+                  if (id === 'quiz' && biblioteca === null) listarExamenes(user.uid).then(setBiblioteca).catch(() => setBiblioteca([]))
+                } else setMandar(id)
+              }} className="text-left rounded-2xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-teal-400/50 p-4 transition-colors">
+                <span className="block text-white font-black">{emoji} {tr(titulo)}</span>
+                <span className="block text-white/50 text-xs mt-1">{tr(desc)}</span>
+              </button>
+            ))}
+            <details className="sm:col-span-2 rounded-xl bg-white/[0.03] px-3 py-2">
+              <summary className="cursor-pointer text-white/50 text-xs font-bold">▶ {tr({ es: '¿Cómo funciona en directo? Míralo en 45 segundos', en: 'How does live mode work? See it in 45 seconds', ca: 'Com funciona en directe? Mira-ho en 45 segons' })}</summary>
+              <div className="mt-3 max-w-2xl mx-auto"><VideoRetos /></div>
+            </details>
+          </div>
+        )}
+        {(mandar === 'directo' || mandar === 'casa') && (
+          <div className="rounded-2xl bg-white/5 border border-white/10 p-4 mb-4">
+            <p className="text-white font-black mb-3">{mandar === 'directo' ? `📺 ${tr({ es: 'Jugar ahora en la pizarra', en: 'Play now on the board', ca: 'Jugar ara a la pissarra' })}` : `🏠 ${tr({ es: 'Para casa', en: 'For home', ca: 'Per a casa' })}`}</p>
+            <CrearReto uid={user.uid} classId={classId} nombreClase={clase.name} modoFijo={mandar === 'directo' ? 'directo' : 'deberes'} />
+          </div>
+        )}
+
         {showForm && (
           <form onSubmit={handleCreateTask} className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-4 space-y-3">
-            <div className="flex gap-2">
+            <p className="text-white font-black">{taskKind === 'quiz' ? `📝 ${tr({ es: 'Un examen tuyo', en: 'One of your exams', ca: 'Un examen teu' })}` : `📄 ${tr({ es: 'Una tarea de fuera', en: 'An outside task', ca: 'Una tasca de fora' })}`}</p>
+            <div className="hidden">
               <button type="button" onClick={() => setTaskKind('game')}
                 className={`flex-1 text-xs font-bold py-2 rounded-lg border transition-colors ${taskKind === 'game' ? 'bg-teal-600 border-teal-600 text-white' : 'border-white/10 text-white/50'}`}>
                 {tr({ es: 'Juego', en: 'Game', ca: 'Joc' })}
@@ -879,17 +924,25 @@ export default function ProfesorClase() {
           </form>
         )}
 
-        {assignments.length === 0 ? (
-          <p className="text-white/30 text-sm">{tr({ es: 'Todavía no has asignado ninguna tarea.', en: "You haven't assigned any tasks yet.", ca: 'Encara no has assignat cap tasca.' })}</p>
-        ) : (
-          <div className="space-y-2">
-            {assignments.map(task => (
-              <TaskCard key={task.id} task={task} studentsByUid={studentsByUid} lang={lang} tr={tr}
-                onToggleManual={handleToggleManual} onToggleFalta={handleToggleFalta} onMarkFaltaBulk={handleMarkFaltaBulk}
-                onCorregir={abrirCorreccion} />
-            ))}
-          </div>
-        )}
+        {/* Todo lo mandado a la clase, en una lista: los retos (directo / para
+            casa) y las tareas de siempre, de lo más nuevo a lo más viejo */}
+        {(() => {
+          const ms = x => x?.toMillis?.() ?? 0
+          const items = [
+            ...(retosClase ?? []).map(r => ({ key: `r-${r.codigo}`, t: ms(r.createdAt), r })),
+            ...assignments.map(a => ({ key: `a-${a.id}`, t: ms(a.createdAt), a })),
+          ].sort((x, y) => y.t - x.t)
+          if (!items.length) return <p className="text-white/30 text-sm">{tr({ es: 'Todavía no has mandado nada a esta clase. Empieza con «＋ Mandar a la clase».', en: 'You haven’t sent anything to this class yet. Start with “＋ Send to the class”.', ca: 'Encara no has enviat res a aquesta classe. Comença amb «＋ Enviar a la classe».' })}</p>
+          return (
+            <div className="space-y-2">
+              {items.map(it => (it.r ? <FilaReto key={it.key} r={it.r} /> : (
+                <TaskCard key={it.key} task={it.a} studentsByUid={studentsByUid} lang={lang} tr={tr}
+                  onToggleManual={handleToggleManual} onToggleFalta={handleToggleFalta} onMarkFaltaBulk={handleMarkFaltaBulk}
+                  onCorregir={abrirCorreccion} />
+              )))}
+            </div>
+          )
+        })()}
         {corrigiendo && (() => {
           const t = assignments.find(a => a.id === corrigiendo.taskId)
           if (!t || !completas[t.id]) return null

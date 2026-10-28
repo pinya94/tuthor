@@ -6,14 +6,14 @@
 //   el profe, en directo       → la pizarra (Pizarra.jsx)
 //   el alumno, en directo      → su móvil (Movil.jsx)
 //   el alumno, de deberes      → el examen con la nota del profe; su mejor nota sube al reto
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLang } from '../../context/LangContext'
 import { useAuth } from '../../context/AuthContext'
 import { FormUnirse } from '../RankingClaseFin'
 import Pizarra from './Pizarra'
 import Movil from './Movil'
-import { escuchaReto, miembroDe, enviarNota, nivelDelReto } from '../../lib/rankingClase'
+import { escuchaReto, miembroDe, enviarNota, nivelDelReto, unirse } from '../../lib/rankingClase'
 import { codigoValido, normalizaCodigo } from '../../lib/apodo'
 
 const caja = 'rounded-2xl bg-[#141b2e] border border-white/[0.08] p-5'
@@ -75,13 +75,44 @@ export default function ExamenReto({ codigo: crudo, gameId, title, levels, genRo
         <NotaProfe nota={reto.nota} />
         {reto.cerrado
           ? <p className="text-red-300 text-sm font-bold">{tr({ es: 'Tu profe ha cerrado este reto.', en: 'Your teacher has closed this challenge.', ca: 'El teu profe ha tancat aquest repte.' })}</p>
-          : <FormUnirse codigoInicial={codigo} conNota={!!reto.nota} onUnido={() => setYo(miembroDe(codigo))} />}
+          : user
+            ? <EntradaConCuenta user={user} codigo={codigo} conNota={!!reto.nota} onUnido={() => setYo(miembroDe(codigo))} />
+            : <FormUnirse codigoInicial={codigo} conNota={!!reto.nota} onUnido={() => setYo(miembroDe(codigo))} />}
       </div>,
     )
   }
 
   if (reto.modo === 'directo') return <>{pageMeta}<Movil {...comun} yo={yo} /></>
   return marco(<Deberes {...comun} yo={yo} dueno={dueno} />)
+}
+
+// Con la sesión iniciada no hay nada que rellenar: entra solo con su nombre
+// (si es de la clase, el profe lo ve ya emparejado). Si ese nombre ya lo usa
+// otro, prueba con el apellido; si aun así no puede, le deja escribirlo.
+function nombresDe(user) {
+  const p = String(user?.displayName ?? '').trim().split(/\s+/).filter(Boolean)
+  if (!p.length) return []
+  return [`${p[0]}${p[1] ? ` ${p[1][0]}.` : ''}`, p.slice(0, 2).join(' '), p.join(' ')].map(n => n.slice(0, 16))
+    .filter((n, i, a) => n.length >= 2 && a.indexOf(n) === i)
+}
+function EntradaConCuenta({ user, codigo, conNota, onUnido }) {
+  const { tr } = useLang()
+  const [manual, setManual] = useState(() => nombresDe(user).length === 0)
+  const hecho = useRef(onUnido)
+  useEffect(() => { hecho.current = onUnido }, [onUnido])
+  useEffect(() => {
+    if (manual) return
+    let vivo = true
+    ;(async () => {
+      for (const n of nombresDe(user)) {
+        try { await unirse(codigo, n); if (vivo) hecho.current(); return } catch (e) { if (!e.message.startsWith('apodo_')) break }
+      }
+      if (vivo) setManual(true)
+    })()
+    return () => { vivo = false }
+  }, [manual, user, codigo])
+  if (manual) return <FormUnirse codigoInicial={codigo} conNota={conNota} onUnido={onUnido} />
+  return <p className="text-white/60 text-sm">⏳ {tr({ es: `Entrando como ${nombresDe(user)[0]}…`, en: `Joining as ${nombresDe(user)[0]}…`, ca: `Entrant com a ${nombresDe(user)[0]}…` })}</p>
 }
 
 // tr y l a la vez (todas las caras usan los dos)

@@ -144,7 +144,7 @@ function UnRanking({ codigo, profe }) {
       {/* De vuelta a donde se creó: los retos de su clase o los del panel */}
       {gestiona && !proyectar && (
         <Link to={ranking.classId ? `${localPath(`/profesor/clase/${ranking.classId}`)}?tab=retos` : `${localPath('/profesor')}?tab=retos`} className="inline-block text-white/40 hover:text-white/70 text-xs font-bold mb-3">
-          ← {ranking.classId ? `${ranking.claseNombre || tr({ es: 'Tu clase', en: 'Your class', ca: 'La teva classe' })} · ${tr({ es: 'Retos', en: 'Challenges', ca: 'Reptes' })}` : tr({ es: 'Mis retos', en: 'My challenges', ca: 'Els meus reptes' })}
+          ← {ranking.classId ? `${ranking.claseNombre || tr({ es: 'Tu clase', en: 'Your class', ca: 'La teva classe' })} · ${tr({ es: 'Actividades', en: 'Activities', ca: 'Activitats' })}` : tr({ es: 'Mis actividades', en: 'My activities', ca: 'Les meves activitats' })}
         </Link>
       )}
       <div className="flex flex-wrap items-end justify-between gap-3 mb-4">

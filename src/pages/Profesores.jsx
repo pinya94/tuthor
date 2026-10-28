@@ -460,7 +460,7 @@ export default function Profesores() {
           <div className="max-w-3xl mx-auto"><VideoRetos /></div>
           <div className="grid sm:grid-cols-3 gap-3 max-w-3xl mx-auto mt-6">
             {[
-              ['1', { es: 'Crea el reto', en: 'Create the challenge', ca: 'Crea el repte' }, { es: 'En tu aula, pestaña Retos: elige juego, nivel y segundos por pregunta.', en: 'In your class, Challenges tab: pick the game, level and seconds per question.', ca: 'A la teva aula, pestanya Reptes: tria joc, nivell i segons per pregunta.' }],
+              ['1', { es: 'Crea el reto', en: 'Create the challenge', ca: 'Crea el repte' }, { es: 'En tu clase, «＋ Mandar a la clase»: elige juego, nivel y segundos por pregunta.', en: 'In your class, “＋ Send to the class”: pick the game, level and seconds per question.', ca: 'A la teva classe, «＋ Enviar a la classe»: tria joc, nivell i segons per pregunta.' }],
               ['2', { es: 'Proyecta el código', en: 'Project the code', ca: 'Projecta el codi' }, { es: 'Entran en tuthor.es/reto con el código o el QR y escriben su nombre.', en: 'They go to tuthor.es/en/reto with the code or the QR and type their name.', ca: 'Entren a tuthor.es/ca/reto amb el codi o el QR i escriuen el seu nom.' }],
               ['3', { es: 'A jugar', en: 'Play', ca: 'A jugar' }, { es: 'Tú pasas las preguntas; ellos responden en el móvil. Al final, el podio.', en: 'You move through the questions; they answer on their phones. At the end, the podium.', ca: 'Tu passes les preguntes; ells responen al mòbil. Al final, el podi.' }],
             ].map(([n, t, d]) => (
