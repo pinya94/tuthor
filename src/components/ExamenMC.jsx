@@ -29,6 +29,7 @@ import DescubreTuthor from './DescubreTuthor'
 import { trackFin } from '../lib/analytics'
 import ExamenReto from './reto/ExamenReto'
 import { PreguntaTest } from './reto/PreguntaTest'
+import ConAmigos from './reto/ConAmigos'
 import { generadorTest, esCorrectaTest, nivelesDeTest } from '../lib/retoTest'
 
 const TOTAL      = 10
@@ -315,6 +316,8 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
               </button>
             </>
           )}
+
+          <div className="mt-6 text-left"><ConAmigos gameId={gameId} levels={nivelesDeTest(nivelInfo)} title={titulo} /></div>
 
           <button onClick={() => navigate(backTo)} className="mt-6 text-white/30 hover:text-white/60 text-sm transition-colors">
             {en ? '← Back' : '← Volver'}

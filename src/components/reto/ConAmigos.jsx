@@ -1,6 +1,6 @@
-// «Juega con tus amigos»: una partida en directo de este juego para cualquiera
-// con cuenta, sin ser profe (sale en la portada del examen de cada juego y,
-// desde el juego, con ?amigos=1). Es la misma partida que la de clase —tu
+// «Juega con tus amigos»: una partida en directo de este juego o test para
+// cualquiera con cuenta, sin ser profe (sale en la portada de los exámenes
+// con mecánica y de los tipo test y, desde el juego, con ?amigos=1). Es la misma partida que la de clase —tu
 // pantalla hace de pizarra y cada uno responde en su móvil—, pero sin clase,
 // sin notas ni deberes, y caduca a las 24 h. Los retos de clase siguen siendo
 // cosa del panel del profe.
@@ -10,7 +10,7 @@ import { useLang } from '../../context/LangContext'
 import { useAuth } from '../../context/AuthContext'
 import AuthModal from '../AuthModal'
 import { crearReto } from '../../lib/rankingClase'
-import { RETOS_EXAMENES } from '../../data/retosExamenes'
+import { RETOS_TODOS } from '../../data/retosExamenes'
 
 const chip = on => `rounded-xl border px-3 py-2 text-sm font-bold ${on ? 'border-amber-400 bg-amber-400/20 text-white' : 'border-white/10 bg-white/[0.04] text-white/70 hover:bg-white/[0.08]'}`
 
@@ -26,7 +26,7 @@ export default function ConAmigos({ gameId, levels, title }) {
   const [auth, setAuth] = useState(false)
   const [creando, setCreando] = useState(false)
   const [error, setError] = useState('')
-  if (!RETOS_EXAMENES.includes(gameId)) return null
+  if (!RETOS_TODOS.includes(gameId)) return null
 
   const crea = async () => {
     if (!user) { setAuth(true); return }
