@@ -702,6 +702,12 @@ export default function ProfesorClase() {
             {showForm ? tr({ es: 'Cancelar', en: 'Cancel', ca: 'Cancel·lar' }) : `+ ${tr({ es: 'Asignar tarea', en: 'Assign task', ca: 'Assignar tasca' })}`}
           </button>
         </div>
+        {/* Dos formas de mandar deberes: esta (alumnos con cuenta en la clase,
+            se marca sola) y los retos (sin cuentas, con código y nombre) */}
+        <p className="text-white/40 text-xs mb-3">
+          {tr({ es: 'Para alumnos con cuenta en esta clase: la tarea se marca sola al jugarla. ¿Tus alumnos no tienen cuenta?', en: 'For students with an account in this class: the task ticks itself off when played. Students without accounts?', ca: 'Per a alumnes amb compte en aquesta classe: la tasca es marca sola en jugar-la. Els teus alumnes no tenen compte?' })}{' '}
+          <button type="button" onClick={() => setTab('retos')} className="text-amber-300 font-bold hover:underline">{tr({ es: 'Mándalo como reto de deberes →', en: 'Send it as a homework challenge →', ca: 'Envia-ho com a repte de deures →' })}</button>
+        </p>
 
         {showForm && (
           <form onSubmit={handleCreateTask} className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-4 space-y-3">
