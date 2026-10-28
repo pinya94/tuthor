@@ -132,10 +132,6 @@ export function CrearReto({ uid, classId: claseFija, nombreClase: nombreFijo = '
         ))}
       </div>
 
-      {modo === 'deberes' && claseFija && (
-        <p className="text-white/40 text-xs -mt-1">{tr({ es: 'Para alumnos sin cuenta: entran con el código y su nombre. Si tienen cuenta en la clase, también puedes asignarlo en la pestaña Deberes (se marca solo al jugarlo).', en: 'For students without accounts: they join with the code and their name. If they have an account in the class, you can also assign it in the Homework tab (it ticks itself off).', ca: 'Per a alumnes sense compte: entren amb el codi i el seu nom. Si tenen compte a la classe, també pots assignar-ho a la pestanya Deures (es marca sol).' })}</p>
-      )}
-
       {!claseFija && clases && (
         <div>
           <span className="block text-white/50 text-xs font-bold mb-1">{tr({ es: 'Clase', en: 'Class', ca: 'Classe' })}</span>
