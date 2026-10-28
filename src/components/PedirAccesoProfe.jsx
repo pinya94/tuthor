@@ -1,4 +1,4 @@
-// «¿No tienes la palabra de la beta? Pide acceso»: debajo del alta de profe en
+// «¿Quieres entrar en la beta de profesores? Pide acceso»: debajo del alta de profe en
 // /profesores. Con la cuenta del profe (el acceso se da a esa cuenta); un
 // administrador la aprueba en /admin y la cuenta pasa a ser de profe sola.
 // Ver src/lib/solicitudesProfe.js.
@@ -49,10 +49,10 @@ export default function PedirAccesoProfe({ user, etapas, onEntrar }) {
     <div className={caja}>
       {!abierto ? (
         <button type="button" onClick={() => (user ? setAbierto(true) : onEntrar())} className="w-full text-left">
-          <p className="text-white font-black">{tr({ es: '¿No tienes la palabra de la beta?', en: 'Don’t have the beta word?', ca: 'No tens la paraula de la beta?' })} <span className="text-amber-300">{tr({ es: 'Pide acceso →', en: 'Request access →', ca: 'Demana accés →' })}</span></p>
+          <p className="text-white font-black">{tr({ es: '¿Quieres entrar en la beta de profesores?', en: 'Want to join the teacher beta?', ca: 'Vols entrar a la beta de professors?' })} <span className="text-amber-300">{tr({ es: 'Pide acceso →', en: 'Request access →', ca: 'Demana accés →' })}</span></p>
           <p className="text-white/45 text-xs mt-1">{sol?.estado === 'rechazada'
             ? tr({ es: 'Tu solicitud anterior no se aprobó. Puedes enviar otra con más detalles.', en: 'Your previous request wasn’t approved. You can send another with more details.', ca: 'La teva sol·licitud anterior no es va aprovar. En pots enviar una altra amb més detalls.' })
-            : tr({ es: 'Cuéntanos quién eres y te damos acceso a tu cuenta, sin palabra.', en: 'Tell us who you are and we’ll give your account access, no word needed.', ca: 'Explica’ns qui ets i et donem accés al teu compte, sense paraula.' })}</p>
+            : tr({ es: 'Cuéntanos quién eres y te damos acceso con tu cuenta.', en: 'Tell us who you are and we’ll give your account access.', ca: 'Explica’ns qui ets i et donem accés amb el teu compte.' })}</p>
         </button>
       ) : (
         <form onSubmit={envia} className="space-y-3">
