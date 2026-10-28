@@ -15,6 +15,7 @@ import { fichasDe } from '../../lib/roster'
 import { crearColumnaConNotas, setGrade } from '../../lib/grades'
 import { trimestreDe } from '../../lib/report'
 import { examLabel } from '../../lib/exams'
+import { trackEvent } from '../../lib/analytics'
 import { participantes, guardaEmparejado, marcaEnNotas, sugiereEmparejado, notaDe, escuchaColeccion } from '../../lib/rankingClase'
 
 const tarjeta = 'rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4'
@@ -76,6 +77,7 @@ export default function EmparejarReto({ codigo, reto, entradas }) {
         const colId = await crearColumnaConNotas(reto.classId, nombre.slice(0, 60), trimestreDe(), values)
         await marcaEnNotas(codigo, colId)
       }
+      trackEvent('reto_to_grades', { modo: reto.modo, alumnos: Object.keys(values).length })
       setMapa(null); setEstado('pasado')
     } catch { setError(tr({ es: 'No se han podido pasar las notas.', en: 'The marks couldn’t be copied.', ca: 'No s’han pogut passar les notes.' })); setEstado('') }
   }

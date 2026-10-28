@@ -225,7 +225,7 @@ function UnRanking({ codigo, profe }) {
       {gestiona && ranking.classId && modo !== 'ranking' && <EmparejarReto codigo={codigo} reto={ranking} entradas={entradas} />}
 
       {modo === 'deberes' ? <Notas filas={entradas} dueno={gestiona} quita={quita} yo={estoyAqui} tr={tr} />
-        : modo === 'directo' ? <Marcador filas={marcador} dueno={gestiona} quita={quita} yo={estoyAqui} tr={tr} />
+        : modo === 'directo' ? <><Marcador filas={marcador} dueno={gestiona} quita={quita} yo={estoyAqui} tr={tr} />{gestiona && <PorPregunta codigo={codigo} n={ranking.nPreguntas ?? 10} tr={tr} />}</>
           : (
             <>
               <div className="flex justify-end mb-3">
@@ -277,6 +277,35 @@ function Notas({ filas, dueno, quita, yo, tr }) {
 }
 
 // En directo: el marcador de la última partida
+// En directo, para el profe: cuántos acertaron cada pregunta. Las que menos,
+// marcadas para repasar en clase.
+function PorPregunta({ codigo, n, tr }) {
+  const [resp, setResp] = useState([])
+  useEffect(() => escuchaColeccion(codigo, 'respuestas', setResp), [codigo])
+  if (!resp.length) return null
+  const filas = Array.from({ length: n }, (_, i) => {
+    const r = resp.filter(x => x.i === i)
+    return { i, total: r.length, bien: r.filter(x => x.correcta).length }
+  }).filter(f => f.total > 0)
+  const pct = f => Math.round((f.bien / f.total) * 100)
+  const peores = [...filas].sort((a, b) => pct(a) - pct(b)).slice(0, 2).filter(f => pct(f) < 60).map(f => f.i)
+  return (
+    <section className={`${tarjeta} mt-4`}>
+      <h2 className="text-white font-black mb-1">📊 {tr({ es: 'Aciertos por pregunta', en: 'Correct answers per question', ca: 'Encerts per pregunta' })}</h2>
+      <p className="text-white/45 text-xs mb-3">{tr({ es: 'Las marcadas con 📌 las acertó menos de la mitad de la clase: buenas para repasar.', en: 'Those marked 📌 were answered correctly by less than half the class: good ones to review.', ca: 'Les marcades amb 📌 les va encertar menys de la meitat de la classe: bones per repassar.' })}</p>
+      <div className="space-y-1.5">
+        {filas.map(f => (
+          <div key={f.i} className="flex items-center gap-2 text-sm">
+            <span className="w-24 shrink-0 text-white/60">{peores.includes(f.i) ? '📌 ' : ''}{tr({ es: 'Pregunta', en: 'Question', ca: 'Pregunta' })} {f.i + 1}</span>
+            <div className="flex-1 h-3 rounded-full bg-white/10 overflow-hidden"><div className={`h-full ${pct(f) >= 60 ? 'bg-green-400/70' : pct(f) >= 40 ? 'bg-amber-400/70' : 'bg-red-400/70'}`} style={{ width: `${pct(f)}%` }} /></div>
+            <span className="w-20 shrink-0 text-right text-white/70 tabular-nums">{f.bien}/{f.total} · {pct(f)}%</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 function Marcador({ filas, dueno, quita, yo, tr }) {
   if (!filas.length) return vacio(tr, { es: 'Cuando empiece la partida, los puntos aparecen aquí.', en: 'When the game starts, the points show up here.', ca: 'Quan comenci la partida, els punts apareixen aquí.' })
   const ordenadas = [...filas].sort((a, b) => b.puntos - a.puntos)

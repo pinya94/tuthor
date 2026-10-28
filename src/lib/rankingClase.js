@@ -18,6 +18,10 @@
 import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, query, where, serverTimestamp, writeBatch, onSnapshot, getCountFromServer, runTransaction } from 'firebase/firestore'
 import { db, auth } from './firebase'
 import { generaCodigo, normalizaCodigo } from './apodo'
+import { trackEvent } from './analytics'
+
+// En Analytics, cómo se usan los retos: sin nombres ni códigos, solo el modo y el examen
+const cuenta = (nombre, extra = {}) => trackEvent(nombre, extra)
 
 const CLAVE = 'tuthor_ranking_clase'
 const CLAVE_RETOS = 'tuthor_retos' // { codigo: { apodo, nombre, pid, modo } } de todos los retos en que está
@@ -73,6 +77,7 @@ export async function unirse(codigoCrudo, apodo) {
   const yo = { codigo, apodo: j.apodo, nombre: j.nombre, pid: j.pid, modo: j.modo }
   guardaLocal(CLAVE_RETOS, JSON.stringify({ ...retos(), [codigo]: yo }))
   if ((j.modo ?? 'ranking') === 'ranking') guardaLocal(CLAVE, JSON.stringify(yo))
+  cuenta('reto_join', { modo: j.modo ?? 'ranking', item_id: j.examen ?? '' })
   window.dispatchEvent(new Event('tuthor:ranking-clase'))
   return { ...j, codigo }
 }
@@ -93,7 +98,9 @@ export async function enviarPuntos(juego, puntos) {
 // La nota de un examen de deberes (aciertos sobre 10, en puntos 0-100)
 export async function enviarNota(codigo, examen, puntos) {
   try {
-    return await llama({ accion: 'puntos', codigo, dispositivo: dispositivo(), juego: examen, puntos: Math.round(puntos) })
+    const r = await llama({ accion: 'puntos', codigo, dispositivo: dispositivo(), juego: examen, puntos: Math.round(puntos) })
+    cuenta('reto_homework_submit', { item_id: examen, score: Math.round(puntos) })
+    return r
   } catch (e) {
     if (['no_existe', 'no_unido'].includes(e.message)) olvida(codigo)
     return { error: e.message }
@@ -173,15 +180,21 @@ function paso(codigo, puede, nuevo) {
     return true
   })
 }
-export const lanzaPregunta = (codigo, i, ronda) => paso(codigo,
-  d => (i === 0 ? d.estado === 'sala' || d.i < 0 : d.estado === 'solucion' && d.i === i - 1),
-  () => ({ estado: 'pregunta', i, inicio: serverTimestamp(), ronda: JSON.stringify(ronda) }))
+export function lanzaPregunta(codigo, i, ronda) {
+  if (i === 0) cuenta('reto_live_start')
+  return paso(codigo,
+    d => (i === 0 ? d.estado === 'sala' || d.i < 0 : d.estado === 'solucion' && d.i === i - 1),
+    () => ({ estado: 'pregunta', i, inicio: serverTimestamp(), ronda: JSON.stringify(ronda) }))
+}
 export const muestraSolucion = (codigo, i) => paso(codigo,
   d => d.estado === 'pregunta' && d.i === i,
   d => ({ ...d, estado: 'solucion' }))
-export const terminaDirecto = (codigo, i) => paso(codigo,
-  d => d.estado === 'solucion' && d.i === i,
-  d => ({ ...d, estado: 'fin' }))
+export function terminaDirecto(codigo, i) {
+  cuenta('reto_live_end', { preguntas: i + 1 })
+  return paso(codigo,
+    d => d.estado === 'solucion' && d.i === i,
+    d => ({ ...d, estado: 'fin' }))
+}
 // Volver a jugar: borra marcador y respuestas y vuelve a la sala
 export async function reiniciaDirecto(codigo) {
   const cols = await Promise.all(['marcador', 'respuestas'].map(c => getDocs(collection(db, 'rankingsClase', codigo, c))))
@@ -230,6 +243,7 @@ export async function crearReto(uid, o) {
     const codigo = generaCodigo()
     if (await leeRanking(codigo)) continue
     await setDoc(doc(db, 'rankingsClase', codigo), datos)
+    cuenta('reto_create', { modo: datos.modo, item_id: datos.examen ?? '', amigos: !!datos.amigos, con_clase: !!datos.classId })
     return codigo
   }
   throw new Error('codigo')
