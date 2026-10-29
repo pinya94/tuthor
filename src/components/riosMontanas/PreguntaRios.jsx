@@ -8,19 +8,17 @@
 import { memo, useState } from 'react'
 import { ComposableMap, Geographies, Geography, Line, Marker } from 'react-simple-maps'
 import { useLang } from '../../context/LangContext'
-import { enunciado, explicacion, textoRespuesta, esCorrecta, delNivel, elemento, nombre, tx, medio, VERTIENTES } from '../../lib/riosMontanas'
+import { enunciado, explicacion, textoRespuesta, esCorrecta, delNivel, elemento, nombre, tx, medio, regionDe } from '../../lib/riosMontanas'
 
-const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json'
-const PENINSULA = { center: [-3.3, 40.0], scale: 3000 }
-const TIERRA = { 724: '#334155', 620: '#2B3648' } // España y Portugal; el resto, más oscuro
 const AZUL = '#38BDF8', MARRON = '#B45309', VERDE = '#22C55E', ROJO = '#EF4444', AMBAR = '#F59E0B'
 const boton = 'w-full py-3 rounded-2xl bg-[#EDAE49] text-black font-black disabled:opacity-30 transition-opacity'
 
-const Base = memo(function Base() {
+// La tierra de la región en gris claro y el resto más oscuro (en el mundo, toda igual)
+const Base = memo(function Base({ atlas, tierras }) {
   return (
-    <Geographies geography={GEO_URL}>
+    <Geographies geography={atlas}>
       {({ geographies }) => geographies.map(geo => (
-        <Geography key={geo.rsmKey} geography={geo} fill={TIERRA[Number(geo.id)] ?? '#1F2937'} stroke="#0F172A" strokeWidth={0.8}
+        <Geography key={geo.rsmKey} geography={geo} fill={tierras ? tierras[Number(geo.id)] ?? '#1F2937' : '#334155'} stroke="#0F172A" strokeWidth={0.8}
           style={{ default: { outline: 'none' }, hover: { outline: 'none' }, pressed: { outline: 'none' } }} />
       ))}
     </Geographies>
@@ -38,11 +36,12 @@ function Trazo({ e, color, ancho, opacidad = 1, onToca }) {
   )
 }
 
-function Mapa({ children }) {
+function Mapa({ r, children }) {
+  const { center, scale, atlas, tierras } = regionDe(r).mapa
   return (
     <div className="w-full aspect-[5/4] rounded-xl overflow-hidden bg-[#0e2a47]">
-      <ComposableMap projection="geoMercator" projectionConfig={PENINSULA} width={800} height={640} style={{ width: '100%', height: '100%' }}>
-        <Base />
+      <ComposableMap projection="geoMercator" projectionConfig={{ center, scale }} width={800} height={640} style={{ width: '100%', height: '100%' }}>
+        <Base atlas={atlas} tierras={tierras} />
         {children}
       </ComposableMap>
     </div>
@@ -53,10 +52,10 @@ const color = e => (e.clase === 'monte' ? MARRON : AZUL)
 const etiquetaMapa = (texto, c = '#FFFFFF') => <text textAnchor="middle" y={-16} fontSize={30} fontWeight={900} fill={c} stroke="#0B1226" strokeWidth={7} style={{ paintOrder: 'stroke', pointerEvents: 'none' }}>{texto}</text>
 
 function Busca({ r, revelado, elegida, onResponder, l }) {
-  const visibles = delNivel(r.nivel)
+  const visibles = delNivel(r.nivel, r.region)
   const obj = elemento(r.objetivo)
   return (
-    <Mapa>
+    <Mapa r={r}>
       {visibles.map(e => {
         const c = revelado ? (e.id === r.objetivo ? VERDE : e.id === elegida ? ROJO : color(e)) : color(e)
         return <Trazo key={e.id} e={e} color={c} opacidad={revelado && e.id !== r.objetivo && e.id !== elegida ? 0.45 : 1} onToca={revelado ? null : onResponder} />
@@ -80,7 +79,7 @@ function Numero({ coordenadas, n, activo, colorBorde = '#FFFFFF', onToca }) {
 function Etiqueta({ r, revelado, onResponder, tr, l }) {
   const [ficha, setFicha] = useState(null)
   const [puestos, setPuestos] = useState([null, null, null])
-  const visibles = delNivel(r.nivel)
+  const visibles = delNivel(r.nivel, r.region)
   const pon = i => {
     if (revelado || !ficha) return
     setPuestos(p => p.map((x, j) => (j === i ? ficha : x === ficha ? null : x)))
@@ -88,7 +87,7 @@ function Etiqueta({ r, revelado, onResponder, tr, l }) {
   }
   return (
     <>
-      <Mapa>
+      <Mapa r={r}>
         {visibles.map(e => <Trazo key={e.id} e={e} color={color(e)} opacidad={r.marcados.includes(e.id) ? 1 : 0.25} />)}
         {r.marcados.map((id, i) => {
           const ok = revelado && puestos[i] === id
@@ -119,16 +118,17 @@ function Etiqueta({ r, revelado, onResponder, tr, l }) {
   )
 }
 
-const CAJA = { cantabrica: 'border-cyan-400/50 bg-cyan-500/10', atlantica: 'border-blue-400/50 bg-blue-500/10', mediterranea: 'border-emerald-400/50 bg-emerald-500/10' }
+// Un color por caja, en el orden en que salen (vale para vertientes y océanos)
+const CAJAS = ['border-cyan-400/50 bg-cyan-500/10', 'border-blue-400/50 bg-blue-500/10', 'border-emerald-400/50 bg-emerald-500/10', 'border-violet-400/50 bg-violet-500/10']
 
 function Vertiente({ r, revelado, elegida, onResponder, tr, l }) {
   const [rio, setRio] = useState(null)
   const [donde, setDonde] = useState({})
-  const visibles = delNivel(r.nivel).filter(e => e.clase === 'rio')
+  const visibles = delNivel(r.nivel, r.region).filter(e => e.clase === 'rio')
   const valor = revelado ? (elegida ?? {}) : donde
   return (
     <>
-      <Mapa>
+      <Mapa r={r}>
         {visibles.map(e => <Trazo key={e.id} e={e} color={AZUL} opacidad={r.rios.includes(e.id) ? 1 : 0.2} />)}
         {r.rios.map(id => <Marker key={id} coordinates={medio(elemento(id))}>{etiquetaMapa(nombre(id, l), rio === id ? AMBAR : '#FFFFFF')}</Marker>)}
       </Mapa>
@@ -145,11 +145,13 @@ function Vertiente({ r, revelado, elegida, onResponder, tr, l }) {
       <div className={`grid gap-2 mt-3 ${r.vertientes.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
         {r.vertientes.map(v => (
           <button key={v} type="button" disabled={revelado} onClick={() => { if (rio) { setDonde(d => ({ ...d, [rio]: v })); setRio(null) } }}
-            className={`min-h-[84px] rounded-xl border-2 border-dashed p-2 text-left ${CAJA[v]}`}>
-            <span className="block text-white/70 text-[11px] font-black uppercase tracking-wide mb-1">{tx(VERTIENTES[v], l)}</span>
+            className={`min-h-[84px] rounded-xl border-2 border-dashed p-2 text-left ${CAJAS[Object.keys(regionDe(r).vertientes).indexOf(v) % CAJAS.length]}`}>
+            <span className="block text-white/70 text-[11px] font-black uppercase tracking-wide mb-1">{tx(regionDe(r).vertientes[v], l)}</span>
             {r.rios.filter(id => valor[id] === v).map(id => {
               const ok = elemento(id).vertiente === v
-              return <span key={id} onClick={e => { if (revelado) return; e.stopPropagation(); setDonde(d => { const n = { ...d }; delete n[id]; return n }) }}
+              // Tocar un río ya puesto lo saca de la caja… salvo si hay otro
+              // elegido: entonces el toque es para meter ese en esta caja.
+              return <span key={id} onClick={e => { if (revelado || rio) return; e.stopPropagation(); setDonde(d => { const n = { ...d }; delete n[id]; return n }) }}
                 className={`inline-block mr-1 mb-1 px-2 py-0.5 rounded-lg text-xs font-bold ${revelado ? (ok ? 'bg-green-500/30 text-green-200' : 'bg-red-500/30 text-red-200 line-through') : 'bg-white/15 text-white'}`}>{nombre(id, l)}</span>
             })}
           </button>
@@ -163,10 +165,10 @@ function Vertiente({ r, revelado, elegida, onResponder, tr, l }) {
 }
 
 function Extremos({ r, revelado, elegida, onResponder, l }) {
-  const rios = delNivel(r.nivel).filter(e => e.clase === 'rio')
+  const rios = delNivel(r.nivel, r.region).filter(e => e.clase === 'rio')
   const punto = id => { const e = elemento(id); return r.que === 'nace' ? e.puntos[0] : e.puntos[e.puntos.length - 1] }
   return (
-    <Mapa>
+    <Mapa r={r}>
       {rios.map(e => <Trazo key={e.id} e={e} color={revelado && e.id === r.objetivo ? VERDE : AZUL} opacidad={revelado && e.id === r.objetivo ? 1 : 0.35} />)}
       {r.puntos.map((id, i) => (
         <Numero key={id} coordenadas={punto(id)} n={i + 1}

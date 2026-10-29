@@ -18,6 +18,9 @@ vi.mock('../../components/MechanicExam', () => ({ default: props => { espia.prop
 vi.mock('../../components/ExamenMC', () => ({ default: props => { espia.props = props; return null } }))
 
 const PAGINAS = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../pages')
+const BASES = [
+  { nombre: 'ExamenRios', ruta: path.resolve(PAGINAS, '../components/riosMontanas/ExamenRios.jsx') },
+]
 const fuente = id => {
   const m = String(EXAMS[id].page).match(/pages\/([A-Za-z0-9]+)/)
   return m && fs.readFileSync(path.join(PAGINAS, `${m[1]}.jsx`), 'utf8')
@@ -44,7 +47,11 @@ describe('Retos · exámenes que se pueden mandar', () => {
       expect(EXAMS[id].retired, id).toBeFalsy()
       const s = fuente(id)
       expect(s, id).toBeTruthy()
-      expect(s, id).toContain(RETOS_TEST.includes(id) ? '<ExamenMC' : '<MechanicExam')
+      // Una página puede montar MechanicExam a través de una base común (varios
+      // exámenes de un mismo juego, uno por región): la base tiene que montarlo.
+      const base = BASES.find(b => s.includes(`<${b.nombre}`))
+      if (base) expect(fs.readFileSync(base.ruta, 'utf8'), base.nombre).toContain('<MechanicExam')
+      else expect(s, id).toContain(RETOS_TEST.includes(id) ? '<ExamenMC' : '<MechanicExam')
       expect(s.match(/gameId="([^"]+)"/)?.[1], id).toBe(id)
     }
   })

@@ -93,12 +93,135 @@ export const MONTES = [
     puntos: [[0.6, 40.9], [1.3, 41.3], [2.1, 41.6], [2.8, 42.0]] },
 ]
 
-export const ELEMENTOS = [...RIOS.map(r => ({ ...r, clase: 'rio' })), ...MONTES.map(m => ({ ...m, clase: 'monte' }))]
+// ── El mundo ──────────────────────────────────────────────────────────────
+// «¿A qué océano va?»: Atlántico, Pacífico, Índico o Ártico. Los que acaban en
+// un mar cerrado o casi (Nilo y Danubio al Mediterráneo y al Negro, el Volga al
+// Caspio) llevan vertiente null: salen en el resto de preguntas, no en esa.
+// El nacimiento del Nilo, el Amazonas y el Congo se discute: no se pregunta.
+export const OCEANOS = {
+  atlantico: T('Atlántico', 'Atlantic', 'Atlàntic'),
+  pacifico: T('Pacífico', 'Pacific', 'Pacífic'),
+  indico: T('Índico', 'Indian', 'Índic'),
+  artico: T('Ártico', 'Arctic', 'Àrtic'),
+}
+const RIOS_MUNDO = [
+  { id: 'nilo', nombre: T('Nilo', 'Nile', 'Nil'), vertiente: null, nivel: 'facil', naceDiscutido: true,
+    nace: T('en la región de los Grandes Lagos de África (sale del lago Victoria)', 'in the African Great Lakes region (it flows out of Lake Victoria)', 'a la regió dels Grans Llacs d’Àfrica (surt del llac Victòria)'),
+    desemboca: T('en el Mediterráneo, en un gran delta junto a El Cairo (Egipto)', 'into the Mediterranean, in a great delta near Cairo (Egypt)', 'a la Mediterrània, en un gran delta a prop del Caire (Egipte)'),
+    puntos: [[33.2, 0.4], [32.5, 3.5], [31.6, 9.5], [32.5, 15.6], [33.0, 19.0], [31.0, 22.0], [32.9, 24.1], [31.2, 27.2], [31.2, 30.0], [31.0, 31.4]] },
+  { id: 'amazonas', nombre: T('Amazonas', 'Amazon', 'Amazones'), vertiente: 'atlantico', nivel: 'facil', naceDiscutido: true,
+    nace: T('en los Andes de Perú', 'in the Andes of Peru', 'als Andes del Perú'),
+    desemboca: T('en el Atlántico, en Brasil: es el río más caudaloso del mundo', 'into the Atlantic, in Brazil: it carries more water than any other river', 'a l’Atlàntic, al Brasil: és el riu més cabalós del món'),
+    puntos: [[-72.5, -15.5], [-73.0, -13.0], [-73.5, -9.0], [-73.25, -3.75], [-69.9, -4.2], [-65.0, -3.5], [-60.0, -3.1], [-54.7, -2.4], [-51.5, -1.0], [-50.0, 0.0]] },
+  { id: 'misisipi', nombre: T('Misisipi', 'Mississippi', 'Mississipí'), vertiente: 'atlantico', nivel: 'facil',
+    nace: T('en el lago Itasca (Minnesota, Estados Unidos)', 'at Lake Itasca (Minnesota, United States)', 'al llac Itasca (Minnesota, Estats Units)'),
+    desemboca: T('en el golfo de México (océano Atlántico), cerca de Nueva Orleans', 'into the Gulf of Mexico (Atlantic Ocean), near New Orleans', 'al golf de Mèxic (oceà Atlàntic), a prop de Nova Orleans'),
+    puntos: [[-95.2, 47.2], [-93.3, 45.0], [-91.2, 43.0], [-90.2, 38.6], [-90.05, 35.15], [-91.1, 32.3], [-91.2, 30.45], [-90.07, 29.95], [-89.3, 29.1]] },
+  { id: 'yangtse', nombre: T('Yangtsé', 'Yangtze', 'Iang-Tsé'), vertiente: 'pacifico', nivel: 'facil',
+    nace: T('en la meseta del Tíbet (China)', 'on the Tibetan Plateau (China)', 'a l’altiplà del Tibet (Xina)'),
+    desemboca: T('en el mar de China Oriental (Pacífico), en Shanghái: es el río más largo de Asia', 'into the East China Sea (Pacific), at Shanghai: it is the longest river in Asia', 'al mar de la Xina Oriental (Pacífic), a Xangai: és el riu més llarg d’Àsia'),
+    puntos: [[91.0, 33.4], [96.5, 32.5], [99.3, 28.0], [100.2, 26.9], [102.5, 26.5], [104.6, 28.8], [106.5, 29.6], [111.3, 30.7], [114.3, 30.6], [118.8, 32.1], [121.8, 31.4]] },
+  { id: 'danubio', nombre: T('Danubio', 'Danube', 'Danubi'), vertiente: null, nivel: 'facil',
+    nace: T('en la Selva Negra (Alemania)', 'in the Black Forest (Germany)', 'a la Selva Negra (Alemanya)'),
+    desemboca: T('en el mar Negro, en un delta entre Rumanía y Ucrania; pasa por Viena, Budapest y Belgrado', 'into the Black Sea, in a delta between Romania and Ukraine; it flows through Vienna, Budapest and Belgrade', 'al mar Negre, en un delta entre Romania i Ucraïna; passa per Viena, Budapest i Belgrad'),
+    puntos: [[8.5, 47.95], [10.0, 48.4], [12.1, 49.0], [16.4, 48.2], [19.05, 47.5], [18.9, 45.8], [20.5, 44.8], [22.6, 44.6], [25.0, 43.7], [27.9, 44.1], [29.6, 45.2]] },
+  { id: 'ganges', nombre: T('Ganges', 'Ganges', 'Ganges'), vertiente: 'indico', nivel: 'facil',
+    nace: T('en un glaciar del Himalaya (India)', 'in a Himalayan glacier (India)', 'en una glacera de l’Himàlaia (Índia)'),
+    desemboca: T('en el golfo de Bengala (Índico), en un gran delta con el Brahmaputra', 'into the Bay of Bengal (Indian Ocean), in a great delta shared with the Brahmaputra', 'al golf de Bengala (Índic), en un gran delta amb el Brahmaputra'),
+    puntos: [[79.0, 30.9], [78.2, 29.95], [80.35, 26.45], [83.0, 25.3], [85.1, 25.6], [88.0, 24.5], [89.0, 21.8]] },
+  { id: 'congo', nombre: T('Congo', 'Congo', 'Congo'), vertiente: 'atlantico', nivel: 'medio', naceDiscutido: true,
+    nace: T('en el sureste de la República Democrática del Congo', 'in the south-east of the Democratic Republic of the Congo', 'al sud-est de la República Democràtica del Congo'),
+    desemboca: T('en el Atlántico: cruza dos veces el ecuador', 'into the Atlantic: it crosses the equator twice', 'a l’Atlàntic: travessa dues vegades l’equador'),
+    puntos: [[26.5, -11.5], [25.7, -7.0], [25.2, 0.5], [22.0, 1.5], [18.3, 0.0], [16.3, -2.5], [15.3, -4.3], [12.3, -6.0]] },
+  { id: 'niger', nombre: T('Níger', 'Niger', 'Níger'), vertiente: 'atlantico', nivel: 'medio',
+    nace: T('en las montañas de Guinea, muy cerca del Atlántico', 'in the mountains of Guinea, very close to the Atlantic', 'a les muntanyes de Guinea, molt a prop de l’Atlàntic'),
+    desemboca: T('en el golfo de Guinea (Atlántico), en Nigeria, tras dar una gran curva por el Sahel', 'into the Gulf of Guinea (Atlantic), in Nigeria, after a great bend through the Sahel', 'al golf de Guinea (Atlàntic), a Nigèria, després de fer una gran corba pel Sahel'),
+    puntos: [[-10.5, 9.1], [-8.0, 12.65], [-3.0, 16.8], [2.1, 13.5], [5.5, 10.0], [6.7, 7.8], [6.0, 4.5]] },
+  { id: 'volga', nombre: T('Volga', 'Volga', 'Volga'), vertiente: null, nivel: 'medio',
+    nace: T('en las colinas de Valdái (Rusia)', 'in the Valdai Hills (Russia)', 'als turons de Valdai (Rússia)'),
+    desemboca: T('en el mar Caspio, un mar cerrado: es el río más largo de Europa', 'into the Caspian Sea, an enclosed sea: it is the longest river in Europe', 'al mar Caspi, un mar tancat: és el riu més llarg d’Europa'),
+    puntos: [[32.5, 57.2], [35.9, 56.85], [39.9, 57.6], [44.0, 56.3], [49.1, 55.8], [50.1, 53.2], [44.5, 48.7], [48.0, 46.35], [48.0, 45.9]] },
+  { id: 'lena', nombre: T('Lena', 'Lena', 'Lena'), vertiente: 'artico', nivel: 'medio',
+    nace: T('en los montes junto al lago Baikal (Siberia)', 'in the mountains by Lake Baikal (Siberia)', 'a les muntanyes al costat del llac Baikal (Sibèria)'),
+    desemboca: T('en el océano Ártico, en un gran delta helado gran parte del año', 'into the Arctic Ocean, in a great delta that is frozen for much of the year', 'a l’oceà Àrtic, en un gran delta glaçat bona part de l’any'),
+    puntos: [[106.5, 54.0], [110.0, 57.5], [118.0, 60.5], [129.7, 62.0], [127.0, 70.0], [126.5, 73.0]] },
+  { id: 'mackenzie', nombre: T('Mackenzie', 'Mackenzie', 'Mackenzie'), vertiente: 'artico', nivel: 'medio',
+    nace: T('en el Gran Lago del Esclavo (Canadá)', 'at Great Slave Lake (Canada)', 'al Gran Llac de l’Esclau (Canadà)'),
+    desemboca: T('en el océano Ártico, en el mar de Beaufort', 'into the Arctic Ocean, in the Beaufort Sea', 'a l’oceà Àrtic, al mar de Beaufort'),
+    puntos: [[-115.5, 61.5], [-120.0, 63.0], [-124.0, 65.0], [-128.5, 66.5], [-135.0, 68.8]] },
+]
+const MONTES_MUNDO = [
+  { id: 'himalaya', nombre: T('Himalaya', 'Himalayas', 'Himàlaia'), nivel: 'facil',
+    puntos: [[73.0, 35.0], [78.0, 32.0], [84.0, 28.5], [88.0, 27.8], [92.0, 27.8], [95.0, 29.0]] },
+  { id: 'andes', nombre: T('Andes', 'Andes', 'Andes'), nivel: 'facil',
+    puntos: [[-73.0, 10.0], [-76.0, 4.0], [-78.0, -1.0], [-77.0, -8.0], [-72.0, -15.0], [-68.0, -20.0], [-69.0, -28.0], [-70.0, -35.0], [-72.0, -42.0], [-73.0, -50.0]] },
+  { id: 'rocosas', nombre: T('Montañas Rocosas', 'Rocky Mountains', 'Muntanyes Rocoses'), nivel: 'facil',
+    puntos: [[-128.0, 60.0], [-122.0, 54.0], [-117.0, 50.0], [-112.0, 46.0], [-109.0, 42.0], [-106.0, 38.0], [-106.0, 34.0]] },
+  { id: 'alpes', nombre: T('Alpes', 'Alps', 'Alps'), nivel: 'facil',
+    puntos: [[6.0, 44.0], [7.0, 45.9], [9.5, 46.5], [12.0, 47.0], [15.0, 47.3]] },
+  { id: 'atlas', nombre: T('Atlas', 'Atlas Mountains', 'Atles'), nivel: 'facil',
+    puntos: [[-9.5, 30.5], [-6.0, 31.5], [-3.0, 33.0], [1.0, 34.3], [6.0, 35.2], [9.5, 36.0]] },
+  { id: 'urales', nombre: T('Urales', 'Urals', 'Urals'), nivel: 'facil',
+    puntos: [[59.0, 51.0], [59.5, 55.0], [59.0, 60.0], [60.0, 64.0], [65.0, 68.0]] },
+  { id: 'apalaches', nombre: T('Apalaches', 'Appalachians', 'Apalatxes'), nivel: 'medio',
+    puntos: [[-84.5, 34.0], [-81.0, 37.0], [-78.0, 39.5], [-75.0, 41.5], [-72.0, 43.5], [-69.0, 46.0]] },
+  { id: 'gran-divisoria', nombre: T('Gran Cordillera Divisoria', 'Great Dividing Range', 'Gran Serralada Divisòria'), nivel: 'medio',
+    puntos: [[145.0, -15.0], [147.0, -22.0], [150.0, -29.0], [148.0, -36.0]] },
+  { id: 'caucaso', nombre: T('Cáucaso', 'Caucasus', 'Caucas'), nivel: 'medio',
+    puntos: [[40.0, 43.3], [44.0, 42.7], [48.0, 41.2]] },
+  { id: 'escandinavos', nombre: T('Montes Escandinavos', 'Scandinavian Mountains', 'Muntanyes Escandinaves'), nivel: 'medio',
+    puntos: [[6.0, 59.0], [9.0, 62.0], [14.0, 65.0], [18.0, 68.5], [21.0, 69.5]] },
+]
+
+// ── Regiones ──────────────────────────────────────────────────────────────
+// Cada mapa con sus ríos, sus sistemas y sus «vertientes» (a qué mar o
+// océano va cada río). El juego las mezcla; cada examen es de una sola.
+//   mapa        encuadre (Mercator), atlas y color de la tierra que se estudia
+//   sepNumeros  separación mínima (en grados) entre los números de «etiqueta»
+//   sepPuntos   ídem entre los cuatro puntos de «extremos»
+export const REGIONES = {
+  espana: {
+    id: 'espana',
+    nombre: T('España', 'Spain', 'Espanya'),
+    mapa: { center: [-3.3, 40.0], scale: 3000, atlas: 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json', tierras: { 724: '#334155', 620: '#2B3648' } },
+    sepNumeros: 1.8, sepPuntos: 0.9,
+    vertientes: VERTIENTES,
+    pregunta: T('¿A qué mar va cada río? Toca un río y luego su vertiente', 'Which sea does each river flow into? Tap a river, then its drainage basin', 'A quin mar va cada riu? Toca un riu i després el seu vessant'),
+    // la cantábrica no sale en fácil: sus ríos son del nivel medio
+    vertientesFacil: ['atlantica', 'mediterranea'],
+    expVertiente: T(
+      'Vertiente cantábrica: ríos cortos y caudalosos que bajan de la Cordillera Cantábrica. Atlántica: los grandes ríos de la Meseta (Miño, Duero, Tajo, Guadiana) y el Guadalquivir. Mediterránea: el Ebro y los ríos levantinos (Júcar, Turia, Segura).',
+      'Cantabrian basin: short rivers with plenty of water coming down from the Cantabrian Mountains. Atlantic: the big rivers of the Meseta (Miño, Douro, Tagus, Guadiana) and the Guadalquivir. Mediterranean: the Ebro and the eastern rivers (Júcar, Turia, Segura).',
+      'Vessant cantàbric: rius curts i cabalosos que baixen de la Serralada Cantàbrica. Atlàntic: els grans rius de la Meseta (Minho, Duero, Tajo, Guadiana) i el Guadalquivir. Mediterrani: l’Ebre i els rius de llevant (Xúquer, Túria, Segura).'),
+    rios: RIOS, montes: MONTES,
+  },
+  mundo: {
+    id: 'mundo',
+    nombre: T('el mundo', 'the world', 'el món'),
+    mapa: { center: [15, 18], scale: 125, atlas: 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json', tierras: null },
+    sepNumeros: 28, sepPuntos: 14,
+    vertientes: OCEANOS,
+    pregunta: T('¿A qué océano va cada río? Toca un río y luego su océano', 'Which ocean does each river flow into? Tap a river, then its ocean', 'A quin oceà va cada riu? Toca un riu i després el seu oceà'),
+    // el Ártico no sale en fácil: sus ríos (Lena, Mackenzie) son del nivel medio
+    vertientesFacil: ['atlantico', 'pacifico', 'indico'],
+    expVertiente: T(
+      'Los ríos de América del Sur y de África occidental (Amazonas, Congo, Níger) van al Atlántico, como el Misisipi por el golfo de México. Los grandes ríos de China, como el Yangtsé, van al Pacífico; el Ganges, al Índico. Los de Siberia y el norte de Canadá (Lena, Mackenzie), al Ártico.',
+      'The rivers of South America and West Africa (Amazon, Congo, Niger) flow into the Atlantic, as does the Mississippi through the Gulf of Mexico. The great rivers of China, like the Yangtze, flow into the Pacific; the Ganges into the Indian Ocean. Those of Siberia and northern Canada (Lena, Mackenzie) flow into the Arctic.',
+      'Els rius d’Amèrica del Sud i de l’Àfrica occidental (Amazones, Congo, Níger) van a l’Atlàntic, com el Mississipí pel golf de Mèxic. Els grans rius de la Xina, com l’Iang-Tsé, van al Pacífic; el Ganges, a l’Índic. Els de Sibèria i el nord del Canadà (Lena, Mackenzie), a l’Àrtic.'),
+    rios: RIOS_MUNDO, montes: MONTES_MUNDO,
+  },
+}
+export const regionDe = r => REGIONES[r?.region ?? 'espana']
+
+export const ELEMENTOS = Object.values(REGIONES).flatMap(g => [
+  ...g.rios.map(r => ({ ...r, clase: 'rio', region: g.id })),
+  ...g.montes.map(m => ({ ...m, clase: 'monte', region: g.id })),
+])
 export const elemento = id => ELEMENTOS.find(e => e.id === id)
 export const nombre = (id, l) => tx(elemento(id).nombre, l)
 const ORDEN = { facil: 0, medio: 1, dificil: 2 }
 // Lo que se ve en el mapa en cada nivel
-export const delNivel = nivel => ELEMENTOS.filter(e => ORDEN[e.nivel] <= ORDEN[nivel])
+export const delNivel = (nivel, region = 'espana') => ELEMENTOS.filter(e => e.region === region && ORDEN[e.nivel] <= ORDEN[nivel])
 
 export const NIVELES = {
   facil:   { tipos: ['busca', 'busca', 'busca', 'etiqueta', 'etiqueta'] },
@@ -113,18 +236,28 @@ const baraja = (rand, xs) => {
   return a
 }
 const dist = ([a, b], [c, d]) => Math.hypot(a - c, b - d)
+// Una clave de `pesos` al azar, según su peso
+const eligePeso = (rand, pesos) => {
+  const ks = Object.keys(pesos).filter(k => REGIONES[k] && pesos[k] > 0)
+  let x = rand() * ks.reduce((t, k) => t + pesos[k], 0)
+  for (const k of ks) { x -= pesos[k]; if (x < 0) return k }
+  return ks[ks.length - 1]
+}
 // El punto donde va el número o el nombre de cada elemento
 export const medio = e => e.puntos[Math.floor(e.puntos.length / 2)]
 
 let seq = 0
 const recientes = []
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+// `region`: la de un examen. Sin ella (el juego) se elige una en cada ronda;
+// `pesos` dice cuánto sale cada una (p. ej. más España en castellano).
+export function genRonda(nivel = 'facil', { rand = Math.random, region = null, pesos = null } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
-  const visibles = delNivel(nivel)
-  const rios = visibles.filter(e => e.clase === 'rio')
   for (let intento = 0; ; intento++) {
+    const reg = REGIONES[region ?? eligePeso(rand, pesos ?? Object.fromEntries(Object.keys(REGIONES).map(k => [k, 1])))]
+    const visibles = delNivel(nivel, reg.id)
+    const rios = visibles.filter(e => e.clase === 'rio')
     const tipo = elige(rand, cfg.tipos)
-    const base = { id: ++seq, nivel, tipo }
+    const base = { id: ++seq, nivel, tipo, region: reg.id }
     let r
     if (tipo === 'busca') {
       r = { ...base, objetivo: elige(rand, visibles).id }
@@ -133,14 +266,17 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
       const tres = baraja(rand, visibles).slice(0, 3)
       if (!tres.some(e => e.clase === 'rio') || !tres.some(e => e.clase === 'monte')) continue
       // los tres números, bien separados en el mapa (no se pueden pisar)
-      if (tres.some((a, i) => tres.some((b, j) => i < j && dist(medio(a), medio(b)) < 1.8))) continue
+      if (tres.some((a, i) => tres.some((b, j) => i < j && dist(medio(a), medio(b)) < reg.sepNumeros))) continue
       const sobra = elige(rand, visibles.filter(e => !tres.includes(e)))
       r = { ...base, marcados: tres.map(e => e.id), fichas: baraja(rand, [...tres.map(e => e.id), sobra.id]) }
     } else if (tipo === 'vertiente') {
-      const cuatro = baraja(rand, rios).slice(0, 4)
-      // al menos dos vertientes distintas; la cantábrica solo si hay ríos cantábricos en el nivel
+      // solo los que van a un océano (o vertiente) sin discusión
+      const conVertiente = rios.filter(e => e.vertiente)
+      if (conVertiente.length < 4) continue
+      const cuatro = baraja(rand, conVertiente).slice(0, 4)
+      // al menos dos vertientes distintas
       if (new Set(cuatro.map(e => e.vertiente)).size < 2) continue
-      r = { ...base, rios: cuatro.map(e => e.id), vertientes: Object.keys(VERTIENTES).filter(v => nivel !== 'facil' || v !== 'cantabrica') }
+      r = { ...base, rios: cuatro.map(e => e.id), vertientes: nivel === 'facil' && reg.vertientesFacil ? reg.vertientesFacil : Object.keys(reg.vertientes) }
     } else {
       const que = elige(rand, ['nace', 'desemboca'])
       const pool = rios.filter(e => que === 'desemboca' || !e.naceDiscutido)
@@ -149,7 +285,7 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
       // tres puntos más, de otros ríos y separados (nada de tres nacimientos juntos)
       const otros = []
       for (const e of baraja(rand, pool.filter(x => x !== obj))) {
-        if ([obj, ...otros].every(x => dist(punto(x), punto(e)) > 0.9)) otros.push(e)
+        if ([obj, ...otros].every(x => dist(punto(x), punto(e)) > reg.sepPuntos)) otros.push(e)
         if (otros.length === 3) break
       }
       if (otros.length < 3) continue
@@ -186,7 +322,7 @@ export function enunciado(r, l) {
         : s(l, `Toca: ${tx(e.nombre, l)}`, `Tap: ${tx(e.nombre, l)}`, `Toca: ${tx(e.nombre, l)}`)
     }
     case 'etiqueta': return s(l, 'Pon cada nombre en su número: toca un nombre y luego el número del mapa (sobra uno)', 'Put each name on its number: tap a name, then the number on the map (one is left over)', 'Posa cada nom al seu número: toca un nom i després el número del mapa (en sobra un)')
-    case 'vertiente': return s(l, '¿A qué mar va cada río? Toca un río y luego su vertiente', 'Which sea does each river flow into? Tap a river, then its drainage basin', 'A quin mar va cada riu? Toca un riu i després el seu vessant')
+    case 'vertiente': return tx(regionDe(r).pregunta, l)
     default: {
       const n = nombre(r.objetivo, l)
       return r.que === 'nace'
@@ -209,10 +345,7 @@ export function explicacion(r, l) {
       return s(l, `${tx(e.nombre, l)}: la línea marrón del mapa. ${PISTA_MONTE[e.id]?.es ?? ''}`, `${tx(e.nombre, l)}: the brown line on the map. ${PISTA_MONTE[e.id]?.en ?? ''}`, `${tx(e.nombre, l)}: la línia marró del mapa. ${PISTA_MONTE[e.id]?.ca ?? ''}`)
     }
     case 'etiqueta': return r.marcados.map((id, i) => `${i + 1} = ${nombre(id, l)}`).join(' · ')
-    case 'vertiente': return s(l,
-      'Vertiente cantábrica: ríos cortos y caudalosos que bajan de la Cordillera Cantábrica. Atlántica: los grandes ríos de la Meseta (Miño, Duero, Tajo, Guadiana) y el Guadalquivir. Mediterránea: el Ebro y los ríos levantinos (Júcar, Turia, Segura).',
-      'Cantabrian basin: short rivers with plenty of water coming down from the Cantabrian Mountains. Atlantic: the big rivers of the Meseta (Miño, Douro, Tagus, Guadiana) and the Guadalquivir. Mediterranean: the Ebro and the eastern rivers (Júcar, Turia, Segura).',
-      'Vessant cantàbric: rius curts i cabalosos que baixen de la Serralada Cantàbrica. Atlàntic: els grans rius de la Meseta (Minho, Duero, Tajo, Guadiana) i el Guadalquivir. Mediterrani: l’Ebre i els rius de llevant (Xúquer, Túria, Segura).')
+    case 'vertiente': return tx(regionDe(r).expVertiente, l)
     default: return frase(elemento(r.objetivo), l)
   }
 }
@@ -228,13 +361,23 @@ const PISTA_MONTE = {
   galaico: T('Un macizo antiguo y desgastado en el sureste de Galicia.', 'An old, worn-down massif in south-east Galicia.', 'Un massís antic i desgastat al sud-est de Galícia.'),
   toledo: T('Montes bajos en la Meseta sur, entre el Tajo y el Guadiana.', 'Low mountains on the southern Meseta, between the Tagus and the Guadiana.', 'Muntanyes baixes a la Meseta sud, entre el Tajo i el Guadiana.'),
   catalana: T('Paralela a la costa de Cataluña.', 'It runs parallel to the coast of Catalonia.', 'Paral·lela a la costa de Catalunya.'),
+  himalaya: T('Entre la India y el Tíbet; aquí está el Everest, la montaña más alta del mundo.', 'Between India and Tibet; Everest, the highest mountain in the world, is here.', 'Entre l’Índia i el Tibet; aquí hi ha l’Everest, la muntanya més alta del món.'),
+  andes: T('Recorren toda la costa del Pacífico de América del Sur: es la cordillera más larga del mundo.', 'They run along the whole Pacific coast of South America: the longest mountain range in the world.', 'Recorren tota la costa del Pacífic d’Amèrica del Sud: és la serralada més llarga del món.'),
+  rocosas: T('Al oeste de América del Norte, de Canadá a Nuevo México.', 'In western North America, from Canada to New Mexico.', 'A l’oest d’Amèrica del Nord, del Canadà a Nou Mèxic.'),
+  alpes: T('En el centro de Europa: Francia, Suiza, Italia y Austria.', 'In central Europe: France, Switzerland, Italy and Austria.', 'Al centre d’Europa: França, Suïssa, Itàlia i Àustria.'),
+  atlas: T('En el norte de África: Marruecos, Argelia y Túnez.', 'In North Africa: Morocco, Algeria and Tunisia.', 'Al nord d’Àfrica: el Marroc, Algèria i Tunísia.'),
+  urales: T('En Rusia, de norte a sur: marcan la frontera entre Europa y Asia.', 'In Russia, running north to south: they mark the border between Europe and Asia.', 'A Rússia, de nord a sud: marquen la frontera entre Europa i Àsia.'),
+  apalaches: T('En el este de Estados Unidos: unas montañas muy antiguas y desgastadas.', 'In the eastern United States: very old, worn-down mountains.', 'A l’est dels Estats Units: unes muntanyes molt antigues i desgastades.'),
+  'gran-divisoria': T('A lo largo de la costa este de Australia.', 'Along the east coast of Australia.', 'Al llarg de la costa est d’Austràlia.'),
+  caucaso: T('Entre el mar Negro y el mar Caspio.', 'Between the Black Sea and the Caspian Sea.', 'Entre el mar Negre i el mar Caspi.'),
+  escandinavos: T('Recorren Noruega y Suecia, de sur a norte.', 'They run through Norway and Sweden, from south to north.', 'Recorren Noruega i Suècia, de sud a nord.'),
 }
 
 export function textoRespuesta(r, l) {
   switch (r.tipo) {
     case 'busca': return nombre(r.objetivo, l)
     case 'etiqueta': return r.marcados.map((id, i) => `${i + 1}: ${nombre(id, l)}`).join(', ')
-    case 'vertiente': return r.rios.map(id => `${nombre(id, l)} → ${tx(VERTIENTES[elemento(id).vertiente], l)}`).join(', ')
+    case 'vertiente': return r.rios.map(id => `${nombre(id, l)} → ${tx(regionDe(r).vertientes[elemento(id).vertiente], l)}`).join(', ')
     default: {
       const e = elemento(r.objetivo)
       return r.que === 'nace' ? tx(e.nace, l) : tx(e.desemboca, l)
@@ -246,8 +389,8 @@ export function textoRespuesta(r, l) {
 export function schemaQuestion(r, l) {
   const pregunta = r.tipo === 'vertiente'
     ? s(l, `¿A qué vertiente pertenecen ${r.rios.map(id => nombre(id, l)).join(', ')}?`, `Which drainage basin do ${r.rios.map(id => nombre(id, l)).join(', ')} belong to?`, `A quin vessant pertanyen ${r.rios.map(id => nombre(id, l)).join(', ')}?`)
-    : r.tipo === 'etiqueta' ? s(l, 'Sitúa en el mapa de España estos ríos y sistemas montañosos', 'Place these rivers and mountain ranges on the map of Spain', 'Situa al mapa d’Espanya aquests rius i sistemes muntanyosos')
-    : r.tipo === 'busca' ? s(l, `¿Dónde está ${nombre(r.objetivo, l)} en el mapa de España?`, `Where is ${nombre(r.objetivo, l)} on the map of Spain?`, `On és ${nombre(r.objetivo, l)} al mapa d’Espanya?`)
+    : r.tipo === 'etiqueta' ? s(l, `Sitúa en el mapa (${tx(regionDe(r).nombre, l)}) estos ríos y sistemas montañosos`, `Place these rivers and mountain ranges on the map (${tx(regionDe(r).nombre, l)})`, `Situa al mapa (${tx(regionDe(r).nombre, l)}) aquests rius i sistemes muntanyosos`)
+    : r.tipo === 'busca' ? s(l, `¿Dónde está ${nombre(r.objetivo, l)} en el mapa (${tx(regionDe(r).nombre, l)})?`, `Where is ${nombre(r.objetivo, l)} on the map (${tx(regionDe(r).nombre, l)})?`, `On és ${nombre(r.objetivo, l)} al mapa (${tx(regionDe(r).nombre, l)})?`)
     : enunciado(r, l).replace(/ Toca el punto| Tap the point| Toca el punt/, '')
   const respuesta = r.tipo === 'busca' ? explicacion(r, l) : textoRespuesta(r, l)
   return { question: pregunta, correctAnswer: respuesta, wrongAnswers: [] }

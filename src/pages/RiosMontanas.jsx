@@ -15,12 +15,14 @@ const GAME_TIME = 90
 const WRONG_TIME = 5
 const CORRECT_TIME = 5
 const REVEAL_MS = 3500 // lo justo para ver en el mapa dónde estaba
+// Cuánto sale cada mapa: en castellano y catalán, sobre todo España; en inglés, sobre todo el mundo
+const PESOS = { es: { espana: 3, mundo: 1 }, ca: { espana: 3, mundo: 1 }, en: { espana: 1, mundo: 3 } }
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Los seis grandes ríos y los sistemas montañosos principales', en: 'The six big rivers and the main mountain ranges', ca: 'Els sis grans rius i els sistemes muntanyosos principals' } },
+             desc: { es: 'Los grandes ríos y montañas de España y del mundo', en: 'The great rivers and mountains of Spain and the world', ca: 'Els grans rius i muntanyes d’Espanya i del món' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Más ríos y sierras, y a qué mar va cada río (vertientes)', en: 'More rivers and ranges, and which sea each river flows into (basins)', ca: 'Més rius i serres, i a quin mar va cada riu (vessants)' } },
+             desc: { es: 'Más ríos y cordilleras, y a qué mar u océano va cada río', en: 'More rivers and ranges, and which sea or ocean each river reaches', ca: 'Més rius i serralades, i a quin mar o oceà va cada riu' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'Todo, más dónde nace y dónde desemboca cada río', en: 'Everything, plus where each river rises and where it reaches the sea', ca: 'Tot, i on neix i on desemboca cada riu' } },
 }
@@ -51,10 +53,10 @@ export default function RiosMontanas() {
   useEffect(() => { aciertosRef.current = aciertos }, [aciertos])
 
   const next = useCallback(niv => {
-    setRonda(genRonda(niv))
+    setRonda(genRonda(niv, { pesos: PESOS[l] }))
     setElegida(null)
     setPhase('choose')
-  }, [])
+  }, [l])
 
   const startGame = useCallback((niv = 'facil') => {
     setNivel(niv); setScreen('playing')
@@ -105,11 +107,11 @@ export default function RiosMontanas() {
   }
 
   const seo = {
-    title: tr({ es: 'Ríos y Montañas — Juego del relieve y los ríos de España en el mapa', en: 'Rivers and Mountains — Game of Spain’s relief and rivers on the map', ca: 'Rius i Muntanyes — Joc del relleu i els rius d’Espanya al mapa' }),
+    title: tr({ es: 'Ríos y Montañas — Juego de los ríos y el relieve de España y del mundo en el mapa', en: 'Rivers and Mountains — Game of the rivers and relief of Spain and the world on the map', ca: 'Rius i Muntanyes — Joc dels rius i el relleu d’Espanya i del món al mapa' }),
     desc: tr({
-      es: 'Sitúa en el mapa de España el Ebro, el Tajo, el Duero, el Guadalquivir, los Pirineos, el Sistema Central o Sierra Morena; reparte los ríos por vertientes y encuentra dónde nacen y desembocan. Juego gratis para Primaria y ESO.',
-      en: 'Find the Ebro, Tagus, Douro, Guadalquivir, the Pyrenees, the Central System or Sierra Morena on the map of Spain; sort the rivers into drainage basins and find where they rise and reach the sea. Free game for primary and secondary.',
-      ca: 'Situa al mapa d’Espanya l’Ebre, el Tajo, el Duero, el Guadalquivir, els Pirineus, el Sistema Central o Serra Morena; reparteix els rius per vessants i troba on neixen i desemboquen. Joc gratis per a Primària i ESO.',
+      es: 'Sitúa en el mapa de España el Ebro, el Tajo, el Duero, el Guadalquivir, los Pirineos, el Sistema Central o Sierra Morena; reparte los ríos por vertientes y encuentra dónde nacen y desembocan. Y en el mapa del mundo: Nilo, Amazonas, Himalaya, Andes. Juego gratis para Primaria y ESO.',
+      en: 'Find the Ebro, Tagus, Douro, Guadalquivir, the Pyrenees, the Central System or Sierra Morena on the map of Spain; sort the rivers into drainage basins and find where they rise and reach the sea. And on the world map: the Nile, the Amazon, the Himalayas, the Andes. Free game for primary and secondary.',
+      ca: 'Situa al mapa d’Espanya l’Ebre, el Tajo, el Duero, el Guadalquivir, els Pirineus, el Sistema Central o Serra Morena; reparteix els rius per vessants i troba on neixen i desemboquen. I al mapa del món: Nil, Amazones, Himàlaia, Andes. Joc gratis per a Primària i ESO.',
     }),
     path: '/juegos/rios-montanas',
   }
@@ -121,9 +123,9 @@ export default function RiosMontanas() {
         {head}
         <div className="max-w-md w-full">
           <CabeceraJuego slug="rios-montanas"
-            badge={tr({ es: 'Geografía · Relieve de España', en: 'Geography · Relief of Spain', ca: 'Geografia · Relleu d’Espanya' })}
+            badge={tr({ es: 'Geografía · Relieve', en: 'Geography · Relief', ca: 'Geografia · Relleu' })}
             titulo={tr({ es: '🏞️ Ríos y Montañas', en: '🏞️ Rivers and Mountains', ca: '🏞️ Rius i Muntanyes' })}
-            sub={tr({ es: 'Los ríos y los sistemas montañosos de España, en su sitio del mapa', en: 'Spain’s rivers and mountain ranges, in their place on the map', ca: 'Els rius i els sistemes muntanyosos d’Espanya, al seu lloc del mapa' })} />
+            sub={tr({ es: 'Los ríos y las montañas de España y del mundo, en su sitio del mapa', en: 'The rivers and mountains of Spain and the world, in their place on the map', ca: 'Els rius i les muntanyes d’Espanya i del món, al seu lloc del mapa' })} />
 
           <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' })}</p>
           <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
@@ -142,11 +144,11 @@ export default function RiosMontanas() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale el mapa de la península con los ríos en azul y las cordilleras en marrón. Nada se elige de una lista:', en: 'The map of the peninsula appears with the rivers in blue and the mountain ranges in brown. Nothing is picked from a list:', ca: 'Surt el mapa de la península amb els rius en blau i les serralades en marró. Res no es tria d’una llista:' })}</p>
+              <p>{tr({ es: 'Sale un mapa (de España o del mundo) con los ríos en azul y las cordilleras en marrón. Nada se elige de una lista:', en: 'A map appears (of Spain or of the world) with the rivers in blue and the mountain ranges in brown. Nothing is picked from a list:', ca: 'Surt un mapa (d’Espanya o del món) amb els rius en blau i les serralades en marró. Res no es tria d’una llista:' })}</p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>{tr({ es: '👆 Tocas en el mapa el río o el sistema montañoso que se pide.', en: '👆 You tap the river or mountain range asked for on the map.', ca: '👆 Toques al mapa el riu o el sistema muntanyós que es demana.' })}</li>
                 <li>{tr({ es: '🔢 Pones cada nombre en su número del mapa (sobra uno).', en: '🔢 You put each name on its number on the map (one is left over).', ca: '🔢 Poses cada nom al seu número del mapa (en sobra un).' })}</li>
-                <li>{tr({ es: '🌊 Repartes los ríos por vertientes: cantábrica, atlántica o mediterránea.', en: '🌊 You sort the rivers into basins: Cantabrian, Atlantic or Mediterranean.', ca: '🌊 Reparteixes els rius per vessants: cantàbric, atlàntic o mediterrani.' })}</li>
+                <li>{tr({ es: '🌊 Repartes los ríos según el mar al que van: en España, por vertientes; en el mundo, por océanos.', en: '🌊 You sort the rivers by the sea they reach: basins in Spain, oceans in the world.', ca: '🌊 Reparteixes els rius segons el mar on van: a Espanya, per vessants; al món, per oceans.' })}</li>
                 <li>{tr({ es: '📍 En difícil, tocas dónde nace o dónde desemboca un río.', en: '📍 On hard, you tap where a river rises or reaches the sea.', ca: '📍 En difícil, toques on neix o on desemboca un riu.' })}</li>
               </ul>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
