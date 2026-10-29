@@ -21,10 +21,15 @@ export const num = (n, l = 'es') => n.toLocaleString(l === 'en' ? 'en-GB' : l ==
 export const G = 10
 const G_LUNA = 1.6
 
+// Tipos nuevos (sin opciones, ver «Mecánicas» más abajo):
+//   diagrama   se dibujan las fuerzas tocando cada lado de la caja (inercia: la
+//              pelota que sube, la caja que frena sola, la nave sin motores)
+//   reaccion   acción y reacción: se teclea la fuerza que devuelve el otro cuerpo
+//   constante  velocidad constante: se ajusta el empuje hasta igualar el rozamiento
 export const NIVELES = {
-  facil:   { tipos: ['segunda', 'segunda', 'peso', 'peso', 'concepto'] },
-  medio:   { tipos: ['segunda', 'peso', 'rozamiento', 'rozamiento', 'concepto'] },
-  dificil: { tipos: ['rozamiento', 'plano', 'plano', 'ascensor', 'ascensor', 'concepto'] },
+  facil:   { tipos: ['segunda', 'segunda', 'peso', 'peso', 'diagrama', 'diagrama', 'reaccion'] },
+  medio:   { tipos: ['segunda', 'peso', 'rozamiento', 'rozamiento', 'constante', 'diagrama'] },
+  dificil: { tipos: ['rozamiento', 'plano', 'plano', 'ascensor', 'ascensor', 'diagrama'] },
 }
 
 const elige = (rand, xs) => xs[Math.floor(rand() * xs.length)]
@@ -77,10 +82,10 @@ export const CONCEPTOS = [
 
 let seq = 0
 
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
-  const cfg = NIVELES[nivel] ?? NIVELES.facil
+// El generador de siempre (con sus cuatro opciones): da los números de cada
+// ronda y el texto de las preguntas de ejemplo del schema.
+function genVieja(nivel, tipo, rand) {
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
 
     if (tipo === 'segunda') {
@@ -159,8 +164,132 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
   }
 }
 
+// ── Mecánicas ─────────────────────────────────────────────────────────────
+// Nada se responde eligiendo entre cuatro:
+//   teclea    se escribe el número (a, m, peso, plano —con una décima—, la reacción)
+//   empuja    se arrastra la flecha del empuje hasta la fuerza que hace falta
+//             (F = m · a; con rozamiento F = Fr + m · a; a velocidad constante F = Fr)
+//   bascula   se mueve la aguja de la báscula del ascensor (de 10 en 10 N)
+//   diagrama  se dibujan las fuerzas: cada lado de la caja va pasando por
+//             nada → P → N → F → Fr → T al tocarlo
+export const LADOS = ['arriba', 'abajo', 'izq', 'der']
+export const FUERZAS = ['', 'P', 'N', 'F', 'Fr', 'T']
+
+// Escenas del diagrama de fuerzas (sin aire). Cada una es una idea de las
+// leyes de Newton con su error típico.
+export const ESCENAS = [
+  { id: 'reposo', emoji: '📕', fuerzas: { arriba: 'N', abajo: 'P' },
+    q: T('Un libro quieto sobre una mesa', 'A book at rest on a table', 'Un llibre quiet sobre una taula'),
+    exp: T('Dos fuerzas iguales y opuestas: el peso (P), hacia abajo, y la normal (N) que hace la mesa, hacia arriba. Se anulan y por eso el libro no se mueve.', 'Two equal and opposite forces: weight (W), downwards, and the normal force (N) from the table, upwards. They cancel out, so the book does not move.', 'Dues forces iguals i oposades: el pes (P), cap avall, i la normal (N) que fa la taula, cap amunt. S’anul·len i per això el llibre no es mou.') },
+  { id: 'empuje', emoji: '📦', fuerzas: { arriba: 'N', abajo: 'P', der: 'F', izq: 'Fr' },
+    q: T('Empujas una caja hacia la derecha y se desliza por el suelo (hay rozamiento)', 'You push a box to the right and it slides along the floor (there is friction)', 'Empenys una caixa cap a la dreta i llisca per terra (hi ha fregament)'),
+    exp: T('Cuatro fuerzas: tu empuje (F) hacia la derecha, el rozamiento (Fr) en contra del movimiento, el peso (P) hacia abajo y la normal (N) hacia arriba.', 'Four forces: your push (F) to the right, friction (Fr) against the motion, weight (W) downwards and the normal force (N) upwards.', 'Quatre forces: la teva empenta (F) cap a la dreta, el fregament (Fr) en contra del moviment, el pes (P) cap avall i la normal (N) cap amunt.') },
+  { id: 'frena', emoji: '📦', fuerzas: { arriba: 'N', abajo: 'P', izq: 'Fr' },
+    q: T('Una caja se desliza hacia la derecha y se va frenando sola (nadie la empuja)', 'A box slides to the right and slows down on its own (nobody pushes it)', 'Una caixa llisca cap a la dreta i es va frenant sola (ningú no l’empeny)'),
+    exp: T('Ya no hay ninguna fuerza hacia la derecha: la caja se mueve por inercia. Solo el rozamiento (Fr), hacia la izquierda, la va frenando; más el peso y la normal.', 'There is no longer any force to the right: the box keeps moving by inertia. Only friction (Fr), to the left, slows it down; plus weight and the normal force.', 'Ja no hi ha cap força cap a la dreta: la caixa es mou per inèrcia. Només el fregament (Fr), cap a l’esquerra, la va frenant; més el pes i la normal.') },
+  { id: 'tira', emoji: '📦', fuerzas: { arriba: 'N', abajo: 'P', izq: 'T', der: 'Fr' },
+    q: T('Tiras de una cuerda hacia la izquierda, pero la caja no se mueve', 'You pull a rope to the left, but the box does not move', 'Estires una corda cap a l’esquerra, però la caixa no es mou'),
+    exp: T('La cuerda tira hacia la izquierda (T) y el rozamiento (Fr) se opone hacia la derecha con la misma fuerza: por eso no se mueve. Además, peso y normal.', 'The rope pulls to the left (T) and friction (Fr) opposes it to the right with the same force: that is why it does not move. Plus weight and the normal force.', 'La corda estira cap a l’esquerra (T) i el fregament (Fr) s’hi oposa cap a la dreta amb la mateixa força: per això no es mou. A més, pes i normal.') },
+  { id: 'colgada', emoji: '💡', fuerzas: { arriba: 'T', abajo: 'P' },
+    q: T('Una lámpara colgada del techo por un cable', 'A lamp hanging from the ceiling by a cable', 'Un llum penjat del sostre per un cable'),
+    exp: T('El cable tira hacia arriba (tensión, T) y el peso (P) hacia abajo. No hay normal: no se apoya en nada.', 'The cable pulls upwards (tension, T) and weight (W) pulls downwards. There is no normal force: it rests on nothing.', 'El cable estira cap amunt (tensió, T) i el pes (P) cap avall. No hi ha normal: no es recolza en res.') },
+  { id: 'cae', emoji: '⚫', fuerzas: { abajo: 'P' },
+    q: T('Una piedra cayendo (sin aire)', 'A falling stone (no air)', 'Una pedra caient (sense aire)'),
+    exp: T('Solo el peso (P). Mientras cae no toca nada, así que no hay normal ni rozamiento.', 'Only weight (W). While it falls it touches nothing, so there is no normal force or friction.', 'Només el pes (P). Mentre cau no toca res, així que no hi ha normal ni fregament.') },
+  { id: 'lanzada', emoji: '⚽', fuerzas: { abajo: 'P' },
+    q: T('Una pelota que acabas de lanzar hacia arriba, mientras sube (sin aire)', 'A ball you have just thrown upwards, while it rises (no air)', 'Una pilota que acabes de llançar cap amunt, mentre puja (sense aire)'),
+    exp: T('Solo el peso, hacia abajo. La «fuerza del lanzamiento» no existe: la mano dejó de empujar al soltarla. La pelota sube por inercia y el peso la va frenando.', 'Only weight, downwards. There is no «force of the throw»: your hand stopped pushing when it let go. The ball rises by inertia and weight slows it down.', 'Només el pes, cap avall. La «força del llançament» no existeix: la mà va deixar d’empènyer en deixar-la anar. La pilota puja per inèrcia i el pes la va frenant.') },
+  { id: 'nave', emoji: '🚀', fuerzas: {},
+    q: T('Una nave en el espacio, lejos de todo, con los motores apagados (sigue moviéndose)', 'A spacecraft in space, far from everything, with its engines off (it keeps moving)', 'Una nau a l’espai, lluny de tot, amb els motors apagats (continua movent-se)'),
+    exp: T('Ninguna fuerza. Lejos de todo no hay peso que notar, y sin motores nada la empuja; aun así sigue en línea recta a la misma velocidad: es la inercia (primera ley).', 'No forces. Far from everything there is no weight to speak of, and with the engines off nothing pushes it; even so it carries on in a straight line at the same speed: that is inertia (first law).', 'Cap força. Lluny de tot no hi ha pes a tenir en compte, i sense motors res no l’empeny; tot i així continua en línia recta a la mateixa velocitat: és la inèrcia (primera llei).') },
+]
+
+// Acción y reacción: el otro cuerpo devuelve la misma fuerza.
+const REACCIONES = [
+  { id: 'pared', emoji: '🧱', concepto: 'pared',
+    q: (F, l) => s(l, `Empujas una pared con una fuerza de ${F} N. ¿Con qué fuerza te empuja la pared a ti? (en N)`, `You push a wall with a force of ${F} N. How hard does the wall push on you? (in N)`, `Empenys una paret amb una força de ${F} N. Amb quina força t’empeny la paret a tu? (en N)`) },
+  { id: 'camion', emoji: '🚚', concepto: 'camion',
+    q: (F, l) => s(l, `En un choque, un camión hace una fuerza de ${F} N sobre un mosquito. ¿Qué fuerza hace el mosquito sobre el camión? (en N)`, `In a collision, a lorry exerts a force of ${F} N on a mosquito. What force does the mosquito exert on the lorry? (in N)`, `En un xoc, un camió fa una força de ${F} N sobre un mosquit. Quina força fa el mosquit sobre el camió? (en N)`) },
+]
+
+const MECANICA = r =>
+  r.tipo === 'diagrama' ? 'diagrama'
+    : r.tipo === 'ascensor' ? 'bascula'
+    : r.tipo === 'constante' || (r.tipo === 'segunda' && r.despeje === 'F') || (r.tipo === 'rozamiento' && !r.quieta) ? 'empuja'
+    : 'teclea'
+
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  for (let intento = 0; ; intento++) {
+    const tipo = elige(rand, cfg.tipos)
+    let r
+    if (tipo === 'diagrama') {
+      const e = elige(rand, ESCENAS)
+      r = { id: ++seq, nivel, tipo, escena: e.id }
+    } else if (tipo === 'reaccion') {
+      const c = elige(rand, REACCIONES)
+      const F = elige(rand, [20, 50, 80, 150, 300, 500])
+      r = { id: ++seq, nivel, tipo, caso: c.id, F, bueno: F }
+    } else if (tipo === 'constante') {
+      const m = elige(rand, [5, 10, 20, 40]), mu = elige(rand, [0.1, 0.2, 0.25, 0.5])
+      const Fr = mu * m * G
+      if (!exacto(Fr)) continue
+      r = { id: ++seq, nivel, tipo, m, mu, Fr: Math.round(Fr), bueno: Math.round(Fr) }
+    } else {
+      r = genVieja(nivel, tipo, rand)
+      // En fácil la segunda ley solo despeja la aceleración (se teclea)
+      if (tipo === 'segunda' && nivel === 'facil' && r.despeje !== 'a') continue
+      // El rozamiento con empuje: la pregunta es la fuerza (F = Fr + m·a)
+      if (tipo === 'rozamiento' && !r.quieta) r = { ...r, bueno: r.F, aObjetivo: r.bueno }
+    }
+    const tema = `${tipo}${r.escena ?? ''}${r.caso ?? ''}${r.m ?? ''}${r.ang ?? ''}`
+    if (intento < 20 && recientes.includes(tema)) continue
+    recientes.push(tema)
+    if (recientes.length > 6) recientes.shift()
+    return { ...r, mecanica: MECANICA(r) }
+  }
+}
 export const genRound = (difficulty = 'facil') => genRonda(difficulty)
-export const esCorrecta = (r, o) => o === r.bueno
+
+// Máximo de la flecha o la báscula: el doble del bueno, redondeado hacia arriba
+// a una cifra «redonda», para que la posición no delate la respuesta.
+export function rango(r) {
+  const tope = Math.max(10, r.bueno * 2)
+  const paso = tope <= 50 ? 10 : tope <= 200 ? 50 : tope <= 1000 ? 100 : 500
+  return { max: Math.ceil((tope * (1 + (r.id % 3) * 0.25)) / paso) * paso, paso: r.mecanica === 'bascula' ? 10 : 1 }
+}
+
+// Números tecleados: «7,1», «7.1» o «7».
+export const leeNumero = t => {
+  const x = String(t ?? '').trim().replace(',', '.')
+  return /^\d+(\.\d+)?$/.test(x) ? Number(x) : null
+}
+
+// Lo que dibuja la respuesta correcta en el diagrama (lado → fuerza)
+export const diagramaBueno = r => ESCENAS.find(e => e.id === r.escena).fuerzas
+// La fuerza aplicada se puede llamar F o T (empujar, tirar de una cuerda)
+const igual = (a = '', b = '') => a === b || (['F', 'T'].includes(a) && ['F', 'T'].includes(b))
+
+export function esCorrecta(r, o) {
+  if (o == null) return false
+  switch (r.mecanica) {
+    case 'diagrama': {
+      const bueno = diagramaBueno(r)
+      return typeof o === 'object' && LADOS.every(lado => igual(o[lado] ?? '', bueno[lado] ?? ''))
+    }
+    case 'empuja':
+    case 'bascula': return Number(o) === r.bueno
+    case 'teclea': {
+      const n = leeNumero(o)
+      if (n == null) return false
+      // el plano va en décimas y con calculadora: vale la décima vecina
+      if (r.tipo === 'plano') return Math.abs(Math.round(n * 10) - r.bueno) <= 1
+      return n === r.bueno
+    }
+    default: return o === r.bueno
+  }
+}
 
 // ── Textos ────────────────────────────────────────────────────────────────
 const cpt = r => CONCEPTOS.find(c => c.id === r.concepto)
@@ -177,7 +306,7 @@ export function textoOpcion(o, r, l) {
   }
 }
 
-export function enunciado(r, l) {
+function enunciadoViejo(r, l) {
   switch (r.tipo) {
     case 'segunda':
       if (r.despeje === 'a') return s(l, `Sobre una caja de ${r.m} kg actúa una fuerza neta de ${r.F} N. ¿Qué aceleración adquiere?`, `A net force of ${r.F} N acts on a ${r.m} kg box. What acceleration does it get?`, `Sobre una caixa de ${r.m} kg actua una força neta de ${r.F} N. Quina acceleració adquireix?`)
@@ -204,7 +333,7 @@ export function enunciado(r, l) {
   }
 }
 
-export function explicacion(r, l) {
+function explicacionVieja(r, l) {
   switch (r.tipo) {
     case 'segunda': return s(l,
       `Segunda ley de Newton: F = m · a. ${r.despeje === 'a' ? `a = F ÷ m = ${r.F} ÷ ${r.m} = ${r.a} m/s²` : r.despeje === 'F' ? `F = ${r.m} · ${r.a} = ${r.F} N` : `m = F ÷ a = ${r.F} ÷ ${r.a} = ${r.m} kg`}. Cuanta más masa, más cuesta acelerar el cuerpo con la misma fuerza.`,
@@ -229,10 +358,73 @@ export function explicacion(r, l) {
   }
 }
 
-export function schemaQuestion(r, l) {
-  return {
-    question: enunciado(r, l),
-    correctAnswer: textoOpcion(r.bueno, r, l),
-    wrongAnswers: r.opciones.filter(o => o !== r.bueno).map(o => textoOpcion(o, r, l)),
+// ── Textos de las mecánicas ────────────────────────────────────────────────
+export const NOMBRE_FUERZA = {
+  P: T('Peso', 'Weight', 'Pes'),
+  N: T('Normal', 'Normal', 'Normal'),
+  F: T('Empuje', 'Push', 'Empenta'),
+  Fr: T('Rozamiento', 'Friction', 'Fregament'),
+  T: T('Tensión', 'Tension', 'Tensió'),
+}
+const LADO = { arriba: T('hacia arriba', 'upwards', 'cap amunt'), abajo: T('hacia abajo', 'downwards', 'cap avall'), izq: T('hacia la izquierda', 'to the left', 'cap a l’esquerra'), der: T('hacia la derecha', 'to the right', 'cap a la dreta') }
+const escena = r => ESCENAS.find(e => e.id === r.escena)
+const reaccion = r => REACCIONES.find(c => c.id === r.caso)
+
+export function enunciado(r, l) {
+  switch (r.tipo) {
+    case 'diagrama': return s(l, `${tx(escena(r).q, l)}. Dibuja las fuerzas que actúan: toca cada lado.`, `${tx(escena(r).q, l)}. Draw the forces acting on it: tap each side.`, `${tx(escena(r).q, l)}. Dibuixa les forces que hi actuen: toca cada costat.`)
+    case 'reaccion': return reaccion(r).q(r.F, l)
+    case 'constante': return s(l, `Empujas un carrito de ${r.m} kg y va a velocidad constante. El rozamiento es de ${r.Fr} N. Ajusta la flecha: ¿con qué fuerza empujas?`, `You push a ${r.m} kg trolley and it moves at constant speed. Friction is ${r.Fr} N. Set the arrow: how hard are you pushing?`, `Empenys un carretó de ${r.m} kg i va a velocitat constant. El fregament és de ${r.Fr} N. Ajusta la fletxa: amb quina força empenys?`)
+    case 'segunda':
+      if (r.despeje === 'F') return s(l, `Una caja de ${r.m} kg tiene que acelerar a ${r.a} m/s². Ajusta la flecha a la fuerza neta que hace falta.`, `A ${r.m} kg box has to accelerate at ${r.a} m/s². Set the arrow to the net force needed.`, `Una caixa de ${r.m} kg ha d’accelerar a ${r.a} m/s². Ajusta la fletxa a la força neta que cal.`)
+      return enunciadoViejo(r, l)
+    case 'rozamiento':
+      if (!r.quieta) return s(l, `Una caja de ${r.m} kg en un suelo con rozamiento μ = ${num(r.mu, l)} tiene que acelerar a ${r.aObjetivo} m/s². Ajusta la flecha: ¿con qué fuerza hay que empujar? ${conG(l)}`, `A ${r.m} kg box on a floor with friction μ = ${num(r.mu, l)} has to accelerate at ${r.aObjetivo} m/s². Set the arrow: how hard do you need to push? ${conG(l)}`, `Una caixa de ${r.m} kg en un terra amb fregament μ = ${num(r.mu, l)} ha d’accelerar a ${r.aObjetivo} m/s². Ajusta la fletxa: amb quina força cal empènyer? ${conG(l)}`)
+      return enunciadoViejo(r, l)
+    case 'plano': return `${enunciadoViejo(r, l)} ${s(l, '(con una décima)', '(to one decimal place)', '(amb una dècima)')}`
+    case 'ascensor': return `${enunciadoViejo(r, l)} ${s(l, 'Mueve la aguja.', 'Move the needle.', 'Mou l’agulla.')}`
+    default: return enunciadoViejo(r, l)
   }
+}
+
+export function explicacion(r, l) {
+  switch (r.tipo) {
+    case 'diagrama': return tx(escena(r).exp, l)
+    case 'reaccion': return tx(cpt({ concepto: reaccion(r).concepto }).exp, l)
+    case 'constante': return s(l, `Velocidad constante es aceleración cero, y eso exige fuerza neta cero (primera ley): tu empuje iguala al rozamiento, ${r.Fr} N. Si empujaras más, el carrito aceleraría.`, `Constant velocity means zero acceleration, which requires zero net force (first law): your push equals friction, ${r.Fr} N. If you pushed harder, the trolley would speed up.`, `Velocitat constant vol dir acceleració zero, i això exigeix força neta zero (primera llei): la teva empenta iguala el fregament, ${r.Fr} N. Si empenyessis més, el carretó acceleraria.`)
+    case 'rozamiento':
+      if (!r.quieta) return s(l,
+        `Primero hay que vencer el rozamiento: Fr = μ · m · g = ${num(r.mu, l)} · ${r.m} · 10 = ${r.Fr} N. Y además hace falta la fuerza neta para acelerar: m · a = ${r.m} · ${r.aObjetivo} = ${r.m * r.aObjetivo} N. F = ${r.Fr} + ${r.m * r.aObjetivo} = ${r.F} N. Olvidar el rozamiento da ${r.m * r.aObjetivo} N.`,
+        `First you have to overcome friction: Fr = μ × m × g = ${num(r.mu, l)} × ${r.m} × 10 = ${r.Fr} N. On top of that you need the net force to accelerate: m × a = ${r.m} × ${r.aObjetivo} = ${r.m * r.aObjetivo} N. F = ${r.Fr} + ${r.m * r.aObjetivo} = ${r.F} N. Forgetting friction gives ${r.m * r.aObjetivo} N.`,
+        `Primer cal vèncer el fregament: Fr = μ · m · g = ${num(r.mu, l)} · ${r.m} · 10 = ${r.Fr} N. I a més cal la força neta per accelerar: m · a = ${r.m} · ${r.aObjetivo} = ${r.m * r.aObjetivo} N. F = ${r.Fr} + ${r.m * r.aObjetivo} = ${r.F} N. Oblidar el fregament dona ${r.m * r.aObjetivo} N.`)
+      return explicacionVieja(r, l)
+    default: return explicacionVieja(r, l)
+  }
+}
+
+// Unidad de lo que se teclea
+export function unidad(r) {
+  if (r.tipo === 'segunda') return r.despeje === 'a' ? 'm/s²' : r.despeje === 'm' ? 'kg' : 'N'
+  if (r.tipo === 'peso') return r.caso === 'masaLuna' ? 'kg' : 'N'
+  if (r.tipo === 'rozamiento') return r.quieta ? 'm/s²' : 'N'
+  if (r.tipo === 'plano') return r.pide === 'a' ? 'm/s²' : 'N'
+  return 'N'
+}
+
+// La respuesta buena dicha con palabras (para el schema y para corregir)
+export function textoRespuesta(r, l) {
+  if (r.tipo === 'diagrama') {
+    const f = diagramaBueno(r)
+    const partes = LADOS.filter(lado => f[lado]).map(lado => `${tx(NOMBRE_FUERZA[f[lado]], l)} (${f[lado]}) ${tx(LADO[lado], l)}`)
+    return partes.length ? partes.join(', ') : s(l, 'Ninguna fuerza', 'No forces', 'Cap força')
+  }
+  if (r.tipo === 'reaccion' || r.tipo === 'constante') return `${r.bueno} N`
+  if (r.tipo === 'rozamiento' && !r.quieta) return `${r.bueno} N`
+  return textoOpcion(r.bueno, r, l)
+}
+
+// Sin opciones falsas: en el juego no las hay, y las de antes ya no
+// corresponden a lo que se pregunta (p. ej. el empuje en vez de la aceleración).
+export function schemaQuestion(r, l) {
+  return { question: enunciado(r, l), correctAnswer: textoRespuesta(r, l), wrongAnswers: [] }
 }
