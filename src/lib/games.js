@@ -638,6 +638,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'rios-montanas': {
+    label: { es: 'Ríos y Montañas', en: 'Rivers and Mountains', ca: 'Rius i Muntanyes' },
+    emoji: '🏞️',
+    subject: 'geografia',
+    route: '/juegos/rios-montanas',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'piramide-poblacion': {
     label: { es: 'Pirámide de población', en: 'Population Pyramid', ca: 'Piràmide de població' },
     emoji: '👥',

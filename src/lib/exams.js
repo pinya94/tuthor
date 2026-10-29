@@ -166,6 +166,11 @@ export const EXAMS = {
     emoji: '⭐', subject: 'geografia',
     path: 'examen/europa-27-test', page: () => import('../pages/Europa27Examen'),
   },
+  'rios-montanas-test': {
+    label: { es: 'Ríos y Montañas (con el juego)', en: 'Rivers and Mountains (with the game)', ca: 'Rius i Muntanyes (amb el joc)' },
+    emoji: '🏞️', subject: 'geografia',
+    path: 'examen/rios-montanas-test', page: () => import('../pages/RiosMontanasExamen'),
+  },
   'piramide-poblacion-test': {
     label: { es: 'Pirámide de población (con el juego)', en: 'Population Pyramid (with the game)', ca: 'Piràmide de població (amb el joc)' },
     emoji: '👥', subject: 'geografia',

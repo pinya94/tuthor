@@ -253,6 +253,19 @@ function Europa27(p) {
   )
 }
 
+function RiosMontanas(p) {
+  // Una cordillera con nieve y un río que baja serpenteando hasta el mar.
+  return (
+    <Lienzo {...p}>
+      <rect x="0" y="104" width="240" height="31" fill="#0E2A47" />
+      <path d="M8 104 L48 40 L70 70 L98 26 L128 72 L150 50 L190 104 Z" fill="#92400E" />
+      <path d="M48 40 L58 56 L50 54 L42 58 Z M98 26 L110 46 L100 42 L90 48 Z M150 50 L158 62 L150 60 L143 63 Z" fill="#F1F5F9" />
+      <path d="M100 44 C 92 64, 128 70, 116 86 S 150 98, 168 104" stroke="#38BDF8" strokeWidth="5" strokeLinecap="round" fill="none" />
+      <path d="M186 104 Q 214 98 236 104" stroke="#38BDF8" strokeWidth="2" opacity="0.6" />
+    </Lienzo>
+  )
+}
+
 function PiramidePoblacion(p) {
   // Una pirámide regresiva con un hueco señalado.
   const filas = [26, 34, 42, 50, 54, 56, 54, 50, 44, 36, 26]
@@ -341,6 +354,7 @@ export const ARTE_HISTORIA_GEO = {
   coordenadas: Coordenadas,
   'piramide-poblacion': PiramidePoblacion,
   'europa-27': Europa27,
+  'rios-montanas': RiosMontanas,
   'quien-decide': QuienDecide,
   'quien-lo-penso': QuienLoPenso,
   climograma: Climograma,

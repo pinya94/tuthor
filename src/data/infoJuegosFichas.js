@@ -2011,6 +2011,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Geografía', niveles: 'ESO, Bachillerato',
   },
+  'rios-montanas': {
+    titulo: 'Ríos y Montañas',
+    subtitulo: 'Juego del relieve de España: ríos, sistemas montañosos y vertientes en el mapa',
+    emoji: '🏞️', gradient: 'from-sky-600 to-emerald-800',
+    path: '/juegos/rios-montanas',
+    intro: 'Un juego de geografía física en el que todo se hace sobre el mapa de la península: los ríos dibujados en azul y las líneas de cumbres de los sistemas montañosos en marrón. Te piden el Tajo, los Pirineos o Sierra Morena y los tocas; en otras rondas hay tres números en el mapa y se pone cada nombre en el suyo; en el nivel medio se reparten los ríos por vertientes (cantábrica, atlántica o mediterránea) y en el difícil se busca dónde nace o desemboca cada río. Los ríos pasan por sus ciudades reales: el Duero por Soria y Zamora, el Tajo por Toledo, el Guadalquivir por Córdoba y Sevilla.',
+    beneficios: [
+      { titulo: 'El relieve explica los ríos', texto: 'El Sistema Central parte la Meseta en dos: al norte corre el Duero y al sur el Tajo y el Guadiana; Sierra Morena y los Sistemas Béticos encierran el valle del Guadalquivir. Al ver ríos y cordilleras juntos en el mapa, se entiende por qué cada río va por donde va.' },
+      { titulo: 'Las vertientes, con el mapa delante', texto: 'Casi todos los grandes ríos van al Atlántico porque la Meseta está inclinada hacia el oeste; el Ebro es la gran excepción mediterránea, y los cantábricos son cortos porque la cordillera está muy cerca del mar. Repartir los ríos en sus cajas fija la idea mejor que la lista de memoria.' },
+      { titulo: 'Nacimientos y desembocaduras sin dudas', texto: 'Solo se pregunta lo que dicen todos los libros: el Ebro nace en Fontibre, el Tajo en los Montes Universales, el Guadalquivir en la Sierra de Cazorla; el Duero desemboca en Oporto y el Tajo en Lisboa. El nacimiento del Guadiana, que cada libro sitúa en un sitio, no se pregunta.' },
+    ],
+    ejemplo: 'Sale «¿A qué mar va cada río?» con el Ebro, el Tajo, el Segura y el Nalón. El alumno pone el Ebro en la atlántica porque es muy largo, y el juego le corrige: el Ebro va al Mediterráneo, al delta de Tarragona; el Tajo es el atlántico.',
+    enPapel: {
+      titulo: 'El mapa mudo',
+      pasos: [
+        'Calca el contorno de la península en un folio, sin nombres.',
+        'Dibuja de memoria los seis grandes ríos y los seis sistemas montañosos principales.',
+        'Colorea cada río según su vertiente: azul el atlántico, verde el mediterráneo y morado el cantábrico.',
+        'Compara con el juego: al corregir, el mapa marca dónde estaba cada uno.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de geografía física', desc: 'Tipo test sobre relieve, ríos y clima de España, con explicación en cada respuesta.' },
+      { nombre: 'Climograma', desc: 'Lee climogramas y averigua de qué clima son.' },
+      { nombre: 'GeoMapa', desc: 'Señala en el mapa las provincias y comunidades de España.' },
+    ],
+    asignatura: 'Geografía', niveles: 'Primaria, ESO',
+  },
   'europa-27': {
     titulo: 'Europa a 27',
     subtitulo: 'Juego de la Unión Europea: mapa, euro, Schengen e instituciones',
@@ -4191,6 +4219,33 @@ export const FICHAS_EN = {
       { nombre: 'GeoMap', desc: 'Point to countries around the world on the map.' },
     ],
     asignatura: 'Geography', niveles: 'Secondary, Sixth form',
+  },
+  'rios-montanas': {
+    titulo: 'Rivers and Mountains',
+    subtitulo: 'Game on the relief of Spain: rivers, mountain ranges and drainage basins on the map',
+    emoji: '🏞️', gradient: 'from-sky-600 to-emerald-800', path: '/juegos/rios-montanas',
+    intro: 'A physical geography game where everything happens on the map of the Iberian peninsula: the rivers drawn in blue and the ridges of the mountain ranges in brown. You are asked for the Tagus, the Pyrenees or Sierra Morena and you tap them; in other rounds there are three numbers on the map and you put each name on its number; on medium you sort the rivers into drainage basins (Cantabrian, Atlantic or Mediterranean) and on hard you find where each river rises or reaches the sea. The rivers pass through their real cities: the Douro through Soria and Zamora, the Tagus through Toledo, the Guadalquivir through Córdoba and Seville.',
+    beneficios: [
+      { titulo: 'The relief explains the rivers', texto: 'The Central System splits the Meseta in two: the Douro flows to the north and the Tagus and Guadiana to the south; Sierra Morena and the Baetic System enclose the Guadalquivir valley. Seeing rivers and mountains together on the map shows why each river runs where it does.' },
+      { titulo: 'Drainage basins with the map in front of you', texto: 'Almost all the big rivers flow into the Atlantic because the Meseta tilts to the west; the Ebro is the great Mediterranean exception, and the Cantabrian rivers are short because the mountains are so close to the sea. Sorting the rivers into their boxes sticks better than a list learnt by heart.' },
+      { titulo: 'Sources and mouths with no doubts', texto: 'Only what every textbook agrees on is asked: the Ebro rises at Fontibre, the Tagus in the Montes Universales, the Guadalquivir in the Sierra de Cazorla; the Douro reaches the sea at Porto and the Tagus at Lisbon. The source of the Guadiana, which each textbook places somewhere different, is never asked.' },
+    ],
+    ejemplo: '«Which sea does each river flow into?» comes up with the Ebro, the Tagus, the Segura and the Nalón. The pupil puts the Ebro in the Atlantic because it is so long, and the game corrects them: the Ebro flows into the Mediterranean, at the delta in Tarragona; the Tagus is the Atlantic one.',
+    enPapel: {
+      titulo: 'The blank map',
+      pasos: [
+        'Trace the outline of the peninsula on a sheet of paper, with no names.',
+        'Draw the six big rivers and the six main mountain ranges from memory.',
+        'Colour each river by its basin: blue for the Atlantic, green for the Mediterranean and purple for the Cantabrian.',
+        'Compare with the game: when it marks your answer, the map shows where each one was.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The physical geography exam', desc: 'Multiple-choice questions on the relief, rivers and climate of Spain, with an explanation for each answer.' },
+      { nombre: 'Climate Graph', desc: 'Read climate graphs and work out which climate they belong to.' },
+      { nombre: 'GeoMap', desc: 'Point to the provinces and regions of Spain on the map.' },
+    ],
+    asignatura: 'Geography', niveles: 'Primary, Secondary',
   },
   'europa-27': {
     titulo: 'Europe of 27',
@@ -6380,6 +6435,33 @@ export const FICHAS_CA = {
       { nombre: 'Línia Temporal', desc: 'Ordena esdeveniments històrics, de la Transició a la Constitució del 1978.' },
     ],
     asignatura: 'Geografia', niveles: 'ESO, Batxillerat',
+  },
+  'rios-montanas': {
+    titulo: 'Rius i Muntanyes',
+    subtitulo: 'Joc del relleu d’Espanya: rius, sistemes muntanyosos i vessants al mapa',
+    emoji: '🏞️', gradient: 'from-sky-600 to-emerald-800', path: '/juegos/rios-montanas',
+    intro: 'Un joc de geografia física en què tot es fa sobre el mapa de la península: els rius dibuixats en blau i les línies de cims dels sistemes muntanyosos en marró. Et demanen el Tajo, els Pirineus o Serra Morena i els toques; en altres rondes hi ha tres números al mapa i es posa cada nom al seu; al nivell mitjà es reparteixen els rius per vessants (cantàbric, atlàntic o mediterrani) i al difícil es busca on neix o desemboca cada riu. Els rius passen per les seves ciutats reals: el Duero per Sòria i Zamora, el Tajo per Toledo, el Guadalquivir per Còrdova i Sevilla.',
+    beneficios: [
+      { titulo: 'El relleu explica els rius', texto: 'El Sistema Central parteix la Meseta en dues: al nord hi corre el Duero i al sud el Tajo i el Guadiana; Serra Morena i els Sistemes Bètics tanquen la vall del Guadalquivir. En veure rius i serralades junts al mapa, s’entén per què cada riu va per on va.' },
+      { titulo: 'Els vessants, amb el mapa davant', texto: 'Gairebé tots els grans rius van a l’Atlàntic perquè la Meseta està inclinada cap a l’oest; l’Ebre és la gran excepció mediterrània, i els cantàbrics són curts perquè la serralada és molt a prop del mar. Repartir els rius a les seves caixes fixa la idea millor que la llista de memòria.' },
+      { titulo: 'Naixements i desembocadures sense dubtes', texto: 'Només es pregunta el que diuen tots els llibres: l’Ebre neix a Fontibre, el Tajo als Montes Universales, el Guadalquivir a la Sierra de Cazorla; el Duero desemboca a Porto i el Tajo a Lisboa. El naixement del Guadiana, que cada llibre situa en un lloc diferent, no es pregunta.' },
+    ],
+    ejemplo: 'Surt «A quin mar va cada riu?» amb l’Ebre, el Tajo, el Segura i el Nalón. L’alumne posa l’Ebre a l’atlàntic perquè és molt llarg, i el joc el corregeix: l’Ebre va a la Mediterrània, al delta de Tarragona; el Tajo és l’atlàntic.',
+    enPapel: {
+      titulo: 'El mapa mut',
+      pasos: [
+        'Calca el contorn de la península en un full, sense noms.',
+        'Dibuixa de memòria els sis grans rius i els sis sistemes muntanyosos principals.',
+        'Pinta cada riu segons el seu vessant: blau l’atlàntic, verd el mediterrani i lila el cantàbric.',
+        'Compara amb el joc: en corregir, el mapa marca on era cadascun.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de geografia física', desc: 'Tipus test sobre el relleu, els rius i el clima d’Espanya, amb explicació a cada resposta.' },
+      { nombre: 'Climograma', desc: 'Llegeix climogrames i esbrina de quin clima són.' },
+      { nombre: 'GeoMapa', desc: 'Assenyala al mapa les províncies i comunitats d’Espanya.' },
+    ],
+    asignatura: 'Geografia', niveles: 'Primària, ESO',
   },
   'europa-27': {
     titulo: 'Europa a 27',
