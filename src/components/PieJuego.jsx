@@ -10,7 +10,8 @@ import { useLang } from '../context/LangContext'
 import { GAMES, disponibleEn } from '../lib/games'
 import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from './arte'
 import CompartirClase from './CompartirClase'
-import { RETOS_EXAMENES } from '../data/retosExamenes'
+import { RETOS_EXAMENES, examenDeReto } from '../data/retosExamenes'
+import AvisoDirecto from './reto/AvisoDirecto'
 import { examRoute } from '../lib/exams'
 
 // Otros juegos de la misma materia (uno por ruta, con dibujo y en este idioma).
@@ -55,11 +56,13 @@ export default function PieJuego({ slug: slugProp, className = 'mt-12' }) {
   const slug = slugProp ?? slugDeRuta(pathname)
   const juegos = useMemo(() => similares(slug, lang), [slug, lang])
   const conAmigos = useMemo(() => rutaConAmigos(slug), [slug])
+  const examenReto = useMemo(() => examenDeReto(Object.keys(GAMES).find(k => slugDeRuta(GAMES[k].route) === slug) ?? slug), [slug])
   const [abierto, setAbierto] = useState(null) // 'similares' | 'compartir' | null
   const alterna = que => setAbierto(a => (a === que ? null : que))
 
   return (
     <div className={`${className} border-t border-white/[0.06] pt-3`}>
+      <AvisoDirecto examen={examenReto} className="mb-3" />
       <div className="flex flex-wrap justify-center gap-x-6">
         {juegos.length > 0 && (
           <Plegable icono="🎮" titulo={tr({ es: 'Juegos similares', en: 'Similar games', ca: 'Jocs semblants' })}

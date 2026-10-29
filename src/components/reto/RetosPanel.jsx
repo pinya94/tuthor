@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLang } from '../../context/LangContext'
 import { EXAMS, examLabel } from '../../lib/exams'
-import { RETOS_TODOS, esTest } from '../../data/retosExamenes'
+import { RETOS_TODOS, esTest, sinColetilla } from '../../data/retosExamenes'
 import { SEGUNDOS, N_PREGUNTAS } from '../../lib/apodo'
 import { crearReto, misRankings } from '../../lib/rankingClase'
 import { getTeacherClasses } from '../../lib/classes'
@@ -30,7 +30,6 @@ const NIVELES = [
   { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' } },
 ]
 // La etiqueta del examen sin el «(con el juego)» del registro, que aquí sobra
-const sinColetilla = t => t.replace(/\s*\((con el juego|with the game|amb el joc)\)\s*$/i, '')
 const sinTildes = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
 
 function SelectorJuego({ valor, onElige }) {
@@ -83,13 +82,14 @@ const campo = 'w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 t
 const chip = on => `rounded-xl border px-3 py-2 text-sm font-bold ${on ? 'border-teal-400 bg-teal-500/20 text-white' : 'border-white/10 bg-white/[0.04] text-white/70 hover:bg-white/[0.08]'}`
 
 // modoFijo: viene ya elegido desde «＋ Mandar a la clase» (no se enseña el selector)
-export function CrearReto({ uid, classId: claseFija, nombreClase: nombreFijo = '', onCreado, modoFijo }) {
+// examenInicial: el juego ya elegido (desde el aviso «Juégalo en directo» de un juego)
+export function CrearReto({ uid, classId: claseFija, nombreClase: nombreFijo = '', onCreado, modoFijo, examenInicial }) {
   const { tr, lang, localPath } = useLang()
   const navigate = useNavigate()
   const [modo, setModo] = useState(modoFijo ?? 'directo')
   // Para casa: fecha de entrega (por defecto, dentro de una semana)
   const [fecha, setFecha] = useState(() => new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10))
-  const [examen, setExamen] = useState('')
+  const [examen, setExamen] = useState(() => (examenInicial && RETOS_TODOS.includes(examenInicial) ? examenInicial : ''))
   const [nivel, setNivel] = useState(1)
   const [nPreguntas, setNPreguntas] = useState(10)
   const [segundos, setSegundos] = useState(30)
@@ -238,7 +238,7 @@ export function FilaReto({ r, conClase = false }) {
   )
 }
 
-export default function RetosPanel({ uid, classId, nombreClase }) {
+export default function RetosPanel({ uid, classId, nombreClase, examenInicial }) {
   const { tr } = useLang()
   return (
     <>
@@ -252,7 +252,7 @@ export default function RetosPanel({ uid, classId, nombreClase }) {
       <div className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
         <h2 className="text-white font-black mb-1">{tr({ es: 'Nuevo reto', en: 'New challenge', ca: 'Nou repte' })}</h2>
         <p className="text-white/45 text-xs mb-4">{tr({ es: 'Tus alumnos entran con un código y un apodo, sin crear cuenta.', en: 'Your students join with a code and a nickname, no account needed.', ca: 'Els teus alumnes entren amb un codi i un sobrenom, sense crear compte.' })}</p>
-        <CrearReto uid={uid} classId={classId} nombreClase={nombreClase} />
+        <CrearReto uid={uid} classId={classId} nombreClase={nombreClase} examenInicial={examenInicial} />
       </div>
       <div className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
         <h2 className="text-white font-black mb-3">{classId ? tr({ es: 'Retos de esta clase', en: 'This class’s challenges', ca: 'Reptes d’aquesta classe' }) : tr({ es: 'Tus retos', en: 'Your challenges', ca: 'Els teus reptes' })}</h2>

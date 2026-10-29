@@ -50,3 +50,11 @@ export const RETOS_TEST = [
 
 export const RETOS_TODOS = [...RETOS_EXAMENES, ...RETOS_TEST]
 export const esTest = id => RETOS_TEST.includes(id)
+
+// El nombre de un examen sin «(con el juego)»: en un reto ya se sabe
+export const sinColetilla = t => t.replace(/\s*\((con el juego|with the game|amb el joc)\)\s*$/i, '')
+
+// El examen con el que se juega un reto a partir de un juego o examen (su id
+// o el slug de su ruta): el propio examen, o el «-test» del juego. null si ese
+// juego no se puede jugar como reto.
+export const examenDeReto = id => (!id ? null : RETOS_TODOS.includes(id) ? id : RETOS_TODOS.includes(`${id}-test`) ? `${id}-test` : null)

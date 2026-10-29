@@ -10,6 +10,8 @@ import { ArteJuego } from '../components/arte'
 import { Acierto, Bombilla, Diana, Libro, Lista, Pizarra, Racha } from '../components/Iconos'
 import VideoRetos from '../components/VideoRetos'
 import PedirAccesoProfe from '../components/PedirAccesoProfe'
+import { EXAMS, examLabel } from '../lib/exams'
+import { sinColetilla } from '../data/retosExamenes'
 import { Boletin, Chincheta, Cuaderno, Dado, Impresora, Libreta, Matraz, PasarLista, Pupitre, Tijeras } from '../components/IconosProfesor'
 
 // BETA GRATUITA (sept. 2026): mientras dure, no se pide pago — pero SÍ se pide
@@ -310,6 +312,8 @@ export default function Profesores() {
   const [esProfe, setEsProfe] = useState(false)
   // Viene de «Crear un reto» sin ser profe todavía: se le explica junto al alta
   const [pideReto, setPideReto] = useState(false)
+  // Desde el aviso «Juégalo en directo» de un juego (AvisoDirecto): ese juego ya elegido
+  const [examenPedido] = useState(() => { const e = new URLSearchParams(window.location.search).get('examen'); return e && EXAMS[e] ? e : null })
   const [showAuth, setShowAuth] = useState(false)
   const [schoolName, setSchoolName] = useState('')
   const [stage, setStage] = useState('eso')
@@ -472,8 +476,11 @@ export default function Profesores() {
             ))}
           </div>
           <div className="text-center mt-6">
+            {examenPedido && (
+              <p className="text-amber-200 text-sm font-bold mb-2">🎮 {tr({ es: 'Con este juego:', en: 'With this game:', ca: 'Amb aquest joc:' })} {sinColetilla(examLabel(examenPedido, lang))}</p>
+            )}
             {/* El profe crea los retos en su panel; quien aún no lo es, se apunta abajo */}
-            <button type="button" onClick={() => { if (esProfe) { navigate(`${localPath('/profesor')}?tab=retos`); return } setPideReto(true); scrollTo('empezar') }}
+            <button type="button" onClick={() => { if (esProfe) { navigate(`${localPath('/profesor')}?tab=retos${examenPedido ? `&examen=${examenPedido}` : ''}`); return } setPideReto(true); scrollTo('empezar') }}
               className="inline-block px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-black font-black text-sm rounded-xl transition-transform hover:scale-[1.02]">
               🏆 {tr({ es: 'Crear un reto gratis →', en: 'Create a free challenge →', ca: 'Crear un repte gratis →' })}
             </button>

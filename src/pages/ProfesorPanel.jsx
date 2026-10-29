@@ -31,6 +31,7 @@ export default function ProfesorPanel() {
   const [error, setError] = useState('')
   const [copiedCode, setCopiedCode] = useState('')
   const [waitingPayment, setWaitingPayment] = useState(false)
+  const [examenPedido] = useState(() => new URLSearchParams(window.location.search).get('examen'))
   const [tab, setTab] = useState(() => {
     const t = new URLSearchParams(window.location.search).get('tab')
     return PESTANAS.some(p => p.id === t) ? t : 'clases'
@@ -156,7 +157,7 @@ export default function ProfesorPanel() {
       </div>
 
       {tab === 'retos' ? (
-        <RetosPanel uid={user.uid} />
+        <RetosPanel uid={user.uid} examenInicial={examenPedido} />
       ) : tab === 'examenes' ? (
         <BibliotecaExamenes uid={user.uid} />
       ) : tab === 'recursos' ? (

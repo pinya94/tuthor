@@ -12,6 +12,8 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { relacionados, cifrasTuthor, idDeRuta } from '../lib/descubre'
 import CompartirClase from './CompartirClase'
+import AvisoDirecto from './reto/AvisoDirecto'
+import { examenDeReto } from '../data/retosExamenes'
 
 export default function DescubreTuthor({ id, className = 'mt-8' }) {
   const { tr, lang, localPath } = useLang()
@@ -25,6 +27,7 @@ export default function DescubreTuthor({ id, className = 'mt-8' }) {
 
   return (
     <section className={`${className} rounded-2xl border border-white/[0.08] bg-[#141b2e] p-4 sm:p-5 text-left`}>
+      <AvisoDirecto examen={examenDeReto(pagina)} className={hayRel || visitante ? 'mb-4' : ''} />
       {hayRel && (
         <div>
           <p className="text-white/45 text-[11px] font-bold uppercase tracking-widest">
