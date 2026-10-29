@@ -88,9 +88,9 @@ export default function CookieBanner({ onConsent }) {
               <div className="flex items-start gap-3 mb-3">
                 <span className="text-2xl select-none">🍪</span>
                 <div>
-                  <h2 className="text-white font-bold text-base leading-tight">
+                  <p className="text-white font-bold text-base leading-tight">
                     {tr({ es: 'Usamos cookies', en: 'We use cookies', ca: 'Utilitzem cookies' })}
-                  </h2>
+                  </p>
                   <p className="text-white/50 text-xs mt-0.5">
                     {tr({
                       es: 'Tuthor utiliza cookies esenciales para funcionar y, con tu permiso, cookies de analítica para mejorar la experiencia. ',
@@ -130,9 +130,9 @@ export default function CookieBanner({ onConsent }) {
                 {tr({ es: 'Volver', en: 'Back', ca: 'Tornar' })}
               </button>
 
-              <h2 className="text-white font-bold text-base mb-1">
+              <p className="text-white font-bold text-base mb-1">
                 {tr({ es: 'Preferencias de cookies', en: 'Cookie preferences', ca: 'Preferències de cookies' })}
-              </h2>
+              </p>
               <p className="text-white/40 text-xs mb-4">
                 {tr({
                   es: 'Puedes activar o desactivar cada categoría. Las cookies esenciales son siempre necesarias.',

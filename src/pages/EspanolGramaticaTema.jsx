@@ -145,7 +145,9 @@ export default function EspanolGramaticaTema() {
         <div className="flex items-center gap-4">
           <span className="text-5xl">{data.emoji}</span>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{l(data.titulo)}</h1>
+            {/* Con contenido propio, el H1 dice lo que se busca («Los pronombres:
+                qué son, tipos y ejemplos»), no solo el nombre del tema */}
+            <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{cMeta ? cMeta.title.replace(/\s*\((con tabla|with table|amb taula)\)$/, '') : l(data.titulo)}</h1>
             <p className="text-white/40 text-sm mt-0.5">{ca ? 'Tria com vols estudiar-ho' : en ? 'Choose how to study it' : 'Elige cómo estudiarlo'}</p>
           </div>
         </div>
