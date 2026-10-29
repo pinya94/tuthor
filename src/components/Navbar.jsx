@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { MAIN_CARDS } from '../data/constants'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
@@ -155,9 +155,9 @@ export default function Navbar() {
               para quien no nos conoce todavía: quien ya está navegando por
               dentro y pulsa el logo quiere volver a la home del producto, no
               que le vuelvan a vender el producto que está usando. */}
-          <button onClick={() => { navigate(localPath('/')); setMenuOpen(false) }} className="hover:opacity-80 transition-opacity">
+          <Link to={localPath('/')} onClick={() => { setMenuOpen(false) }} className="inline-block text-center hover:opacity-80 transition-opacity">
             <img src="/logo.svg" alt="Tuthor" className="h-7 w-auto" />
-          </button>
+          </Link>
 
           {/* Nav escritorio */}
           <div className="hidden sm:flex items-center gap-1">
@@ -165,24 +165,24 @@ export default function Navbar() {
               const dest = localPath(c.path)
               const isActive = location.pathname === dest || location.pathname.startsWith(dest + '/')
               return (
-                <button
+                <Link
                   key={c.id}
-                  onClick={() => navigate(dest)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all
+                  to={dest}
+                  className={`inline-block text-center px-4 py-2 rounded-full text-sm font-medium transition-all
                     ${isActive ? 'bg-violet-600 text-white' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                 >
                   {navLabels[c.id] || c.title}
-                </button>
+                </Link>
               )
             })}
             {/* Recursos va con Juegos y Estudiar y no dentro de Estudiar: allí
                 quedaba un nivel por debajo, que es justo por lo que no se
                 encontraba. Sin sesión también: se usan sin cuenta. */}
-            <button onClick={() => navigate(localPath('/recursos'))}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all
+            <Link to={localPath('/recursos')}
+              className={`inline-block text-center px-4 py-2 rounded-full text-sm font-medium transition-all
                 ${location.pathname === localPath('/recursos') || location.pathname.startsWith(localPath('/recursos') + '/') ? 'bg-violet-600 text-white' : 'text-white/60 hover:text-white hover:bg-white/10'}`}>
               {tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}
-            </button>
+            </Link>
             {/* El mismo enlace sirve para los dos lados del aula: el profesor
                 va a su panel, el alumno a la suya (o a meter el código si aún
                 no está en ninguna). Lo que NO se enseña aquí es /profesores,
@@ -235,27 +235,27 @@ export default function Navbar() {
                 </button>
                 {avatarMenu && (
                   <div className="absolute right-0 top-full mt-2 bg-[#0d0d1a] border border-white/10 backdrop-blur-md rounded-xl overflow-hidden w-44 shadow-xl z-50">
-                    <button onClick={() => { navigate(localPath('/perfil')); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors flex items-center justify-between">
+                    <Link to={localPath('/perfil')} onClick={() => { setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors flex items-center justify-between">
                       <span>👤 {t('nav.perfil')}</span>
                       {pendingTasks > 0 && (
                         <span className="bg-red-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">{pendingTasks}</span>
                       )}
-                    </button>
-                    <button onClick={() => { navigate(localPath('/tienda')); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
+                    </Link>
+                    <Link to={localPath('/tienda')} onClick={() => { setAvatarMenu(false) }} className="block w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
                       🛍 {lang === 'en' ? 'Shop' : lang === 'ca' ? 'Botiga' : 'Tienda'}
-                    </button>
+                    </Link>
                     {!childMode && (
-                      <button onClick={() => { navigate(localPath('/mi-plan')); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
+                      <Link to={localPath('/mi-plan')} onClick={() => { setAvatarMenu(false) }} className="block w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
                         💳 {tr({ es: 'Mi plan', en: 'My plan', ca: 'El meu pla' })}
-                      </button>
+                      </Link>
                     )}
                     <button onClick={() => { goToClase(); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
                       🎓 {t('nav.clase')}
                     </button>
                     {['pinya1994@gmail.com','consiguetualgogratis@gmail.com','consiguetualgogratis@tuthor.app'].includes(user?.email) && (
-                      <button onClick={() => { navigate(localPath('/admin')); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-amber-400/70 hover:text-amber-300 hover:bg-white/10 transition-colors border-t border-white/5">
+                      <Link to={localPath('/admin')} onClick={() => { setAvatarMenu(false) }} className="block w-full text-left px-4 py-3 text-sm text-amber-400/70 hover:text-amber-300 hover:bg-white/10 transition-colors border-t border-white/5">
                         🛠️ Admin
-                      </button>
+                      </Link>
                     )}
                     <button onClick={() => { logout(); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/40 hover:text-white/70 hover:bg-white/5 transition-colors border-t border-white/5">
                       {t('nav.cerrarSesion')}
@@ -281,18 +281,18 @@ export default function Navbar() {
             {MAIN_CARDS.map(c => {
               const dest = localPath(c.path)
               return (
-                <button key={c.id} onClick={() => { navigate(dest); setMenuOpen(false) }}
-                  className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
+                <Link key={c.id} to={dest} onClick={() => { setMenuOpen(false) }}
+                  className={`block w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
                     ${location.pathname === dest || location.pathname.startsWith(dest + '/') ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
                   {navLabels[c.id] || c.title}
-                </button>
+                </Link>
               )
             })}
-            <button onClick={() => { navigate(localPath('/recursos')); setMenuOpen(false) }}
-              className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
+            <Link to={localPath('/recursos')} onClick={() => { setMenuOpen(false) }}
+              className={`block w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
                 ${location.pathname === localPath('/recursos') || location.pathname.startsWith(localPath('/recursos') + '/') ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
               {tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}
-            </button>
+            </Link>
             {user && (
               <button onClick={goToClase}
                 className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
@@ -312,27 +312,27 @@ export default function Navbar() {
               )}
               {!authLoading && user && (
                 <>
-                  <button onClick={() => { navigate(localPath('/perfil')); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all flex items-center justify-between">
+                  <Link to={localPath('/perfil')} onClick={() => { setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all flex items-center justify-between">
                     <span>👤 {t('nav.perfil')}</span>
                     {pendingTasks > 0 && (
                       <span className="bg-red-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">{pendingTasks}</span>
                     )}
-                  </button>
-                  <button onClick={() => { navigate(localPath('/tienda')); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
+                  </Link>
+                  <Link to={localPath('/tienda')} onClick={() => { setMenuOpen(false) }} className="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
                     🛍 {lang === 'en' ? 'Shop' : lang === 'ca' ? 'Botiga' : 'Tienda'}
-                  </button>
+                  </Link>
                   {!childMode && (
-                    <button onClick={() => { navigate(localPath('/mi-plan')); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
+                    <Link to={localPath('/mi-plan')} onClick={() => { setMenuOpen(false) }} className="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
                       💳 {tr({ es: 'Mi plan', en: 'My plan', ca: 'El meu pla' })}
-                    </button>
+                    </Link>
                   )}
                   <button onClick={() => { goToClase(); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
                     🎓 {t('nav.clase')}
                   </button>
                   {['pinya1994@gmail.com','consiguetualgogratis@gmail.com','consiguetualgogratis@tuthor.app'].includes(user?.email) && (
-                    <button onClick={() => { navigate(localPath('/admin')); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-amber-400/70 hover:text-amber-300 hover:bg-white/10 transition-all">
+                    <Link to={localPath('/admin')} onClick={() => { setMenuOpen(false) }} className="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-amber-400/70 hover:text-amber-300 hover:bg-white/10 transition-all">
                       🛠️ {t('nav.admin')}
-                    </button>
+                    </Link>
                   )}
                   <button onClick={() => { logout(); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/40 hover:text-white/70 transition-all">
                     {t('nav.cerrarSesion')}

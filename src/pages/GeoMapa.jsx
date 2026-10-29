@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { PAISES } from '../data/paises'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
@@ -301,10 +301,10 @@ export default function GeoMapa() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <SEOHead title={lang==='en'?'GeoMapa — Identify Countries on the Map':lang==='ca'?'GeoMapa — Identifica Països al Mapa':'GeoMapa — Identifica Países en el Mapa'} description={lang==='en'?'Identify highlighted countries on a world map. Get progressive hints — flag then capital — if you miss. Free geography game.':lang==='ca'?'Identifica països al mapa mundial interactiu amb pistes progressives: bandera i capital.':'Identifica países iluminados en el mapa mundial. Pistas progresivas si fallas: bandera y capital. Juego de geografía gratuito.'} path={lang==='en'?'/en/juegos/geomapa':lang==='ca'?'/ca/juegos/geomapa':'/juegos/geomapa'} lang={lang} />
         <div className="max-w-xl w-full">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {u.volver}
-          </button>
+          </Link>
           <div className="text-center mb-7">
             <ArteJuego slug="geomapa" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{u.titulo}</h1>

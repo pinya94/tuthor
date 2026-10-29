@@ -2,7 +2,7 @@
 // filtrar por curso escolar, editar, duplicar o copiar para el curso que
 // viene, imprimir, asignar y borrar.
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useLang } from '../../context/LangContext'
 import { listarExamenes, duplicarExamen, borrarExamen } from '../../lib/examenesProfesor'
 import { puntosTotales, cursoSiguiente, esManual } from '../../lib/examenModelo'
@@ -49,8 +49,8 @@ export default function BibliotecaExamenes({ uid }) {
     <div>
       <div className="flex flex-wrap items-end justify-between gap-3 mb-1">
         <h1 className="text-2xl font-black text-white">{tr({ es: 'Mis exámenes', en: 'My exams', ca: 'Els meus exàmens' })}</h1>
-        <button type="button" onClick={() => navigate(localPath('/profesor/examenes/nuevo'))}
-          className="px-4 py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm rounded-xl">+ {tr({ es: 'Crear examen', en: 'Create exam', ca: 'Crear examen' })}</button>
+        <Link to={localPath('/profesor/examenes/nuevo')}
+          className="inline-block text-center px-4 py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm rounded-xl">+ {tr({ es: 'Crear examen', en: 'Create exam', ca: 'Crear examen' })}</Link>
       </div>
       <p className="text-white/50 text-sm mb-5 max-w-2xl">
         {tr({
@@ -76,7 +76,7 @@ export default function BibliotecaExamenes({ uid }) {
         : examenes.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-white/15 p-8 text-center">
             <p className="text-white/50 text-sm mb-3">{tr({ es: 'Todavía no tienes exámenes guardados.', en: 'You have no saved exams yet.', ca: 'Encara no tens exàmens desats.' })}</p>
-            <button type="button" onClick={() => navigate(localPath('/profesor/examenes/nuevo'))} className="px-4 py-2.5 bg-teal-600 text-white font-bold text-sm rounded-xl">+ {tr({ es: 'Crear el primero', en: 'Create your first', ca: 'Crear el primer' })}</button>
+            <Link to={localPath('/profesor/examenes/nuevo')} className="inline-block text-center px-4 py-2.5 bg-teal-600 text-white font-bold text-sm rounded-xl">+ {tr({ es: 'Crear el primero', en: 'Create your first', ca: 'Crear el primer' })}</Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -84,7 +84,7 @@ export default function BibliotecaExamenes({ uid }) {
               const manuales = e.preguntas.filter(esManual).length
               return (
                 <div key={e.id} className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
-                  <button type="button" onClick={() => navigate(localPath(`/profesor/examenes/${e.id}`))} className="block text-left w-full">
+                  <Link to={localPath(`/profesor/examenes/${e.id}`)} className="block text-left w-full">
                     <p className="text-white font-black leading-tight">{e.titulo}</p>
                     <p className="text-white/45 text-[12px] mt-1">
                       {[e.materia, e.curso, e.cursoEscolar].filter(Boolean).join(' · ')}
@@ -93,7 +93,7 @@ export default function BibliotecaExamenes({ uid }) {
                       {e.preguntas.length} {tr({ es: 'preguntas', en: 'questions', ca: 'preguntes' })} · {puntosTotales(e.preguntas)} pt
                       {manuales > 0 && ` · ${manuales} ${tr({ es: 'de desarrollo', en: 'open', ca: 'de desenvolupament' })}`}
                     </p>
-                  </button>
+                  </Link>
                   <div className="flex flex-wrap gap-1.5 mt-3">
                     <button type="button" className={accion} onClick={() => navigate(localPath(`/profesor/examenes/${e.id}`))}>✏️ {tr({ es: 'Editar', en: 'Edit', ca: 'Editar' })}</button>
                     <button type="button" className={accion} onClick={() => setAsignar(e)}>📤 {tr({ es: 'Asignar', en: 'Assign', ca: 'Assignar' })}</button>

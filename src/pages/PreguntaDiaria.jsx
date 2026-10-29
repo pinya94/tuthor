@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getDailyStatus, saveDailyChallenge } from '../lib/activity'
@@ -90,7 +90,6 @@ function GeoInput({ value, onChange, onSubmit, disabled, useEnglish }) {
 export default function PreguntaDiaria({ embedded = false }) {
   const { user } = useAuth()
   const { lang, localPath, lt, tr } = useLang()
-  const navigate = useNavigate()
   const en = lang === 'en'
   const ca = lang === 'ca'
   const [selected, setSelected]   = useState(null)
@@ -481,9 +480,9 @@ export default function PreguntaDiaria({ embedded = false }) {
                       {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
                     </button>
                   )}
-                  <button onClick={() => navigate(localPath('/juegos/portadas'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  <Link to={localPath('/juegos/portadas')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                     {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
-                  </button>
+                  </Link>
                 </>
               )}
             </div>
@@ -524,9 +523,9 @@ export default function PreguntaDiaria({ embedded = false }) {
                       {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
                     </button>
                   )}
-                  <button onClick={() => navigate(localPath('/juegos/numpath'))} className="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  <Link to={localPath('/juegos/numpath')} className="block text-center w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                     {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
-                  </button>
+                  </Link>
                 </>
               )}
             </div>
@@ -571,9 +570,9 @@ export default function PreguntaDiaria({ embedded = false }) {
                   <div className={`text-center py-3 rounded-xl font-bold mb-3 ${geoFeedback?.ok ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
                     {geoFeedback?.msg}
                   </div>
-                  <button onClick={() => navigate(localPath('/juegos/geomapa'))} className="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  <Link to={localPath('/juegos/geomapa')} className="block text-center w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                     {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
-                  </button>
+                  </Link>
                 </>
               )}
             </div>
@@ -631,9 +630,9 @@ export default function PreguntaDiaria({ embedded = false }) {
                       {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
                     </button>
                   )}
-                  <button onClick={() => navigate(localPath('/juegos/georush'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  <Link to={localPath('/juegos/georush')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                     {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
-                  </button>
+                  </Link>
                 </>
               )}
             </div>
@@ -667,9 +666,9 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <button onClick={() => navigate(localPath('/juegos/acercate'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/acercate')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
-                </button>
+                </Link>
               )}
               <p className="text-center text-white/20 text-xs mt-4">{ca ? 'Nou repte demà · Torna cada dia' : en ? 'New challenge tomorrow · Come back every day' : 'Nuevo reto mañana · Vuelve cada día'}</p>
             </div>
@@ -717,9 +716,9 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <button onClick={() => navigate(localPath('/juegos/fuerza-neta'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/fuerza-neta')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
-                </button>
+                </Link>
               )}
             </div>
             <div className="px-6 sm:px-8 pb-6">
@@ -758,9 +757,9 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <button onClick={() => navigate(localPath('/juegos/balanza'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/balanza')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
-                </button>
+                </Link>
               )}
             </div>
             <div className="px-6 sm:px-8 pb-6">
@@ -802,9 +801,9 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <button onClick={() => navigate(localPath('/juegos/balanza-ecuaciones'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/balanza-ecuaciones')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
-                </button>
+                </Link>
               )}
             </div>
             <div className="px-6 sm:px-8 pb-6">
@@ -846,9 +845,9 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <button onClick={() => navigate(localPath('/juegos/funciones-grafica'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/funciones-grafica')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
-                </button>
+                </Link>
               )}
             </div>
             <div className="px-6 sm:px-8 pb-6">
@@ -886,9 +885,9 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <button onClick={() => navigate(localPath('/juegos/balanza-algebraica'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/balanza-algebraica')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
-                </button>
+                </Link>
               )}
             </div>
             <div className="px-6 sm:px-8 pb-6">
@@ -933,9 +932,9 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <button onClick={() => navigate(localPath('/juegos/analiza-frases'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/analiza-frases')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
-                </button>
+                </Link>
               )}
             </div>
             <div className="px-6 sm:px-8 pb-6">
@@ -1002,9 +1001,9 @@ export default function PreguntaDiaria({ embedded = false }) {
                       {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
                     </button>
                   )}
-                  <button onClick={() => navigate(localPath('/juegos'))} className="mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  <Link to={localPath('/juegos')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                     {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
-                  </button>
+                  </Link>
                 </>
               )}
               <p className="text-center text-white/20 text-xs mt-4">{ca ? 'Nova pregunta demà · Torna cada dia' : en ? 'New question tomorrow · Come back every day' : 'Nueva pregunta mañana · Vuelve cada día'}</p>

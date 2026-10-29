@@ -5,7 +5,7 @@
 // rápido con más variedad de casos, ver el juego Reacción (/juegos/reaccion);
 // para un test tipo examen, ver /examen/primeros-auxilios.
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import EscenarioSituacion from '../components/EscenarioSituacion'
@@ -86,10 +86,10 @@ export default function PrimerosAuxiliosEscenario() {
         <p className="text-white/60 mb-4">
           {tr({ es: 'No se ha encontrado ese tema.', en: 'That topic wasn\'t found.', ca: 'No s\'ha trobat aquest tema.' })}
         </p>
-        <button onClick={() => navigate(localPath('/estudiar/vida-practica'))}
-          className="text-amber-400 hover:text-amber-300 text-sm transition-colors">
+        <Link to={localPath('/estudiar/vida-practica')}
+          className="inline-block text-center text-amber-400 hover:text-amber-300 text-sm transition-colors">
           {tr({ es: '← Volver a Primeros Auxilios', en: '← Back to First Aid', ca: '← Tornar a Primers Auxilis' })}
-        </button>
+        </Link>
       </div>
     )
   }
@@ -106,10 +106,10 @@ export default function PrimerosAuxiliosEscenario() {
         path={`/estudiar/vida-practica/${escenario.id}`} lang={lang} />
 
       <div className="w-full max-w-md flex items-center justify-between mb-4">
-        <button onClick={() => navigate(localPath('/estudiar/vida-practica'))}
-          className="text-white/30 hover:text-white/60 text-sm flex items-center gap-1 transition-colors">
+        <Link to={localPath('/estudiar/vida-practica')}
+          className="text-center text-white/30 hover:text-white/60 text-sm flex items-center gap-1 transition-colors">
           {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
-        </button>
+        </Link>
         {pantalla !== 'intro' && (
           <span className="text-white/30 text-sm font-mono">⏱️ {formatTiempo(elapsed)}</span>
         )}

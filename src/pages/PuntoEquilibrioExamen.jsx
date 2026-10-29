@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -147,7 +147,6 @@ function calificacion(aciertos, lang) {
 }
 
 export default function PuntoEquilibrioExamen() {
-  const navigate = useNavigate()
   const location = useLocation()
   const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
@@ -241,9 +240,9 @@ export default function PuntoEquilibrioExamen() {
               </button>
             ))}
           </div>
-          <button onClick={() => navigate(backTo)} className="mt-6 text-white/30 hover:text-white/60 text-sm transition-colors">
+          <Link to={backTo} className="inline-block text-center mt-6 text-white/30 hover:text-white/60 text-sm transition-colors">
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -289,9 +288,9 @@ export default function PuntoEquilibrioExamen() {
           <button onClick={() => setFase('nivel')} className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
             {tr({ es: 'Cambiar nivel', en: 'Change level', ca: 'Canviar nivell' })}
           </button>
-          <button onClick={() => navigate(backTo)} className="w-full py-2 text-white/30 hover:text-white/60 text-sm transition-colors">
+          <Link to={backTo} className="block text-center w-full py-2 text-white/30 hover:text-white/60 text-sm transition-colors">
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -303,9 +302,9 @@ export default function PuntoEquilibrioExamen() {
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-lg mx-auto w-full">
       <div className="flex items-center justify-between mb-3">
-        <button onClick={() => navigate(backTo)} className="text-white/40 hover:text-white/70 text-sm transition-colors">
+        <Link to={backTo} className="inline-block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
           {tr({ es: '← Salir', en: '← Exit', ca: '← Sortir' })}
-        </button>
+        </Link>
         <span className="text-white/40 text-sm font-bold">🏭 {idx + 1}/{EXAM_TOTAL}</span>
       </div>
 

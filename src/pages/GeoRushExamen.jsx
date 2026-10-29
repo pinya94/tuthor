@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -166,7 +166,6 @@ export default function GeoRushExamen() {
 }
 
 function GeoRushPartida() {
-  const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const { user } = useAuth()
   const location = useLocation()
@@ -228,7 +227,7 @@ function GeoRushPartida() {
         {pageMeta}
         <div className="text-center text-white/50">
           <p className="text-lg mb-4">{lang === 'en' ? 'There are not enough countries for this region.' : lang === 'ca' ? 'No hi ha prou països per a aquesta regió.' : 'No hay suficientes países para esta región.'}</p>
-          <button onClick={() => navigate(backPath ? localPath(backPath) : -1)} className="text-[#EDAE49] hover:underline">{lang === 'en' ? '← Back' : '← Volver'}</button>
+          <Link to={backPath ? localPath(backPath) : -1} className="inline-block text-center text-[#EDAE49] hover:underline">{lang === 'en' ? '← Back' : '← Volver'}</Link>
         </div>
       </div>
     )
@@ -319,10 +318,10 @@ function GeoRushPartida() {
             className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2">
             {en ? 'Retake exam' : 'Repetir examen'}
           </button>
-          <button onClick={() => navigate(backPath ? localPath(backPath) : -1)}
-            className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
+          <Link to={backPath ? localPath(backPath) : -1}
+            className="block text-center w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
             {en ? '← Back to Geography' : '← Volver a Geografía'}
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -333,9 +332,9 @@ function GeoRushPartida() {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-3xl mx-auto w-full">
       {pageMeta}
       <div className="flex items-center justify-between mb-3">
-        <button onClick={() => navigate(backPath ? localPath(backPath) : -1)} className="text-white/40 hover:text-white/70 text-sm transition-colors">
+        <Link to={backPath ? localPath(backPath) : -1} className="inline-block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
           {lang === 'en' ? '← Exit' : '← Salir'}
-        </button>
+        </Link>
         <span className="text-white/40 text-sm font-bold">🌍 {titulo} · {idx + 1}/{TOTAL}</span>
       </div>
 

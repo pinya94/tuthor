@@ -16,7 +16,7 @@
 // El contenido "profundo" del protocolo (ordenar pasos, explicaciones largas)
 // vive aparte en Estudiar > Vida Práctica — ver src/pages/PrimerosAuxiliosEscenario.jsx.
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -263,10 +263,10 @@ export default function Reaccion() {
 
       <div className="w-full max-w-md mb-4">
         <div className="flex items-center justify-between">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm flex items-center gap-1 transition-colors">
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
-          </button>
+          </Link>
           {pantalla === 'jugando' && (
             <div className="flex items-center gap-3 text-sm font-mono">
               {escudoActivo && <span>🛡️</span>}

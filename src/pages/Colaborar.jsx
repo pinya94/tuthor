@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 
 export default function Colaborar() {
   const { lang, localPath } = useLang()
-  const navigate = useNavigate()
   const en = lang === 'en'
   const ca = lang === 'ca'
 
@@ -63,10 +62,10 @@ export default function Colaborar() {
             <p className="text-white/50 text-sm">
               {ca ? 'Et respondrem aviat.' : en ? "We'll reply soon." : 'Te respondemos pronto.'}
             </p>
-            <button onClick={() => navigate(localPath('/'))}
-              className="mt-2 px-6 py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm rounded-xl transition-colors">
+            <Link to={localPath('/')}
+              className="inline-block text-center mt-2 px-6 py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm rounded-xl transition-colors">
               {ca ? 'Tornar a l\'inici' : en ? 'Back to home' : 'Volver al inicio'}
-            </button>
+            </Link>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-3">

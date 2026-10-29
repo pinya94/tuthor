@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
@@ -66,9 +66,9 @@ export default function FraccionesTema() {
       {pageMeta}{courseSchema}{breadcrumb}
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">
+          <Link to={localPath('/estudiar/matematicas')} className="inline-block text-center hover:text-white/60 transition-colors">
             {ca ? 'Matemàtiques' : en ? 'Mathematics' : 'Matemáticas'}
-          </button>
+          </Link>
           {' '}/{' '}<span className="text-white/50">{ca ? 'Fraccions i Decimals' : en ? 'Fractions and Decimals' : 'Fracciones y Decimales'}</span>
         </p>
         <div className="flex items-center gap-4">

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import SEOEstatico from '../components/SEOEstatico'
 
 const SECTIONS = [
@@ -54,22 +54,21 @@ Puedes consultar cómo trata Google los datos de sus socios publicitarios en pol
 ]
 
 export default function Privacidad() {
-  const navigate = useNavigate()
 
   return (
     <div className="min-h-screen px-4 py-10 sm:px-8">
       <SEOEstatico path="/privacidad" />
       <div className="max-w-2xl mx-auto">
         {/* Back */}
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-1.5 text-white/40 hover:text-white/70 text-sm mb-8 transition-colors"
+        <Link
+          to={-1}
+          className="text-center flex items-center gap-1.5 text-white/40 hover:text-white/70 text-sm mb-8 transition-colors"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
           Volver
-        </button>
+        </Link>
 
         <div className="bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8">
           <div className="flex items-center gap-3 mb-2">

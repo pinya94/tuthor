@@ -17,7 +17,7 @@
 // infinita) vive en /examen/musica — ver src/pages/MusicaExamen.jsx.
 
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -59,7 +59,6 @@ const RESULT_UI = {
 }
 
 export default function PentagramaPath() {
-  const navigate = useNavigate()
   const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
 
@@ -413,10 +412,10 @@ export default function PentagramaPath() {
           description={tr({ es: 'Partitura infinita: toca la nota correcta en su momento antes de que la dificultad se dispare. Bonos de vidas, tempo y puntos por el camino. 10 fallos y fuera.', en: 'Endless sheet music: hit the right note on time before the difficulty spikes. Life, tempo and score bonuses along the way. 10 misses and you\'re out.', ca: 'Partitura infinita: toca la nota correcta al seu moment abans que la dificultat es dispari. Bons de vides, tempo i punts pel camí. 10 errades i fora.' })}
           path="/juegos/pentagrama-path" lang={lang} />
         <div className="max-w-md w-full">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
-          </button>
+          </Link>
           <div className="text-center mb-7">
             <ArteJuego slug="pentagrama-path" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">Pentagrama Path</h1>
@@ -439,8 +438,8 @@ export default function PentagramaPath() {
           </p>
           <MidiConnectButton midi={midi} className="mb-5" />
 
-          <button onClick={() => navigate(localPath('/examen/musica'))}
-            className="w-full text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 p-4 mb-5 transition-all">
+          <Link to={localPath('/examen/musica')}
+            className="block w-full text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 p-4 mb-5 transition-all">
             <div className="flex items-center gap-3">
               <span className="text-2xl">📚</span>
               <div className="flex-1 min-w-0">
@@ -448,7 +447,7 @@ export default function PentagramaPath() {
                 <p className="text-white/40 text-xs">{tr({ es: 'Prueba el Examen de Música →', en: 'Try the Music Exam →', ca: 'Prova l\'Examen de Música →' })}</p>
               </div>
             </div>
-          </button>
+          </Link>
 
 
         </div>

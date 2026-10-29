@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
 
@@ -30,7 +30,6 @@ const IDIOMAS = [
 ]
 
 export default function IdiomasIndex() {
-  const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
@@ -52,10 +51,10 @@ export default function IdiomasIndex() {
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         {IDIOMAS.map(idioma => (
-          <button
+          <Link
             key={idioma.id}
-            onClick={() => navigate(localPath(`/estudiar/idiomas/${idioma.id}`))}
-            className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
+            to={localPath(`/estudiar/idiomas/${idioma.id}`)}
+            className="block w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
           >
             <div className={`bg-gradient-to-br ${idioma.gradient} p-6`}>
               <div className="flex items-start justify-between gap-4">
@@ -76,7 +75,7 @@ export default function IdiomasIndex() {
                 </div>
               </div>
             </div>
-          </button>
+          </Link>
         ))}
       </div>
     </div>

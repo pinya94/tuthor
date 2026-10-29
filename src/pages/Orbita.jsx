@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -109,7 +109,6 @@ function FilaPlanetas({ objetivoId, l }) {
 }
 
 export default function Orbita() {
-  const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const { user } = useAuth()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
@@ -202,10 +201,10 @@ export default function Orbita() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} />
         <div className="max-w-xl w-full flex flex-col items-center">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {t.volver}
-          </button>
+          </Link>
 
 
           <div className="text-center mb-7">
@@ -237,10 +236,10 @@ export default function Orbita() {
           </div>
         </div>
           </ComoSeJuega>
-          <button onClick={() => navigate(localPath('/examen/orbita-test'))}
-            className="text-white/30 hover:text-white/60 text-sm transition-colors">
+          <Link to={localPath('/examen/orbita-test')}
+            className="inline-block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
             {t.examen}
-          </button>
+          </Link>
         </div>
       </div>
     )

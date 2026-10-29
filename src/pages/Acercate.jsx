@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
@@ -136,7 +136,6 @@ function Confetti() {
 
 // ── Componente principal ───────────────────────────────────────────────────
 export default function Acercate() {
-  const navigate     = useNavigate()
   const { user }     = useAuth()
   const { lang, localPath, tr } = useLang()
 
@@ -322,10 +321,10 @@ export default function Acercate() {
           {tr({ es: '¡Empezar!', en: 'Start!', ca: 'Començar!' })}
         </button>
 
-        <button onClick={() => navigate(localPath('/juegos/acercate'))}
-          className="w-full py-3 mt-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-violet-500/40 text-white/70 hover:text-white font-bold rounded-2xl transition-all text-sm flex items-center justify-center gap-2">
+        <Link to={localPath('/juegos/acercate')}
+          className="text-center w-full py-3 mt-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-violet-500/40 text-white/70 hover:text-white font-bold rounded-2xl transition-all text-sm flex items-center justify-center gap-2">
           <span>⚔️</span> {tr({ es: 'Modo Roguelike — supera niveles y elige mejoras', en: 'Roguelike mode — clear levels and pick upgrades', ca: 'Mode Roguelike — supera nivells i tria millores' })}
-        </button>
+        </Link>
       </div>
     </div>
   )

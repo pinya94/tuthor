@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import GameEndScreen from '../components/GameEndScreen'
@@ -464,10 +464,10 @@ export default function TuthorTimeRoguelike() {
           path="/juegos/tuthor-time"
         />
         <div className="max-w-md w-full">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {tu.volver}
-          </button>
+          </Link>
           <div className="text-center mb-6">
             <ArteJuego slug="tuthor-time" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-3xl font-black text-white mb-1">{tu.titulo}</h1>
@@ -548,10 +548,10 @@ export default function TuthorTimeRoguelike() {
             </div>
           </div>
           </ComoSeJuega>
-          <button onClick={() => navigate(localPath('/juegos/tuthor-time/clasico'))}
-            className="w-full py-3 mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
+          <Link to={localPath('/juegos/tuthor-time/clasico')}
+            className="block text-center w-full py-3 mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
             {tu.clasico}
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -572,7 +572,7 @@ export default function TuthorTimeRoguelike() {
 
           {/* Cabecera: salir, misión, puntos */}
           <div className="flex items-center justify-between">
-            <button onClick={() => navigate(localPath('/juegos'))} className="text-white/40 hover:text-white text-sm">{tr({ es: '← Salir', en: '← Exit', ca: '← Sortir' })}</button>
+            <Link to={localPath('/juegos')} className="inline-block text-center text-white/40 hover:text-white text-sm">{tr({ es: '← Salir', en: '← Exit', ca: '← Sortir' })}</Link>
             <span className="text-white/60 text-sm font-bold">{tr({ es: `Misión ${nivel}`, en: `Mission ${nivel}`, ca: `Missió ${nivel}` })}</span>
             <span className="text-white font-black tabular-nums">{scoreTotal.toLocaleString()} <span className="text-white/40 text-xs font-bold">pts</span></span>
           </div>

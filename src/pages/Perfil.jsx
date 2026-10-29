@@ -260,10 +260,10 @@ export default function Perfil() {
               )}
             </div>
           </div>
-          <button onClick={() => navigate(localPath('/tienda'))} aria-label={tr({ es: 'Tienda', en: 'Shop', ca: 'Botiga' })}
-            className="shrink-0 self-start sm:self-center bg-violet-500 hover:brightness-110 text-[#140d24] font-bold text-[13px] px-3 sm:px-4 py-2 rounded-xl transition-all whitespace-nowrap">
+          <Link to={localPath('/tienda')} aria-label={tr({ es: 'Tienda', en: 'Shop', ca: 'Botiga' })}
+            className="inline-block text-center shrink-0 self-start sm:self-center bg-violet-500 hover:brightness-110 text-[#140d24] font-bold text-[13px] px-3 sm:px-4 py-2 rounded-xl transition-all whitespace-nowrap">
             🛍<span className="hidden sm:inline"> {tr({ es: 'Tienda', en: 'Shop', ca: 'Botiga' })}</span>
-          </button>
+          </Link>
         </div>
 
         {/* ── 2. TAREAS DE CLASE: solo si hay pendientes ── */}

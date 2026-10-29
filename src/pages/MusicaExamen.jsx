@@ -13,7 +13,7 @@
 // (Modo Survivor) — este archivo es solo el examen tipo "ronda graduada".
 
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -39,7 +39,6 @@ const RESULT_UI = {
 }
 
 export default function MusicaExamen() {
-  const navigate = useNavigate()
   const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
 
@@ -248,10 +247,10 @@ export default function MusicaExamen() {
           description={tr({ es: 'Examen de lectura de partituras por fases: de reconocer notas sin prisa a tocar a tempo real con clave de fa y alteraciones. Progresión graduada con nota final.', en: 'A graded sheet-music reading exam in phases: from note recognition at your own pace to real-tempo playing with bass clef and sharps.', ca: 'Examen de lectura de partitures per fases: de reconèixer notes sense pressa a tocar a tempo real amb clau de fa i alteracions.' })}
           path="/examen/musica" lang={lang} />
         <div className="max-w-md w-full">
-          <button onClick={() => navigate(localPath('/juegos/pentagrama-path'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos/pentagrama-path')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
-          </button>
+          </Link>
           <div className="text-center mb-7">
             <span className="text-7xl block mb-4">🎼</span>
             <h1 className="text-4xl font-black text-white mb-2">Pentagrama Path</h1>
@@ -290,8 +289,8 @@ export default function MusicaExamen() {
             })}
           </div>
 
-          <button onClick={() => navigate(localPath('/juegos/pentagrama-path'))}
-            className="w-full text-left rounded-2xl border border-red-500/30 bg-gradient-to-r from-red-600/10 to-orange-600/10 p-4 mb-5 hover:from-red-600/20 hover:to-orange-600/20 transition-all">
+          <Link to={localPath('/juegos/pentagrama-path')}
+            className="block w-full text-left rounded-2xl border border-red-500/30 bg-gradient-to-r from-red-600/10 to-orange-600/10 p-4 mb-5 hover:from-red-600/20 hover:to-orange-600/20 transition-all">
             <div className="flex items-center gap-3">
               <span className="text-2xl">🔥</span>
               <div className="flex-1 min-w-0">
@@ -299,7 +298,7 @@ export default function MusicaExamen() {
                 <p className="text-white/40 text-xs">{tr({ es: 'Prueba el Modo Survivor →', en: 'Try Survivor Mode →', ca: 'Prova el Mode Survivor →' })}</p>
               </div>
             </div>
-          </button>
+          </Link>
 
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5">
             <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">

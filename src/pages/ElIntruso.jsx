@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity, saveDailyChallenge } from '../lib/activity'
@@ -255,10 +255,10 @@ export default function ElIntruso() {
         <SEOHead title={seoTitle} description={seoDesc} path={seoPath} lang={lang} />
         <div className="max-w-xl w-full">
 
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {u.volver}
-          </button>
+          </Link>
 
           <div className="text-center mb-7">
             <ArteJuego slug="intruso" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />

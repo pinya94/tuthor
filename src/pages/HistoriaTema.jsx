@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useParams, useLocation } from 'react-router-dom'
+import { useNavigate, useParams, useLocation, Link } from 'react-router-dom'
 import { EVENTOS_HISTORIA, calcularMargen } from '../data/historiaEvents'
 import { PORTADAS } from '../data/portadas'
 import { topicFormats, formatLevels, defaultLevel, TOPIC_CATALOG } from '../lib/topicCatalog'
@@ -212,7 +212,7 @@ export default function HistoriaTema() {
       {/* Breadcrumb + nivel switcher */}
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate(localPath('/estudiar/historia'))} className="hover:text-white/60 transition-colors">{lang === 'ca' ? 'Història' : lang === 'en' ? 'History' : 'Historia'}</button>
+          <Link to={localPath('/estudiar/historia')} className="inline-block text-center hover:text-white/60 transition-colors">{lang === 'ca' ? 'Història' : lang === 'en' ? 'History' : 'Historia'}</Link>
           {' '}/{'  '}<span className="text-white/50">{meta.titulo}</span>
         </p>
 

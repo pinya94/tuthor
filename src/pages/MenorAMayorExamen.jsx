@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -26,7 +26,6 @@ const TIPO_LABEL = {
 }
 
 export default function MenorAMayorExamen() {
-  const navigate = useNavigate()
   const { lang, localPath, tr } = useLang()
   const { user } = useAuth()
 
@@ -107,10 +106,10 @@ export default function MenorAMayorExamen() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100dvh-4rem)] px-4 py-8">
         {seo && <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={lang} />}
         <div className="max-w-md w-full">
-          <button onClick={() => navigate(localPath('/estudiar/matematicas'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 transition-colors">
+          <Link to={localPath('/estudiar/matematicas')}
+            className="inline-block text-center text-white/30 hover:text-white/60 text-sm mb-6 transition-colors">
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
-          </button>
+          </Link>
 
           <div className="text-center mb-7">
             <span className="text-6xl block mb-3">📶</span>
@@ -194,9 +193,9 @@ export default function MenorAMayorExamen() {
             <button onClick={() => empezar(difId)} className="w-full bg-sky-500 hover:bg-sky-400 text-black font-black py-3 rounded-xl transition-colors">
               {tr({ es: 'Repetir ↺', en: 'Retry ↺', ca: 'Repetir ↺' })}
             </button>
-            <button onClick={() => navigate(localPath('/juegos/menor-a-mayor'))} className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-medium py-3 rounded-xl transition-colors">
+            <Link to={localPath('/juegos/menor-a-mayor')} className="block text-center w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 font-medium py-3 rounded-xl transition-colors">
               {tr({ es: 'Jugar la versión libre', en: 'Play the free-play version', ca: 'Jugar la versió lliure' })}
-            </button>
+            </Link>
           </div>
         </div>
         {coins > 0 && <CoinsAnimation coins={coins} />}

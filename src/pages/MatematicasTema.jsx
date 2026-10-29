@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useParams, useLocation } from 'react-router-dom'
+import { useNavigate, useParams, useLocation, Link } from 'react-router-dom'
 import { MODOS, GRADOS } from '../lib/mathEngine'
 import { topicFormats, formatLevels, defaultLevel, hasTopics } from '../lib/topicCatalog'
 import { useLang } from '../context/LangContext'
@@ -77,7 +77,7 @@ export default function MatematicasTema() {
 
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">{ca ? 'Matemàtiques' : en ? 'Mathematics' : 'Matemáticas'}</button>
+          <Link to={localPath('/estudiar/matematicas')} className="inline-block text-center hover:text-white/60 transition-colors">{ca ? 'Matemàtiques' : en ? 'Mathematics' : 'Matemáticas'}</Link>
           {' '}/{'  '}<span className="text-white/50">{ca ? (modo.tituloCa || modo.titulo) : en ? (modo.tituloEn || modo.titulo) : modo.titulo}</span>
         </p>
 

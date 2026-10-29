@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
@@ -86,9 +86,9 @@ export default function EstadisticaTema() {
       {pageMeta}{courseSchema}{breadcrumb}
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">
+          <Link to={localPath('/estudiar/matematicas')} className="inline-block text-center hover:text-white/60 transition-colors">
             {ca ? 'Matemàtiques' : en ? 'Mathematics' : 'Matemáticas'}
-          </button>
+          </Link>
           {' '}/{' '}<span className="text-white/50">{ca ? 'Estadística i Probabilitat' : en ? 'Statistics and Probability' : 'Estadística y Probabilidad'}</span>
         </p>
         <div className="flex items-center gap-4">
@@ -146,11 +146,11 @@ export default function EstadisticaTema() {
               { id: 'moda', titulo: ca ? 'Moda' : en ? 'Mode' : 'Moda', path: '/examen/estadistico-moda-test' },
               { id: 'rango', titulo: ca ? 'Rang' : en ? 'Range' : 'Rango', path: '/examen/estadistico-rango-test' },
             ].map(m => (
-              <button key={m.id} onClick={() => navigate(localPath(m.path))}
+              <Link key={m.id} to={localPath(m.path)}
                 className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-sky-400/40 rounded-xl px-4 py-3.5 text-left transition-all flex items-center justify-between gap-2">
                 <span className="text-white font-bold text-sm">{m.titulo}</span>
                 <span className="text-white/30 text-sm">→</span>
-              </button>
+              </Link>
             ))}
           </div>
           <p className="text-white/25 text-xs mt-2.5">

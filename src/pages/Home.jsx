@@ -33,7 +33,7 @@ const PREVIEW_FRAMES = ['gold', 'rainbow', 'galaxy', 'fire']
 const PREVIEW_AVATARS = ['🦊', '🐲', '🦖', '🚀']
 
 
-function RewardsSection({ navigate, localPath }) {
+function RewardsSection({ localPath }) {
   const { tr } = useLang()
   const previewFrames = FRAMES.filter(f => PREVIEW_FRAMES.includes(f.id)).slice(0, 4)
 
@@ -69,11 +69,11 @@ function RewardsSection({ navigate, localPath }) {
         </div>
 
         <div className="px-5 pb-4">
-          <button onClick={() => navigate(localPath('/tienda'))}
-            className="w-full flex items-center justify-center gap-2 py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm">
+          <Link to={localPath('/tienda')}
+            className="text-center w-full flex items-center justify-center gap-2 py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm">
             <Tienda className="w-4 h-4" />
             {tr({ es: 'Ir a la tienda', en: 'Go to shop', ca: 'Anar a la botiga' })}
-          </button>
+          </Link>
         </div>
       </div>
     </section>
@@ -94,7 +94,7 @@ const ARTE_DE_MATERIA = { lengua: 'espanol' }
 // Misma superficie plana que las puertas de arriba (HeroCard): #141b2e.
 const TARJETA = 'rounded-2xl bg-[#141b2e] border border-white/[0.08]'
 
-function SubjectsGrid({ subjectEntries, navigate, localPath, lang }) {
+function SubjectsGrid({ subjectEntries, localPath, lang }) {
   const { tr } = useLang()
   return (
     <section className="mb-8">
@@ -112,8 +112,8 @@ function SubjectsGrid({ subjectEntries, navigate, localPath, lang }) {
           const Arte = ARTE_MATERIAS[ARTE_DE_MATERIA[subj.id] || subj.id]
           const acierto = subj.totalExamPlays > 0 ? subj.totalPassed / subj.totalExamPlays : null
           return (
-            <button key={subj.id} onClick={() => navigate(localPath(path))}
-              className={`group text-left overflow-hidden ${TARJETA} hover:border-white/20 hover:-translate-y-0.5 transition-all duration-300`}>
+            <Link key={subj.id} to={localPath(path)}
+              className={`inline-block group text-left overflow-hidden ${TARJETA} hover:border-white/20 hover:-translate-y-0.5 transition-all duration-300`}>
               <div className="relative aspect-[16/7] border-b border-white/[0.06] overflow-hidden">
                 {Arte
                   ? <Arte className="absolute inset-0 w-full h-full p-1.5 transition-transform duration-500 ease-out group-hover:scale-[1.05]" />
@@ -140,7 +140,7 @@ function SubjectsGrid({ subjectEntries, navigate, localPath, lang }) {
                   </div>
                 )}
               </div>
-            </button>
+            </Link>
           )
         })}
       </div>
@@ -151,12 +151,12 @@ function SubjectsGrid({ subjectEntries, navigate, localPath, lang }) {
 // Solo se muestra si el alumno está en al menos una clase — nada que ofrecer
 // aquí a quien no lo está (no es un profesor vendiendo el panel, es una
 // cuenta ya de pago; "únete a una clase" no pinta nada en su navegación).
-function MisClasesCard({ classes, pendingTasks, navigate, localPath, lang }) {
+function MisClasesCard({ classes, pendingTasks, localPath, lang }) {
   const en = lang === 'en', ca = lang === 'ca'
   const clase = classes[0]
   return (
     <section className="mb-8">
-      <button onClick={() => navigate(localPath('/clase'))}
+      <Link to={localPath('/clase')}
         className={`w-full text-left ${TARJETA} hover:border-teal-400/40 p-5 flex items-center justify-between gap-4 transition-all`}>
         <div className="flex items-center gap-3">
           <span className="shrink-0 w-11 h-11 rounded-xl bg-teal-500/12 grid place-items-center">
@@ -178,7 +178,7 @@ function MisClasesCard({ classes, pendingTasks, navigate, localPath, lang }) {
         {pendingTasks > 0 && (
           <span className="shrink-0 text-xs font-bold bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded-full">{pendingTasks}</span>
         )}
-      </button>
+      </Link>
     </section>
   )
 }
@@ -502,16 +502,16 @@ export default function Home() {
 
         {/* POR MATERIA — solo materias con actividad registrada */}
         {subjectEntries.length > 0 && (
-          <SubjectsGrid subjectEntries={subjectEntries} navigate={navigate} localPath={localPath} lang={lang} />
+          <SubjectsGrid subjectEntries={subjectEntries} localPath={localPath} lang={lang} />
         )}
 
         {/* MIS CLASES — solo si el alumno está en alguna */}
         {classes && classes.length > 0 && (
-          <MisClasesCard classes={classes} pendingTasks={pendingTasks} navigate={navigate} localPath={localPath} lang={lang} />
+          <MisClasesCard classes={classes} pendingTasks={pendingTasks} localPath={localPath} lang={lang} />
         )}
 
         {/* RECOMPENSAS */}
-        <RewardsSection navigate={navigate} localPath={localPath} />
+        <RewardsSection localPath={localPath} />
 
         {/* iGraal y la invitación, ya avanzada la página: quien ha bajado
             hasta aquí está navegando, no de paso. */}

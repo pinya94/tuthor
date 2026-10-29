@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
@@ -41,9 +41,9 @@ export default function MiPlan() {
 
       <div className="max-w-2xl mx-auto w-full">
         <div className="flex items-center gap-3 mb-6">
-          <button onClick={() => navigate(localPath('/perfil'))} className="text-white/40 hover:text-white/70 transition-colors text-sm">
+          <Link to={localPath('/perfil')} className="inline-block text-center text-white/40 hover:text-white/70 transition-colors text-sm">
             ← {tr({ es: 'Perfil', en: 'Profile', ca: 'Perfil' })}
-          </button>
+          </Link>
         </div>
 
         <h1 className="text-3xl font-black text-white mb-6">💳 {tr({ es: 'Tu plan', en: 'Your plan', ca: 'El teu pla' })}</h1>

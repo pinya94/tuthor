@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { ciclosPorTema } from '../data/ciclosCientificos'
 import { diagnosticosPorTema } from '../data/diagnostico'
@@ -727,13 +727,13 @@ export default function QuimicaTema() {
       {pageMeta}{courseSchema}{breadcrumb}
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">
+          <Link to={localPath('/estudiar')} className="inline-block text-center hover:text-white/60 transition-colors">
             {ca ? 'Estudiar' : en ? 'Study' : 'Estudiar'}
-          </button>
+          </Link>
           {' / '}
-          <button onClick={() => navigate(localPath(discPath))} className="hover:text-white/60 transition-colors">
+          <Link to={localPath(discPath)} className="inline-block text-center hover:text-white/60 transition-colors">
             {discLabel}
-          </button>
+          </Link>
           {' / '}
           <span className="text-white/50">{meta.titulo}</span>
         </p>
@@ -755,12 +755,10 @@ export default function QuimicaTema() {
         </p>
 
         {modos.map(modo => (
-          <button
+          <Link
             key={modo.id}
-            onClick={() => navigate(localPath(modo.ruta ?? `/examen/${modo.path}`), {
-              state: { backPath: `${discPath}/${tema}` }
-            })}
-            className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
+            to={localPath(modo.ruta ?? `/examen/${modo.path}`)} state={{ backPath: `${discPath}/${tema}` }}
+            className="block w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
           >
             <div className={`bg-gradient-to-br ${modo.gradient} p-6`}>
               <div className="flex items-start justify-between gap-4">
@@ -785,7 +783,7 @@ export default function QuimicaTema() {
                 </div>
               </div>
             </div>
-          </button>
+          </Link>
         ))}
       </div>
 

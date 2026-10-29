@@ -6,7 +6,7 @@
 // críticas) en src/pages/PrimerosAuxiliosEscenario.jsx. Los otros dos son
 // examen tipo test y punto, así que sus tarjetas van directas al examen en
 // vez de a /estudiar/vida-practica/<tema>, que espera un escenario.
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import { SCENARIOS } from '../data/primerosAuxiliosEscenarios'
@@ -38,7 +38,6 @@ const BLOQUES = [
 ]
 
 export default function VidaPracticaIndex() {
-  const navigate = useNavigate()
   const { lang, tr, localPath } = useLang()
 
   return (
@@ -53,10 +52,10 @@ export default function VidaPracticaIndex() {
         path="/estudiar/vida-practica" lang={lang} />
 
       <div className="max-w-md w-full">
-        <button onClick={() => navigate(localPath('/estudiar'))}
-          className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+        <Link to={localPath('/estudiar')}
+          className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
           {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
-        </button>
+        </Link>
 
         <div className="text-center mb-7">
           <ArteMateria id="vida-practica" className="w-full max-w-[220px] mx-auto aspect-video block mb-3" />
@@ -70,12 +69,12 @@ export default function VidaPracticaIndex() {
 
         <div className="grid grid-cols-2 gap-3 mb-8">
           {BLOQUES.map(b => (
-            <button key={b.id} onClick={() => navigate(localPath(b.path))}
-              className="text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/30 p-4 transition-all">
+            <Link key={b.id} to={localPath(b.path)}
+              className="inline-block text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/30 p-4 transition-all">
               <span className="text-2xl block mb-1">{b.emoji}</span>
               <p className="text-white text-sm font-bold">{tr(b.titulo)}</p>
               <p className="text-white/40 text-xs mt-0.5">{tr(b.sub)}</p>
-            </button>
+            </Link>
           ))}
         </div>
 
@@ -92,9 +91,9 @@ export default function VidaPracticaIndex() {
 
         <div className="space-y-3 mb-6">
           {SCENARIOS.map(esc => (
-            <button
+            <Link
               key={esc.id}
-              onClick={() => navigate(localPath(`/estudiar/vida-practica/${esc.id}`))}
+              to={localPath(`/estudiar/vida-practica/${esc.id}`)}
               className="w-full text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/30 p-4 transition-all flex items-center gap-4"
             >
               <span className="text-3xl shrink-0">{esc.emoji}</span>
@@ -105,7 +104,7 @@ export default function VidaPracticaIndex() {
               <svg className="w-5 h-5 text-white/30 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </button>
+            </Link>
           ))}
         </div>
 
@@ -113,18 +112,18 @@ export default function VidaPracticaIndex() {
           {tr({ es: '¿Prefieres algo más rápido?', en: 'Prefer something faster?', ca: 'Prefereixes alguna cosa més ràpida?' })}
         </p>
         <div className="grid grid-cols-2 gap-3">
-          <button onClick={() => navigate(localPath('/juegos/reaccion'))}
-            className="text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/30 p-4 transition-all">
+          <Link to={localPath('/juegos/reaccion')}
+            className="inline-block text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/30 p-4 transition-all">
             <span className="text-2xl block mb-1">🚨</span>
             <p className="text-white text-sm font-bold">{tr({ es: 'Juego Reacción', en: 'Reacción game', ca: 'Joc Reacció' })}</p>
             <p className="text-white/40 text-xs mt-0.5">{tr({ es: 'Arcade con reloj', en: 'Clock-based arcade', ca: 'Arcade amb rellotge' })}</p>
-          </button>
-          <button onClick={() => navigate(localPath('/examen/primeros-auxilios'))}
-            className="text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/30 p-4 transition-all">
+          </Link>
+          <Link to={localPath('/examen/primeros-auxilios')}
+            className="inline-block text-left rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/30 p-4 transition-all">
             <span className="text-2xl block mb-1">📝</span>
             <p className="text-white text-sm font-bold">{tr({ es: 'Examen tipo test', en: 'Quiz exam', ca: 'Examen tipus test' })}</p>
             <p className="text-white/40 text-xs mt-0.5">{tr({ es: 'Preguntas rápidas', en: 'Quick questions', ca: 'Preguntes ràpides' })}</p>
-          </button>
+          </Link>
         </div>
       </div>
     </div>

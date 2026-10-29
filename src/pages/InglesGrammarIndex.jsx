@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
 import TarjetaArte from '../components/TarjetaArte'
@@ -30,7 +30,6 @@ const L = {
 }
 
 export default function InglesGrammarIndex() {
-  const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const t = k => L[k][lang] ?? L[k].es
 
@@ -48,8 +47,8 @@ export default function InglesGrammarIndex() {
           tema suelto es lo que hace el examen de abajo, y ahí el propio título
           ya da media respuesta. El juego es lo contrario — todo mezclado y con
           el reloj corriendo. */}
-      <button
-        onClick={() => navigate(localPath('/juegos/pieza-que-falta'))}
+      <Link
+        to={localPath('/juegos/pieza-que-falta')}
         className="max-w-3xl mx-auto w-full mb-4 flex items-center gap-4 rounded-2xl border border-white/[0.08] bg-[#141b2e] p-3 pr-5 text-left transition-colors hover:border-white/20"
       >
         <ArteJuego slug="pieza-que-falta" className="shrink-0 w-28 sm:w-36 aspect-video rounded-lg bg-white/[0.03]" />
@@ -57,7 +56,7 @@ export default function InglesGrammarIndex() {
           <div className="text-white font-bold">La Pieza que Falta</div>
           <div className="text-white/40 text-sm">{t('mezcla')}</div>
         </div>
-      </button>
+      </Link>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto w-full">
         {TEMAS.map(tema => (
@@ -67,9 +66,9 @@ export default function InglesGrammarIndex() {
         ))}
       </div>
 
-      <button onClick={() => navigate(localPath('/estudiar/idiomas/ingles'))} className="mt-8 text-white/40 hover:text-white/70 text-sm text-center">
+      <Link to={localPath('/estudiar/idiomas/ingles')} className="inline-block mt-8 text-white/40 hover:text-white/70 text-sm text-center">
         ← English
-      </button>
+      </Link>
     </div>
   )
 }

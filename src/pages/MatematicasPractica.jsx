@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useParams, useLocation } from 'react-router-dom'
+import { useNavigate, useParams, useLocation, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { saveActivity } from '../lib/activity'
@@ -82,9 +82,9 @@ export default function MatematicasPractica() {
         {exCoins > 0 && <CoinsAnimation coins={exCoins} />}
         <div className="max-w-md w-full">
           <p className="text-white/30 text-xs mb-6 text-center">
-            <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">{en ? 'Mathematics' : 'Matemáticas'}</button>
+            <Link to={localPath('/estudiar/matematicas')} className="inline-block text-center hover:text-white/60 transition-colors">{en ? 'Mathematics' : 'Matemáticas'}</Link>
             {' '}/{' '}
-            <button onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))} className="hover:text-white/60 transition-colors">{en ? (modoCfg.tituloEn || modoCfg.titulo) : modoCfg.titulo}</button>
+            <Link to={localPath(`/estudiar/matematicas/${modo}`)} className="inline-block text-center hover:text-white/60 transition-colors">{en ? (modoCfg.tituloEn || modoCfg.titulo) : modoCfg.titulo}</Link>
             {' '}/{' '}<span className="text-white/50">{en ? 'Exam' : 'Examen'}</span>
           </p>
 
@@ -123,12 +123,12 @@ export default function MatematicasPractica() {
           >
             {en ? 'Retake exam' : 'Repetir examen'}
           </button>
-          <button
-            onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))}
-            className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors"
+          <Link
+            to={localPath(`/estudiar/matematicas/${modo}`)}
+            className="block text-center w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors"
           >
             {en ? '← Back to topic' : '← Volver al tema'}
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -138,9 +138,9 @@ export default function MatematicasPractica() {
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-3 sm:px-6 py-4">
       <p className="text-white/30 text-xs mb-4 text-center">
-        <button onClick={() => navigate(localPath('/estudiar/matematicas'))} className="hover:text-white/60 transition-colors">{en ? 'Mathematics' : 'Matemáticas'}</button>
+        <Link to={localPath('/estudiar/matematicas')} className="inline-block text-center hover:text-white/60 transition-colors">{en ? 'Mathematics' : 'Matemáticas'}</Link>
         {' '}/{' '}
-        <button onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))} className="hover:text-white/60 transition-colors">{en ? (modoCfg.tituloEn || modoCfg.titulo) : modoCfg.titulo}</button>
+        <Link to={localPath(`/estudiar/matematicas/${modo}`)} className="inline-block text-center hover:text-white/60 transition-colors">{en ? (modoCfg.tituloEn || modoCfg.titulo) : modoCfg.titulo}</Link>
         {' '}/{' '}
         <span className="text-white/50">
           {modoExamen ? `${en ? 'Exam' : 'Examen'} · Puzzle ${exRonda}/${TOTAL_RONDAS}` : (en ? 'Target Number' : 'Acércate al número')}

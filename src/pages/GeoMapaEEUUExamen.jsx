@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -81,7 +81,6 @@ function AutocompleteInput({ value, onChange, onSubmit, disabled, focusKey, lang
 }
 
 export default function GeoMapaEEUUExamen() {
-  const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const { user } = useAuth()
   const location = useLocation()
@@ -200,10 +199,10 @@ export default function GeoMapaEEUUExamen() {
             className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2">
             {en ? 'Retake exam' : ca ? 'Repetir examen' : 'Repetir examen'}
           </button>
-          <button onClick={() => navigate(backPath ? localPath(backPath) : localPath('/estudiar/geografia/eeuu'))}
-            className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
+          <Link to={backPath ? localPath(backPath) : localPath('/estudiar/geografia/eeuu')}
+            className="block text-center w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
             {en ? '← Back' : '← Volver'}
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -214,8 +213,8 @@ export default function GeoMapaEEUUExamen() {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-3xl mx-auto w-full">
       {pageMeta}
       <div className="flex items-center justify-between mb-3">
-        <button onClick={() => navigate(backPath ? localPath(backPath) : localPath('/estudiar/geografia/eeuu'))}
-          className="text-white/40 hover:text-white/70 text-sm transition-colors">{en ? '← Exit' : '← Salir'}</button>
+        <Link to={backPath ? localPath(backPath) : localPath('/estudiar/geografia/eeuu')}
+          className="inline-block text-center text-white/40 hover:text-white/70 text-sm transition-colors">{en ? '← Exit' : '← Salir'}</Link>
         <span className="text-white/40 text-sm font-bold">🗽 {en ? 'United States' : ca ? 'Estats Units' : 'Estados Unidos'} · {idx + 1}/{TOTAL}</span>
       </div>
 

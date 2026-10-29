@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
@@ -125,13 +125,13 @@ export default function EspanolGramaticaTema() {
       {pageMeta}
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">
+          <Link to={localPath('/estudiar')} className="inline-block text-center hover:text-white/60 transition-colors">
             {ca ? 'Estudiar' : en ? 'Study' : 'Estudiar'}
-          </button>
+          </Link>
           {' / '}
-          <button onClick={() => navigate(localPath(gramaticaPath))} className="hover:text-white/60 transition-colors">
+          <Link to={localPath(gramaticaPath)} className="inline-block text-center hover:text-white/60 transition-colors">
             {ca ? 'Gramàtica' : en ? 'Grammar' : 'Gramática'}
-          </button>
+          </Link>
           {' / '}
           <span className="text-white/50">{l(data.titulo)}</span>
         </p>
@@ -153,10 +153,10 @@ export default function EspanolGramaticaTema() {
         </p>
 
         {data.modos.map(modo => (
-          <button
+          <Link
             key={modo.id}
-            onClick={() => navigate(localPath(`/examen/${modo.id}`), { state: { backPath: `${gramaticaPath}/${tema}` } })}
-            className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
+            to={localPath(`/examen/${modo.id}`)} state={{ backPath: `${gramaticaPath}/${tema}` }}
+            className="block w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
           >
             <div className={`bg-gradient-to-br ${modo.gradient} p-6`}>
               <div className="flex items-start justify-between gap-4">
@@ -181,7 +181,7 @@ export default function EspanolGramaticaTema() {
                 </div>
               </div>
             </div>
-          </button>
+          </Link>
         ))}
       </div>
     </div>

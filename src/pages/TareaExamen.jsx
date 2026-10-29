@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getAssignment, submitQuiz } from '../lib/assignments'
@@ -91,10 +91,10 @@ export default function TareaExamen() {
           <p className={`text-sm font-bold mb-6 ${passed ? 'text-green-400' : 'text-red-400'}`}>
             {passed ? tr({ es: 'Aprobado', en: 'Passed', ca: 'Aprovat' }) : tr({ es: 'Suspenso', en: 'Failed', ca: 'Suspès' })}
           </p>
-          <button type="button" onClick={() => navigate(localPath('/clase'))}
-            className="w-full py-3 rounded-2xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm transition-colors">
+          <Link to={localPath('/clase')}
+            className="block text-center w-full py-3 rounded-2xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm transition-colors">
             {tr({ es: '← Mi clase', en: '← My class', ca: '← La meva classe' })}
-          </button>
+          </Link>
         </div>
       </div>
     )

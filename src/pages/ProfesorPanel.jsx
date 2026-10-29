@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getTeacherProfile, getTeacherClasses, createClass, hasTeacherAccess } from '../lib/classes'
@@ -218,7 +218,7 @@ export default function ProfesorPanel() {
             const n = c.studentIds?.length || 0
             return (
               <div key={c.id} className="rounded-2xl bg-[#141b2e] border border-white/[0.08] hover:border-white/20 overflow-hidden transition-colors">
-                <button onClick={() => navigate(localPath(`/profesor/clase/${c.id}`))} title={c.name}
+                <Link to={localPath(`/profesor/clase/${c.id}`)} title={c.name}
                   className="group block w-full text-left">
                   <div className="relative w-full aspect-video border-b border-white/[0.06]">
                     <ArteAula alumnos={n} className="absolute inset-0 w-full h-full p-2 transition-transform duration-500 ease-out group-hover:scale-[1.04]" />
@@ -227,7 +227,7 @@ export default function ProfesorPanel() {
                     <p className="text-white font-black text-base leading-tight truncate">{c.name}</p>
                     <p className="text-white/45 text-xs mt-0.5">{n} {tr(n === 1 ? { es: 'alumno', en: 'student', ca: 'alumne' } : { es: 'alumnos', en: 'students', ca: 'alumnes' })}</p>
                   </div>
-                </button>
+                </Link>
                 {/* El código aparte: es para compartir, no para entrar, y
                     dentro del botón de la clase sería un botón anidado. */}
                 <div className="px-4 pb-3 pt-2.5 flex items-center justify-between gap-2">

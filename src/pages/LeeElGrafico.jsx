@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -70,7 +70,6 @@ const DIF_DESC = {
 }
 
 export default function LeeElGrafico() {
-  const navigate = useNavigate()
   const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
 
@@ -170,10 +169,10 @@ export default function LeeElGrafico() {
         {/* Entrada con el formato común: dibujo, nivel, una frase, jugar; lo
             demás plegado en "¿Cómo se juega?". */}
         <div className="w-full max-w-md">
-          <button type="button" onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="inline-block text-center text-white/30 hover:text-white/60 text-sm mb-6 transition-colors">
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
-          </button>
+          </Link>
           <CabeceraJuego slug="lee-el-grafico"
             badge={tr({ es: 'Matemáticas · Estadística', en: 'Maths · Statistics', ca: 'Matemàtiques · Estadística' })}
             titulo={tr({ es: 'Lee el Gráfico', en: 'Read the Chart', ca: 'Llegeix el Gràfic' })}

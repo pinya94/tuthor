@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { FOTOS, EPOCAS } from '../data/epocasHistoricas'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
@@ -130,7 +130,6 @@ function nuevoMazo(excludeId) {
 }
 
 export default function EpocasHistoricas() {
-  const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const { user } = useAuth()
   const t = UI[lang] || UI.es
@@ -221,10 +220,10 @@ export default function EpocasHistoricas() {
           lang={lang}
         />
         <div className="max-w-xl w-full flex flex-col items-center">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {t.volver}
-          </button>
+          </Link>
           <div className="text-center mb-7">
             <ArteJuego slug="epocas-historicas" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{t.titulo}</h1>

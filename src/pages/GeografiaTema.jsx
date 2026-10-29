@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { PAISES } from '../data/paises'
 import { paisesDeRegion } from '../lib/coordenadas'
@@ -164,9 +164,9 @@ export default function GeografiaTema() {
       {pageMeta}{courseSchema}{breadcrumb}
       <div className="max-w-2xl mx-auto w-full mb-6">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">{ca ? 'Estudiar' : en ? 'Study' : 'Estudiar'}</button>
+          <Link to={localPath('/estudiar')} className="inline-block text-center hover:text-white/60 transition-colors">{ca ? 'Estudiar' : en ? 'Study' : 'Estudiar'}</Link>
           {' '}/{' '}
-          <button onClick={() => navigate(localPath('/estudiar/geografia'))} className="hover:text-white/60 transition-colors">{ca ? 'Geografia' : en ? 'Geography' : 'Geografía'}</button>
+          <Link to={localPath('/estudiar/geografia')} className="inline-block text-center hover:text-white/60 transition-colors">{ca ? 'Geografia' : en ? 'Geography' : 'Geografía'}</Link>
           {' '}/{' '}<span className="text-white/50">{meta.titulo}</span>
         </p>
 

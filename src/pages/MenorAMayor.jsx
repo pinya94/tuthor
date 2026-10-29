@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -30,7 +30,6 @@ const TIPO_LABEL = {
 }
 
 export default function MenorAMayor() {
-  const navigate = useNavigate()
   const { lang, localPath, tr } = useLang()
   const { user } = useAuth()
 
@@ -110,10 +109,10 @@ export default function MenorAMayor() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100dvh-4rem)] px-4 py-8">
         {seo && <SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={lang} />}
         <div className="max-w-xl w-full flex flex-col items-center">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 self-start transition-colors">
+          <Link to={localPath('/juegos')}
+            className="inline-block text-center text-white/30 hover:text-white/60 text-sm mb-6 self-start transition-colors">
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
-          </button>
+          </Link>
 
 
           <div className="text-center mb-7">

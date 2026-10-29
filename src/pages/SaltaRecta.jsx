@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -44,7 +44,6 @@ const DIF_LABEL = {
 }
 
 export default function SaltaRecta() {
-  const navigate = useNavigate()
   const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
 
@@ -167,10 +166,10 @@ export default function SaltaRecta() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <SEOHead title={seoTitle} description={seoDesc} path="/juegos/salta-recta" lang={lang} />
         <div className="max-w-md w-full">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
-          </button>
+          </Link>
 
 
           <div className="text-center mb-7">

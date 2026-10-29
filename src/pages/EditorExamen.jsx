@@ -2,7 +2,7 @@
 // 'nuevo' para crear). Preguntas de seis tipos con imagen (foto o dibujo),
 // vista previa como la verá el alumno, guardar, imprimir y asignar.
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getTeacherProfile, hasTeacherAccess } from '../lib/classes'
@@ -102,7 +102,7 @@ export default function EditorExamen() {
       <SEOHead title={tr({ es: 'Editor de exámenes', en: 'Exam editor', ca: 'Editor d’exàmens' })} path="/profesor" noindex />
       <div className="max-w-3xl mx-auto">
         <div className="flex flex-wrap items-center gap-2 mb-4">
-          <button type="button" onClick={() => navigate(localPath('/profesor?tab=examenes'))} className="text-white/50 hover:text-white text-sm">← {tr({ es: 'Mis exámenes', en: 'My exams', ca: 'Els meus exàmens' })}</button>
+          <Link to={localPath('/profesor?tab=examenes')} className="inline-block text-center text-white/50 hover:text-white text-sm">← {tr({ es: 'Mis exámenes', en: 'My exams', ca: 'Els meus exàmens' })}</Link>
           <span className="flex-1" />
           <button type="button" onClick={() => setVista(v => (v === 'editar' ? 'previa' : 'editar'))} className={botonArriba}>
             {vista === 'editar' ? `👁 ${tr({ es: 'Vista del alumno', en: 'Student view', ca: 'Vista de l’alumne' })}` : `✏️ ${tr({ es: 'Volver a editar', en: 'Back to editing', ca: 'Tornar a editar' })}`}

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate, useParams, useLocation } from 'react-router-dom'
+import { useParams, useLocation, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -38,7 +38,6 @@ function calificacion(aciertos, en) {
 }
 
 export default function ExamenMatematicas() {
-  const navigate   = useNavigate()
   const { lang, localPath } = useLang()
   const en = lang === 'en'
   const location   = useLocation()
@@ -128,18 +127,18 @@ export default function ExamenMatematicas() {
             ))}
           </div>
 
-          <button
-            onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}/examen`), { state: { nivel: gradoId }, replace: true })}
-            className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2"
+          <Link
+            to={localPath(`/estudiar/matematicas/${modo}/examen`)} state={{ nivel: gradoId }} replace
+            className="block text-center w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2"
           >
             {en ? 'Retake exam' : 'Repetir examen'}
-          </button>
-          <button
-            onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))}
-            className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors"
+          </Link>
+          <Link
+            to={localPath(`/estudiar/matematicas/${modo}`)}
+            className="block text-center w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors"
           >
             {en ? '← Back to topic' : '← Volver al tema'}
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -155,9 +154,9 @@ export default function ExamenMatematicas() {
       {pageMeta}
       <div className="max-w-md w-full">
         <p className="text-white/30 text-xs mb-6 text-center">
-          <button onClick={() => navigate(localPath(`/estudiar/matematicas/${modo}`))} className="hover:text-white/60 transition-colors">
+          <Link to={localPath(`/estudiar/matematicas/${modo}`)} className="inline-block text-center hover:text-white/60 transition-colors">
             {en ? (modoCfg.tituloEn || modoCfg.titulo) : modoCfg.titulo}
-          </button>
+          </Link>
           {'  /  '}<span className="text-white/50">{en ? 'Exam' : 'Examen'}</span>
         </p>
 

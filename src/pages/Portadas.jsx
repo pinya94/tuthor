@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { PORTADAS } from '../data/portadas'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
@@ -130,7 +130,6 @@ function PortadaCard({ p, lang, lt }) {
 }
 
 export default function Portadas() {
-  const navigate = useNavigate()
   const { lang, localPath, lt } = useLang()
   const { user } = useAuth()
   const pu = PUI[lang] || PUI.es
@@ -243,10 +242,10 @@ export default function Portadas() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <SEOHead title={lang==='en'?'Headlines — True or False Historical Headlines':lang==='ca'?'Portades — Titulars Històrics Veritat o Mentida':'Portadas — Titulares Históricos Verdad o Mentira'} description={lang==='en'?'Read real historical newspaper headlines and decide if they are true or false. Critical thinking meets history in this free game.':lang==='ca'?'Llegeix portades de diaris històrics reals i decideix si el titular és veritat o mentida. Pensament crític i història.':'Lee portadas de periódicos históricos reales y decide si el titular es verdad o mentira. Pensamiento crítico e historia.'} path={lang==='en'?'/en/juegos/portadas':lang==='ca'?'/ca/juegos/portadas':'/juegos/portadas'} lang={lang} />
         <div className="max-w-xl w-full flex flex-col items-center">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {pu.volver}
-          </button>
+          </Link>
           <div className="text-center mb-7">
             <ArteJuego slug="portadas" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{pu.titulo}</h1>

@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -117,7 +117,6 @@ export default function PortadasExamen() {
 }
 
 function PortadasPartida() {
-  const navigate   = useNavigate()
   const { lang, localPath, lt } = useLang()
   const { user } = useAuth()
   const en = lang === 'en'
@@ -161,7 +160,7 @@ function PortadasPartida() {
         {pageMeta}
         <div className="text-center text-white/50">
           <p className="text-lg mb-4">{en ? 'Not enough headlines for this topic.' : 'No hay suficientes portadas para este tema.'}</p>
-          <button onClick={() => navigate(-1)} className="text-[#EDAE49] hover:underline">← Volver</button>
+          <Link to={-1} className="inline-block text-center text-[#EDAE49] hover:underline">← Volver</Link>
         </div>
       </div>
     )
@@ -229,12 +228,12 @@ function PortadasPartida() {
           >
             {en ? 'Retake exam' : 'Repetir examen'}
           </button>
-          <button
-            onClick={() => navigate(backPath ? localPath(backPath) : -1)}
-            className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors"
+          <Link
+            to={backPath ? localPath(backPath) : -1}
+            className="block text-center w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors"
           >
             {en ? '← Back to topic' : '← Volver al tema'}
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -293,9 +292,9 @@ function PortadasPartida() {
       {pageMeta}
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
-        <button onClick={() => navigate(backPath ? localPath(backPath) : -1)} className="text-white/40 hover:text-white/70 text-sm transition-colors">
+        <Link to={backPath ? localPath(backPath) : -1} className="inline-block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
           {en ? '← Exit' : '← Salir'}
-        </button>
+        </Link>
         <div className="flex items-center gap-3 text-sm text-white/50">
           <span className="font-bold text-white">{aciertos}</span>
           <span>{en ? 'correct' : 'aciertos'}</span>

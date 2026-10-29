@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -258,7 +258,6 @@ function ChoiceButtons({ opciones, onSelect, disabled, correct, revealed, lang, 
 
 // ── Componente principal ─────────────────────────────────────────────────────
 export default function TablaPeriodicaExamen() {
-  const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const { user } = useAuth()
   const location = useLocation()
@@ -424,9 +423,9 @@ export default function TablaPeriodicaExamen() {
               )
             })}
           </div>
-          <button onClick={() => navigate(backTo)} className="mt-6 text-white/30 hover:text-white/60 text-sm transition-colors">
+          <Link to={backTo} className="inline-block text-center mt-6 text-white/30 hover:text-white/60 text-sm transition-colors">
             {en ? '← Back' : '← Volver'}
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -468,9 +467,9 @@ export default function TablaPeriodicaExamen() {
             className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2">
             {en ? 'Retake exam' : ca ? 'Repetir examen' : 'Repetir examen'}
           </button>
-          <button onClick={() => navigate(backTo)} className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
+          <Link to={backTo} className="block text-center w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
             {en ? '← Back' : '← Volver'}
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -492,9 +491,9 @@ export default function TablaPeriodicaExamen() {
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 md:px-8 py-5 max-w-lg mx-auto w-full">
       {pageMeta}
       <div className="flex items-center justify-between mb-3">
-        <button onClick={() => navigate(backTo)} className="text-white/40 hover:text-white/70 text-sm transition-colors">
+        <Link to={backTo} className="inline-block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
           {en ? '← Exit' : '← Salir'}
-        </button>
+        </Link>
         <span className="text-white/40 text-sm font-bold">
           ⚗️ {en ? 'Periodic Table' : ca ? 'Taula Periòdica' : 'Tabla Periódica'} · {idx + 1}/{pool.length}
         </span>

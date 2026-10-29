@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { PAISES, NOMBRES_PAISES } from '../data/paises'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
@@ -267,7 +267,6 @@ const UI = {
 }
 
 export default function GeoRush() {
-  const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const { user } = useAuth()
   const u = UI[lang] || UI.es
@@ -467,10 +466,10 @@ export default function GeoRush() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100dvh-4rem)] px-4 py-8">
         <SEOHead title={lang==='en'?'GeoRush — Guess the Country':'GeoRush — Adivina el País'} description={lang==='en'?'Guess the mystery country from geographical, demographic and historical clues. Beat the clock in this free geography game.':lang==='ca'?'Endevina el país misteriós a partir de pistes geogràfiques, demogràfiques i històriques.':'Descubre el país misterioso a partir de pistas geográficas, demográficas e históricas. Contra el reloj.'} path={lang==='en'?'/en/juegos/georush':lang==='ca'?'/ca/juegos/georush':'/juegos/georush'} lang={lang} />
         <div className="max-w-xl w-full">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {u.volver}
-          </button>
+          </Link>
           <div className="text-center mb-7">
             <ArteJuego slug="georush" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{u.titulo}</h1>

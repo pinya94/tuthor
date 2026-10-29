@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { generarPuzzle, aplicar, OP_STYLE } from '../lib/mathEngine'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
@@ -167,7 +167,6 @@ function Confetti() {
 }
 
 export default function AcercateRoguelike() {
-  const navigate = useNavigate()
   const { lang, localPath, tr } = useLang()
   const { user } = useAuth()
   const au = AUI[lang] || AUI.es
@@ -427,10 +426,10 @@ export default function AcercateRoguelike() {
           path="/juegos/acercate"
         />
         <div className="max-w-md w-full">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {au.volver}
-          </button>
+          </Link>
           <div className="text-center mb-6">
             <ArteJuego slug="acercate" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-3xl font-black text-white mb-1">{au.titulo}</h1>
@@ -484,10 +483,10 @@ export default function AcercateRoguelike() {
             </div>
           </div>
           </ComoSeJuega>
-          <button onClick={() => navigate(localPath('/juegos/acercate/clasico'))}
-            className="w-full py-3 mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
+          <Link to={localPath('/juegos/acercate/clasico')}
+            className="block text-center w-full py-3 mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
             {au.clasico}
-          </button>
+          </Link>
         </div>
       </div>
     )

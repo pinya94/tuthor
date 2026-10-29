@@ -4,7 +4,7 @@
 // marca las correctas y los criterios: la plantilla para corregir.
 // Imprime solo la hoja gracias a .imprimir-solo-esto (index.css).
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getExamen } from '../lib/examenesProfesor'
@@ -50,7 +50,7 @@ export default function ImprimirExamen() {
     <div className="relative z-10 px-3 sm:px-6 py-6">
       <SEOHead title={tr({ es: 'Imprimir examen', en: 'Print exam', ca: 'Imprimir examen' })} path="/profesor" noindex />
       <div className="no-imprimir max-w-[210mm] mx-auto flex flex-wrap items-center gap-2 mb-4">
-        <button type="button" onClick={() => navigate(localPath(`/profesor/examenes/${examId}`))} className="text-white/50 hover:text-white text-sm mr-2">← {tr({ es: 'Editor', en: 'Editor', ca: 'Editor' })}</button>
+        <Link to={localPath(`/profesor/examenes/${examId}`)} className="inline-block text-center text-white/50 hover:text-white text-sm mr-2">← {tr({ es: 'Editor', en: 'Editor', ca: 'Editor' })}</Link>
         <button type="button" onClick={() => setSoluciones(s => !s)} className={`${opcion} ${soluciones ? 'bg-teal-600 border-teal-600 text-white' : 'border-white/15 text-white/70'}`}>✓ {tr({ es: 'Con soluciones', en: 'With answers', ca: 'Amb solucions' })}</button>
         <button type="button" onClick={() => setCuadricula(c => !c)} className={`${opcion} ${cuadricula ? 'bg-teal-600 border-teal-600 text-white' : 'border-white/15 text-white/70'}`}>▦ {tr({ es: 'Cuadrícula para desarrollar', en: 'Grid for working', ca: 'Quadrícula per desenvolupar' })}</button>
         <span className="flex-1" />

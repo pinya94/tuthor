@@ -5,7 +5,7 @@
 // (las reglas las dejan ver una vez entregado). La nota que cuenta es la que
 // guarda el panel del profesor; lo de desarrollo queda pendiente de él.
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../../context/LangContext'
 import { entregarExamen, getSoluciones } from '../../lib/examenesProfesor'
 import { contestada, puntosTotales, corregirExamen, unirSoluciones, conSolucion } from '../../lib/examenModelo'
@@ -15,7 +15,6 @@ const claveBorrador = (taskId, uid) => `tuthor_examen_${taskId}_${uid}`
 
 export default function TareaExamenV2({ task, uid }) {
   const { tr, localPath } = useLang()
-  const navigate = useNavigate()
   const preguntas = task.quiz
   const [respuestas, setRespuestas] = useState(() => {
     try { return JSON.parse(localStorage.getItem(claveBorrador(task.id, uid))) ?? {} } catch { return {} }
@@ -90,9 +89,9 @@ export default function TareaExamenV2({ task, uid }) {
               </p>
             )}
             {revisado && entrega.comentarioGeneral && <p className="mt-3 text-white/75 text-[13.5px] italic">«{entrega.comentarioGeneral}»</p>}
-            <button type="button" onClick={() => navigate(localPath('/clase'))} className="mt-5 w-full py-3 rounded-2xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm">
+            <Link to={localPath('/clase')} className="inline-block text-center mt-5 w-full py-3 rounded-2xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm">
               {tr({ es: '← Mi clase', en: '← My class', ca: '← La meva classe' })}
-            </button>
+            </Link>
           </div>
           {preguntas.map((p, i) => (
             <div key={p.id}>

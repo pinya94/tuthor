@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity, saveDailyChallenge } from '../lib/activity'
@@ -340,10 +340,10 @@ export default function NumPath() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <SEOHead title={en?'NumPath — Maths Strategy Grid Game':ca?'NumPath — Joc d\'Estratègia Matemàtica en Quadrícula':'NumPath — Juego de Estrategia Matemática en Cuadrícula'} description={en?'Navigate a grid of maths operations and reach goal cells with the exact score. Plan your route — each cell is single-use.':ca?'Navega per una quadrícula d\'operacions matemàtiques i arriba a les caselles meta. Cada casella és d\'un sol ús.':'Navega por una cuadrícula de operaciones matemáticas y llega a las casillas meta con la puntuación exacta. Cada casilla es de un solo uso.'} path={en?'/en/juegos/numpath':ca?'/ca/juegos/numpath':'/juegos/numpath'} lang={lang} />
         <div className="max-w-md w-full">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {u.volver}
-          </button>
+          </Link>
           <div className="text-center mb-7">
             <ArteJuego slug="numpath" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{u.titulo}</h1>
@@ -427,14 +427,14 @@ export default function NumPath() {
               <p className="text-white/40 text-sm mb-4">{ca ? 'Repte diari NumPath' : en ? 'NumPath daily challenge' : 'Reto diario NumPath'}</p>
               {won && <p className="text-amber-400 font-bold text-lg">💰 +1000 {ca ? 'monedes' : en ? 'coins' : 'monedas'}</p>}
             </div>
-            <button onClick={() => navigate(localPath('/diaria'))}
-              className="w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-3 rounded-xl transition-all mb-2">
+            <Link to={localPath('/diaria')}
+              className="block text-center w-full bg-[#EDAE49] hover:bg-amber-400 text-black font-black py-3 rounded-xl transition-all mb-2">
               {ca ? '← Tornar al Repte Diari' : en ? '← Back to Daily Challenge' : '← Volver al Reto Diario'}
-            </button>
-            <button onClick={() => navigate(localPath('/juegos'))}
-              className="w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
+            </Link>
+            <Link to={localPath('/juegos')}
+              className="block text-center w-full text-white/40 hover:text-white/70 text-sm py-2 transition">
               {ca ? 'Anar a Jocs' : en ? 'Go to Games' : 'Ir a Juegos'}
-            </button>
+            </Link>
           </div>
         </div>
       )
@@ -470,10 +470,10 @@ export default function NumPath() {
             className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2">
             {ca ? 'Repetir examen' : en ? 'Retake exam' : 'Repetir examen'}
           </button>
-          <button onClick={() => navigate(examBackPath ? localPath(examBackPath) : localPath('/estudiar/matematicas'))}
-            className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
+          <Link to={examBackPath ? localPath(examBackPath) : localPath('/estudiar/matematicas')}
+            className="block text-center w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
             {ca ? '← Tornar al tema' : en ? '← Back to topic' : '← Volver al tema'}
-          </button>
+          </Link>
         </div>
       </div>
     )

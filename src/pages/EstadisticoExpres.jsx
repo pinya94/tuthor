@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { RANGOS, generarRonda, explicacion } from '../lib/estadisticoEngine'
-import GameEndScreen from '../components/GameEndScreen'
+import GameEndScreen from '../components/GameEndScreen'
 import { ComoSeJuega } from '../components/IntroJuego'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
@@ -55,7 +55,6 @@ const PROMPT_LABEL = {
 }
 
 export default function EstadisticoExpres() {
-  const navigate = useNavigate()
   const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
 
@@ -172,10 +171,10 @@ export default function EstadisticoExpres() {
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
         <SEOHead title={seoTitle} description={seoDesc} path="/juegos/estadistico-expres" lang={lang} />
         <div className="max-w-md w-full">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {tr({ es: '← Volver', en: '← Back', ca: '← Tornar' })}
-          </button>
+          </Link>
           <div className="text-center mb-7">
             <ArteJuego slug="estadistico-expres" className="w-full max-w-[240px] mx-auto aspect-video block mb-3" />
             <h1 className="text-4xl font-black text-white mb-2">{tr({ es: 'Estadístico Exprés', en: 'Quick Statistician', ca: 'Estadístic Exprés' })}</h1>

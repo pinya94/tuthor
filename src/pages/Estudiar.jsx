@@ -1,4 +1,4 @@
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import RecursosInteractivos from '../components/RecursosInteractivos'
@@ -8,7 +8,6 @@ import { Lista } from '../components/Iconos'
 
 
 export default function Estudiar() {
-  const navigate = useNavigate()
   const { lang, localPath, t, tr } = useLang()
 
   const seoData = {
@@ -78,9 +77,9 @@ export default function Estudiar() {
             <h2 className="text-white font-black text-lg">{tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}</h2>
             <p className="text-white/40 text-[13px]">{tr({ es: 'Resuelve tu ejercicio paso a paso o explora en 3D.', en: 'Solve your exercise step by step or explore in 3D.', ca: 'Resol el teu exercici pas a pas o explora en 3D.' })}</p>
           </div>
-          <button onClick={() => navigate(localPath('/recursos'))} className="text-sky-300/80 hover:text-sky-300 text-sm font-bold shrink-0">
+          <Link to={localPath('/recursos')} className="inline-block text-center text-sky-300/80 hover:text-sky-300 text-sm font-bold shrink-0">
             {tr({ es: 'Ver todos →', en: 'See all →', ca: 'Veure-ho tot →' })}
-          </button>
+          </Link>
         </div>
         <RecursosInteractivos />
       </section>

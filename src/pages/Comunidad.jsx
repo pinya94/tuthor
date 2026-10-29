@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const CARDS = [
@@ -58,7 +58,6 @@ const CTA_COLOR = {
 }
 
 export default function Comunidad() {
-  const navigate = useNavigate()
   const { user } = useAuth()
 
   return (
@@ -66,15 +65,15 @@ export default function Comunidad() {
       <div className="max-w-2xl mx-auto w-full">
 
         {/* Cabecera */}
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-1.5 text-white/40 hover:text-white/70 text-sm mb-8 transition-colors"
+        <Link
+          to={-1}
+          className="text-center flex items-center gap-1.5 text-white/40 hover:text-white/70 text-sm mb-8 transition-colors"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
           Volver
-        </button>
+        </Link>
 
         <div className="mb-8">
           {user?.photoURL

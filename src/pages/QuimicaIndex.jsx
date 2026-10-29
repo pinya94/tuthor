@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { nivelesDeTema } from '../lib/topicCatalog'
 import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
@@ -287,9 +287,9 @@ export default function QuimicaIndex({ disciplina = 'quimica' }) {
       />
       <div className="max-w-3xl mx-auto w-full mb-5">
         <p className="text-white/30 text-xs mb-4">
-          <button onClick={() => navigate(localPath('/estudiar'))} className="hover:text-white/60 transition-colors">
+          <Link to={localPath('/estudiar')} className="inline-block text-center hover:text-white/60 transition-colors">
             {ca ? 'Estudiar' : en ? 'Study' : 'Estudiar'}
-          </button>
+          </Link>
           {' / '}
           <span className="text-white/50">{tr(disc.label)}</span>
         </p>

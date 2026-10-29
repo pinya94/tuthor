@@ -13,7 +13,7 @@
  *               se puede hacer tipo test o montando la frase con piezas.
  */
 import { useState, useMemo, useRef } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -99,7 +99,6 @@ function ChoiceButtons({ opciones, onSelect, disabled, correcta, revealed }) {
 
 // ── Componente principal ──────────────────────────────────────────────────────
 export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameId, otroExamen }) {
-  const navigate               = useNavigate()
   const { lang, localPath }    = useLang()
   const location               = useLocation()
   const { user }               = useAuth()
@@ -306,22 +305,22 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
               <p className="mt-6 mb-3 text-white/30 text-xs uppercase tracking-widest">
                 {en ? 'Or try it another way' : ca ? 'O prova-ho d’una altra manera' : 'O pruébalo de otra forma'}
               </p>
-              <button onClick={() => navigate(localPath(otroExamen.path))}
+              <Link to={localPath(otroExamen.path)}
                 className="w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/30 rounded-2xl px-6 py-4 text-left transition-all flex items-center gap-3">
                 <span className="text-2xl">{otroExamen.emoji}</span>
                 <span>
                   <span className="block text-white font-bold">{get(otroExamen.label, lang)}</span>
                   <span className="block text-white/30 text-xs mt-0.5">{get(otroExamen.desc, lang)}</span>
                 </span>
-              </button>
+              </Link>
             </>
           )}
 
           <div className="mt-6 text-left"><ConAmigos gameId={gameId} levels={nivelesDeTest(nivelInfo)} title={titulo} /></div>
 
-          <button onClick={() => navigate(backTo)} className="mt-6 text-white/30 hover:text-white/60 text-sm transition-colors">
+          <Link to={backTo} className="inline-block text-center mt-6 text-white/30 hover:text-white/60 text-sm transition-colors">
             {en ? '← Back' : '← Volver'}
-          </button>
+          </Link>
           <DescubreTuthor id={gameId} className="mt-6" />
         </div>
         <EjemplosExamen niveles={nivelesResumen} preguntas={banco} titulo={tituloStr} />
@@ -397,9 +396,9 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
             className="w-full py-3 bg-[#EDAE49] hover:bg-amber-400 text-black font-black rounded-2xl transition-all mb-2">
             {en ? 'Retake exam' : ca ? 'Repetir examen' : 'Repetir examen'}
           </button>
-          <button onClick={() => navigate(backTo)} className="w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
+          <Link to={backTo} className="block text-center w-full py-3 text-white/40 hover:text-white/70 text-sm transition-colors">
             {en ? '← Back' : '← Volver'}
-          </button>
+          </Link>
           <DescubreTuthor id={gameId} className="mt-4" />
         </div>
       </div>
@@ -419,9 +418,9 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
       {pageMeta}
       {/* Cabecera */}
       <div className="flex items-center justify-between mb-3">
-        <button onClick={() => navigate(backTo)} className="text-white/40 hover:text-white/70 text-sm transition-colors">
+        <Link to={backTo} className="inline-block text-center text-white/40 hover:text-white/70 text-sm transition-colors">
           {en ? '← Exit' : '← Salir'}
-        </button>
+        </Link>
         <span className="text-white/40 text-sm font-bold">{emoji} {tituloStr} · {idx + 1}/{pool.length}</span>
       </div>
 

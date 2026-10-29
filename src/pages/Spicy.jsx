@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -172,10 +172,10 @@ export default function Spicy() {
           path="/juegos/spicy"
         />
         <div className="max-w-md w-full">
-          <button onClick={() => navigate(localPath('/juegos'))}
-            className="text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+          <Link to={localPath('/juegos')}
+            className="text-center text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
             {tr({ es: '← Volver a juegos', en: '← Back to games', ca: '← Tornar a jocs' })}
-          </button>
+          </Link>
           <CabeceraJuego slug="spicy"
             badge={tr({ es: 'Economía · Educación financiera', en: 'Economics · Financial education', ca: 'Economia · Educació financera' })}
             titulo="Spicy"

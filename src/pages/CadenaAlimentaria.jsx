@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
@@ -94,15 +94,14 @@ function rolInicialLabel(round, l) {
 
 function DifficultyScreen({ onSelect, t, l }) {
   const [dif, setDif] = useState('facil')
-  const navigate = useNavigate()
   const { localPath } = useLang()
   return (
     <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4 py-8">
       <div className="max-w-md w-full flex flex-col items-center">
-        <button onClick={() => navigate(localPath('/juegos'))}
-          className="self-start text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
+        <Link to={localPath('/juegos')}
+          className="text-center self-start text-white/30 hover:text-white/60 text-sm mb-6 flex items-center gap-1 transition-colors">
           {t.volver}
-        </button>
+        </Link>
         <CabeceraJuego slug="cadena-alimentaria" badge={t.badge} titulo={t.titulo} sub={t.sub} />
 
         <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-3 mx-auto">
@@ -141,10 +140,10 @@ function DifficultyScreen({ onSelect, t, l }) {
           ))}
         </div>
         </ComoSeJuega>
-        <button onClick={() => navigate(localPath('/examen/cadena-alimentaria-test'))}
-          className="text-white/30 hover:text-white/60 text-sm transition-colors">
+        <Link to={localPath('/examen/cadena-alimentaria-test')}
+          className="inline-block text-center text-white/30 hover:text-white/60 text-sm transition-colors">
           {t.examen}
-        </button>
+        </Link>
       </div>
     </div>
   )

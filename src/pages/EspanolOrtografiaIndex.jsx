@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
 import TarjetaArte from '../components/TarjetaArte'
@@ -27,7 +27,6 @@ const JUEGOS = [
 ]
 
 export default function EspanolOrtografiaIndex() {
-  const navigate = useNavigate()
   const { lang, tr, localPath } = useLang()
 
   return (
@@ -57,9 +56,9 @@ export default function EspanolOrtografiaIndex() {
         ))}
       </div>
 
-      <button onClick={() => navigate(localPath('/estudiar/idiomas/espanol'))} className="mt-8 text-white/40 hover:text-white/70 text-sm text-center">
+      <Link to={localPath('/estudiar/idiomas/espanol')} className="inline-block mt-8 text-white/40 hover:text-white/70 text-sm text-center">
         ← Español
-      </button>
+      </Link>
     </div>
   )
 }
