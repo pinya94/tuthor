@@ -5,7 +5,7 @@ import { useLang } from '../context/LangContext'
 import { joinClassByCode, getStudentClasses, getTeacherProfile, hasTeacherAccess } from '../lib/classes'
 import { getStudentAssignments } from '../lib/assignments'
 import { getMyObservations } from '../lib/observations'
-import { retosDeClase } from '../lib/rankingClase'
+import { retosDeClase, leeRanking } from '../lib/rankingClase'
 import RecursosInteractivos from '../components/RecursosInteractivos'
 import ClaseAlumno from '../components/ClaseAlumno'
 import { Pizarra } from '../components/Iconos'
@@ -23,15 +23,6 @@ export default function Clase() {
   const [classCode, setClassCode] = useState('')
   const [joinStatus, setJoinStatus] = useState('idle')
   const [showJoinForm, setShowJoinForm] = useState(false)
-
-  useEffect(() => {
-    if (user === undefined) return
-    if (!user) { navigate(localPath('/'), { replace: true }); return }
-    getTeacherProfile(user.uid).then(profile => {
-      if (hasTeacherAccess(profile)) { navigate(localPath('/profesor'), { replace: true }); return }
-      loadData()
-    }).catch(() => loadData())
-  }, [user])
 
   async function loadData() {
     const [myClasses, myTasks] = await Promise.all([
@@ -59,24 +50,54 @@ export default function Clase() {
     ))
   }
 
+  // Llegando desde «Tengo un código» (/reto?…) con el código de una clase:
+  // se une sola, sin volver a escribirlo.
+  async function alEntrar() {
+    const unirse = new URLSearchParams(window.location.search).get('unirse')
+    if (!unirse) { loadData(); return }
+    window.history.replaceState(null, '', window.location.pathname)
+    // Si no ha ido bien, el formulario se queda abierto con el aviso
+    if (!await unir(unirse)) { setClassCode(unirse); setShowJoinForm(true); loadData() }
+  }
+
   async function handleJoinClass(e) {
     e.preventDefault()
     if (!classCode.trim()) return
+    await unir(classCode)
+  }
+
+  async function unir(code) {
     setJoinStatus('sending')
     try {
-      const res = await joinClassByCode(user.uid, classCode)
+      const res = await joinClassByCode(user.uid, code)
       // Si el profesor había apuntado a este alumno con solo su nombre (una
       // ficha, ver src/lib/roster.js), es ÉL quien la vincula con esta cuenta
       // desde su panel — no se ofrece nada que decidir aquí. Ver
       // api/merge-placeholder.js para el porqué de ese cambio de diseño.
-      if (res.ok) { setJoinStatus('ok'); setClassCode(''); setShowJoinForm(false); await loadData() }
-      else if (res.reason === 'not_found') setJoinStatus('not_found')
+      if (res.ok) { setJoinStatus('ok'); setClassCode(''); setShowJoinForm(false); await loadData(); return true }
+      // La casilla es una sola para cualquier código: si no es de una clase
+      // pero sí de un reto, se va al reto.
+      else if (res.reason === 'not_found') {
+        const reto = await leeRanking(code.trim().toUpperCase()).catch(() => null)
+        if (reto) { navigate(localPath(`/reto/${code.trim().toUpperCase()}`)); return true }
+        else setJoinStatus('not_found')
+      }
       else if (res.reason === 'already_joined') setJoinStatus('already_joined')
       else setJoinStatus('error')
     } catch {
       setJoinStatus('error')
     }
+    return false
   }
+
+  useEffect(() => {
+    if (user === undefined) return
+    if (!user) { navigate(localPath('/'), { replace: true }); return }
+    getTeacherProfile(user.uid).then(profile => {
+      if (hasTeacherAccess(profile)) { navigate(localPath('/profesor'), { replace: true }); return }
+      alEntrar()
+    }).catch(() => alEntrar())
+  }, [user])
 
   if (user === undefined || loading) {
     return (
@@ -93,7 +114,7 @@ export default function Clase() {
         autoFocus
         value={classCode}
         onChange={e => { setClassCode(e.target.value); if (joinStatus !== 'sending') setJoinStatus('idle') }}
-        placeholder={tr({ es: 'Código de tu profesor', en: "Your teacher's code", ca: 'Codi del teu professor' })}
+        placeholder={tr({ es: 'Código de clase o de reto', en: 'Class or challenge code', ca: 'Codi de classe o de repte' })}
         maxLength={6}
         className="flex-1 min-w-0 rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors uppercase tracking-wider"
       />
@@ -123,14 +144,14 @@ export default function Clase() {
   const unirse = showJoinForm || classes.length === 0 ? (
     <>
       <p className="text-white/45 text-[11px] uppercase tracking-wider font-bold mb-3">
-        {tr({ es: 'Código de clase', en: 'Class code', ca: 'Codi de classe' })}
+        🔑 {tr({ es: 'Tengo un código', en: 'I have a code', ca: 'Tinc un codi' })}
       </p>
       {joinForm}
       {joinFeedback}
     </>
   ) : (
     <button onClick={() => setShowJoinForm(true)} className="text-white/55 hover:text-white text-sm font-semibold transition-colors">
-      + {tr({ es: 'Unirme a otra clase', en: 'Join another class', ca: 'Unir-me a una altra classe' })}
+      🔑 {tr({ es: 'Tengo un código', en: 'I have a code', ca: 'Tinc un codi' })}
     </button>
   )
 

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate, useLocation, Link } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import { MAIN_CARDS } from '../data/constants'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
@@ -87,7 +87,6 @@ function LangSelector({ lang, switchLang, onPick }) {
 }
 
 export default function Navbar() {
-  const navigate = useNavigate()
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
   const [showAuth, setShowAuth] = useState(false)
@@ -131,15 +130,17 @@ export default function Navbar() {
   // depender de que un efecto vuelva a correr.
   const isTeacher = Boolean(user) && !childMode && teacherAccess
 
-  // "Clase" es un único punto de entrada, pero no todos pueden crear
-  // clases: solo una cuenta con la capacidad de profesor activa va al
-  // panel de creación; cualquier otra va a /clase, donde ve sus tareas
-  // pendientes o, si aún no está en ninguna clase, el código de acceso.
-  const claseDest = isTeacher ? '/profesor' : '/clase'
-  function goToClase() {
-    navigate(localPath(claseDest))
-    setMenuOpen(false)
-  }
+  // El menú es Juegos · Estudiar · Recursos y un enlace del aula según quién eres:
+  //   profe            → 🎓 Mis clases (su panel)
+  //   alumno con cuenta → 🎒 Mi clase (sus actividades; allí mete cualquier código)
+  //   sin cuenta       → 🔑 Tengo un código (/reto: vale el de un reto o el de una clase)
+  // /profesores (la página de venta) no va aquí: la enlaza la landing.
+  const aula = isTeacher
+    ? { path: '/profesor', label: `🎓 ${tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}` }
+    : user
+      ? { path: '/clase', label: `🎒 ${tr({ es: 'Mi clase', en: 'My class', ca: 'La meva classe' })}` }
+      : { path: '/reto', label: `🔑 ${tr({ es: 'Tengo un código', en: 'I have a code', ca: 'Tinc un codi' })}` }
+  const enAula = location.pathname === localPath(aula.path) || location.pathname.startsWith(localPath(aula.path) + '/')
 
   const navLabels = {
     estudiar: t('nav.estudiar'),
@@ -177,28 +178,18 @@ export default function Navbar() {
             })}
             {/* Recursos va con Juegos y Estudiar y no dentro de Estudiar: allí
                 quedaba un nivel por debajo, que es justo por lo que no se
-                encontraba. Sin sesión también: se usan sin cuenta. */}
+                encontraba (lo pidió el usuario). Sin sesión también. */}
             <Link to={localPath('/recursos')}
               className={`inline-block text-center px-4 py-2 rounded-full text-sm font-medium transition-all
                 ${location.pathname === localPath('/recursos') || location.pathname.startsWith(localPath('/recursos') + '/') ? 'bg-violet-600 text-white' : 'text-white/60 hover:text-white hover:bg-white/10'}`}>
               {tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}
             </Link>
-            {/* El mismo enlace sirve para los dos lados del aula: el profesor
-                va a su panel, el alumno a la suya (o a meter el código si aún
-                no está en ninguna). Lo que NO se enseña aquí es /profesores,
-                que es la página de venta: esto es la app del alumno y la
-                captación ocurre en la landing, que ya la enlaza en su pie. */}
-            {user && (
-              <button
-                onClick={goToClase}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all border border-white/10
-                  ${location.pathname === localPath(claseDest) ? 'bg-violet-600 text-white border-transparent' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
-              >
-                {isTeacher
-                  ? `🎓 ${tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}`
-                  : `🎒 ${tr({ es: 'Mi clase', en: 'My class', ca: 'La meva classe' })}`}
-              </button>
-            )}
+            {/* El enlace del aula, según quién eres (ver `aula`) */}
+            <Link to={localPath(aula.path)}
+              className={`inline-block text-center px-4 py-2 rounded-full text-sm font-medium transition-all border border-white/10
+                ${enAula ? 'bg-violet-600 text-white border-transparent' : 'text-white/60 hover:text-white hover:bg-white/10'}`}>
+              {aula.label}
+            </Link>
           </div>
 
           {/* Auth escritorio + idioma */}
@@ -249,9 +240,6 @@ export default function Navbar() {
                         💳 {tr({ es: 'Mi plan', en: 'My plan', ca: 'El meu pla' })}
                       </Link>
                     )}
-                    <button onClick={() => { goToClase(); setAvatarMenu(false) }} className="w-full text-left px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors border-t border-white/5">
-                      🎓 {t('nav.clase')}
-                    </button>
                     {['pinya1994@gmail.com','consiguetualgogratis@gmail.com','consiguetualgogratis@tuthor.app'].includes(user?.email) && (
                       <Link to={localPath('/admin')} onClick={() => { setAvatarMenu(false) }} className="block w-full text-left px-4 py-3 text-sm text-amber-400/70 hover:text-amber-300 hover:bg-white/10 transition-colors border-t border-white/5">
                         🛠️ Admin
@@ -293,21 +281,17 @@ export default function Navbar() {
                 ${location.pathname === localPath('/recursos') || location.pathname.startsWith(localPath('/recursos') + '/') ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
               {tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}
             </Link>
-            {user && (
-              <button onClick={goToClase}
-                className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
-                  ${location.pathname === localPath(claseDest) ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
-                {isTeacher
-                  ? `🎓 ${tr({ es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' })}`
-                  : `🎒 ${tr({ es: 'Mi clase', en: 'My class', ca: 'La meva classe' })}`}
-              </button>
-            )}
+            <Link to={localPath(aula.path)} onClick={() => { setMenuOpen(false) }}
+              className={`block w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
+                ${enAula ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
+              {aula.label}
+            </Link>
             <div className="border-t border-white/10 pt-2 mt-1">
               <LangSelector lang={lang} switchLang={switchLang} onPick={() => setMenuOpen(false)} />
               <FondoToggle conTexto onPick={() => setMenuOpen(false)} />
               {!authLoading && !user && (
                 <button onClick={() => { setShowAuth(true); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
-                  🔑 {t('nav.entrar')}
+                  👤 {t('nav.entrar')}
                 </button>
               )}
               {!authLoading && user && (
@@ -326,9 +310,6 @@ export default function Navbar() {
                       💳 {tr({ es: 'Mi plan', en: 'My plan', ca: 'El meu pla' })}
                     </Link>
                   )}
-                  <button onClick={() => { goToClase(); setMenuOpen(false) }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition-all">
-                    🎓 {t('nav.clase')}
-                  </button>
                   {['pinya1994@gmail.com','consiguetualgogratis@gmail.com','consiguetualgogratis@tuthor.app'].includes(user?.email) && (
                     <Link to={localPath('/admin')} onClick={() => { setMenuOpen(false) }} className="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-amber-400/70 hover:text-amber-300 hover:bg-white/10 transition-all">
                       🛠️ {t('nav.admin')}

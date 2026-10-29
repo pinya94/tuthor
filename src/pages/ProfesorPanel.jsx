@@ -173,6 +173,9 @@ export default function ProfesorPanel() {
           </p>
           <div className="mb-8">
             <RecursosInteractivos />
+            <Link to={localPath('/recursos')} className="inline-block mt-3 text-white/45 hover:text-white/75 text-sm font-semibold transition-colors">
+              {tr({ es: 'Ver todos los recursos →', en: 'See all resources →', ca: 'Veure tots els recursos →' })}
+            </Link>
           </div>
           <RecursosImprimibles />
         </>

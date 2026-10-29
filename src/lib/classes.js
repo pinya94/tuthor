@@ -167,6 +167,16 @@ export async function getStudentClasses(studentUid) {
     .sort((a, b) => (b.createdAt?.toMillis?.() ?? 0) - (a.createdAt?.toMillis?.() ?? 0))
 }
 
+// ¿Es este el código de una clase? Para la casilla única de «Tengo un código»
+// (/reto), que acepta el de un reto o el de una clase. Las rules solo dejan
+// leer classCodes con sesión: sin ella no se puede saber.
+export async function esCodigoDeClase(rawCode) {
+  const code = (rawCode || '').trim().toUpperCase()
+  if (!code) return false
+  const snap = await getDoc(doc(db, 'classCodes', code))
+  return snap.exists()
+}
+
 // ── Unión de un alumno a una clase por código ────────────────────────────────
 export async function joinClassByCode(studentUid, rawCode) {
   const code = (rawCode || '').trim().toUpperCase()
