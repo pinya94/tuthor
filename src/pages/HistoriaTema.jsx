@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useParams, useLocation, Link } from 'react-router-dom'
 import { EVENTOS_HISTORIA, calcularMargen } from '../data/historiaEvents'
 import { PORTADAS } from '../data/portadas'
-import { topicFormats, formatLevels, defaultLevel, TOPIC_CATALOG } from '../lib/topicCatalog'
+import { topicFormats, formatLevels, defaultLevel, resolveFormat, TOPIC_CATALOG } from '../lib/topicCatalog'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
@@ -147,9 +147,7 @@ export default function HistoriaTema() {
       emoji: '📜',
       gradient: 'from-violet-600 to-indigo-700',
       detalles: [ltConfig.livesLabel, ltConfig.winLabel, `${eventos.length} ${ca ? 'esdeveniments' : en ? 'events' : 'eventos'}`],
-      action: () => navigate(localPath('/examen/linea-temporal'), {
-        state: { categoria, nivel, backPath: `/estudiar/historia/${categoria}` }
-      }),
+      to: localPath('/examen/linea-temporal'), state: { categoria, nivel, backPath: `/estudiar/historia/${categoria}` },
     },
     disponible('quien-es-quien') && {
       id: 'personajes',
@@ -158,9 +156,7 @@ export default function HistoriaTema() {
       emoji: '🕵️',
       gradient: 'from-violet-700 to-purple-900',
       detalles: [ca ? '12 personatges per partida' : en ? '12 figures per game' : '12 personajes por partida', ca ? '300 pts si encertes a la 1a pista' : en ? '300 pts on 1st clue' : '300 pts si aciertas a la 1ª pista', ca ? '2 intents' : en ? '2 attempts' : '2 intentos'],
-      action: () => navigate(localPath('/juegos/quien-es-quien'), {
-        state: { pool: categoria, backPath: `/estudiar/historia/${categoria}` }
-      }),
+      to: localPath('/juegos/quien-es-quien'), state: { pool: categoria, backPath: `/estudiar/historia/${categoria}` },
     },
     disponible('portadas') && {
       id: 'portadas',
@@ -169,9 +165,7 @@ export default function HistoriaTema() {
       emoji: '📰',
       gradient: 'from-stone-600 to-neutral-800',
       detalles: [`${portadasDelTema.length} ${ca ? 'titulars' : en ? 'headlines' : 'titulares'}`, `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, ca ? 'Veritat o mentida' : en ? 'True or false' : 'Verdad o mentira'],
-      action: () => navigate(localPath('/examen/portadas'), {
-        state: { categoria, backPath: `/estudiar/historia/${categoria}` }
-      }),
+      to: localPath('/examen/portadas'), state: { categoria, backPath: `/estudiar/historia/${categoria}` },
     },
     disponible('juego-fechas') && {
       id: 'fechas',
@@ -180,18 +174,16 @@ export default function HistoriaTema() {
       emoji: '📅',
       gradient: 'from-amber-500 to-orange-600',
       detalles: [ca ? '1 vida' : en ? '1 life' : '1 vida', `±${margen} ${ca ? 'anys de marge' : en ? 'years margin' : 'años de margen'}`, `${eventos.length} ${ca ? 'preguntes' : en ? 'questions' : 'preguntas'}`],
-      action: () => navigate(localPath('/examen/historia'), {
-        state: {
+      to: localPath('/examen/historia'), state: {
           examen: { id: categoria, ...meta },
           nivel,
           backPath: `/estudiar/historia/${categoria}`,
-        }
-      }),
+        },
     },
-    // El id del examen ES la categoria (gce, wwii, roma, usa, primaria): ver
-    // topicCatalog.js. A diferencia de los otros tres modos (una sola página
-    // compartida por todos los temas), cada tema tiene aquí su propia página
-    // de examen — por eso navega a /examen/<categoria> en vez de a una ruta fija.
+    // Cada tema tiene aquí su propia página de examen (a diferencia de los
+    // otros modos, una página compartida). El id lo da topicCatalog.js: casi
+    // siempre coincide con la categoria (gce, wwii, roma…), pero no siempre
+    // (ciencia → historia-ciencia), así que no se supone.
     disponible('teoria') && {
       id: 'teoria',
       titulo: ca ? 'Teoria (tipus test)' : en ? 'Theory (quiz)' : 'Teoría (tipo test)',
@@ -199,9 +191,7 @@ export default function HistoriaTema() {
       emoji: '📝',
       gradient: 'from-emerald-600 to-teal-800',
       detalles: [`10 ${ca ? 'preguntes' : en ? 'questions' : 'preguntas'}`, ca ? 'Explicació a cada resposta' : en ? 'Explanation each answer' : 'Explicación en cada respuesta'],
-      action: () => navigate(localPath(`/examen/${categoria}`), {
-        state: { backPath: `/estudiar/historia/${categoria}` }
-      }),
+      to: localPath(`/examen/${resolveFormat('historia', categoria, 'teoria')?.game ?? categoria}`), state: { backPath: `/estudiar/historia/${categoria}` },
     },
   ].filter(Boolean)
 
@@ -255,10 +245,10 @@ export default function HistoriaTema() {
         </p>
 
         {modos.map(modo => (
-          <button
+          <Link
             key={modo.id}
-            onClick={modo.action}
-            className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
+            to={modo.to} state={modo.state}
+            className="block w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
           >
             <div className={`bg-gradient-to-br ${modo.gradient} p-6`}>
               <div className="flex items-start justify-between gap-4">
@@ -283,7 +273,7 @@ export default function HistoriaTema() {
                 </div>
               </div>
             </div>
-          </button>
+          </Link>
         ))}
 
         {/* Próximamente */}

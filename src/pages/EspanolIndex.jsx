@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
+import { TEMAS_GRAMATICA, TEMAS_ORTOGRAFIA } from '../data/temasEspanol'
 import { ArteMateria } from '../components/arte/materias'
 import TarjetaArte from '../components/TarjetaArte'
 import { ARTE_TEMAS } from '../components/arte/temas'
@@ -20,7 +22,7 @@ const CATEGORIAS = [
 ]
 
 export default function EspanolIndex() {
-  const { lang, localPath } = useLang()
+  const { lang, tr, localPath } = useLang()
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
@@ -38,6 +40,30 @@ export default function EspanolIndex() {
         {CATEGORIAS.map(cat => (
           <TarjetaArte key={cat.id} Arte={ARTE_TEMAS[cat.arte]} titulo={cat.titulo[lang] || cat.titulo.es}
             to={localPath(cat.path)} />
+        ))}
+      </div>
+
+      {/* Atajo: los temas de gramática y ortografía a la vista, sin pasar por
+          su índice (que sigue existiendo para quien quiera verlos con dibujo) */}
+      <div className="max-w-3xl mx-auto w-full mt-8 space-y-4">
+        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest text-center">
+          {tr({ es: 'O ve directo a un tema', en: 'Or go straight to a topic', ca: 'O ves directe a un tema' })}
+        </p>
+        {[
+          { titulo: { es: 'Gramática', en: 'Grammar', ca: 'Gramàtica' }, temas: TEMAS_GRAMATICA.map(t => ({ ...t, path: `/estudiar/idiomas/espanol/gramatica/${t.id}` })) },
+          { titulo: { es: 'Ortografía', en: 'Spelling', ca: 'Ortografia' }, temas: TEMAS_ORTOGRAFIA.map(t => ({ ...t, path: `/examen/${t.gameId}` })) },
+        ].map(g => (
+          <div key={g.titulo.es}>
+            <p className="text-white/60 text-sm font-bold mb-2">{tr(g.titulo)}</p>
+            <div className="flex flex-wrap gap-2">
+              {g.temas.map(t => (
+                <Link key={t.id} to={localPath(t.path)}
+                  className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/25 text-white/80 hover:text-white text-sm transition-colors">
+                  {tr(t.titulo)}
+                </Link>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </div>

@@ -1,11 +1,10 @@
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
 export default function FuncionesTema() {
-  const navigate = useNavigate()
   const { lang, localPath, tr } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
@@ -33,7 +32,7 @@ export default function FuncionesTema() {
         ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas',
         ca ? 'Amb el joc' : en ? 'With the game' : 'Con el juego',
       ],
-      action: () => navigate(localPath('/examen/funciones-grafica-test')),
+      to: localPath('/examen/funciones-grafica-test'),
     },
     {
       id: 'trayectoria',
@@ -50,7 +49,7 @@ export default function FuncionesTema() {
         ca ? 'Sense temps' : en ? 'No time limit' : 'Sin tiempo',
         ca ? 'Nota final' : en ? 'Final grade' : 'Nota final',
       ],
-      action: () => navigate(localPath('/examen/trayectoria')),
+      to: localPath('/examen/trayectoria'),
     },
     {
       id: 'portero',
@@ -67,7 +66,7 @@ export default function FuncionesTema() {
         ca ? 'Rectes i paràboles' : en ? 'Lines & parabolas' : 'Rectas y parábolas',
         ca ? 'Sense temps' : en ? 'No time limit' : 'Sin tiempo',
       ],
-      action: () => navigate(localPath('/examen/portero')),
+      to: localPath('/examen/portero'),
     },
     {
       id: 'teoria',
@@ -84,7 +83,7 @@ export default function FuncionesTema() {
         ca ? 'Opció múltiple' : en ? 'Multiple choice' : 'Opción múltiple',
         ca ? 'Explicació inclosa' : en ? 'Explanation included' : 'Explicación incluida',
       ],
-      action: () => navigate(localPath('/examen/funciones')),
+      to: localPath('/examen/funciones'),
     },
     {
       id: 'rectas',
@@ -97,7 +96,7 @@ export default function FuncionesTema() {
         tr({ es: 'Distinto cada vez', en: 'Different every time', ca: 'Diferent cada vegada' }),
         tr({ es: 'Paso a paso', en: 'Step by step', ca: 'Pas a pas' }),
       ],
-      action: () => navigate(localPath('/examen/rectas-test')),
+      to: localPath('/examen/rectas-test'),
     },
     // No es un modo de práctica sino una herramienta: resuelve el ejercicio
     // que el alumno ya tiene delante. Va la última para no quitar sitio a
@@ -117,7 +116,7 @@ export default function FuncionesTema() {
         tr({ es: 'Fracciones exactas', en: 'Exact fractions', ca: 'Fraccions exactes' }),
         tr({ es: 'Gratis', en: 'Free', ca: 'Gratis' }),
       ],
-      action: () => navigate(localPath('/recursos/funciones')),
+      to: localPath('/recursos/funciones'),
     },
   ]
 
@@ -155,8 +154,8 @@ export default function FuncionesTema() {
           {ca ? 'Modes disponibles' : en ? 'Available modes' : 'Modos disponibles'}
         </p>
         {juegos.map(j => (
-          <button key={j.id} onClick={j.action}
-            className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40">
+          <Link key={j.id} to={j.to} state={j.state}
+            className="block w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40">
             <div className={`bg-gradient-to-br ${j.gradient} p-6`}>
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
@@ -178,7 +177,7 @@ export default function FuncionesTema() {
                 </div>
               </div>
             </div>
-          </button>
+          </Link>
         ))}
       </div>
     </div>

@@ -1,11 +1,10 @@
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
 export default function GeometriaTema() {
-  const navigate = useNavigate()
   const { lang, localPath } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
@@ -40,7 +39,7 @@ export default function GeometriaTema() {
         ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas',
         ca ? 'Visual' : en ? 'Visual' : 'Visual',
       ],
-      action: () => navigate(localPath('/examen/figuras-compuestas')),
+      to: localPath('/examen/figuras-compuestas'),
     },
     {
       id: 'examen',
@@ -57,7 +56,7 @@ export default function GeometriaTema() {
         ca ? 'Primària i ESO' : en ? 'Primary & Secondary' : 'Primaria y ESO',
         ca ? 'Nota final' : en ? 'Final grade' : 'Nota final',
       ],
-      action: () => navigate(localPath('/examen/geometria')),
+      to: localPath('/examen/geometria'),
     },
   ]
 
@@ -89,8 +88,8 @@ export default function GeometriaTema() {
           {ca ? 'Modes disponibles' : en ? 'Available modes' : 'Modos disponibles'}
         </p>
         {opciones.map(o => (
-          <button key={o.id} onClick={o.action}
-            className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40">
+          <Link key={o.id} to={o.to} state={o.state}
+            className="block w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40">
             <div className={`bg-gradient-to-br ${o.gradient} p-6`}>
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
@@ -112,7 +111,7 @@ export default function GeometriaTema() {
                 </div>
               </div>
             </div>
-          </button>
+          </Link>
         ))}
       </div>
     </div>

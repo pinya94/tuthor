@@ -55,6 +55,12 @@ const TEMAS = {
         desc: { es: 'Con la mecánica del juego: señala el sujeto, el predicado y su núcleo.', en: 'Using the game mechanic: point out the subject, the predicate and its head.', ca: 'Amb la mecànica del joc: assenyala el subjecte, el predicat i el seu nucli.' },
         detalles: { es: ['3 niveles', '10 preguntas', 'Con el juego'], en: ['3 levels', '10 questions', 'With the game'], ca: ['3 nivells', '10 preguntes', 'Amb el joc'] },
       },
+      {
+        id: 'frases-complementos-test', emoji: '🔗', gradient: 'from-fuchsia-600 to-purple-800',
+        titulo: { es: 'Los complementos', en: 'The objects', ca: 'Els complements' },
+        desc: { es: 'Con la mecánica del juego: señala el CD, el CI y los complementos circunstanciales.', en: 'Using the game mechanic: point out the direct object, the indirect object and the adverbials.', ca: 'Amb la mecànica del joc: assenyala el CD, el CI i els complements circumstancials.' },
+        detalles: { es: ['ESO y Bachillerato', '10 preguntas', 'Con el juego'], en: ['Secondary and Sixth Form', '10 questions', 'With the game'], ca: ['ESO i Batxillerat', '10 preguntes', 'Amb el joc'] },
+      },
     ],
   },
   adjetivos: {

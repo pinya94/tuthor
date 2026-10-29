@@ -1,21 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import SEOEstatico from '../components/SEOEstatico'
+import { TEMAS_GRAMATICA as TEMAS } from '../data/temasEspanol'
 import TarjetaArte from '../components/TarjetaArte'
 import { ARTE_TEMAS, ArteTema } from '../components/arte/temas'
-
-// Cada tema abre su página de elección (examen tipo test + mecánica Analiza la Frase).
-const TEMAS = [
-  { id: 'sustantivos', titulo: { es: 'Sustantivos', en: 'Nouns', ca: 'Substantius' }, emoji: '📚', gradient: 'from-red-500 to-rose-600' },
-  { id: 'adjetivos', titulo: { es: 'Adjetivos', en: 'Adjectives', ca: 'Adjectius' }, emoji: '🎨', gradient: 'from-pink-500 to-rose-600' },
-  { id: 'determinantes', titulo: { es: 'Determinantes', en: 'Determiners', ca: 'Determinants' }, emoji: '🔖', gradient: 'from-amber-500 to-orange-600' },
-  { id: 'pronombres', titulo: { es: 'Pronombres', en: 'Pronouns', ca: 'Pronoms' }, emoji: '🙋', gradient: 'from-lime-500 to-green-600' },
-  { id: 'verbos', titulo: { es: 'Verbos', en: 'Verbs', ca: 'Verbs' }, emoji: '🏃', gradient: 'from-orange-500 to-amber-600' },
-  { id: 'adverbios', titulo: { es: 'Adverbios', en: 'Adverbs', ca: 'Adverbis' }, emoji: '⏱️', gradient: 'from-teal-500 to-cyan-600' },
-  { id: 'nexos', titulo: { es: 'Preposiciones y conjunciones', en: 'Prepositions & conjunctions', ca: 'Preposicions i conjuncions' }, emoji: '🔗', gradient: 'from-sky-500 to-blue-600' },
-  { id: 'sintaxis', titulo: { es: 'Sintaxis', en: 'Syntax', ca: 'Sintaxi' }, emoji: '🔬', gradient: 'from-purple-500 to-violet-600' },
-  { id: 'morfologia', titulo: { es: 'Género y número', en: 'Gender & number', ca: 'Gènere i nombre' }, emoji: '♀️', gradient: 'from-fuchsia-500 to-purple-600' },
-]
 
 export default function EspanolGramaticaIndex() {
   const { lang, tr, localPath } = useLang()
@@ -36,6 +24,15 @@ export default function EspanolGramaticaIndex() {
             to={localPath(`/estudiar/idiomas/espanol/gramatica/${tema.id}`)} />
         ))}
       </div>
+
+      <Link to={localPath('/examen/frases-clases-test')}
+        className="max-w-3xl mx-auto w-full mt-4 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-3 text-left transition-colors">
+        <span>
+          <span className="block text-white font-bold">🏷️ {tr({ es: 'Todas las clases de palabras', en: 'All the word classes', ca: 'Totes les classes de paraules' })}</span>
+          <span className="block text-white/40 text-sm">{tr({ es: 'Mezcladas en la misma frase: señala cada una con la mecánica del juego.', en: 'Mixed in the same sentence: point each one out using the game mechanic.', ca: 'Barrejades a la mateixa frase: assenyala cadascuna amb la mecànica del joc.' })}</span>
+        </span>
+        <span className="text-white/30">→</span>
+      </Link>
 
       <Link to={localPath('/estudiar/idiomas/espanol')} className="inline-block mt-8 text-white/40 hover:text-white/70 text-sm text-center">
         ← Español

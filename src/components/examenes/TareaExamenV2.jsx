@@ -89,7 +89,7 @@ export default function TareaExamenV2({ task, uid }) {
               </p>
             )}
             {revisado && entrega.comentarioGeneral && <p className="mt-3 text-white/75 text-[13.5px] italic">«{entrega.comentarioGeneral}»</p>}
-            <Link to={localPath('/clase')} className="inline-block text-center mt-5 w-full py-3 rounded-2xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm">
+            <Link to={localPath('/clase')} className="block text-center mt-5 w-full py-3 rounded-2xl bg-teal-600 hover:bg-teal-500 text-white font-bold text-sm">
               {tr({ es: '← Mi clase', en: '← My class', ca: '← La meva classe' })}
             </Link>
           </div>

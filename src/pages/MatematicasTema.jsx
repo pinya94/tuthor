@@ -41,7 +41,7 @@ export default function MatematicasTema() {
       emoji: '📝',
       gradient: 'from-amber-500 to-orange-600',
       detalles: [ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas', ca ? 'Resposta exacta' : en ? 'Exact answer' : 'Respuesta exacta', ca ? 'Nota final' : en ? 'Final grade' : 'Nota final'],
-      action: () => navigate(localPath(`/estudiar/matematicas/${modoId}/examen`), { state: { nivel } }),
+      to: localPath(`/estudiar/matematicas/${modoId}/examen`), state: { nivel },
     },
     ...(modoId === 'funciones' ? [{
       id: 'funciones-mc',
@@ -50,7 +50,7 @@ export default function MatematicasTema() {
       emoji: '📈',
       gradient: 'from-violet-500 to-purple-700',
       detalles: [ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas', ca ? 'Opció múltiple' : en ? 'Multiple choice' : 'Opción múltiple', ca ? 'Explicació inclosa' : en ? 'Explanation included' : 'Explicación incluida'],
-      action: () => navigate(localPath('/examen/funciones')),
+      to: localPath('/examen/funciones'),
     }] : [{
       id: 'acercate',
       titulo: ca ? 'Apropa\'t al nombre' : en ? 'Target Number' : 'Acércate al número',
@@ -58,7 +58,7 @@ export default function MatematicasTema() {
       emoji: '🎯',
       gradient: 'from-pink-500 to-rose-600',
       detalles: ['10 puzzles', ca ? 'Aproves amb 5+' : en ? 'Pass with 5+' : 'Apruebas con 5+', `${grado.tiempo}s ${ca ? 'per puzzle' : en ? 'per puzzle' : 'por puzzle'}`],
-      action: () => navigate(localPath(`/estudiar/matematicas/${modoId}/jugar`), { state: { nivel, modoExamen: true } }),
+      to: localPath(`/estudiar/matematicas/${modoId}/jugar`), state: { nivel, modoExamen: true },
     },
     {
       id: 'numpath',
@@ -67,7 +67,7 @@ export default function MatematicasTema() {
       emoji: '🧮',
       gradient: 'from-yellow-500 to-orange-500',
       detalles: [ca ? '10 taulers' : en ? '10 boards' : '10 tableros', ca ? 'Aproves amb 5+' : en ? 'Pass with 5+' : 'Apruebas con 5+', modo.ops.join(' ')],
-      action: () => navigate(localPath('/juegos/numpath'), { state: { modoExamen: true, ops: modo.ops, nivel, backPath: `/estudiar/matematicas/${modoId}` } }),
+      to: localPath('/juegos/numpath'), state: { modoExamen: true, ops: modo.ops, nivel, backPath: `/estudiar/matematicas/${modoId}` },
     },
   ]),
 ].filter(j => disponible(j.id))
@@ -113,10 +113,10 @@ export default function MatematicasTema() {
         </p>
 
         {juegos.map(j => (
-          <button
+          <Link
             key={j.id}
-            onClick={j.action}
-            className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
+            to={j.to} state={j.state}
+            className="block w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
           >
             <div className={`bg-gradient-to-br ${j.gradient} p-6`}>
               <div className="flex items-start justify-between gap-4">
@@ -141,7 +141,7 @@ export default function MatematicasTema() {
                 </div>
               </div>
             </div>
-          </button>
+          </Link>
         ))}
       </div>
     </div>

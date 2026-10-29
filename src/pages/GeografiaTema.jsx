@@ -89,9 +89,7 @@ export default function GeografiaTema() {
       emoji: '🗺️',
       gradient: 'from-red-500 to-rose-700',
       detalles: ['17 ' + (ca ? 'comunitats' : en ? 'communities' : 'comunidades'), `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, `2 ${ca ? 'intents' : en ? 'attempts' : 'intentos'}`],
-      action: () => navigate(localPath('/examen/geomapa-espana'), {
-        state: { backPath: `/estudiar/geografia/espana` }
-      }),
+      to: localPath('/examen/geomapa-espana'), state: { backPath: `/estudiar/geografia/espana` },
     }]
   } else if (region === 'eeuu') {
     modos = [{
@@ -105,9 +103,7 @@ export default function GeografiaTema() {
       emoji: '🗺️',
       gradient: 'from-blue-500 to-indigo-700',
       detalles: ['50 ' + (ca ? 'estats' : en ? 'states' : 'estados'), `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, `2 ${ca ? 'intents' : en ? 'attempts' : 'intentos'}`],
-      action: () => navigate(localPath('/examen/geomapa-eeuu'), {
-        state: { backPath: `/estudiar/geografia/eeuu` }
-      }),
+      to: localPath('/examen/geomapa-eeuu'), state: { backPath: `/estudiar/geografia/eeuu` },
     }]
   } else {
     modos = [
@@ -122,9 +118,7 @@ export default function GeografiaTema() {
         emoji: '🌍',
         gradient: 'from-teal-500 to-cyan-700',
         detalles: [`${paisesCount} ${ca ? 'països' : en ? 'countries' : 'países'}`, `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, `5 ${ca ? 'pistes mixtes' : en ? 'mixed clues' : 'pistas mixtas'} (3🔒 + 2🎁)`],
-        action: () => navigate(localPath('/examen/geografia'), {
-          state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
-        }),
+        to: localPath('/examen/geografia'), state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` },
       },
       paisesMapaCount >= 10 && {
         id: 'geomapa',
@@ -137,9 +131,7 @@ export default function GeografiaTema() {
         emoji: '🗺️',
         gradient: 'from-purple-500 to-violet-700',
         detalles: [`${paisesMapaCount} ${ca ? 'països' : en ? 'countries' : 'países'}`, `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, `3 ${ca ? 'intents per país' : en ? 'attempts per country' : 'intentos por país'}`],
-        action: () => navigate(localPath('/examen/geomapa'), {
-          state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
-        }),
+        to: localPath('/examen/geomapa'), state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` },
       },
       coordenadasCount >= 3 && {
         id: 'coordenadas',
@@ -152,9 +144,7 @@ export default function GeografiaTema() {
         emoji: '🌐',
         gradient: 'from-cyan-600 to-blue-900',
         detalles: [`${coordenadasCount} ${ca ? 'països' : en ? 'countries' : 'países'}`, `10 ${ca ? 'per examen' : en ? 'per exam' : 'por examen'}`, ca ? 'Sense temps' : en ? 'No timer' : 'Sin tiempo'],
-        action: () => navigate(localPath('/examen/coordenadas-test'), {
-          state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` }
-        }),
+        to: localPath('/examen/coordenadas-test'), state: { region, titulo: meta.titulo, backPath: `/estudiar/geografia/${region}` },
       },
     ].filter(Boolean)
   }
@@ -187,10 +177,10 @@ export default function GeografiaTema() {
         </p>
 
         {modos.map(modo => (
-          <button
+          <Link
             key={modo.id}
-            onClick={modo.action}
-            className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
+            to={modo.to} state={modo.state}
+            className="block w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
           >
             <div className={`bg-gradient-to-br ${modo.gradient} p-6`}>
               <div className="flex items-start justify-between gap-4">
@@ -215,7 +205,7 @@ export default function GeografiaTema() {
                 </div>
               </div>
             </div>
-          </button>
+          </Link>
         ))}
 
         {/* Próximamente — only for continent regions, not espana/eeuu */}

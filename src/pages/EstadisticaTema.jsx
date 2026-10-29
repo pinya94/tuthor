@@ -1,11 +1,10 @@
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
 export default function EstadisticaTema() {
-  const navigate = useNavigate()
   const { lang, localPath, tr } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
@@ -40,7 +39,7 @@ export default function EstadisticaTema() {
         ca ? 'Primària i ESO' : en ? 'Primary & Secondary' : 'Primaria y ESO',
         ca ? 'Càlcul, no atzar' : en ? 'Calculation, not chance' : 'Cálculo, no azar',
       ],
-      action: () => navigate(localPath('/juegos/estadistico-expres')),
+      to: localPath('/juegos/estadistico-expres'),
     },
     {
       id: 'examen',
@@ -57,7 +56,7 @@ export default function EstadisticaTema() {
         ca ? 'Primària i ESO' : en ? 'Primary & Secondary' : 'Primaria y ESO',
         ca ? 'Nota final' : en ? 'Final grade' : 'Nota final',
       ],
-      action: () => navigate(localPath('/examen/estadistica')),
+      to: localPath('/examen/estadistica'),
     },
     // No es un modo de práctica sino una herramienta: resuelve el ejercicio
     // que el alumno ya tiene delante. Va la última para no quitar sitio a los
@@ -77,7 +76,7 @@ export default function EstadisticaTema() {
         tr({ es: 'Tabla de frecuencias', en: 'Frequency table', ca: 'Taula de freqüències' }),
         tr({ es: 'Gratis', en: 'Free', ca: 'Gratis' }),
       ],
-      action: () => navigate(localPath('/recursos/estadistica')),
+      to: localPath('/recursos/estadistica'),
     },
   ]
 
@@ -109,8 +108,8 @@ export default function EstadisticaTema() {
           {ca ? 'Modes disponibles' : en ? 'Available modes' : 'Modos disponibles'}
         </p>
         {opciones.map(o => (
-          <button key={o.id} onClick={o.action}
-            className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40">
+          <Link key={o.id} to={o.to} state={o.state}
+            className="block w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40">
             <div className={`bg-gradient-to-br ${o.gradient} p-6`}>
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
@@ -132,7 +131,7 @@ export default function EstadisticaTema() {
                 </div>
               </div>
             </div>
-          </button>
+          </Link>
         ))}
 
         <div className="pt-2">
@@ -159,6 +158,35 @@ export default function EstadisticaTema() {
               : en
               ? 'An exam focused only on this measure, without mixing it with the others.'
               : 'Un examen centrado solo en esa medida, sin mezclarla con las demás.'}
+          </p>
+        </div>
+
+        {/* Leer gráficos: los exámenes de Lee el gráfico, uno por tipo de pregunta */}
+        <div className="pt-2">
+          <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-3">
+            {tr({ es: 'Exámenes de gráficos', en: 'Chart exams', ca: 'Exàmens de gràfics' })}
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { id: 'tendencia', titulo: tr({ es: 'Tendencias y extremos', en: 'Trends and extremes', ca: 'Tendències i extrems' }), path: '/examen/lee-grafico-tendencia' },
+              { id: 'variacion', titulo: tr({ es: 'Variaciones y porcentajes', en: 'Changes and percentages', ca: 'Variacions i percentatges' }), path: '/examen/lee-grafico-variacion' },
+              { id: 'relacion', titulo: tr({ es: 'Dos series: beneficio y saldo', en: 'Two series: profit and balance', ca: 'Dues sèries: benefici i saldo' }), path: '/examen/lee-grafico-relacion' },
+              { id: 'medida', titulo: tr({ es: 'Media y mediana en gráficos', en: 'Mean and median from charts', ca: 'Mitjana i mediana en gràfics' }), path: '/examen/lee-grafico-medida' },
+              { id: 'tabla', titulo: tr({ es: 'Clasificaciones y desempates', en: 'Tables and tiebreakers', ca: 'Classificacions i desempats' }), path: '/examen/lee-grafico-tabla' },
+            ].map(m => (
+              <Link key={m.id} to={localPath(m.path)}
+                className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-sky-400/40 rounded-xl px-4 py-3.5 text-left transition-all flex items-center justify-between gap-2">
+                <span className="text-white font-bold text-sm">{m.titulo}</span>
+                <span className="text-white/30 text-sm">→</span>
+              </Link>
+            ))}
+          </div>
+          <p className="text-white/25 text-xs mt-2.5">
+            {tr({
+              es: <>Para jugar sin examen, <Link to={localPath('/juegos/lee-el-grafico')} className="underline hover:text-white/60">Lee el Gráfico</Link> mezcla todos los tipos.</>,
+              en: <>To play without an exam, <Link to={localPath('/juegos/lee-el-grafico')} className="underline hover:text-white/60">Read the Chart</Link> mixes every type.</>,
+              ca: <>Per jugar sense examen, <Link to={localPath('/juegos/lee-el-grafico')} className="underline hover:text-white/60">Llegeix el Gràfic</Link> barreja tots els tipus.</>,
+            })}
           </p>
         </div>
       </div>

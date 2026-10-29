@@ -480,7 +480,7 @@ export default function PreguntaDiaria({ embedded = false }) {
                       {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
                     </button>
                   )}
-                  <Link to={localPath('/juegos/portadas')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  <Link to={localPath('/juegos/portadas')} className="block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                     {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                   </Link>
                 </>
@@ -630,7 +630,7 @@ export default function PreguntaDiaria({ embedded = false }) {
                       {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
                     </button>
                   )}
-                  <Link to={localPath('/juegos/georush')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  <Link to={localPath('/juegos/georush')} className="block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                     {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                   </Link>
                 </>
@@ -666,7 +666,7 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <Link to={localPath('/juegos/acercate')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/acercate')} className="block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                 </Link>
               )}
@@ -716,7 +716,7 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <Link to={localPath('/juegos/fuerza-neta')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/fuerza-neta')} className="block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                 </Link>
               )}
@@ -757,7 +757,7 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <Link to={localPath('/juegos/balanza')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/balanza')} className="block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                 </Link>
               )}
@@ -801,7 +801,7 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <Link to={localPath('/juegos/balanza-ecuaciones')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/balanza-ecuaciones')} className="block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                 </Link>
               )}
@@ -845,7 +845,7 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <Link to={localPath('/juegos/funciones-grafica')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/funciones-grafica')} className="block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                 </Link>
               )}
@@ -885,7 +885,7 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <Link to={localPath('/juegos/balanza-algebraica')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/balanza-algebraica')} className="block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                 </Link>
               )}
@@ -932,7 +932,7 @@ export default function PreguntaDiaria({ embedded = false }) {
                 </button>
               )}
               {answered && (
-                <Link to={localPath('/juegos/analiza-frases')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                <Link to={localPath('/juegos/analiza-frases')} className="block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                   {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                 </Link>
               )}
@@ -1001,7 +1001,7 @@ export default function PreguntaDiaria({ embedded = false }) {
                       {ca ? 'Inicia sessió per guardar la ratxa 🔥' : en ? 'Sign in to save your streak 🔥' : 'Inicia sesión para guardar tu racha 🔥'}
                     </button>
                   )}
-                  <Link to={localPath('/juegos')} className="inline-block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+                  <Link to={localPath('/juegos')} className="block text-center mt-3 w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
                     {ca ? 'Seguir jugant →' : en ? 'Keep playing →' : 'Seguir jugando →'}
                   </Link>
                 </>
@@ -1011,6 +1011,11 @@ export default function PreguntaDiaria({ embedded = false }) {
           </>
         )}
       </div>
+      {!embedded && (
+        <Link to={localPath('/info/diaria')} className="text-white/35 hover:text-white/60 text-xs underline transition-colors">
+          {tr({ es: '¿Por qué un reto cada día?', en: 'Why a challenge every day?', ca: 'Per què un repte cada dia?' })}
+        </Link>
+      )}
     </div>
   )
 }

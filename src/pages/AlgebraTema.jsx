@@ -1,11 +1,10 @@
-import { useNavigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
 export default function AlgebraTema() {
-  const navigate = useNavigate()
   const { lang, localPath, tr } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
@@ -40,7 +39,7 @@ export default function AlgebraTema() {
         ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas',
         ca ? 'Amb el joc' : en ? 'With the game' : 'Con el juego',
       ],
-      action: () => navigate(localPath('/examen/balanza-algebraica-test')),
+      to: localPath('/examen/balanza-algebraica-test'),
     },
     {
       id: 'segundo-grado',
@@ -53,7 +52,7 @@ export default function AlgebraTema() {
         tr({ es: 'Distinto cada vez', en: 'Different every time', ca: 'Diferent cada vegada' }),
         tr({ es: 'Paso a paso', en: 'Step by step', ca: 'Pas a pas' }),
       ],
-      action: () => navigate(localPath('/examen/ecuaciones-segundo-grado-test')),
+      to: localPath('/examen/ecuaciones-segundo-grado-test'),
     },
     {
       id: 'sistemas',
@@ -66,7 +65,7 @@ export default function AlgebraTema() {
         tr({ es: 'Distinto cada vez', en: 'Different every time', ca: 'Diferent cada vegada' }),
         tr({ es: 'Paso a paso', en: 'Step by step', ca: 'Pas a pas' }),
       ],
-      action: () => navigate(localPath('/examen/sistemas-ecuaciones-test')),
+      to: localPath('/examen/sistemas-ecuaciones-test'),
     },
     {
       id: 'examen',
@@ -83,7 +82,7 @@ export default function AlgebraTema() {
         'ESO',
         ca ? 'Nota final' : en ? 'Final grade' : 'Nota final',
       ],
-      action: () => navigate(localPath('/examen/algebra')),
+      to: localPath('/examen/algebra'),
     },
   ]
 
@@ -115,8 +114,8 @@ export default function AlgebraTema() {
           {ca ? 'Modes disponibles' : en ? 'Available modes' : 'Modos disponibles'}
         </p>
         {opciones.map(o => (
-          <button key={o.id} onClick={o.action}
-            className="w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40">
+          <Link key={o.id} to={o.to} state={o.state}
+            className="block w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40">
             <div className={`bg-gradient-to-br ${o.gradient} p-6`}>
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
@@ -138,7 +137,7 @@ export default function AlgebraTema() {
                 </div>
               </div>
             </div>
-          </button>
+          </Link>
         ))}
 
         {!en && !ca && (

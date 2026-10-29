@@ -18,6 +18,15 @@ const DATA = {
           { nombre: 'Independencia Americana', desc: 'Del motín del té a la Constitución.', slug: 'historia-independencia-americana' },
           { nombre: 'Antigua Roma', desc: 'De Rómulo al colapso del Imperio.', slug: 'historia-antigua-roma' },
           { nombre: 'Grandes Hitos de la Historia', desc: 'Los momentos que cambiaron el mundo.', slug: 'historia-hitos' },
+          { nombre: 'Prehistoria', desc: 'De los primeros humanos a la agricultura.', slug: 'historia-prehistoria' },
+          { nombre: 'Edad Antigua', desc: 'Egipto, Grecia y el nacimiento de la civilización.', slug: 'historia-antigua' },
+          { nombre: 'Edad Media', desc: 'De la caída de Roma a los Reyes Católicos.', slug: 'historia-edad-media' },
+          { nombre: 'Edad Moderna', desc: 'Reyes Católicos, Imperio Español y la Revolución Francesa.', slug: 'historia-edad-moderna' },
+          { nombre: 'Revolución Francesa y Napoleón', desc: 'Del Antiguo Régimen a Waterloo, 1789-1815.', slug: 'historia-revolucion-francesa' },
+          { nombre: 'Revolución Industrial', desc: 'Máquinas, fábricas y movimiento obrero, siglos XVIII-XIX.', slug: 'historia-revolucion-industrial' },
+          { nombre: 'Primera Guerra Mundial', desc: 'La Gran Guerra, de Sarajevo a Versalles, 1914-1919.', slug: 'historia-primera-guerra-mundial' },
+          { nombre: 'Guerra Fría', desc: 'Estados Unidos contra la URSS, 1947-1991.', slug: 'historia-guerra-fria' },
+          { nombre: 'Franquismo y Transición', desc: 'De la posguerra a la Constitución de 1978.', slug: 'historia-franquismo' },
         ],
       },
       {
@@ -78,6 +87,7 @@ const DATA = {
           { nombre: 'Ecosistemas', desc: 'Cadenas tróficas, biomas y adaptaciones.', slug: 'ecosistemas' },
           { nombre: 'Genética', desc: 'ADN, genes, herencia y mutaciones. ESO.', slug: 'genetica' },
           { nombre: 'Nutrición', desc: 'Macronutrientes, vitaminas y dieta saludable.', slug: 'nutricion' },
+          { nombre: 'Evolución', desc: 'Darwin, la selección natural y el árbol de la vida.', slug: 'evolucion' },
         ],
       },
       {
@@ -86,6 +96,7 @@ const DATA = {
         temas: [
           { nombre: 'Rocas y Minerales', desc: 'Ígneas, sedimentarias y metamórficas, y minerales.', slug: 'rocas-minerales' },
           { nombre: 'Sistema Solar', desc: 'Planetas, astros, movimientos y características. Primaria y ESO.', slug: 'sistema-solar' },
+          { nombre: 'Placas Tectónicas', desc: 'Terremotos, volcanes y el interior de la Tierra.', slug: 'placas-tectonicas' },
         ],
       },
       {
@@ -102,6 +113,10 @@ const DATA = {
           { nombre: 'English — Present Perfect', desc: 'Have/has + past participle, for/since, just/already/yet.', slug: 'ingles-grammar-present-perfect' },
           { nombre: 'English — Articles', desc: 'A, an, the and zero article: rules and exceptions.', slug: 'ingles-grammar-articles' },
           { nombre: 'English — Passive Voice', desc: 'Be + past participle in all tenses.', slug: 'ingles-grammar-passive' },
+          { nombre: 'Gramática Española', desc: 'Repaso general de gramática española.', slug: 'espanol' },
+          { nombre: 'Complemento Directo (CD)', desc: 'Cómo encontrarlo en la oración.', slug: 'complemento-directo' },
+          { nombre: 'Complemento Indirecto (CI)', desc: 'Cómo encontrarlo en la oración.', slug: 'complemento-indirecto' },
+          { nombre: 'English Grammar', desc: 'Tiempos verbales, pasiva, condicionales y relativos.', slug: 'ingles' },
         ],
       },
       {
@@ -127,6 +142,15 @@ const DATA = {
           { nombre: 'American Independence', desc: 'From the Boston Tea Party to the Constitution.', slug: 'historia-independencia-americana' },
           { nombre: 'Ancient Rome', desc: 'From Romulus to the fall of the Empire.', slug: 'historia-antigua-roma' },
           { nombre: 'Great Milestones of History', desc: 'The moments that changed the world.', slug: 'historia-hitos' },
+          { nombre: 'Prehistory', desc: 'From the first humans to farming.', slug: 'historia-prehistoria' },
+          { nombre: 'Antiquity', desc: 'Egypt, Greece and the birth of civilisation.', slug: 'historia-antigua' },
+          { nombre: 'The Middle Ages', desc: 'From the fall of Rome to the Catholic Monarchs.', slug: 'historia-edad-media' },
+          { nombre: 'The Early Modern Period', desc: 'From Columbus to the Enlightenment.', slug: 'historia-edad-moderna' },
+          { nombre: 'The French Revolution and Napoleon', desc: 'From the Ancien Régime to Waterloo, 1789-1815.', slug: 'historia-revolucion-francesa' },
+          { nombre: 'The Industrial Revolution', desc: 'Machines, factories and the labour movement, 18th-19th centuries.', slug: 'historia-revolucion-industrial' },
+          { nombre: 'World War I', desc: 'The Great War, from Sarajevo to Versailles, 1914-1919.', slug: 'historia-primera-guerra-mundial' },
+          { nombre: 'The Cold War', desc: 'The United States versus the USSR, 1947-1991.', slug: 'historia-guerra-fria' },
+          { nombre: 'Francoism and the Transition', desc: 'From the post-war years to the 1978 Constitution.', slug: 'historia-franquismo' },
         ],
       },
       {
@@ -187,6 +211,7 @@ const DATA = {
           { nombre: 'Ecosystems', desc: 'Food chains, biomes and adaptations.', slug: 'ecosistemas' },
           { nombre: 'Genetics', desc: 'DNA, genes, heredity and mutations. Secondary.', slug: 'genetica' },
           { nombre: 'Nutrition', desc: 'Macronutrients, vitamins and healthy diet.', slug: 'nutricion' },
+          { nombre: 'Evolution', desc: 'Darwin, natural selection and the tree of life.', slug: 'evolucion' },
         ],
       },
       {
@@ -195,6 +220,7 @@ const DATA = {
         temas: [
           { nombre: 'Rocks & Minerals', desc: 'Igneous, sedimentary and metamorphic rocks, and minerals.', slug: 'rocas-minerales' },
           { nombre: 'Solar System', desc: 'Planets, celestial bodies, movements and features. Primary & Secondary.', slug: 'sistema-solar' },
+          { nombre: 'Tectonic Plates', desc: 'Earthquakes, volcanoes and the Earth\'s interior.', slug: 'placas-tectonicas' },
         ],
       },
       {
@@ -211,6 +237,10 @@ const DATA = {
           { nombre: 'English — Present Perfect', desc: 'Have/has + past participle, for/since, just/already/yet.', slug: 'ingles-grammar-present-perfect' },
           { nombre: 'English — Articles', desc: 'A, an, the and zero article: rules and exceptions.', slug: 'ingles-grammar-articles' },
           { nombre: 'English — Passive Voice', desc: 'Be + past participle in all tenses.', slug: 'ingles-grammar-passive' },
+          { nombre: 'Spanish Grammar', desc: 'A general review of Spanish grammar.', slug: 'espanol' },
+          { nombre: 'Direct Object (DO)', desc: 'How to find it in a sentence.', slug: 'complemento-directo' },
+          { nombre: 'Indirect Object (IO)', desc: 'How to find it in a sentence.', slug: 'complemento-indirecto' },
+          { nombre: 'English Grammar', desc: 'Tenses, passive voice, conditionals and relative clauses.', slug: 'ingles' },
         ],
       },
       {
@@ -236,6 +266,15 @@ const DATA = {
           { nombre: 'Independència Americana', desc: 'Del motí del te a la Constitució.', slug: 'historia-independencia-americana' },
           { nombre: 'Antiga Roma', desc: 'De Ròmul al col·lapse de l\'Imperi.', slug: 'historia-antigua-roma' },
           { nombre: 'Grans Fites de la Història', desc: 'Els moments que van canviar el món.', slug: 'historia-hitos' },
+          { nombre: 'Prehistòria', desc: 'Dels primers humans a l\'agricultura.', slug: 'historia-prehistoria' },
+          { nombre: 'Edat Antiga', desc: 'Egipte, Grècia i el naixement de la civilització.', slug: 'historia-antigua' },
+          { nombre: 'Edat Mitjana', desc: 'De la caiguda de Roma als Reis Catòlics.', slug: 'historia-edad-media' },
+          { nombre: 'Edat Moderna', desc: 'Reis Catòlics, Imperi Espanyol i la Revolució Francesa.', slug: 'historia-edad-moderna' },
+          { nombre: 'Revolució Francesa i Napoleó', desc: 'De l\'Antic Règim a Waterloo, 1789-1815.', slug: 'historia-revolucion-francesa' },
+          { nombre: 'Revolució Industrial', desc: 'Màquines, fàbriques i moviment obrer, segles XVIII-XIX.', slug: 'historia-revolucion-industrial' },
+          { nombre: 'Primera Guerra Mundial', desc: 'La Gran Guerra, de Sarajevo a Versalles, 1914-1919.', slug: 'historia-primera-guerra-mundial' },
+          { nombre: 'Guerra Freda', desc: 'Els Estats Units contra l\'URSS, 1947-1991.', slug: 'historia-guerra-fria' },
+          { nombre: 'Franquisme i Transició', desc: 'De la postguerra a la Constitució de 1978.', slug: 'historia-franquismo' },
         ],
       },
       {
@@ -296,6 +335,7 @@ const DATA = {
           { nombre: 'Ecosistemes', desc: 'Cadenes tròfiques, biomes i adaptacions.', slug: 'ecosistemas' },
           { nombre: 'Genètica', desc: 'ADN, gens, herència i mutacions. ESO.', slug: 'genetica' },
           { nombre: 'Nutrició', desc: 'Macronutrients, vitamines i dieta saludable.', slug: 'nutricion' },
+          { nombre: 'Evolució', desc: 'Darwin, la selecció natural i l\'arbre de la vida.', slug: 'evolucion' },
         ],
       },
       {
@@ -304,6 +344,7 @@ const DATA = {
         temas: [
           { nombre: 'Roques i Minerals', desc: 'Ígnies, sedimentàries i metamòrfiques, i minerals.', slug: 'rocas-minerales' },
           { nombre: 'Sistema Solar', desc: 'Planetes, astres, moviments i característiques. Primària i ESO.', slug: 'sistema-solar' },
+          { nombre: 'Plaques Tectòniques', desc: 'Terratrèmols, volcans i l\'interior de la Terra.', slug: 'placas-tectonicas' },
         ],
       },
       {
@@ -320,6 +361,10 @@ const DATA = {
           { nombre: 'English — Present Perfect', desc: 'Have/has + past participle, for/since, just/already/yet.', slug: 'ingles-grammar-present-perfect' },
           { nombre: 'English — Articles', desc: 'A, an, the and zero article: rules and exceptions.', slug: 'ingles-grammar-articles' },
           { nombre: 'English — Passive Voice', desc: 'Be + past participle in all tenses.', slug: 'ingles-grammar-passive' },
+          { nombre: 'Gramàtica Espanyola', desc: 'Repàs general de gramàtica espanyola.', slug: 'espanol' },
+          { nombre: 'Complement Directe (CD)', desc: 'Com trobar-lo a l\'oració.', slug: 'complemento-directo' },
+          { nombre: 'Complement Indirecte (CI)', desc: 'Com trobar-lo a l\'oració.', slug: 'complemento-indirecto' },
+          { nombre: 'English Grammar', desc: 'Temps verbals, passiva, condicionals i relatius.', slug: 'ingles' },
         ],
       },
       {

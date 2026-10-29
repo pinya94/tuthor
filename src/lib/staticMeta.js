@@ -134,8 +134,8 @@ export const STATIC_META = {
     en: { title: 'Educational games — pedagogical basis', desc: 'What each Tuthor game trains, its pedagogical basis and how to play it on paper too. A guide for families and teachers.' },
   },
   '/info/diaria': {
-    es: { title: 'Pregunta diaria — crea el hábito de estudio', desc: 'Un reto nuevo cada día de 2 minutos: trivia, cálculo o geografía. La ciencia del hábito aplicada al estudio, con rachas y recompensas.' },
-    en: { title: 'Daily question — build a study habit', desc: 'A new 2-minute challenge every day: trivia, arithmetic or geography. Habit science applied to studying, with streaks and rewards.' },
+    es: { title: 'Reto diario — crea el hábito de estudio', desc: 'Un juego distinto cada día y una pregunta rápida, con una sola racha. La ciencia del hábito aplicada al estudio: poco cada día rinde más que mucho de golpe.' },
+    en: { title: 'Daily challenge — build a study habit', desc: 'A different game every day plus a quick question, with a single streak. Habit science applied to studying: a little every day beats cramming.' },
   },
   '/privacidad': {
     es: { title: 'Política de privacidad', desc: 'Política de privacidad y protección de datos de Tuthor: qué datos tratamos, con qué finalidad y cuáles son tus derechos.' },
