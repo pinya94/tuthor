@@ -67,6 +67,7 @@ function PaginaMateria({ curso, landing }) {
   const juegos = landing.juegos.filter(slug => disponibleEn(slug, lang)).map(juegoDe).filter(Boolean)
   const hermanas = landingsDe(curso).filter(l => l.materia !== landing.materia)
   const path = `/juegos/${curso}/${landing.materia}`
+  const intro = tr(landing.intro)
 
   return (
     <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-8">
@@ -78,20 +79,9 @@ function PaginaMateria({ curso, landing }) {
         <ArteMateria id={landing.arteMateria} className="w-full max-w-[220px] aspect-video shrink-0" />
         <div>
           <h1 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-3">{tr(landing.titulo)}</h1>
-          <Parrafos textos={tr(landing.intro)} />
+          <Parrafos textos={intro.slice(0, 1)} />
         </div>
       </header>
-
-      <section className="mb-10">
-        <h2 className="text-white font-black text-lg mb-3">{tr({ es: 'Qué se practica', en: 'What children practise', ca: 'Què es practica' })}</h2>
-        <ul className="grid sm:grid-cols-2 gap-2">
-          {tr(landing.practica).map(p => (
-            <li key={p} className="flex items-center gap-2.5 rounded-xl bg-[#141b2e] border border-white/[0.08] px-3.5 py-2.5 text-white/80 text-sm">
-              <Acierto className="w-4 h-4 shrink-0" />{p}
-            </li>
-          ))}
-        </ul>
-      </section>
 
       <section className="mb-10">
         <h2 className="text-white font-black text-lg mb-3">
@@ -103,6 +93,25 @@ function PaginaMateria({ curso, landing }) {
               sub={campo(g, 'subtitle', lang)} to={localPath(g.path)} />
           ))}
         </div>
+      </section>
+
+      {/* El resto de la explicación, después de los juegos: quien llega desde
+          Google ve primero a qué puede jugar; el texto sigue en la página */}
+      {intro.length > 1 && (
+        <section className="mb-10">
+          <Parrafos textos={intro.slice(1)} />
+        </section>
+      )}
+
+      <section className="mb-10">
+        <h2 className="text-white font-black text-lg mb-3">{tr({ es: 'Qué se practica', en: 'What children practise', ca: 'Què es practica' })}</h2>
+        <ul className="grid sm:grid-cols-2 gap-2">
+          {tr(landing.practica).map(p => (
+            <li key={p} className="flex items-center gap-2.5 rounded-xl bg-[#141b2e] border border-white/[0.08] px-3.5 py-2.5 text-white/80 text-sm">
+              <Acierto className="w-4 h-4 shrink-0" />{p}
+            </li>
+          ))}
+        </ul>
       </section>
 
       {landing.temas.length > 0 && (

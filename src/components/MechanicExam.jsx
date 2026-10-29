@@ -172,7 +172,7 @@ function Intro({ badge, title, sub, levels, onSelect, backGamePath, backLabel, a
         </Link>
         <DescubreTuthor className="mt-6" />
       </div>
-      <ComoEsExamen desc={desc} levels={levels} ejemplos={ejemplos} slug={slug} titulo={sinEmoji(tr(title, l)).replace(/^(Examen|Exam)s*(de |d’|:)?s*/i, '')} l={l} />
+      <ComoEsExamen desc={desc} levels={levels} ejemplos={ejemplos} slug={slug} titulo={sinEmoji(tr(title, l)).replace(/^(Examen|Exam)\s*(de |d’|:)?\s*/i, '')} l={l} />
     </div>
   )
 }
