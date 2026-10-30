@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, REGIONES, ELEMENTOS, delNivel, elemento, medio, esCorrecta, enunciado, explicacion, textoRespuesta, schemaQuestion } from '../riosMontanas'
+import { genRonda, NIVELES, REGIONES, ELEMENTOS, delNivel, elemento, elementosDe, medio, esCorrecta, enunciado, explicacion, textoRespuesta, schemaQuestion } from '../riosMontanas'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -129,6 +129,25 @@ describe('Ríos y Montañas: rondas', () => {
       })
     }
   }
+
+  it('el recorrido del juego cubre cada mapa entero en pocas rondas, prefiriendo lo que aún no ha salido', () => {
+    for (const region of Object.keys(REGIONES)) {
+      for (const nivel of Object.keys(NIVELES)) {
+        const todos = delNivel(nivel, region).map(e => e.id)
+        const rand = semilla(todos.length * 31 + nivel.length)
+        const vistos = new Set()
+        let rondas = 0
+        while (vistos.size < todos.length && rondas < 200) {
+          const r = genRonda(nivel, { rand, region, prefiere: todos.filter(id => !vistos.has(id)) })
+          for (const id of elementosDe(r)) vistos.add(id)
+          rondas++
+        }
+        expect(vistos.size, `${region} · ${nivel}`).toBe(todos.length)
+        // cada ronda saca al menos un elemento nuevo: nunca más rondas que elementos
+        expect(rondas, `${region} · ${nivel}`).toBeLessThanOrEqual(todos.length)
+      }
+    }
+  })
 
   it('el juego mezcla regiones según los pesos', () => {
     const rand = semilla(42)

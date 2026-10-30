@@ -4,7 +4,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import { NIVELES, genRonda, esCorrecta } from '../lib/riosMontanas'
+import { NIVELES, REGIONES, genRonda, esCorrecta, delNivel, elementosDe, tx } from '../lib/riosMontanas'
 import PreguntaRios from '../components/riosMontanas/PreguntaRios'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
@@ -15,8 +15,11 @@ const GAME_TIME = 90
 const WRONG_TIME = 5
 const CORRECT_TIME = 5
 const REVEAL_MS = 3500 // lo justo para ver en el mapa dónde estaba
-// Cuánto sale cada mapa: en castellano y catalán, sobre todo España; en inglés, sobre todo el mundo
-const PESOS = { es: { espana: 3, mundo: 1 }, ca: { espana: 3, mundo: 1 }, en: { espana: 1, mundo: 3 } }
+// El recorrido: un mapa entero (todos sus ríos y montañas del nivel) y luego el
+// siguiente; al acabar el último, se vuelve a empezar. En castellano y catalán
+// se empieza por España; en inglés, por el mundo.
+const RECORRIDO = { es: ['espana', 'mundo'], ca: ['espana', 'mundo'], en: ['mundo', 'espana'] }
+const AVISO_MS = 2600
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
@@ -46,6 +49,9 @@ export default function RiosMontanas() {
   const [ronda, setRonda] = useState(null)
   const [elegida, setElegida] = useState(null)
   const [phase, setPhase] = useState('choose')
+  // Mapa en curso del recorrido y lo que ya ha salido de él; aviso al cambiar
+  const [aviso, setAviso] = useState(null)
+  const recorridoRef = useRef({ i: 0, vistos: new Set() })
 
   const timerRef = useRef(null)
   const nextRef = useRef(null)
@@ -53,12 +59,28 @@ export default function RiosMontanas() {
   useEffect(() => { aciertosRef.current = aciertos }, [aciertos])
 
   const next = useCallback(niv => {
-    setRonda(genRonda(niv, { pesos: PESOS[l] }))
+    const orden = RECORRIDO[l]
+    const rec = recorridoRef.current
+    let pendientes = delNivel(niv, orden[rec.i]).map(e => e.id).filter(id => !rec.vistos.has(id))
+    if (!pendientes.length) {
+      // mapa completo: al siguiente (o vuelta a empezar)
+      const antes = orden[rec.i]
+      rec.i = (rec.i + 1) % orden.length
+      rec.vistos = new Set()
+      pendientes = delNivel(niv, orden[rec.i]).map(e => e.id)
+      setAviso({ antes, ahora: orden[rec.i] })
+      setTimeout(() => setAviso(null), AVISO_MS)
+    }
+    const r = genRonda(niv, { region: orden[rec.i], prefiere: pendientes })
+    for (const id of elementosDe(r)) rec.vistos.add(id)
+    setRonda(r)
     setElegida(null)
     setPhase('choose')
   }, [l])
 
   const startGame = useCallback((niv = 'facil') => {
+    recorridoRef.current = { i: 0, vistos: new Set() }
+    setAviso(null)
     setNivel(niv); setScreen('playing')
     setAciertos(0); setStreak(0)
     setTimeLeft(GAME_TIME)
@@ -214,6 +236,15 @@ export default function RiosMontanas() {
       </div>
 
       <div className="w-full max-w-[560px]">
+        {aviso && (
+          <p className="mb-3 rounded-xl border border-emerald-400/40 bg-emerald-500/15 px-3 py-2 text-center text-sm font-black text-emerald-200">
+            {tr({
+              es: `✅ ¡Ya has recorrido ${tx(REGIONES[aviso.antes].nombre, 'es')}! Ahora, ${tx(REGIONES[aviso.ahora].nombre, 'es')} ${aviso.ahora === 'mundo' ? '🌍' : '🏞️'}`,
+              en: `✅ You have covered ${tx(REGIONES[aviso.antes].nombre, 'en')}! Now, ${tx(REGIONES[aviso.ahora].nombre, 'en')} ${aviso.ahora === 'mundo' ? '🌍' : '🏞️'}`,
+              ca: `✅ Ja has recorregut ${tx(REGIONES[aviso.antes].nombre, 'ca')}! Ara, ${tx(REGIONES[aviso.ahora].nombre, 'ca')} ${aviso.ahora === 'mundo' ? '🌍' : '🏞️'}`,
+            })}
+          </p>
+        )}
         <PreguntaRios key={ronda.id} ronda={ronda} revelado={isResult} elegida={elegida} onResponder={responder} />
         {isResult && (
           <p className="text-center text-xs font-bold mt-2">

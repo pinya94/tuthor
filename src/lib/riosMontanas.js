@@ -250,20 +250,25 @@ let seq = 0
 const recientes = []
 // `region`: la de un examen. Sin ella (el juego) se elige una en cada ronda;
 // `pesos` dice cuánto sale cada una (p. ej. más España en castellano).
-export function genRonda(nivel = 'facil', { rand = Math.random, region = null, pesos = null } = {}) {
+// `prefiere`: ids que aún no han salido (el juego recorre una región entera
+// antes de pasar a la siguiente): si hay, la ronda incluye alguno.
+export function genRonda(nivel = 'facil', { rand = Math.random, region = null, pesos = null, prefiere = null } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (let intento = 0; ; intento++) {
     const reg = REGIONES[region ?? eligePeso(rand, pesos ?? Object.fromEntries(Object.keys(REGIONES).map(k => [k, 1])))]
     const visibles = delNivel(nivel, reg.id)
     const rios = visibles.filter(e => e.clase === 'rio')
     const tipo = elige(rand, cfg.tipos)
+    const pendiente = prefiere?.length && intento < 30 ? (e => prefiere.includes(e.id)) : null
+    const deLosPendientes = xs => (pendiente && xs.some(pendiente) ? xs.filter(pendiente) : xs)
     const base = { id: ++seq, nivel, tipo, region: reg.id }
     let r
     if (tipo === 'busca') {
-      r = { ...base, objetivo: elige(rand, visibles).id }
+      r = { ...base, objetivo: elige(rand, deLosPendientes(visibles)).id }
     } else if (tipo === 'etiqueta') {
       // tres elementos (al menos un río y un sistema) y un nombre de más
       const tres = baraja(rand, visibles).slice(0, 3)
+      if (pendiente && visibles.some(pendiente) && !tres.some(pendiente)) continue
       if (!tres.some(e => e.clase === 'rio') || !tres.some(e => e.clase === 'monte')) continue
       // los tres números, bien separados en el mapa (no se pueden pisar)
       if (tres.some((a, i) => tres.some((b, j) => i < j && dist(medio(a), medio(b)) < reg.sepNumeros))) continue
@@ -274,13 +279,16 @@ export function genRonda(nivel = 'facil', { rand = Math.random, region = null, p
       const conVertiente = rios.filter(e => e.vertiente)
       if (conVertiente.length < 4) continue
       const cuatro = baraja(rand, conVertiente).slice(0, 4)
+      // a este tipo no le queda nada pendiente (solo faltan montañas): otro tipo
+      if (pendiente && !cuatro.some(pendiente)) continue
       // al menos dos vertientes distintas
       if (new Set(cuatro.map(e => e.vertiente)).size < 2) continue
       r = { ...base, rios: cuatro.map(e => e.id), vertientes: nivel === 'facil' && reg.vertientesFacil ? reg.vertientesFacil : Object.keys(reg.vertientes) }
     } else {
       const que = elige(rand, ['nace', 'desemboca'])
       const pool = rios.filter(e => que === 'desemboca' || !e.naceDiscutido)
-      const obj = elige(rand, pool)
+      if (pendiente && !pool.some(pendiente)) continue
+      const obj = elige(rand, deLosPendientes(pool))
       const punto = e => (que === 'nace' ? e.puntos[0] : e.puntos[e.puntos.length - 1])
       // tres puntos más, de otros ríos y separados (nada de tres nacimientos juntos)
       const otros = []
@@ -299,6 +307,14 @@ export function genRonda(nivel = 'facil', { rand = Math.random, region = null, p
   }
 }
 export const genRound = (difficulty = 'facil') => genRonda(difficulty)
+
+// Los ríos y montañas que «salen» en una ronda (para saber cuándo se ha
+// recorrido una región entera)
+export function elementosDe(r) {
+  if (r.tipo === 'etiqueta') return r.marcados
+  if (r.tipo === 'vertiente') return r.rios
+  return [r.objetivo]
+}
 
 // Respuestas: busca → id tocado; etiqueta → [id del 1, id del 2, id del 3];
 // vertiente → { rioId: vertiente }; extremos → id del río cuyo punto se toca.
