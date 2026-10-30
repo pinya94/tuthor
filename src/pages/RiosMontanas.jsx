@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
@@ -11,15 +11,20 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-const GAME_TIME = 90
-const WRONG_TIME = 5
-const CORRECT_TIME = 5
 const REVEAL_MS = 3500 // lo justo para ver en el mapa dónde estaba
-// El recorrido: un mapa entero (todos sus ríos y montañas del nivel) y luego el
-// siguiente; al acabar el último, se vuelve a empezar. En castellano y catalán
-// se empieza por España; en inglés, por el mundo.
+// La partida es un recorrido: un mapa entero (todos sus ríos y montañas del
+// nivel) y luego el siguiente, sin repetir; al acabar el último, se acaba.
+// En castellano y catalán se empieza por España; en inglés, por el mundo.
 const RECORRIDO = { es: ['espana', 'mundo'], ca: ['espana', 'mundo'], en: ['mundo', 'espana'] }
 const AVISO_MS = 2600
+const mmss = t => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`
+// Puntos: 10 por acierto y hasta 10 más por rapidez. El extra baja de 10 a 0
+// entre «rápido» y «lento» (segundos); las preguntas de varias piezas tienen más margen.
+const RAPIDEZ = { busca: [4, 15], extremos: [4, 15], etiqueta: [10, 35], vertiente: [10, 35] }
+const puntosDe = (tipo, segundos) => {
+  const [rapido, lento] = RAPIDEZ[tipo] ?? [5, 20]
+  return 10 + Math.round(10 * Math.min(1, Math.max(0, (lento - segundos) / (lento - rapido))))
+}
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
@@ -43,29 +48,35 @@ export default function RiosMontanas() {
 
   const [screen, setScreen] = useState('intro')
   const [nivel, setNivel] = useState('facil')
-  const [timeLeft, setTimeLeft] = useState(GAME_TIME)
+  const [segundos, setSegundos] = useState(0)
+  const [puntos, setPuntos] = useState(0)
+  const [ganado, setGanado] = useState(0)
   const [aciertos, setAciertos] = useState(0)
+  const [preguntas, setPreguntas] = useState(0)
   const [streak, setStreak] = useState(0)
   const [ronda, setRonda] = useState(null)
   const [elegida, setElegida] = useState(null)
   const [phase, setPhase] = useState('choose')
-  // Mapa en curso del recorrido y lo que ya ha salido de él; aviso al cambiar
+  // Mapa en curso del recorrido y lo que ya ha salido de cada uno; aviso al cambiar
   const [aviso, setAviso] = useState(null)
   const recorridoRef = useRef({ i: 0, vistos: new Set() })
+  const [progreso, setProgreso] = useState({ i: 0, vistos: 0 })
 
   const timerRef = useRef(null)
   const nextRef = useRef(null)
-  const aciertosRef = useRef(0)
-  useEffect(() => { aciertosRef.current = aciertos }, [aciertos])
+  const inicioRondaRef = useRef(0)
+  const marcadorRef = useRef({ puntos: 0, segundos: 0 })
+  useEffect(() => { marcadorRef.current = { puntos, segundos } }, [puntos, segundos])
 
-  const next = useCallback(niv => {
+  // La siguiente ronda; null si ya se ha recorrido todo
+  const siguiente = niv => {
     const orden = RECORRIDO[l]
     const rec = recorridoRef.current
     let pendientes = delNivel(niv, orden[rec.i]).map(e => e.id).filter(id => !rec.vistos.has(id))
     if (!pendientes.length) {
-      // mapa completo: al siguiente (o vuelta a empezar)
+      if (rec.i === orden.length - 1) return null
       const antes = orden[rec.i]
-      rec.i = (rec.i + 1) % orden.length
+      rec.i++
       rec.vistos = new Set()
       pendientes = delNivel(niv, orden[rec.i]).map(e => e.id)
       setAviso({ antes, ahora: orden[rec.i] })
@@ -73,57 +84,65 @@ export default function RiosMontanas() {
     }
     const r = genRonda(niv, { region: orden[rec.i], prefiere: pendientes })
     for (const id of elementosDe(r)) rec.vistos.add(id)
+    setProgreso({ i: rec.i, vistos: rec.vistos.size })
+    return r
+  }
+
+  const next = niv => {
+    const r = siguiente(niv)
+    if (!r) { finish(); return }
     setRonda(r)
     setElegida(null)
     setPhase('choose')
-  }, [l])
+  }
+  // Cuándo empezó la ronda en pantalla (para los puntos por rapidez)
+  useEffect(() => { inicioRondaRef.current = Date.now() }, [ronda])
 
-  const startGame = useCallback((niv = 'facil') => {
+  const startGame = (niv = 'facil') => {
     recorridoRef.current = { i: 0, vistos: new Set() }
     setAviso(null)
     setNivel(niv); setScreen('playing')
-    setAciertos(0); setStreak(0)
-    setTimeLeft(GAME_TIME)
+    setPuntos(0); setAciertos(0); setPreguntas(0); setStreak(0); setSegundos(0)
     next(niv)
-  }, [next])
+  }
 
   function finish() {
     clearTimeout(nextRef.current)
+    clearInterval(timerRef.current)
     setScreen('end')
-    const pts = aciertosRef.current * 10
+    const { puntos: pts, segundos: t } = marcadorRef.current
     if (user) {
       saveActivity(user.uid, {
         type: 'juego', game: 'rios-montanas', category: 'relieve-espana',
-        score: pts, timeSpent: GAME_TIME,
+        score: pts, timeSpent: t,
         coinsEarned: computeCoins('rios-montanas', { score: pts }),
         userName: user.displayName, userPhoto: user.photoURL,
       }).catch(() => {})
     }
   }
 
+  // El reloj cuenta hacia arriba: cuánto se tarda en recorrerlo todo
   useEffect(() => {
-    if (screen !== 'playing' || phase === 'result') return
-    timerRef.current = setInterval(() => {
-      setTimeLeft(t => {
-        if (t <= 1) { clearInterval(timerRef.current); finish(); return 0 }
-        return t - 1
-      })
-    }, 1000)
+    if (screen !== 'playing') return
+    timerRef.current = setInterval(() => setSegundos(t => t + 1), 1000)
     return () => clearInterval(timerRef.current)
-  }, [screen, phase]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [screen])
 
   useEffect(() => () => clearTimeout(nextRef.current), [])
 
   function responder(r) {
     if (phase !== 'choose') return
     setElegida(r); setPhase('result')
+    setPreguntas(n => n + 1)
     if (esCorrecta(ronda, r)) {
+      const p = puntosDe(ronda.tipo, (Date.now() - inicioRondaRef.current) / 1000)
+      setGanado(p)
+      setPuntos(x => x + p)
       setAciertos(a => a + 1)
-      setStreak(s => s + 1)
-      setTimeLeft(t => t + CORRECT_TIME)
+      setStreak(x => x + 1)
     } else {
+      setGanado(0)
       setStreak(0)
-      setTimeLeft(t => Math.max(0, t - WRONG_TIME))
     }
     nextRef.current = setTimeout(() => next(nivel), REVEAL_MS)
   }
@@ -173,7 +192,7 @@ export default function RiosMontanas() {
                 <li>{tr({ es: '🌊 Repartes los ríos según el mar al que van: en España, por vertientes; en el mundo, por océanos.', en: '🌊 You sort the rivers by the sea they reach: basins in Spain, oceans in the world.', ca: '🌊 Reparteixes els rius segons el mar on van: a Espanya, per vessants; al món, per oceans.' })}</li>
                 <li>{tr({ es: '📍 En difícil, tocas dónde nace o dónde desemboca un río.', en: '📍 On hard, you tap where a river rises or reaches the sea.', ca: '📍 En difícil, toques on neix o on desemboca un riu.' })}</li>
               </ul>
-              <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
+              <p className="text-white/40 text-xs pt-1">{tr({ es: '🗺️ Se recorre cada mapa entero, sin repetir, y la partida acaba al terminar. ⚡ Acierto: 10 puntos, y hasta 10 más si contestas rápido.', en: '🗺️ You go through each whole map without repeats, and the game ends when you finish. ⚡ Correct: 10 points, plus up to 10 more if you answer fast.', ca: '🗺️ Es recorre cada mapa sencer, sense repetir, i la partida s’acaba en acabar. ⚡ Encert: 10 punts, i fins a 10 més si contestes ràpid.' })}</p>
             </div>
           </ComoSeJuega>
         </div>
@@ -182,57 +201,63 @@ export default function RiosMontanas() {
   }
 
   if (screen === 'end') {
-    const pts = aciertos * 10
+    const pts = puntos
+    const nota = preguntas ? aciertos / preguntas : 0
     const msg = tr({
-      es: aciertos === 0 ? '¡Sigue practicando!' : aciertos < 5 ? 'Buen comienzo' : aciertos < 10 ? '¡Te orientas muy bien!' : '¡Conoces España como un geógrafo! 🏞️',
-      en: aciertos === 0 ? 'Keep practising!' : aciertos < 5 ? 'Good start' : aciertos < 10 ? 'You find your way very well!' : 'You know Spain like a geographer! 🏞️',
-      ca: aciertos === 0 ? 'Segueix practicant!' : aciertos < 5 ? 'Bon començament' : aciertos < 10 ? 'T’orientes molt bé!' : 'Coneixes Espanya com un geògraf! 🏞️',
+      es: nota < 0.4 ? '¡Sigue practicando!' : nota < 0.7 ? 'Buen recorrido' : nota < 0.9 ? '¡Te orientas muy bien!' : '¡Conoces el mapa como un geógrafo! 🏞️',
+      en: nota < 0.4 ? 'Keep practising!' : nota < 0.7 ? 'A good journey' : nota < 0.9 ? 'You find your way very well!' : 'You know the map like a geographer! 🏞️',
+      ca: nota < 0.4 ? 'Segueix practicant!' : nota < 0.7 ? 'Bon recorregut' : nota < 0.9 ? 'T’orientes molt bé!' : 'Coneixes el mapa com un geògraf! 🏞️',
     })
     const shareText = tr({
-      es: `He acertado ${aciertos} en Ríos y Montañas de Tuthor 🏞️ — ¿te sabes el mapa de España? https://tuthor.es/juegos/rios-montanas`,
-      en: `I got ${aciertos} right in Rivers and Mountains on Tuthor 🏞️ — do you know the map of Spain? https://tuthor.es/juegos/rios-montanas`,
-      ca: `He encertat ${aciertos} a Rius i Muntanyes de Tuthor 🏞️ — et saps el mapa d’Espanya? https://tuthor.es/juegos/rios-montanas`,
+      es: `He hecho ${puntos} puntos recorriendo España y el mundo en Ríos y Montañas de Tuthor 🏞️ — ¿te sabes el mapa? https://tuthor.es/juegos/rios-montanas`,
+      en: `I scored ${puntos} points going round Spain and the world in Rivers and Mountains on Tuthor 🏞️ — do you know the map? https://tuthor.es/en/juegos/rios-montanas`,
+      ca: `He fet ${puntos} punts recorrent Espanya i el món a Rius i Muntanyes de Tuthor 🏞️ — et saps el mapa? https://tuthor.es/ca/juegos/rios-montanas`,
     })
     const secondary = [
       { label: tr({ es: 'Cambiar nivel', en: 'Change level', ca: 'Canviar nivell' }), onClick: () => setScreen('intro') },
       ...(backPath ? [{ label: tr({ es: '← Volver', en: '← Back', ca: '← Tornar' }), onClick: () => navigate(localPath(backPath)) }] : []),
     ]
     return (
-      <GameEndScreen game="rios-montanas" emoji="🏞️" title={tr({ es: 'Tiempo', en: "Time's up", ca: 'Temps' })} score={pts} message={msg}
-        stats={[{ label: tr({ es: 'aciertos', en: 'correct', ca: 'encerts' }), value: aciertos, emoji: '✅' }]}
+      <GameEndScreen game="rios-montanas" emoji="🏞️" title={tr({ es: '¡Recorrido completo!', en: 'Journey complete!', ca: 'Recorregut complet!' })} score={pts} message={msg}
+        stats={[
+          { label: tr({ es: 'aciertos', en: 'correct', ca: 'encerts' }), value: `${aciertos}/${preguntas}`, emoji: '✅' },
+          { label: tr({ es: 'tiempo', en: 'time', ca: 'temps' }), value: mmss(segundos), emoji: '⏱️' },
+        ]}
         shareText={shareText} user={user} lang={l}
         onPlayAgain={() => startGame(nivel)} secondaryActions={secondary} />
     )
   }
 
   if (!ronda) return null
-  const timerColor = timeLeft > GAME_TIME * 0.66 ? '#22c55e' : timeLeft > GAME_TIME * 0.28 ? '#f59e0b' : '#ef4444'
-  const timerPct = Math.min(1, timeLeft / GAME_TIME)
   const isResult = phase === 'result'
   const acierto = isResult && esCorrecta(ronda, elegida)
+  const orden = RECORRIDO[l]
 
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-3 sm:px-4 py-4">
       {head}
-      <div className="w-full max-w-[560px] flex items-center justify-between mb-3 px-1">
+      <div className="w-full max-w-[560px] flex items-center justify-between mb-2 px-1">
         <div>
           <p className="text-white/40 text-xs uppercase tracking-widest">{DIFS[nivel].emoji} {tr(DIFS[nivel].label)}</p>
           <p className="text-white font-bold text-lg flex items-center gap-2">
-            {aciertos * 10} {tr({ es: 'puntos', en: 'points', ca: 'punts' })}
+            {puntos} {tr({ es: 'puntos', en: 'points', ca: 'punts' })}
             {streak >= 2 && <span className="flex items-center gap-0.5 text-orange-400 text-sm font-black"><Racha className="w-4 h-4" />{streak}</span>}
           </p>
         </div>
-        <div className="relative w-14 h-14">
-          <svg className="absolute inset-0" viewBox="0 0 56 56">
-            <circle cx="28" cy="28" r="24" fill="none" stroke="#ffffff15" strokeWidth="4" />
-            <circle cx="28" cy="28" r="24" fill="none" stroke={timerColor} strokeWidth="4"
-              strokeDasharray={`${2 * Math.PI * 24}`} strokeDashoffset={`${2 * Math.PI * 24 * (1 - timerPct)}`}
-              strokeLinecap="round" style={{ transform: 'rotate(-90deg)', transformOrigin: 'center', transition: 'stroke-dashoffset 1s linear' }} />
-          </svg>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-black text-sm" style={{ color: timerColor }}>{timeLeft}</span>
-          </div>
-        </div>
+        <span className="font-black text-white/70 tabular-nums">⏱️ {mmss(segundos)}</span>
+      </div>
+      {/* Por dónde va el recorrido: cada mapa con lo que ya ha salido */}
+      <div className="w-full max-w-[560px] flex gap-2 mb-3 px-1">
+        {orden.map((g, i) => {
+          const total = delNivel(nivel, g).length
+          const hechos = i < progreso.i ? total : i === progreso.i ? Math.min(total, progreso.vistos) : 0
+          return (
+            <div key={g} className="flex-1">
+              <p className={`text-[11px] font-bold mb-1 ${i === progreso.i ? 'text-white' : 'text-white/40'}`}>{tx(REGIONES[g].nombre, l).replace(/^./, c => c.toUpperCase())} · {hechos}/{total}</p>
+              <div className="h-1.5 rounded-full bg-white/10 overflow-hidden"><div className="h-full bg-emerald-400 transition-all" style={{ width: `${(100 * hechos) / total}%` }} /></div>
+            </div>
+          )
+        })}
       </div>
 
       <div className="w-full max-w-[560px]">
@@ -249,8 +274,8 @@ export default function RiosMontanas() {
         {isResult && (
           <p className="text-center text-xs font-bold mt-2">
             {acierto
-              ? <span className="text-green-400">+10 · +{CORRECT_TIME}s ⏱️{streak >= 2 ? ` · 🔥 ${streak}` : ''}</span>
-              : <span className="text-red-400">−{WRONG_TIME}s ⏱️</span>}
+              ? <span className="text-green-400">+{ganado}{ganado > 10 ? ` (⚡ +${ganado - 10})` : ''}{streak >= 2 ? ` · 🔥 ${streak}` : ''}</span>
+              : <span className="text-red-400">+0</span>}
           </p>
         )}
       </div>

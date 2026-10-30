@@ -20,7 +20,7 @@ export default function ExamenRios({ region, gameId, levels, ...textos }) {
       emoji="🏞️"
       subjectSchema="Geografía"
       backGamePath="/juegos/rios-montanas"
-      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
+      playLabel={{ es: 'Jugar el recorrido (España y el mundo)', en: 'Play the journey (Spain and the world)', ca: 'Jugar el recorregut (Espanya i el món)' }}
       levels={levels}
       genRound={d => genRonda(d, { region })}
       isCorrect={esCorrecta}
