@@ -14,8 +14,8 @@ import { Racha } from '../components/Iconos'
 const REVEAL_MS = 3500 // lo justo para ver en el mapa dónde estaba
 // La partida es un recorrido: un mapa entero (todos sus ríos y montañas del
 // nivel) y luego el siguiente, sin repetir; al acabar el último, se acaba.
-// En castellano y catalán se empieza por España; en inglés, por el mundo.
-const RECORRIDO = { es: ['espana', 'mundo'], ca: ['espana', 'mundo'], en: ['mundo', 'espana'] }
+// En castellano y catalán, España y el mundo; en inglés, Estados Unidos y el mundo.
+const RECORRIDO = { es: ['espana', 'mundo'], ca: ['espana', 'mundo'], en: ['eeuu', 'mundo'] }
 const AVISO_MS = 2600
 const mmss = t => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`
 // Puntos: 10 por acierto y hasta 10 más por rapidez. El extra baja de 10 a 0
@@ -28,7 +28,7 @@ const puntosDe = (tipo, segundos) => {
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Los grandes ríos y montañas de España y del mundo', en: 'The great rivers and mountains of Spain and the world', ca: 'Els grans rius i muntanyes d’Espanya i del món' } },
+             desc: { es: 'Los grandes ríos y montañas de España y del mundo', en: 'The great rivers and mountains of the United States and the world', ca: 'Els grans rius i muntanyes d’Espanya i del món' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Más ríos y cordilleras, y a qué mar u océano va cada río', en: 'More rivers and ranges, and which sea or ocean each river reaches', ca: 'Més rius i serralades, i a quin mar o oceà va cada riu' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
@@ -148,10 +148,10 @@ export default function RiosMontanas() {
   }
 
   const seo = {
-    title: tr({ es: 'Ríos y Montañas — Juego de los ríos y el relieve de España y del mundo en el mapa', en: 'Rivers and Mountains — Game of the rivers and relief of Spain and the world on the map', ca: 'Rius i Muntanyes — Joc dels rius i el relleu d’Espanya i del món al mapa' }),
+    title: tr({ es: 'Ríos y Montañas — Juego de los ríos y el relieve de España y del mundo en el mapa', en: 'Rivers and Mountains — Map game of the rivers and mountains of the United States and the world', ca: 'Rius i Muntanyes — Joc dels rius i el relleu d’Espanya i del món al mapa' }),
     desc: tr({
       es: 'Sitúa en el mapa de España el Ebro, el Tajo, el Duero, el Guadalquivir, los Pirineos, el Sistema Central o Sierra Morena; reparte los ríos por vertientes y encuentra dónde nacen y desembocan. Y en el mapa del mundo: Nilo, Amazonas, Himalaya, Andes. Juego gratis para Primaria y ESO.',
-      en: 'Find the Ebro, Tagus, Douro, Guadalquivir, the Pyrenees, the Central System or Sierra Morena on the map of Spain; sort the rivers into drainage basins and find where they rise and reach the sea. And on the world map: the Nile, the Amazon, the Himalayas, the Andes. Free game for primary and secondary.',
+      en: 'Find the Mississippi, Missouri, Colorado, Rio Grande, the Rocky Mountains or the Appalachians on the map of the United States; sort the rivers by the sea they reach and find where they rise and end. Then the world map: the Nile, the Amazon, the Himalayas, the Andes. Free geography game for primary and secondary.',
       ca: 'Situa al mapa d’Espanya l’Ebre, el Tajo, el Duero, el Guadalquivir, els Pirineus, el Sistema Central o Serra Morena; reparteix els rius per vessants i troba on neixen i desemboquen. I al mapa del món: Nil, Amazones, Himàlaia, Andes. Joc gratis per a Primària i ESO.',
     }),
     path: '/juegos/rios-montanas',
@@ -166,7 +166,7 @@ export default function RiosMontanas() {
           <CabeceraJuego slug="rios-montanas"
             badge={tr({ es: 'Geografía · Relieve', en: 'Geography · Relief', ca: 'Geografia · Relleu' })}
             titulo={tr({ es: '🏞️ Ríos y Montañas', en: '🏞️ Rivers and Mountains', ca: '🏞️ Rius i Muntanyes' })}
-            sub={tr({ es: 'Los ríos y las montañas de España y del mundo, en su sitio del mapa', en: 'The rivers and mountains of Spain and the world, in their place on the map', ca: 'Els rius i les muntanyes d’Espanya i del món, al seu lloc del mapa' })} />
+            sub={tr({ es: 'Los ríos y las montañas de España y del mundo, en su sitio del mapa', en: 'The rivers and mountains of the United States and the world, in their place on the map', ca: 'Els rius i les muntanyes d’Espanya i del món, al seu lloc del mapa' })} />
 
           <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' })}</p>
           <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
@@ -185,11 +185,11 @@ export default function RiosMontanas() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale un mapa (de España o del mundo) con los ríos en azul y las cordilleras en marrón. Nada se elige de una lista:', en: 'A map appears (of Spain or of the world) with the rivers in blue and the mountain ranges in brown. Nothing is picked from a list:', ca: 'Surt un mapa (d’Espanya o del món) amb els rius en blau i les serralades en marró. Res no es tria d’una llista:' })}</p>
+              <p>{tr({ es: 'Sale un mapa (de España o del mundo) con los ríos en azul y las cordilleras en marrón. Nada se elige de una lista:', en: 'A map appears (of the United States or of the world) with the rivers in blue and the mountain ranges in brown. Nothing is picked from a list:', ca: 'Surt un mapa (d’Espanya o del món) amb els rius en blau i les serralades en marró. Res no es tria d’una llista:' })}</p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>{tr({ es: '👆 Tocas en el mapa el río o el sistema montañoso que se pide.', en: '👆 You tap the river or mountain range asked for on the map.', ca: '👆 Toques al mapa el riu o el sistema muntanyós que es demana.' })}</li>
                 <li>{tr({ es: '🔢 Pones cada nombre en su número del mapa (sobra uno).', en: '🔢 You put each name on its number on the map (one is left over).', ca: '🔢 Poses cada nom al seu número del mapa (en sobra un).' })}</li>
-                <li>{tr({ es: '🌊 Repartes los ríos según el mar al que van: en España, por vertientes; en el mundo, por océanos.', en: '🌊 You sort the rivers by the sea they reach: basins in Spain, oceans in the world.', ca: '🌊 Reparteixes els rius segons el mar on van: a Espanya, per vessants; al món, per oceans.' })}</li>
+                <li>{tr({ es: '🌊 Repartes los ríos según el mar al que van: en España, por vertientes; en el mundo, por océanos.', en: '🌊 You sort the rivers by the sea they reach: Pacific, Gulf of Mexico or Atlantic in the US, oceans in the world.', ca: '🌊 Reparteixes els rius segons el mar on van: a Espanya, per vessants; al món, per oceans.' })}</li>
                 <li>{tr({ es: '📍 En difícil, tocas dónde nace o dónde desemboca un río.', en: '📍 On hard, you tap where a river rises or reaches the sea.', ca: '📍 En difícil, toques on neix o on desemboca un riu.' })}</li>
               </ul>
               <p className="text-white/40 text-xs pt-1">{tr({ es: '🗺️ Se recorre cada mapa entero, sin repetir, y la partida acaba al terminar. ⚡ Acierto: 10 puntos, y hasta 10 más si contestas rápido.', en: '🗺️ You go through each whole map without repeats, and the game ends when you finish. ⚡ Correct: 10 points, plus up to 10 more if you answer fast.', ca: '🗺️ Es recorre cada mapa sencer, sense repetir, i la partida s’acaba en acabar. ⚡ Encert: 10 punts, i fins a 10 més si contestes ràpid.' })}</p>
@@ -210,7 +210,7 @@ export default function RiosMontanas() {
     })
     const shareText = tr({
       es: `He hecho ${puntos} puntos recorriendo España y el mundo en Ríos y Montañas de Tuthor 🏞️ — ¿te sabes el mapa? https://tuthor.es/juegos/rios-montanas`,
-      en: `I scored ${puntos} points going round Spain and the world in Rivers and Mountains on Tuthor 🏞️ — do you know the map? https://tuthor.es/en/juegos/rios-montanas`,
+      en: `I scored ${puntos} points going round the US and the world in Rivers and Mountains on Tuthor 🏞️ — do you know the map? https://tuthor.es/en/juegos/rios-montanas`,
       ca: `He fet ${puntos} punts recorrent Espanya i el món a Rius i Muntanyes de Tuthor 🏞️ — et saps el mapa? https://tuthor.es/ca/juegos/rios-montanas`,
     })
     const secondary = [

@@ -173,6 +173,62 @@ const MONTES_MUNDO = [
     puntos: [[6.0, 59.0], [9.0, 62.0], [14.0, 65.0], [18.0, 68.5], [21.0, 69.5]] },
 ]
 
+// ── Estados Unidos ────────────────────────────────────────────────────────
+// «¿A qué mar va?»: Pacífico, golfo de México o Atlántico. Las Rocosas reparten
+// las aguas. El Misuri y el Ohio son afluentes del Misisipi (`afluenteDe`): su
+// «desembocadura» es la confluencia y su mar, el golfo de México.
+export const MARES_EEUU = {
+  pacifico: T('Pacífico', 'Pacific', 'Pacífic'),
+  golfo: T('Golfo de México', 'Gulf of Mexico', 'Golf de Mèxic'),
+  atlantico: T('Atlántico', 'Atlantic', 'Atlàntic'),
+}
+const RIOS_EEUU = [
+  { id: 'misisipi-eeuu', nombre: T('Misisipi', 'Mississippi', 'Mississipí'), vertiente: 'golfo', nivel: 'facil',
+    nace: T('en el lago Itasca (Minnesota)', 'at Lake Itasca (Minnesota)', 'al llac Itasca (Minnesota)'),
+    desemboca: T('en el golfo de México, en un gran delta junto a Nueva Orleans', 'into the Gulf of Mexico, in a great delta near New Orleans', 'al golf de Mèxic, en un gran delta al costat de Nova Orleans'),
+    puntos: [[-95.2, 47.24], [-94.2, 46.4], [-93.27, 44.98], [-91.6, 44.0], [-90.7, 42.5], [-91.1, 40.8], [-90.2, 38.63], [-89.2, 37.0], [-89.6, 36.0], [-90.05, 35.15], [-91.0, 33.4], [-90.9, 32.3], [-91.4, 31.0], [-91.19, 30.45], [-90.07, 29.95], [-89.25, 29.15]] },
+  { id: 'misuri', nombre: T('Misuri', 'Missouri', 'Missouri'), vertiente: 'golfo', nivel: 'facil', afluenteDe: 'misisipi-eeuu',
+    nace: T('en las Montañas Rocosas de Montana', 'in the Rocky Mountains of Montana', 'a les Muntanyes Rocoses de Montana'),
+    desemboca: T('en el Misisipi, junto a San Luis (Misuri): es el río más largo de Estados Unidos', 'into the Mississippi, near St Louis (Missouri): it is the longest river in the United States', 'al Mississipí, al costat de Saint Louis (Missouri): és el riu més llarg dels Estats Units'),
+    puntos: [[-111.5, 45.9], [-111.3, 47.5], [-108.9, 47.6], [-104.0, 48.0], [-101.3, 47.5], [-100.8, 46.8], [-100.35, 44.37], [-97.4, 42.9], [-96.0, 41.25], [-94.6, 39.1], [-92.3, 38.6], [-90.2, 38.8]] },
+  { id: 'colorado', nombre: T('Colorado', 'Colorado', 'Colorado'), vertiente: 'pacifico', nivel: 'facil',
+    nace: T('en las Montañas Rocosas de Colorado', 'in the Rocky Mountains of Colorado', 'a les Muntanyes Rocoses de Colorado'),
+    desemboca: T('en el golfo de California (Pacífico), en México, tras excavar el Gran Cañón; hoy le llega muy poca agua', 'into the Gulf of California (Pacific), in Mexico, after carving the Grand Canyon; very little water reaches it today', 'al golf de Califòrnia (Pacífic), a Mèxic, després d’excavar el Gran Canyó; avui hi arriba molt poca aigua'),
+    puntos: [[-105.85, 40.47], [-106.3, 39.6], [-108.5, 39.1], [-109.5, 38.6], [-110.6, 37.5], [-111.5, 36.9], [-112.1, 36.1], [-114.0, 36.0], [-114.6, 35.0], [-114.6, 33.6], [-114.7, 32.7], [-114.9, 31.8]] },
+  { id: 'bravo', nombre: T('Río Bravo', 'Rio Grande', 'Riu Bravo'), vertiente: 'golfo', nivel: 'facil',
+    nace: T('en las Montañas Rocosas de Colorado', 'in the Rocky Mountains of Colorado', 'a les Muntanyes Rocoses de Colorado'),
+    desemboca: T('en el golfo de México; desde El Paso hace de frontera con México', 'into the Gulf of Mexico; from El Paso onwards it forms the border with Mexico', 'al golf de Mèxic; des d’El Paso fa de frontera amb Mèxic'),
+    puntos: [[-107.4, 37.8], [-106.6, 37.3], [-106.05, 35.7], [-106.65, 35.08], [-106.9, 33.3], [-106.48, 31.76], [-104.5, 30.0], [-103.0, 29.0], [-101.0, 29.8], [-100.5, 28.7], [-99.5, 27.5], [-98.0, 26.1], [-97.15, 25.95]] },
+  { id: 'columbia', nombre: T('Columbia', 'Columbia', 'Columbia'), vertiente: 'pacifico', nivel: 'facil',
+    nace: T('en las Montañas Rocosas de Canadá', 'in the Canadian Rocky Mountains', 'a les Muntanyes Rocoses del Canadà'),
+    desemboca: T('en el Pacífico, entre Oregón y Washington', 'into the Pacific, between Oregon and Washington', 'al Pacífic, entre Oregon i Washington'),
+    puntos: [[-115.85, 50.2], [-117.0, 49.0], [-118.2, 48.0], [-119.5, 47.0], [-119.3, 46.2], [-120.5, 45.7], [-121.5, 45.65], [-122.7, 45.6], [-123.9, 46.25]] },
+  { id: 'ohio', nombre: T('Ohio', 'Ohio', 'Ohio'), vertiente: 'golfo', nivel: 'medio', afluenteDe: 'misisipi-eeuu',
+    nace: T('en Pittsburgh (Pensilvania), al juntarse dos ríos de los Apalaches', 'in Pittsburgh (Pennsylvania), where two Appalachian rivers meet', 'a Pittsburgh (Pennsilvània), on s’ajunten dos rius dels Apalatxes'),
+    desemboca: T('en el Misisipi, en Cairo (Illinois)', 'into the Mississippi, at Cairo (Illinois)', 'al Mississipí, a Cairo (Illinois)'),
+    puntos: [[-80.0, 40.44], [-80.7, 40.0], [-81.6, 38.9], [-82.6, 38.4], [-84.5, 39.1], [-85.76, 38.25], [-87.6, 37.95], [-88.6, 37.1], [-89.18, 37.0]] },
+  { id: 'hudson', nombre: T('Hudson', 'Hudson', 'Hudson'), vertiente: 'atlantico', nivel: 'medio',
+    nace: T('en los montes Adirondack (Nueva York)', 'in the Adirondack Mountains (New York)', 'a les muntanyes Adirondack (Nova York)'),
+    desemboca: T('en el Atlántico, en la ciudad de Nueva York', 'into the Atlantic, in New York City', 'a l’Atlàntic, a la ciutat de Nova York'),
+    puntos: [[-74.06, 44.1], [-73.7, 43.3], [-73.75, 42.65], [-73.95, 41.7], [-74.02, 40.7]] },
+  { id: 'potomac', nombre: T('Potomac', 'Potomac', 'Potomac'), vertiente: 'atlantico', nivel: 'medio',
+    nace: T('en los Apalaches (Virginia Occidental)', 'in the Appalachians (West Virginia)', 'als Apalatxes (Virgínia de l’Oest)'),
+    desemboca: T('en la bahía de Chesapeake (Atlántico), tras pasar por Washington', 'into Chesapeake Bay (Atlantic), after flowing through Washington', 'a la badia de Chesapeake (Atlàntic), després de passar per Washington'),
+    puntos: [[-79.49, 39.19], [-78.3, 39.6], [-77.5, 39.3], [-77.05, 38.9], [-76.3, 38.0]] },
+]
+const MONTES_EEUU = [
+  { id: 'rocosas-eeuu', nombre: T('Montañas Rocosas', 'Rocky Mountains', 'Muntanyes Rocoses'), nivel: 'facil',
+    puntos: [[-117.0, 49.0], [-114.0, 47.5], [-111.0, 45.5], [-109.0, 43.0], [-107.0, 40.5], [-105.7, 39.0], [-106.0, 37.0], [-105.6, 35.6]] },
+  { id: 'apalaches-eeuu', nombre: T('Apalaches', 'Appalachian Mountains', 'Apalatxes'), nivel: 'facil',
+    puntos: [[-85.0, 34.3], [-83.5, 35.6], [-81.5, 37.0], [-79.5, 38.5], [-77.5, 40.5], [-75.5, 41.5], [-73.8, 42.5], [-71.5, 44.3], [-69.0, 45.5]] },
+  { id: 'sierra-nevada-eeuu', nombre: T('Sierra Nevada', 'Sierra Nevada', 'Sierra Nevada'), nivel: 'facil',
+    puntos: [[-121.5, 40.2], [-120.3, 39.0], [-119.5, 38.0], [-118.5, 36.6], [-118.2, 35.6]] },
+  { id: 'cascadas', nombre: T('Cordillera de las Cascadas', 'Cascade Range', 'Serralada de les Cascades'), nivel: 'medio',
+    puntos: [[-121.0, 49.0], [-121.7, 47.0], [-121.7, 45.4], [-122.0, 43.5], [-122.2, 41.5]] },
+  { id: 'costera-eeuu', nombre: T('Cordillera Costera', 'Pacific Coast Ranges', 'Serralada Costanera'), nivel: 'medio',
+    puntos: [[-123.9, 46.0], [-123.8, 43.0], [-123.6, 40.5], [-122.5, 38.0], [-121.0, 35.5], [-119.5, 34.4]] },
+]
+
 // ── Regiones ──────────────────────────────────────────────────────────────
 // Cada mapa con sus ríos, sus sistemas y sus «vertientes» (a qué mar o
 // océano va cada río). El juego las mezcla; cada examen es de una sola.
@@ -209,6 +265,21 @@ export const REGIONES = {
       'The rivers of South America and West Africa (Amazon, Congo, Niger) flow into the Atlantic, as does the Mississippi through the Gulf of Mexico. The great rivers of China, like the Yangtze, flow into the Pacific; the Ganges into the Indian Ocean. Those of Siberia and northern Canada (Lena, Mackenzie) flow into the Arctic.',
       'Els rius d’Amèrica del Sud i de l’Àfrica occidental (Amazones, Congo, Níger) van a l’Atlàntic, com el Mississipí pel golf de Mèxic. Els grans rius de la Xina, com l’Iang-Tsé, van al Pacífic; el Ganges, a l’Índic. Els de Sibèria i el nord del Canadà (Lena, Mackenzie), a l’Àrtic.'),
     rios: RIOS_MUNDO, montes: MONTES_MUNDO,
+  },
+  eeuu: {
+    id: 'eeuu',
+    nombre: T('Estados Unidos', 'the United States', 'els Estats Units'),
+    mapa: { center: [-96.5, 38.5], scale: 760, atlas: 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json', tierras: { 840: '#334155' } },
+    sepNumeros: 5, sepPuntos: 2.5,
+    vertientes: MARES_EEUU,
+    pregunta: T('¿A qué mar va cada río? Toca un río y luego su mar', 'Which sea does each river flow into? Tap a river, then its sea', 'A quin mar va cada riu? Toca un riu i després el seu mar'),
+    // el Atlántico no sale en fácil: sus ríos (Hudson, Potomac) son del nivel medio
+    vertientesFacil: ['pacifico', 'golfo'],
+    expVertiente: T(
+      'Las Montañas Rocosas reparten las aguas: al oeste, los ríos van al Pacífico (el Columbia, y el Colorado por el golfo de California). Al este, casi todo acaba en el Misisipi y con él en el golfo de México (el Misuri y el Ohio son sus afluentes), igual que el Río Bravo. Al otro lado de los Apalaches, el Hudson y el Potomac van al Atlántico.',
+      'The Rocky Mountains divide the waters: to the west, rivers flow into the Pacific (the Columbia, and the Colorado through the Gulf of California). To the east, almost everything ends up in the Mississippi and with it in the Gulf of Mexico (the Missouri and the Ohio are its tributaries), as does the Rio Grande. Beyond the Appalachians, the Hudson and the Potomac flow into the Atlantic.',
+      'Les Muntanyes Rocoses reparteixen les aigües: a l’oest, els rius van al Pacífic (el Columbia, i el Colorado pel golf de Califòrnia). A l’est, gairebé tot acaba al Mississipí i amb ell al golf de Mèxic (el Missouri i l’Ohio en són afluents), igual que el Riu Bravo. A l’altra banda dels Apalatxes, el Hudson i el Potomac van a l’Atlàntic.'),
+    rios: RIOS_EEUU, montes: MONTES_EEUU,
   },
 }
 export const regionDe = r => REGIONES[r?.region ?? 'espana']
@@ -387,6 +458,11 @@ const PISTA_MONTE = {
   'gran-divisoria': T('A lo largo de la costa este de Australia.', 'Along the east coast of Australia.', 'Al llarg de la costa est d’Austràlia.'),
   caucaso: T('Entre el mar Negro y el mar Caspio.', 'Between the Black Sea and the Caspian Sea.', 'Entre el mar Negre i el mar Caspi.'),
   escandinavos: T('Recorren Noruega y Suecia, de sur a norte.', 'They run through Norway and Sweden, from south to north.', 'Recorren Noruega i Suècia, de sud a nord.'),
+  'rocosas-eeuu': T('Recorren el oeste de norte a sur y reparten las aguas entre el Pacífico y el golfo de México.', 'They run through the west from north to south and divide the waters between the Pacific and the Gulf of Mexico.', 'Recorren l’oest de nord a sud i reparteixen les aigües entre el Pacífic i el golf de Mèxic.'),
+  'apalaches-eeuu': T('En el este, de Alabama a Maine: unas montañas muy antiguas y desgastadas.', 'In the east, from Alabama to Maine: very old, worn-down mountains.', 'A l’est, d’Alabama a Maine: unes muntanyes molt antigues i desgastades.'),
+  'sierra-nevada-eeuu': T('En California; aquí está el monte Whitney, el más alto de los 48 estados contiguos.', 'In California; Mount Whitney, the highest peak in the contiguous 48 states, is here.', 'A Califòrnia; aquí hi ha el mont Whitney, el més alt dels 48 estats contigus.'),
+  cascadas: T('En el noroeste, de Washington al norte de California: está llena de volcanes, como el Santa Helena.', 'In the north-west, from Washington to northern California: it is full of volcanoes, such as Mount St Helens.', 'Al nord-oest, de Washington al nord de Califòrnia: és plena de volcans, com el Saint Helens.'),
+  'costera-eeuu': T('Pegada a la costa del Pacífico, de Washington al sur de California.', 'Along the Pacific coast, from Washington to southern California.', 'Arran de la costa del Pacífic, de Washington al sud de Califòrnia.'),
 }
 
 export function textoRespuesta(r, l) {

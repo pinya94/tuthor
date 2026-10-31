@@ -5,7 +5,7 @@
 // página usa MechanicExam (o ExamenMC, en RETOS_TEST): un examen nuevo se
 // añade aquí y ya se puede mandar.
 export const RETOS_EXAMENES = [
-  'climograma-test', 'quien-decide-test', 'europa-27-test', 'rios-montanas-test', 'rios-montanas-mundo-test', 'piramide-poblacion-test', 'coordenadas-test',
+  'climograma-test', 'quien-decide-test', 'europa-27-test', 'rios-montanas-test', 'rios-montanas-mundo-test', 'rios-montanas-eeuu-test', 'piramide-poblacion-test', 'coordenadas-test',
   'lee-grafico-tendencia', 'lee-grafico-variacion', 'lee-grafico-relacion', 'lee-grafico-medida', 'lee-grafico-tabla',
   'senal-a-senal-test', 'ojo-al-mensaje-test', 'la-orquesta-test', 'compas-completo-test', 'punto-muerto-test',
   'oferta-demanda-test', 'salta-recta-test', 'estadistico-media-test', 'estadistico-mediana-test', 'estadistico-moda-test',

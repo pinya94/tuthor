@@ -12,6 +12,7 @@ const rio = (g, id) => rios(g).find(r => r.id === id)
 const RECUADRO = {
   espana: ([lon, lat]) => lon > -9.6 && lon < 3.4 && lat > 36.0 && lat < 43.9,
   mundo: ([lon, lat]) => lon > -170 && lon < 180 && lat > -56 && lat < 76,
+  eeuu: ([lon, lat]) => lon > -126 && lon < -66 && lat > 24 && lat < 51,
 }
 
 describe('Ríos y Montañas: datos', () => {
@@ -78,6 +79,26 @@ describe('Ríos y Montañas: datos', () => {
     it('no se pregunta el nacimiento discutido del Nilo, el Amazonas y el Congo', () => {
       for (const id of ['nilo', 'amazonas', 'congo']) expect(rio('mundo', id).naceDiscutido).toBe(true)
     })
+  })
+})
+
+describe('Estados Unidos', () => {
+  it('mares de libro', () => {
+    const v = Object.fromEntries(rios('eeuu').map(r => [r.id, r.vertiente]))
+    expect(v).toMatchObject({ 'misisipi-eeuu': 'golfo', misuri: 'golfo', ohio: 'golfo', bravo: 'golfo', colorado: 'pacifico', columbia: 'pacifico', hudson: 'atlantico', potomac: 'atlantico' })
+  })
+  it('cada río acaba donde debe y los afluentes tocan al Misisipi', () => {
+    const misi = rio('eeuu', 'misisipi-eeuu').puntos
+    for (const r of rios('eeuu')) {
+      const [lon, lat] = r.puntos.at(-1)
+      if (r.afluenteDe) expect(Math.min(...misi.map(p => dist(p, [lon, lat]))), r.id).toBeLessThan(0.5)
+      else if (r.vertiente === 'golfo') expect(lat, r.id).toBeLessThan(30.5)
+      if (r.vertiente === 'pacifico') expect(lon, r.id).toBeLessThan(-114)
+      if (r.vertiente === 'atlantico') expect(lon, r.id).toBeGreaterThan(-77.5)
+    }
+  })
+  it('las Rocosas reparten las aguas: lo que va al Pacífico nace al oeste de ellas o en ellas', () => {
+    for (const r of rios('eeuu').filter(x => x.vertiente === 'pacifico')) expect(r.puntos[0][0], r.id).toBeLessThan(-105)
   })
 })
 

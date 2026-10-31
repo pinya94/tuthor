@@ -393,7 +393,7 @@ export const TOPIC_CATALOG = {
       eeuu: examTema({ mapa: 'geomapa-eeuu-examen' }, { niveles: ['primaria', 'eso'] }),
       // El único tema de geografía que no es una región: aquí no se señala
       // nada en el mapa, se pregunta por los conceptos (relieve, ríos, clima).
-      fisica: examTema({ teoria: 'geografia-fisica-test', climograma: 'climograma-test', rios: 'rios-montanas-test', riosMundo: 'rios-montanas-mundo-test' }, { niveles: ['primaria', 'eso'] }),
+      fisica: examTema({ teoria: 'geografia-fisica-test', climograma: 'climograma-test', rios: 'rios-montanas-test', riosMundo: 'rios-montanas-mundo-test', riosEeuu: 'rios-montanas-eeuu-test' }, { niveles: ['primaria', 'eso'] }),
       humana: examTema({ teoria: 'geografia-humana-test', piramide: 'piramide-poblacion-test' }, { niveles: ['primaria', 'eso'] }),
       'union-europea': examTema({ teoria: 'geografia-ue-test', europa27: 'europa-27-test' }, { niveles: ['eso', 'bachillerato'] }),
       constitucion: examTema({ teoria: 'geografia-constitucion-test', quienDecide: 'quien-decide-test' }, { niveles: ['eso', 'bachillerato'] }),
@@ -410,6 +410,7 @@ export const TOPIC_CATALOG = {
       climograma: examFormato({ es: 'Climograma (con el juego)', en: 'Climate Graph (with the game)', ca: 'Climograma (amb el joc)' }, '🌧️'),
       piramide: examFormato({ es: 'Pirámide de población (con el juego)', en: 'Population Pyramid (with the game)', ca: 'Piràmide de població (amb el joc)' }, '👥'),
       rios: examFormato({ es: 'Ríos y Montañas de España (con el juego)', en: 'Rivers and Mountains of Spain (with the game)', ca: 'Rius i Muntanyes d’Espanya (amb el joc)' }, '🏞️'),
+      riosEeuu: examFormato({ es: 'Ríos y Montañas de Estados Unidos (con el juego)', en: 'Rivers and Mountains of the US (with the game)', ca: 'Rius i Muntanyes dels Estats Units (amb el joc)' }, '🗽'),
       riosMundo: examFormato({ es: 'Ríos y Montañas del mundo (con el juego)', en: 'Rivers and Mountains of the World (with the game)', ca: 'Rius i Muntanyes del món (amb el joc)' }, '🌍'),
       europa27: examFormato({ es: 'Europa a 27 (con el juego)', en: 'Europe of 27 (with the game)', ca: 'Europa a 27 (amb el joc)' }, '⭐'),
       quienDecide: examFormato({ es: '¿Quién Decide? (con el juego)', en: 'Who Decides? (with the game)', ca: 'Qui Decideix? (amb el joc)' }, '🗳️'),
