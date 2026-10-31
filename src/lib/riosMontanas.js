@@ -229,6 +229,92 @@ const MONTES_EEUU = [
     puntos: [[-123.9, 46.0], [-123.8, 43.0], [-123.6, 40.5], [-122.5, 38.0], [-121.0, 35.5], [-119.5, 34.4]] },
 ]
 
+// ── Europa ────────────────────────────────────────────────────────────────
+// Vertientes como en los libros de ESO: ártica, atlántica (con el mar del Norte
+// y el Báltico), mediterránea (con el mar Negro) y del Caspio.
+export const VERTIENTES_EUROPA = {
+  artica: T('Ártica', 'Arctic', 'Àrtica'),
+  atlantica: T('Atlántica', 'Atlantic', 'Atlàntica'),
+  mediterranea: T('Mediterránea', 'Mediterranean', 'Mediterrània'),
+  caspio: T('Caspio', 'Caspian', 'Caspi'),
+}
+const RIOS_EUROPA = [
+  { id: 'danubio-europa', nombre: T('Danubio', 'Danube', 'Danubi'), vertiente: 'mediterranea', nivel: 'facil',
+    nace: T('en la Selva Negra (Alemania)', 'in the Black Forest (Germany)', 'a la Selva Negra (Alemanya)'),
+    desemboca: T('en el mar Negro, tras pasar por Viena, Budapest y Belgrado: es el segundo río más largo de Europa', 'into the Black Sea, after flowing through Vienna, Budapest and Belgrade: it is the second longest river in Europe', 'al mar Negre, després de passar per Viena, Budapest i Belgrad: és el segon riu més llarg d’Europa'),
+    puntos: [[8.5, 47.95], [10.0, 48.4], [12.1, 49.0], [16.4, 48.2], [19.05, 47.5], [18.9, 45.8], [20.5, 44.8], [22.6, 44.6], [25.0, 43.7], [27.9, 44.1], [29.6, 45.2]] },
+  { id: 'volga-europa', nombre: T('Volga', 'Volga', 'Volga'), vertiente: 'caspio', nivel: 'facil',
+    nace: T('en las colinas de Valdái (Rusia)', 'in the Valdai Hills (Russia)', 'als turons de Valdai (Rússia)'),
+    desemboca: T('en el mar Caspio: es el río más largo de Europa', 'into the Caspian Sea: it is the longest river in Europe', 'al mar Caspi: és el riu més llarg d’Europa'),
+    puntos: [[32.5, 57.2], [35.9, 56.85], [39.9, 57.6], [44.0, 56.3], [49.1, 55.8], [50.1, 53.2], [44.5, 48.7], [48.0, 46.35], [48.0, 45.9]] },
+  { id: 'rin', nombre: T('Rin', 'Rhine', 'Rin'), vertiente: 'atlantica', nivel: 'facil',
+    nace: T('en los Alpes suizos', 'in the Swiss Alps', 'als Alps suïssos'),
+    desemboca: T('en el mar del Norte, en Róterdam (Países Bajos), tras pasar por Basilea, Estrasburgo y Colonia', 'into the North Sea, at Rotterdam (Netherlands), after flowing through Basel, Strasbourg and Cologne', 'al mar del Nord, a Rotterdam (Països Baixos), després de passar per Basilea, Estrasburg i Colònia'),
+    puntos: [[8.67, 46.63], [9.5, 46.85], [9.4, 47.6], [7.6, 47.56], [7.8, 48.6], [8.46, 49.5], [8.27, 50.0], [7.6, 50.36], [6.96, 50.94], [6.77, 51.23], [6.1, 51.85], [4.1, 51.95]] },
+  { id: 'rodano', nombre: T('Ródano', 'Rhône', 'Roine'), vertiente: 'mediterranea', nivel: 'facil',
+    nace: T('en un glaciar de los Alpes suizos', 'in a glacier in the Swiss Alps', 'en una glacera dels Alps suïssos'),
+    desemboca: T('en el Mediterráneo, en un delta (la Camarga), tras cruzar el lago Lemán y Lyon', 'into the Mediterranean, in a delta (the Camargue), after crossing Lake Geneva and Lyon', 'a la Mediterrània, en un delta (la Camarga), després de travessar el llac Leman i Lió'),
+    puntos: [[8.38, 46.58], [7.36, 46.23], [6.55, 46.45], [6.14, 46.2], [4.83, 45.76], [4.9, 44.93], [4.8, 43.95], [4.63, 43.68], [4.7, 43.35]] },
+  { id: 'sena', nombre: T('Sena', 'Seine', 'Sena'), vertiente: 'atlantica', nivel: 'facil',
+    nace: T('en la meseta de Langres (Francia)', 'on the Langres plateau (France)', 'a l’altiplà de Langres (França)'),
+    desemboca: T('en el canal de la Mancha, en El Havre, tras pasar por París', 'into the English Channel, at Le Havre, after flowing through Paris', 'al canal de la Mànega, a Le Havre, després de passar per París'),
+    puntos: [[4.72, 47.48], [4.07, 48.3], [3.0, 48.4], [2.35, 48.86], [1.1, 49.44], [0.1, 49.45]] },
+  { id: 'loira', nombre: T('Loira', 'Loire', 'Loira'), vertiente: 'atlantica', nivel: 'facil',
+    nace: T('en el Macizo Central (Francia)', 'in the Massif Central (France)', 'al Massís Central (França)'),
+    desemboca: T('en el Atlántico, en Saint-Nazaire: es el río más largo de Francia', 'into the Atlantic, at Saint-Nazaire: it is the longest river in France', 'a l’Atlàntic, a Saint-Nazaire: és el riu més llarg de França'),
+    puntos: [[4.22, 44.84], [4.0, 45.5], [3.5, 46.5], [3.16, 46.99], [1.9, 47.9], [0.69, 47.39], [-1.55, 47.21], [-2.2, 47.27]] },
+  { id: 'po', nombre: T('Po', 'Po', 'Po'), vertiente: 'mediterranea', nivel: 'facil',
+    nace: T('en el monte Viso, en los Alpes (Italia)', 'at Monte Viso, in the Alps (Italy)', 'al Monviso, als Alps (Itàlia)'),
+    desemboca: T('en el mar Adriático (Mediterráneo), en un delta, tras cruzar la llanura del norte de Italia', 'into the Adriatic Sea (Mediterranean), in a delta, after crossing the plain of northern Italy', 'al mar Adriàtic (Mediterrània), en un delta, després de travessar la plana del nord d’Itàlia'),
+    puntos: [[7.09, 44.7], [7.69, 45.07], [8.6, 45.1], [9.7, 45.05], [10.02, 45.13], [11.2, 45.0], [11.6, 44.9], [12.4, 44.95]] },
+  { id: 'elba', nombre: T('Elba', 'Elbe', 'Elba'), vertiente: 'atlantica', nivel: 'facil',
+    nace: T('en los montes Krkonoše (Chequia)', 'in the Krkonoše mountains (Czechia)', 'a les muntanyes Krkonoše (Txèquia)'),
+    desemboca: T('en el mar del Norte, tras pasar por Dresde y Hamburgo', 'into the North Sea, after flowing through Dresden and Hamburg', 'al mar del Nord, després de passar per Dresden i Hamburg'),
+    puntos: [[15.54, 50.78], [15.8, 50.2], [14.5, 50.3], [13.74, 51.05], [11.63, 52.13], [10.5, 53.2], [9.99, 53.55], [8.7, 53.87]] },
+  { id: 'vistula', nombre: T('Vístula', 'Vistula', 'Vístula'), vertiente: 'atlantica', nivel: 'medio',
+    nace: T('en los Cárpatos (Polonia)', 'in the Carpathians (Poland)', 'als Carpats (Polònia)'),
+    desemboca: T('en el mar Báltico, en Gdansk, tras pasar por Cracovia y Varsovia', 'into the Baltic Sea, at Gdańsk, after flowing through Kraków and Warsaw', 'al mar Bàltic, a Gdańsk, després de passar per Cracòvia i Varsòvia'),
+    puntos: [[19.0, 49.6], [19.94, 50.06], [21.6, 50.6], [21.0, 52.23], [18.6, 53.0], [18.95, 54.35]] },
+  { id: 'dnieper', nombre: T('Dniéper', 'Dnieper', 'Dnièper'), vertiente: 'mediterranea', nivel: 'medio',
+    nace: T('en las colinas de Valdái (Rusia)', 'in the Valdai Hills (Russia)', 'als turons de Valdai (Rússia)'),
+    desemboca: T('en el mar Negro, tras pasar por Kiev', 'into the Black Sea, after flowing through Kyiv', 'al mar Negre, després de passar per Kíiv'),
+    puntos: [[33.6, 55.85], [32.05, 54.78], [30.33, 53.9], [30.5, 52.0], [30.52, 50.45], [32.0, 49.5], [35.04, 48.46], [35.14, 47.84], [33.5, 46.8], [32.6, 46.63], [31.8, 46.5]] },
+  { id: 'tamesis', nombre: T('Támesis', 'Thames', 'Tàmesi'), vertiente: 'atlantica', nivel: 'medio',
+    nace: T('en las colinas de los Cotswolds (Inglaterra)', 'in the Cotswold Hills (England)', 'als turons dels Cotswolds (Anglaterra)'),
+    desemboca: T('en el mar del Norte, tras pasar por Oxford y Londres', 'into the North Sea, after flowing through Oxford and London', 'al mar del Nord, després de passar per Oxford i Londres'),
+    puntos: [[-2.03, 51.69], [-1.26, 51.75], [-0.97, 51.46], [-0.5, 51.48], [-0.12, 51.5], [0.5, 51.47], [0.9, 51.5]] },
+  { id: 'dvina', nombre: T('Dvina Septentrional', 'Northern Dvina', 'Dvinà Septentrional'), vertiente: 'artica', nivel: 'medio',
+    nace: T('en el norte de Rusia, al juntarse dos ríos en Veliki Ústiug', 'in northern Russia, where two rivers meet at Veliky Ustyug', 'al nord de Rússia, on s’ajunten dos rius a Velíki Ústiug'),
+    desemboca: T('en el mar Blanco (océano Ártico), en Arcángel', 'into the White Sea (Arctic Ocean), at Arkhangelsk', 'al mar Blanc (oceà Àrtic), a Arkhànguelsk'),
+    puntos: [[46.3, 60.75], [46.6, 61.25], [44.0, 62.5], [40.5, 64.55], [40.0, 64.9]] },
+  { id: 'ural', nombre: T('Ural', 'Ural', 'Ural'), vertiente: 'caspio', nivel: 'medio',
+    nace: T('en los montes Urales (Rusia)', 'in the Ural Mountains (Russia)', 'a les muntanyes Urals (Rússia)'),
+    desemboca: T('en el mar Caspio, en Kazajistán: hace de frontera entre Europa y Asia', 'into the Caspian Sea, in Kazakhstan: it marks the border between Europe and Asia', 'al mar Caspi, al Kazakhstan: fa de frontera entre Europa i Àsia'),
+    puntos: [[59.5, 54.4], [59.0, 53.4], [58.6, 51.2], [55.1, 51.8], [51.4, 51.2], [51.9, 47.1], [51.8, 46.9]] },
+]
+const MONTES_EUROPA = [
+  { id: 'alpes-europa', nombre: T('Alpes', 'Alps', 'Alps'), nivel: 'facil',
+    puntos: [[6.0, 44.0], [7.0, 45.9], [9.5, 46.5], [12.0, 47.0], [15.0, 47.3]] },
+  { id: 'pirineos-europa', nombre: T('Pirineos', 'Pyrenees', 'Pirineus'), nivel: 'facil',
+    puntos: [[-1.75, 43.15], [-1.0, 42.95], [0.0, 42.75], [1.0, 42.6], [2.0, 42.45], [3.0, 42.45]] },
+  { id: 'carpatos', nombre: T('Cárpatos', 'Carpathians', 'Carpats'), nivel: 'facil',
+    puntos: [[17.3, 48.6], [19.5, 49.3], [22.5, 49.0], [24.5, 47.8], [25.5, 46.5], [25.8, 45.6], [24.0, 45.4], [22.5, 45.0]] },
+  { id: 'urales-europa', nombre: T('Urales', 'Urals', 'Urals'), nivel: 'facil',
+    puntos: [[59.0, 51.0], [59.5, 55.0], [59.0, 60.0], [60.0, 64.0], [65.0, 68.0]] },
+  { id: 'apeninos', nombre: T('Apeninos', 'Apennines', 'Apenins'), nivel: 'facil',
+    puntos: [[8.5, 44.4], [10.5, 44.1], [12.5, 43.3], [13.5, 42.3], [14.8, 41.3], [15.8, 40.3], [16.2, 39.0]] },
+  { id: 'escandinavos-europa', nombre: T('Montes Escandinavos', 'Scandinavian Mountains', 'Muntanyes Escandinaves'), nivel: 'facil',
+    puntos: [[6.0, 59.0], [9.0, 62.0], [14.0, 65.0], [18.0, 68.5], [21.0, 69.5]] },
+  { id: 'caucaso-europa', nombre: T('Cáucaso', 'Caucasus', 'Caucas'), nivel: 'medio',
+    puntos: [[40.0, 43.3], [44.0, 42.7], [48.0, 41.2]] },
+  { id: 'balcanes', nombre: T('Balcanes', 'Balkan Mountains', 'Balcans'), nivel: 'medio',
+    puntos: [[22.4, 43.6], [23.5, 43.0], [25.0, 42.75], [27.0, 42.75]] },
+  { id: 'dinaricos', nombre: T('Alpes Dináricos', 'Dinaric Alps', 'Alps Dinàrics'), nivel: 'medio',
+    puntos: [[14.5, 45.6], [16.0, 44.5], [17.5, 43.5], [19.0, 42.6], [20.0, 41.9]] },
+  { id: 'macizo-central', nombre: T('Macizo Central', 'Massif Central', 'Massís Central'), nivel: 'medio',
+    puntos: [[2.5, 46.0], [3.0, 45.3], [3.6, 44.6]] },
+]
+
 // ── Regiones ──────────────────────────────────────────────────────────────
 // Cada mapa con sus ríos, sus sistemas y sus «vertientes» (a qué mar o
 // océano va cada río). El juego las mezcla; cada examen es de una sola.
@@ -280,6 +366,21 @@ export const REGIONES = {
       'The Rocky Mountains divide the waters: to the west, rivers flow into the Pacific (the Columbia, and the Colorado through the Gulf of California). To the east, almost everything ends up in the Mississippi and with it in the Gulf of Mexico (the Missouri and the Ohio are its tributaries), as does the Rio Grande. Beyond the Appalachians, the Hudson and the Potomac flow into the Atlantic.',
       'Les Muntanyes Rocoses reparteixen les aigües: a l’oest, els rius van al Pacífic (el Columbia, i el Colorado pel golf de Califòrnia). A l’est, gairebé tot acaba al Mississipí i amb ell al golf de Mèxic (el Missouri i l’Ohio en són afluents), igual que el Riu Bravo. A l’altra banda dels Apalatxes, el Hudson i el Potomac van a l’Atlàntic.'),
     rios: RIOS_EEUU, montes: MONTES_EEUU,
+  },
+  europa: {
+    id: 'europa',
+    nombre: T('Europa', 'Europe', 'Europa'),
+    mapa: { center: [20, 53], scale: 520, atlas: 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json', tierras: null },
+    sepNumeros: 7, sepPuntos: 3.5,
+    vertientes: VERTIENTES_EUROPA,
+    pregunta: T('¿A qué vertiente va cada río? Toca un río y luego su vertiente', 'Which drainage basin does each river belong to? Tap a river, then its basin', 'A quin vessant va cada riu? Toca un riu i després el seu vessant'),
+    // la ártica no sale en fácil: su río (el Dvina) es del nivel medio
+    vertientesFacil: ['atlantica', 'mediterranea', 'caspio'],
+    expVertiente: T(
+      'Atlántica: los ríos que van al océano y a sus mares, el del Norte y el Báltico (Rin, Sena, Loira, Elba, Vístula, Támesis). Mediterránea: los que van al Mediterráneo y al mar Negro (Ródano, Po, Danubio, Dniéper). Del Caspio: el Volga y el Ural. Ártica: los del norte de Rusia, como el Dvina.',
+      'Atlantic: the rivers that reach the ocean and its seas, the North Sea and the Baltic (Rhine, Seine, Loire, Elbe, Vistula, Thames). Mediterranean: those that reach the Mediterranean and the Black Sea (Rhône, Po, Danube, Dnieper). Caspian: the Volga and the Ural. Arctic: those of northern Russia, such as the Northern Dvina.',
+      'Atlàntic: els rius que van a l’oceà i als seus mars, el del Nord i el Bàltic (Rin, Sena, Loira, Elba, Vístula, Tàmesi). Mediterrani: els que van a la Mediterrània i al mar Negre (Roine, Po, Danubi, Dnièper). Del Caspi: el Volga i l’Ural. Àrtic: els del nord de Rússia, com el Dvinà.'),
+    rios: RIOS_EUROPA, montes: MONTES_EUROPA,
   },
 }
 export const regionDe = r => REGIONES[r?.region ?? 'espana']
@@ -429,7 +530,9 @@ export function explicacion(r, l) {
     case 'busca': {
       const e = elemento(r.objetivo)
       if (e.clase === 'rio') return frase(e, l)
-      return s(l, `${tx(e.nombre, l)}: la línea marrón del mapa. ${PISTA_MONTE[e.id]?.es ?? ''}`, `${tx(e.nombre, l)}: the brown line on the map. ${PISTA_MONTE[e.id]?.en ?? ''}`, `${tx(e.nombre, l)}: la línia marró del mapa. ${PISTA_MONTE[e.id]?.ca ?? ''}`)
+      // la misma cordillera en otro mapa (alpes-europa) usa la frase de la original
+      const pista = PISTA_MONTE[e.id] ?? PISTA_MONTE[e.id.replace(/-(europa|eeuu)$/, '')]
+      return s(l, `${tx(e.nombre, l)}: la línea marrón del mapa. ${pista?.es ?? ''}`, `${tx(e.nombre, l)}: the brown line on the map. ${pista?.en ?? ''}`, `${tx(e.nombre, l)}: la línia marró del mapa. ${pista?.ca ?? ''}`)
     }
     case 'etiqueta': return r.marcados.map((id, i) => `${i + 1} = ${nombre(id, l)}`).join(' · ')
     case 'vertiente': return tx(regionDe(r).expVertiente, l)
@@ -463,6 +566,11 @@ const PISTA_MONTE = {
   'sierra-nevada-eeuu': T('En California; aquí está el monte Whitney, el más alto de los 48 estados contiguos.', 'In California; Mount Whitney, the highest peak in the contiguous 48 states, is here.', 'A Califòrnia; aquí hi ha el mont Whitney, el més alt dels 48 estats contigus.'),
   cascadas: T('En el noroeste, de Washington al norte de California: está llena de volcanes, como el Santa Helena.', 'In the north-west, from Washington to northern California: it is full of volcanoes, such as Mount St Helens.', 'Al nord-oest, de Washington al nord de Califòrnia: és plena de volcans, com el Saint Helens.'),
   'costera-eeuu': T('Pegada a la costa del Pacífico, de Washington al sur de California.', 'Along the Pacific coast, from Washington to southern California.', 'Arran de la costa del Pacífic, de Washington al sud de Califòrnia.'),
+  carpatos: T('Un gran arco en Europa central y del este: Eslovaquia, Polonia, Ucrania y Rumanía.', 'A great arc across central and eastern Europe: Slovakia, Poland, Ukraine and Romania.', 'Un gran arc a l’Europa central i de l’est: Eslovàquia, Polònia, Ucraïna i Romania.'),
+  apeninos: T('Recorren Italia de norte a sur: son la «columna vertebral» de la península itálica.', 'They run down Italy from north to south: the «backbone» of the Italian peninsula.', 'Recorren Itàlia de nord a sud: són la «columna vertebral» de la península italiana.'),
+  balcanes: T('En Bulgaria, de oeste a este: dan nombre a toda la península balcánica.', 'In Bulgaria, from west to east: they give their name to the whole Balkan peninsula.', 'A Bulgària, d’oest a est: donen nom a tota la península balcànica.'),
+  dinaricos: T('Paralelos a la costa del Adriático, de Eslovenia a Albania.', 'Parallel to the Adriatic coast, from Slovenia to Albania.', 'Paral·lels a la costa de l’Adriàtic, d’Eslovènia a Albània.'),
+  'macizo-central': T('Un macizo antiguo de volcanes apagados en el centro y el sur de Francia; allí nace el Loira.', 'An old massif of extinct volcanoes in central and southern France; the Loire rises there.', 'Un massís antic de volcans apagats al centre i el sud de França; hi neix el Loira.'),
 }
 
 export function textoRespuesta(r, l) {

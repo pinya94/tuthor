@@ -13,6 +13,7 @@ const RECUADRO = {
   espana: ([lon, lat]) => lon > -9.6 && lon < 3.4 && lat > 36.0 && lat < 43.9,
   mundo: ([lon, lat]) => lon > -170 && lon < 180 && lat > -56 && lat < 76,
   eeuu: ([lon, lat]) => lon > -126 && lon < -66 && lat > 24 && lat < 51,
+  europa: ([lon, lat]) => lon > -11 && lon < 66 && lat > 36 && lat < 70,
 }
 
 describe('Ríos y Montañas: datos', () => {
@@ -99,6 +100,25 @@ describe('Estados Unidos', () => {
   })
   it('las Rocosas reparten las aguas: lo que va al Pacífico nace al oeste de ellas o en ellas', () => {
     for (const r of rios('eeuu').filter(x => x.vertiente === 'pacifico')) expect(r.puntos[0][0], r.id).toBeLessThan(-105)
+  })
+})
+
+describe('Europa', () => {
+  it('vertientes como en los libros de ESO', () => {
+    const v = Object.fromEntries(rios('europa').map(r => [r.id, r.vertiente]))
+    expect(v).toMatchObject({ 'danubio-europa': 'mediterranea', rodano: 'mediterranea', po: 'mediterranea', dnieper: 'mediterranea', rin: 'atlantica', sena: 'atlantica', loira: 'atlantica', elba: 'atlantica', vistula: 'atlantica', tamesis: 'atlantica', 'volga-europa': 'caspio', ural: 'caspio', dvina: 'artica' })
+  })
+  it('cada río acaba en su mar', () => {
+    const fin = id => rio('europa', id).puntos.at(-1)
+    expect(fin('rin')[0]).toBeLessThan(5) // mar del Norte, en Róterdam
+    expect(fin('vistula')[1]).toBeGreaterThan(54) // Báltico
+    expect(fin('dvina')[1]).toBeGreaterThan(64) // mar Blanco
+    for (const id of ['volga-europa', 'ural']) expect(fin(id)[1], id).toBeLessThan(47.2) // Caspio
+    for (const id of ['danubio-europa', 'dnieper']) { const [lon, lat] = fin(id); expect(lon, id).toBeGreaterThan(29); expect(lat, id).toBeLessThan(46.7) } // mar Negro (su costa norte está a ~46,5°)
+    for (const id of ['rodano', 'po']) expect(fin(id)[1], id).toBeLessThan(45.1) // Mediterráneo
+    // el Loira nace en el Macizo Central
+    const mc = REGIONES.europa.montes.find(m => m.id === 'macizo-central').puntos
+    expect(Math.min(...mc.map(p => dist(p, rio('europa', 'loira').puntos[0])))).toBeLessThan(1)
   })
 })
 

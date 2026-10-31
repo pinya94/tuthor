@@ -49,7 +49,7 @@ function Mapa({ r, children }) {
 }
 
 const color = e => (e.clase === 'monte' ? MARRON : AZUL)
-const etiquetaMapa = (texto, c = '#FFFFFF') => <text textAnchor="middle" y={-16} fontSize={30} fontWeight={900} fill={c} stroke="#0B1226" strokeWidth={7} style={{ paintOrder: 'stroke', pointerEvents: 'none' }}>{texto}</text>
+const etiquetaMapa = (texto, c = '#FFFFFF', y = -16) => <text textAnchor="middle" y={y} fontSize={30} fontWeight={900} fill={c} stroke="#0B1226" strokeWidth={7} style={{ paintOrder: 'stroke', pointerEvents: 'none' }}>{texto}</text>
 
 function Busca({ r, revelado, elegida, onResponder, l }) {
   const visibles = delNivel(r.nivel, r.region)
@@ -130,7 +130,12 @@ function Vertiente({ r, revelado, elegida, onResponder, tr, l }) {
     <>
       <Mapa r={r}>
         {visibles.map(e => <Trazo key={e.id} e={e} color={AZUL} opacidad={r.rios.includes(e.id) ? 1 : 0.2} />)}
-        {r.rios.map(id => <Marker key={id} coordinates={medio(elemento(id))}>{etiquetaMapa(nombre(id, l), rio === id ? AMBAR : '#FFFFFF')}</Marker>)}
+        {/* Si un nombre cae cerca de otro ya puesto (Ródano y Po), baja una línea */}
+        {r.rios.map((id, i) => {
+          const p = medio(elemento(id))
+          const cerca = r.rios.slice(0, i).filter(o => { const q = medio(elemento(o)); return Math.hypot(p[0] - q[0], p[1] - q[1]) < regionDe(r).sepNumeros }).length
+          return <Marker key={id} coordinates={p}>{etiquetaMapa(nombre(id, l), rio === id ? AMBAR : '#FFFFFF', -16 + cerca * 36)}</Marker>
+        })}
       </Mapa>
       {!revelado && (
         <div className="flex flex-wrap justify-center gap-2 mt-3">

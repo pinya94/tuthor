@@ -14,8 +14,8 @@ import { Racha } from '../components/Iconos'
 const REVEAL_MS = 3500 // lo justo para ver en el mapa dónde estaba
 // La partida es un recorrido: un mapa entero (todos sus ríos y montañas del
 // nivel) y luego el siguiente, sin repetir; al acabar el último, se acaba.
-// En castellano y catalán, España y el mundo; en inglés, Estados Unidos y el mundo.
-const RECORRIDO = { es: ['espana', 'mundo'], ca: ['espana', 'mundo'], en: ['eeuu', 'mundo'] }
+// En castellano y catalán, España, Europa y el mundo; en inglés, Estados Unidos, Europa y el mundo.
+const RECORRIDO = { es: ['espana', 'europa', 'mundo'], ca: ['espana', 'europa', 'mundo'], en: ['eeuu', 'europa', 'mundo'] }
 const AVISO_MS = 2600
 const mmss = t => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`
 // Puntos: 10 por acierto y hasta 10 más por rapidez. El extra baja de 10 a 0
@@ -28,7 +28,7 @@ const puntosDe = (tipo, segundos) => {
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Los grandes ríos y montañas de España y del mundo', en: 'The great rivers and mountains of the United States and the world', ca: 'Els grans rius i muntanyes d’Espanya i del món' } },
+             desc: { es: 'Los grandes ríos y montañas de España, Europa y el mundo', en: 'The great rivers and mountains of the United States, Europe and the world', ca: 'Els grans rius i muntanyes d’Espanya, Europa i el món' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
              desc: { es: 'Más ríos y cordilleras, y a qué mar u océano va cada río', en: 'More rivers and ranges, and which sea or ocean each river reaches', ca: 'Més rius i serralades, i a quin mar o oceà va cada riu' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
@@ -166,7 +166,7 @@ export default function RiosMontanas() {
           <CabeceraJuego slug="rios-montanas"
             badge={tr({ es: 'Geografía · Relieve', en: 'Geography · Relief', ca: 'Geografia · Relleu' })}
             titulo={tr({ es: '🏞️ Ríos y Montañas', en: '🏞️ Rivers and Mountains', ca: '🏞️ Rius i Muntanyes' })}
-            sub={tr({ es: 'Los ríos y las montañas de España y del mundo, en su sitio del mapa', en: 'The rivers and mountains of the United States and the world, in their place on the map', ca: 'Els rius i les muntanyes d’Espanya i del món, al seu lloc del mapa' })} />
+            sub={tr({ es: 'Los ríos y las montañas de España, Europa y el mundo, en su sitio del mapa', en: 'The rivers and mountains of the United States, Europe and the world, in their place on the map', ca: 'Els rius i les muntanyes d’Espanya, Europa i el món, al seu lloc del mapa' })} />
 
           <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-2">{tr({ es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' })}</p>
           <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
@@ -185,7 +185,7 @@ export default function RiosMontanas() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale un mapa (de España o del mundo) con los ríos en azul y las cordilleras en marrón. Nada se elige de una lista:', en: 'A map appears (of the United States or of the world) with the rivers in blue and the mountain ranges in brown. Nothing is picked from a list:', ca: 'Surt un mapa (d’Espanya o del món) amb els rius en blau i les serralades en marró. Res no es tria d’una llista:' })}</p>
+              <p>{tr({ es: 'Sale un mapa (de España, de Europa o del mundo) con los ríos en azul y las cordilleras en marrón. Nada se elige de una lista:', en: 'A map appears (of the United States, of Europe or of the world) with the rivers in blue and the mountain ranges in brown. Nothing is picked from a list:', ca: 'Surt un mapa (d’Espanya, d’Europa o del món) amb els rius en blau i les serralades en marró. Res no es tria d’una llista:' })}</p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>{tr({ es: '👆 Tocas en el mapa el río o el sistema montañoso que se pide.', en: '👆 You tap the river or mountain range asked for on the map.', ca: '👆 Toques al mapa el riu o el sistema muntanyós que es demana.' })}</li>
                 <li>{tr({ es: '🔢 Pones cada nombre en su número del mapa (sobra uno).', en: '🔢 You put each name on its number on the map (one is left over).', ca: '🔢 Poses cada nom al seu número del mapa (en sobra un).' })}</li>
