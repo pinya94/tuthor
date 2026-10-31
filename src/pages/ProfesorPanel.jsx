@@ -10,6 +10,7 @@ import { Herramientas, Matraz } from '../components/IconosProfesor'
 import { ArteAula } from '../components/arte/aula'
 import BibliotecaExamenes from '../components/examenes/BibliotecaExamenes'
 import RetosPanel from '../components/reto/RetosPanel'
+import EstadoValidacionProfe from '../components/EstadoValidacionProfe'
 import { Trofeo } from '../components/Iconos'
 
 const PESTANAS = [
@@ -122,6 +123,7 @@ export default function ProfesorPanel() {
           })}
         </p>
       </div>
+      <EstadoValidacionProfe user={user} />
 
       {/* Dos pestañas del mismo peso, no una principal y una barra lateral:
           preparar la clase (recursos) es tanto trabajo del profesor como

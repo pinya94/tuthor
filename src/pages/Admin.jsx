@@ -33,47 +33,77 @@ const GAME_LABELS = {
 // Solicitudes de acceso a la beta de profes (src/lib/solicitudesProfe.js):
 // aprobar convierte la cuenta en profe al momento; el aviso al profe va por
 // correo a mano (Tuthor no envía correos), con el texto ya escrito.
+// Altas de profe por revisar (src/lib/solicitudesProfe.js). Desde el 31-oct-2026
+// la cuenta se abre al momento: aquí se valida después, se pide que corrijan o
+// aporten datos (lo ven en su panel) o se rechaza (spam: quita el acceso).
+// Cada acción deja el correo al profe escrito, para enviarlo con un clic.
 function SolicitudesProfe() {
   const [filas, setFilas] = useState(null)
   const [ocupado, setOcupado] = useState('')
   const [verTodas, setVerTodas] = useState(false)
+  const [notaDe, setNotaDe] = useState(null) // uid con el cuadro de «Pedir datos» abierto
+  const [nota, setNota] = useState('')
   const carga = () => listarSolicitudes().then(setFilas).catch(() => setFilas([]))
   useEffect(() => { carga() }, [])
-  const resuelve = async (uid, accion) => {
+  const resuelve = async (uid, accion, texto = '') => {
     setOcupado(uid)
-    try { await resolverSolicitud(uid, accion); await carga() } catch (e) { alert('No se ha podido: ' + e.message) }
+    try { await resolverSolicitud(uid, accion, texto); setNotaDe(null); setNota(''); await carga() } catch (e) { alert('No se ha podido: ' + e.message) }
     setOcupado('')
   }
-  const aviso = f => `mailto:${f.email}?subject=${encodeURIComponent('Ya tienes acceso a Tuthor para profes')}&body=${encodeURIComponent(`Hola, ${f.nombre}:
+  const correo = (f, asunto, cuerpo) => `mailto:${f.email}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`
+  const avisoValidada = f => correo(f, 'Tu cuenta de profe en Tuthor está validada', `Hola, ${f.nombre}:
 
-Ya tienes acceso a la beta de Tuthor para profesores con tu cuenta ${f.email}. Entra en https://www.tuthor.es/profesor y verás tu panel: clases, retos en directo, notas…
+Hemos revisado tu alta y todo está correcto: tu cuenta de profesor en Tuthor (${f.email}) queda validada. Puedes seguir usándola como hasta ahora en https://www.tuthor.es/profesor
 
-¡Gracias por probarlo!`)}`
+¡Gracias por usar Tuthor con tus alumnos!`)
+  const avisoRectificar = f => correo(f, 'Tu cuenta de profe en Tuthor: necesitamos un dato', `Hola, ${f.nombre}:
+
+Hemos revisado tu alta como profesor en Tuthor y necesitamos que corrijas o completes esto:
+
+${f.nota || '…'}
+
+Puedes hacerlo desde tu panel (https://www.tuthor.es/profesor), en el aviso de arriba. Mientras tanto puedes seguir usándolo todo con normalidad.
+
+¡Gracias!`)
   const visibles = (filas ?? []).filter(f => verTodas || f.estado === 'pendiente')
   const pendientes = (filas ?? []).filter(f => f.estado === 'pendiente').length
+  const color = { aprobada: 'text-green-300', rechazada: 'text-red-300', rectificar: 'text-orange-300', pendiente: 'text-amber-300' }
+  const nombreEstado = { aprobada: 'validada', rechazada: 'rechazada', rectificar: 'esperando datos', pendiente: 'por revisar' }
+  const boton = 'px-3 py-1.5 rounded-lg text-xs font-bold disabled:opacity-50'
   return (
     <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
       <div className="flex items-center justify-between gap-2 mb-1">
-        <h2 className="text-white font-bold">📚 Solicitudes de profes {pendientes > 0 && <span className="ml-1 rounded-full bg-amber-400 text-black text-xs font-black px-2 py-0.5">{pendientes}</span>}</h2>
-        <button onClick={() => setVerTodas(v => !v)} className="text-white/40 hover:text-white/70 text-xs">{verTodas ? 'Solo pendientes' : 'Ver todas'}</button>
+        <h2 className="text-white font-bold">📚 Altas de profes {pendientes > 0 && <span className="ml-1 rounded-full bg-amber-400 text-black text-xs font-black px-2 py-0.5">{pendientes}</span>}</h2>
+        <button onClick={() => setVerTodas(v => !v)} className="text-white/40 hover:text-white/70 text-xs">{verTodas ? 'Solo por revisar' : 'Ver todas'}</button>
       </div>
-      <p className="text-white/40 text-xs mb-4">Profes sin la palabra de la beta que piden acceso desde /profesores. «Dar acceso» convierte su cuenta en profe al momento.</p>
-      {filas === null ? <p className="text-white/30 text-sm">Cargando…</p> : visibles.length === 0 ? <p className="text-white/30 text-sm">{verTodas ? 'Ninguna todavía.' : 'Ninguna pendiente.'}</p> : (
+      <p className="text-white/40 text-xs mb-4">La cuenta ya funciona desde el alta. Aquí se valida, se piden datos (el profe ve tu nota en su panel) o se rechaza (quita el acceso: solo para spam).</p>
+      {filas === null ? <p className="text-white/30 text-sm">Cargando…</p> : visibles.length === 0 ? <p className="text-white/30 text-sm">{verTodas ? 'Ninguna todavía.' : 'Nada por revisar.'}</p> : (
         <div className="space-y-2">
           {visibles.map(f => (
             <div key={f.id} className="rounded-xl bg-black/20 border border-white/[0.06] p-3">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <p className="text-white font-bold">{f.nombre} <span className="text-white/40 font-normal text-xs">{f.email}</span></p>
-                <span className={`text-xs font-bold ${f.estado === 'aprobada' ? 'text-green-300' : f.estado === 'rechazada' ? 'text-red-300' : 'text-amber-300'}`}>{f.estado}</span>
+                <span className={`text-xs font-bold ${color[f.estado] ?? 'text-white/50'}`}>{nombreEstado[f.estado] ?? f.estado}</span>
               </div>
               <p className="text-white/60 text-sm">{f.centro} · {f.etapa}{f.materias ? ` · ${f.materias}` : ''}</p>
               {f.mensaje && <p className="text-white/50 text-sm italic mt-1">«{f.mensaje}»</p>}
+              {f.estado === 'rectificar' && f.nota && <p className="text-orange-200/80 text-xs mt-1">Le pediste: «{f.nota}»</p>}
               <p className="text-white/30 text-[11px] mt-1">{f.createdAt?.toDate?.().toLocaleString('es-ES') ?? ''}</p>
               <div className="flex flex-wrap gap-2 mt-2">
-                {f.estado !== 'aprobada' && <button disabled={ocupado === f.id} onClick={() => resuelve(f.id, 'aprobar')} className="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-500 text-white text-xs font-bold disabled:opacity-50">✅ Dar acceso</button>}
-                {f.estado === 'pendiente' && <button disabled={ocupado === f.id} onClick={() => resuelve(f.id, 'rechazar')} className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white/80 text-xs font-bold disabled:opacity-50">✕ Rechazar</button>}
-                {f.estado === 'aprobada' && <a href={aviso(f)} className="px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold">✉️ Avisarle por correo</a>}
+                {f.estado !== 'aprobada' && <button disabled={ocupado === f.id} onClick={() => resuelve(f.id, 'validar')} className={`${boton} bg-green-600 hover:bg-green-500 text-white`}>✅ Validar</button>}
+                {f.estado !== 'rechazada' && <button disabled={ocupado === f.id} onClick={() => { setNotaDe(n => (n === f.id ? null : f.id)); setNota('') }} className={`${boton} bg-orange-500/80 hover:bg-orange-500 text-white`}>✏️ Pedir datos</button>}
+                {f.estado !== 'rechazada' && <button disabled={ocupado === f.id} onClick={() => { if (confirm(`¿Rechazar a ${f.nombre}? Pierde el acceso de profe.`)) resuelve(f.id, 'rechazar') }} className={`${boton} bg-white/10 hover:bg-white/20 text-white/80`}>✕ Rechazar</button>}
+                {f.estado === 'aprobada' && <a href={avisoValidada(f)} className={`${boton} bg-violet-600 hover:bg-violet-500 text-white`}>✉️ Avisarle de que está validada</a>}
+                {f.estado === 'rectificar' && <a href={avisoRectificar(f)} className={`${boton} bg-violet-600 hover:bg-violet-500 text-white`}>✉️ Escribirle lo que falta</a>}
               </div>
+              {notaDe === f.id && (
+                <form onSubmit={e => { e.preventDefault(); if (nota.trim().length >= 3) resuelve(f.id, 'rectificar', nota.trim()) }} className="mt-2 space-y-2">
+                  <textarea autoFocus rows={2} maxLength={600} value={nota} onChange={e => setNota(e.target.value)}
+                    placeholder="Qué tiene que corregir o aportar (lo verá en su panel)"
+                    className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder-white/30 outline-none focus:border-orange-400" />
+                  <button type="submit" disabled={ocupado === f.id || nota.trim().length < 3} className={`${boton} bg-orange-500 hover:bg-orange-400 text-white`}>Enviarle la petición</button>
+                </form>
+              )}
             </div>
           ))}
         </div>

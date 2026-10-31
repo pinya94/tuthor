@@ -5,19 +5,19 @@ import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import TeacherAppSchema from '../components/TeacherAppSchema'
 import AuthModal from '../components/AuthModal'
-import { activateTeacherProfile, getTeacherProfile, hasTeacherAccess } from '../lib/classes'
+import { getTeacherProfile, hasTeacherAccess } from '../lib/classes'
+import { darseDeAltaProfe } from '../lib/solicitudesProfe'
 import { ArteJuego } from '../components/arte'
 import { Acierto, Bombilla, Diana, Libro, Lista, Pizarra, Racha } from '../components/Iconos'
 import VideoRetos from '../components/VideoRetos'
-import PedirAccesoProfe from '../components/PedirAccesoProfe'
 import { EXAMS, examLabel } from '../lib/exams'
 import { sinColetilla } from '../data/retosExamenes'
 import { Boletin, Chincheta, Cuaderno, Dado, Impresora, Libreta, Matraz, PasarLista, Pupitre, Tijeras } from '../components/IconosProfesor'
 
-// BETA GRATUITA (sept. 2026): mientras dure, no se pide pago — pero SÍ se pide
-// la palabra de la beta (ver TEACHER_BETA_CODE en classes.js), que no se
-// enseña en ningún sitio de esta página: se comparte por fuera, con quien se
-// quiera invitar a probar. El camino de pago con Stripe sigue intacto en
+// BETA GRATUITA Y ABIERTA (desde el 31-oct-2026): cualquier profe se da de alta
+// con sus datos y usa la cuenta al momento; la app pone sola la palabra de la
+// beta (TEACHER_BETA_CODE) y deja la solicitud pendiente de validar (ver
+// src/lib/solicitudesProfe.js). El camino de pago con Stripe sigue intacto en
 // checkout.js y access.js, listo para reactivarse: basta con devolver aquí el
 // formulario "pagar / código" que había antes y volver a importar
 // TEACHER_PLAN/startCheckout.
@@ -317,7 +317,8 @@ export default function Profesores() {
   const [showAuth, setShowAuth] = useState(false)
   const [schoolName, setSchoolName] = useState('')
   const [stage, setStage] = useState('eso')
-  const [betaCode, setBetaCode] = useState('')
+  const [nombre, setNombre] = useState('')
+  const [materias, setMaterias] = useState('')
   const [status, setStatus] = useState('idle')
 
   // Quien llega a ver los retos (#retos, desde la portada) baja hasta ellos
@@ -343,14 +344,12 @@ export default function Profesores() {
     if (!user) { setShowAuth(true); return }
     setStatus('sending')
     try {
-      // Gratis, pero no abierto a cualquiera: hace falta la palabra de la
-      // beta (activateTeacherProfile la normaliza — da igual mayúsculas o
-      // espacios de más). Si no coincide con lo que exige firestore.rules,
-      // el propio setDoc llega denegado con permission-denied.
-      await activateTeacherProfile(user.uid, { schoolName, stage, promoCode: betaCode })
+      // Alta abierta: la cuenta es de profe al momento y la solicitud queda
+      // pendiente de validar (ver src/lib/solicitudesProfe.js)
+      await darseDeAltaProfe(user, { nombre: (nombre || user.displayName || '').trim(), centro: schoolName, etapa: stage, materias, mensaje: '' })
       navigate(localPath('/profesor'))
-    } catch (err) {
-      setStatus(err?.code === 'permission-denied' ? 'invalid-code' : 'error')
+    } catch {
+      setStatus('error')
     }
   }
 
@@ -663,9 +662,9 @@ export default function Profesores() {
             </h2>
             <p className="text-white/55 text-[15px] leading-relaxed max-w-xl mx-auto mb-6">
               {tr({
-                es: 'Tarjetas ya escritas y listas para recortar: eventos históricos, países y capitales, elementos químicos, orgánulos, órganos del cuerpo, planetas, cadena alimentaria y titulares verdaderos y falsos. Y en cada tema de ciencias, sus preguntas convertidas en fichas de repaso. No hace falta cuenta ni palabra de la beta.',
-                en: 'Cards already written and ready to cut out: historical events, countries and capitals, chemical elements, organelles, body organs, planets, the food chain, and real and fake headlines. Plus every science topic\'s questions turned into revision cards. No account or beta word needed.',
-                ca: 'Targetes ja escrites i a punt per retallar: esdeveniments històrics, països i capitals, elements químics, orgànuls, òrgans del cos, planetes, cadena alimentària i titulars verdaders i falsos. I a cada tema de ciències, les seves preguntes convertides en fitxes de repàs. No cal compte ni paraula de la beta.',
+                es: 'Tarjetas ya escritas y listas para recortar: eventos históricos, países y capitales, elementos químicos, orgánulos, órganos del cuerpo, planetas, cadena alimentaria y titulares verdaderos y falsos. Y en cada tema de ciencias, sus preguntas convertidas en fichas de repaso. No hace falta cuenta.',
+                en: 'Cards already written and ready to cut out: historical events, countries and capitals, chemical elements, organelles, body organs, planets, the food chain, and real and fake headlines. Plus every science topic\'s questions turned into revision cards. No account needed.',
+                ca: 'Targetes ja escrites i a punt per retallar: esdeveniments històrics, països i capitals, elements químics, orgànuls, òrgans del cos, planetes, cadena alimentària i titulars verdaders i falsos. I a cada tema de ciències, les seves preguntes convertides en fitxes de repàs. No cal compte.',
               })}
             </p>
             <Link to={localPath('/recursos')}
@@ -682,13 +681,13 @@ export default function Profesores() {
               <Matraz className="w-7 h-7 shrink-0" />
               <div>
                 <p className="text-white font-black text-base leading-tight">
-                  {tr({ es: 'Acceso gratuito por invitación', en: 'Free access by invitation', ca: 'Accés gratuït per invitació' })}
+                  {tr({ es: 'Gratis y abierto a todos los profesores', en: 'Free and open to all teachers', ca: 'Gratis i obert a tots els professors' })}
                 </p>
                 <p className="text-white/45 text-xs mt-1">
                   {tr({
-                    es: 'Sin tarjeta ni compromiso. Necesitas la palabra de la beta — te la habrá dado quien te haya invitado a probarlo.',
-                    en: 'No card, no commitment. You\'ll need the beta word — whoever invited you to try it should have given it to you.',
-                    ca: 'Sense targeta ni compromís. Necessites la paraula de la beta — qui t\'hagi convidat a provar-ho te l\'haurà donat.',
+                    es: 'Sin tarjeta ni compromiso. Creas tu cuenta y la usas ya, entera. Nuestro equipo revisa cada alta: si todo está bien te lo confirmamos, y si falta algo te pediremos que lo corrijas.',
+                    en: 'No card, no commitment. Create your account and use all of it straight away. Our team reviews every sign-up: if everything is fine we’ll confirm it, and if something is missing we’ll ask you to correct it.',
+                    ca: 'Sense targeta ni compromís. Crees el teu compte i el fas servir ja, sencer. El nostre equip revisa cada alta: si tot està bé t’ho confirmem, i si falta alguna cosa et demanarem que la corregeixis.',
                   })}
                 </p>
               </div>
@@ -703,8 +702,14 @@ export default function Profesores() {
               </div>
             )}
             <form onSubmit={handleSubmit} className="space-y-3">
-              <input type="text" required value={schoolName} onChange={e => setSchoolName(e.target.value)}
-                placeholder={tr({ es: 'Nombre del centro', en: 'School name', ca: 'Nom del centre' })}
+              {/* Los datos con los que se valida la cuenta (ver solicitudesProfe.js) */}
+              {user && (
+                <input type="text" required minLength={2} maxLength={80} value={nombre || user.displayName || ''} onChange={e => setNombre(e.target.value)}
+                  placeholder={tr({ es: 'Tu nombre', en: 'Your name', ca: 'El teu nom' })}
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />
+              )}
+              <input type="text" required minLength={2} maxLength={120} value={schoolName} onChange={e => setSchoolName(e.target.value)}
+                placeholder={tr({ es: 'Centro y localidad', en: 'School and town', ca: 'Centre i localitat' })}
                 className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />
               <select value={stage} onChange={e => setStage(e.target.value)}
                 className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none focus:border-teal-500 transition-colors">
@@ -712,15 +717,12 @@ export default function Profesores() {
                   <option key={s.id} value={s.id} className="bg-[#0d0d1a]">{tr(s.label)}</option>
                 ))}
               </select>
-              <input type="text" required value={betaCode} onChange={e => setBetaCode(e.target.value)}
-                placeholder={tr({ es: 'Palabra de la beta', en: 'Beta word', ca: 'Paraula de la beta' })}
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />
-
-              {status === 'invalid-code' && (
-                <p className="text-red-400 text-sm">
-                  {tr({ es: 'Esa palabra no es correcta. Comprueba que la has escrito bien.', en: 'That word isn\'t right. Check you typed it correctly.', ca: 'Aquesta paraula no és correcta. Comprova que l\'has escrit bé.' })}
-                </p>
+              {user && (
+                <input type="text" maxLength={120} value={materias} onChange={e => setMaterias(e.target.value)}
+                  placeholder={tr({ es: 'Qué das (ej. Física y Química, 3.º y 4.º ESO)', en: 'What you teach (e.g. Chemistry, Year 10)', ca: 'Què fas (ex. Física i Química, 3r i 4t ESO)' })}
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-teal-500 transition-colors" />
               )}
+
               {status === 'error' && (
                 <p className="text-red-400 text-sm">
                   {tr({ es: 'Error al crear tu cuenta de profesor. Inténtalo de nuevo.', en: 'Error creating your teacher account. Please try again.', ca: 'Error en crear el teu compte de professor. Torna-ho a intentar.' })}
@@ -733,10 +735,9 @@ export default function Profesores() {
                   ? tr({ es: 'Un momento…', en: 'One moment…', ca: 'Un moment…' })
                   : !user
                   ? tr({ es: 'Iniciar sesión y empezar gratis', en: 'Sign in and start for free', ca: 'Iniciar sessió i començar gratis' })
-                  : tr({ es: 'Empezar gratis →', en: 'Start for free →', ca: 'Començar gratis →' })}
+                  : tr({ es: "Crear mi cuenta de profe →", en: "Create my teacher account →", ca: "Crear el meu compte de profe →" })}
               </button>
             </form>
-            <PedirAccesoProfe user={user} etapas={STAGES} onEntrar={() => setShowAuth(true)} />
           </div>
         </section>
       </div>

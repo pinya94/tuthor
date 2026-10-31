@@ -45,9 +45,23 @@ describe('api/aprobar-profe', () => {
     expect(datos.get('solicitudesProfe/u1').estado).toBe('aprobada')
   })
 
-  it('rechazar no da acceso', async () => {
+  it('validar es lo mismo que aprobar', async () => {
+    expect(await llama({ uid: 'u1', accion: 'validar' }, 'pinya1994@gmail.com')).toMatchObject({ status: 200, estado: 'aprobada' })
+    expect(datos.get('users/u1').teacherProfile).toMatchObject({ active: true, promoCode: 'BETATUTHOR' })
+  })
+
+  it('rectificar pide datos con una nota y no quita el acceso', async () => {
+    datos.set('users/u1', { name: 'Marta', teacherProfile: { active: true, promoCode: 'BETATUTHOR' } })
+    expect((await llama({ uid: 'u1', accion: 'rectificar' }, 'pinya1994@gmail.com')).status).toBe(400) // sin nota
+    expect(await llama({ uid: 'u1', accion: 'rectificar', nota: 'Falta el nombre del centro' }, 'pinya1994@gmail.com')).toMatchObject({ estado: 'rectificar' })
+    expect(datos.get('solicitudesProfe/u1')).toMatchObject({ estado: 'rectificar', nota: 'Falta el nombre del centro' })
+    expect(datos.get('users/u1').teacherProfile.active).toBe(true)
+  })
+
+  it('rechazar quita el acceso de profe', async () => {
+    datos.set('users/u1', { name: 'Marta', teacherProfile: { active: true, promoCode: 'BETATUTHOR' } })
     expect(await llama({ uid: 'u1', accion: 'rechazar' }, 'pinya1994@gmail.com')).toMatchObject({ estado: 'rechazada' })
-    expect(datos.get('users/u1').teacherProfile).toBeUndefined()
+    expect(datos.get('users/u1').teacherProfile.active).toBe(false)
     expect((await llama({ uid: 'nadie', accion: 'aprobar' }, 'pinya1994@gmail.com')).status).toBe(404)
   })
 })
