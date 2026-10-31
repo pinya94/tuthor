@@ -186,6 +186,11 @@ export const EXAMS = {
     emoji: '🏔️', subject: 'geografia',
     path: 'examen/rios-montanas-europa-test', page: () => import('../pages/RiosMontanasEuropaExamen'),
   },
+  'rios-montanas-reino-unido-test': {
+    label: { es: 'Ríos y Montañas del Reino Unido (con el juego)', en: 'Rivers and Mountains of the UK (with the game)', ca: 'Rius i Muntanyes del Regne Unit (amb el joc)' },
+    emoji: '🏰', subject: 'geografia',
+    path: 'examen/rios-montanas-reino-unido-test', page: () => import('../pages/RiosMontanasReinoUnidoExamen'),
+  },
   'piramide-poblacion-test': {
     label: { es: 'Pirámide de población (con el juego)', en: 'Population Pyramid (with the game)', ca: 'Piràmide de població (amb el joc)' },
     emoji: '👥', subject: 'geografia',

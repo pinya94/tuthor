@@ -14,6 +14,7 @@ const RECUADRO = {
   mundo: ([lon, lat]) => lon > -170 && lon < 180 && lat > -56 && lat < 76,
   eeuu: ([lon, lat]) => lon > -126 && lon < -66 && lat > 24 && lat < 51,
   europa: ([lon, lat]) => lon > -11 && lon < 66 && lat > 36 && lat < 70,
+  'reino-unido': ([lon, lat]) => lon > -8 && lon < 2 && lat > 50 && lat < 59,
 }
 
 describe('Ríos y Montañas: datos', () => {
@@ -119,6 +120,22 @@ describe('Europa', () => {
     // el Loira nace en el Macizo Central
     const mc = REGIONES.europa.montes.find(m => m.id === 'macizo-central').puntos
     expect(Math.min(...mc.map(p => dist(p, rio('europa', 'loira').puntos[0])))).toBeLessThan(1)
+  })
+})
+
+describe('Reino Unido', () => {
+  it('cada río va a su mar: al este, al mar del Norte; al oeste, al Atlántico o al mar de Irlanda', () => {
+    const v = Object.fromEntries(rios('reino-unido').map(r => [r.id, r.vertiente]))
+    expect(v).toMatchObject({ 'tamesis-uk': 'norte', trent: 'norte', tyne: 'norte', tweed: 'norte', tay: 'norte', severn: 'atlantico', clyde: 'atlantico', mersey: 'irlanda' })
+    for (const r of rios('reino-unido')) {
+      const [lon] = r.puntos.at(-1)
+      if (r.vertiente === 'norte') expect(lon, r.id).toBeGreaterThan(-3.1)
+      else expect(lon, r.id).toBeLessThan(-2.9)
+    }
+  })
+  it('el Severn nace en los Montes Cámbricos', () => {
+    const mc = REGIONES['reino-unido'].montes.find(m => m.id === 'cambricos').puntos
+    expect(Math.min(...mc.map(p => dist(p, rio('reino-unido', 'severn').puntos[0])))).toBeLessThan(0.4)
   })
 })
 

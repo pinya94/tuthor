@@ -315,6 +315,64 @@ const MONTES_EUROPA = [
     puntos: [[2.5, 46.0], [3.0, 45.3], [3.6, 44.6]] },
 ]
 
+// ── Reino Unido ───────────────────────────────────────────────────────────
+// Lo que pide el currículo inglés de Primaria (Key Stage 2). «¿A qué mar va?»:
+// mar del Norte, Atlántico (con el canal de Bristol y el estuario del Clyde) o
+// mar de Irlanda.
+export const MARES_UK = {
+  norte: T('Mar del Norte', 'North Sea', 'Mar del Nord'),
+  atlantico: T('Atlántico', 'Atlantic', 'Atlàntic'),
+  irlanda: T('Mar de Irlanda', 'Irish Sea', 'Mar d’Irlanda'),
+}
+const RIOS_UK = [
+  { id: 'tamesis-uk', nombre: T('Támesis', 'Thames', 'Tàmesi'), vertiente: 'norte', nivel: 'facil',
+    nace: T('en las colinas de los Cotswolds (Inglaterra)', 'in the Cotswold Hills (England)', 'als turons dels Cotswolds (Anglaterra)'),
+    desemboca: T('en el mar del Norte, tras pasar por Oxford y Londres', 'into the North Sea, after flowing through Oxford and London', 'al mar del Nord, després de passar per Oxford i Londres'),
+    puntos: [[-2.03, 51.69], [-1.26, 51.75], [-0.97, 51.46], [-0.5, 51.48], [-0.12, 51.5], [0.5, 51.47], [0.9, 51.5]] },
+  { id: 'severn', nombre: T('Severn', 'Severn', 'Severn'), vertiente: 'atlantico', nivel: 'facil',
+    nace: T('en las montañas de Gales (Plynlimon)', 'in the Welsh mountains (Plynlimon)', 'a les muntanyes de Gal·les (Plynlimon)'),
+    desemboca: T('en el canal de Bristol (Atlántico): es el río más largo del Reino Unido', 'into the Bristol Channel (Atlantic): it is the longest river in the United Kingdom', 'al canal de Bristol (Atlàntic): és el riu més llarg del Regne Unit'),
+    puntos: [[-3.73, 52.49], [-3.54, 52.45], [-3.31, 52.51], [-3.15, 52.66], [-2.75, 52.71], [-2.4, 52.4], [-2.22, 52.19], [-2.25, 51.86], [-2.6, 51.6], [-3.0, 51.42]] },
+  { id: 'trent', nombre: T('Trent', 'Trent', 'Trent'), vertiente: 'norte', nivel: 'facil',
+    nace: T('en los Peninos del sur (Staffordshire)', 'in the southern Pennines (Staffordshire)', 'als Penins del sud (Staffordshire)'),
+    desemboca: T('en el estuario del Humber, que da al mar del Norte; pasa por Nottingham', 'into the Humber estuary, which opens onto the North Sea; it flows through Nottingham', 'a l’estuari del Humber, que dona al mar del Nord; passa per Nottingham'),
+    puntos: [[-2.13, 53.12], [-2.18, 53.0], [-1.9, 52.8], [-1.45, 52.85], [-1.15, 52.94], [-0.81, 53.08], [-0.77, 53.4], [-0.7, 53.7]] },
+  { id: 'mersey', nombre: T('Mersey', 'Mersey', 'Mersey'), vertiente: 'irlanda', nivel: 'facil',
+    nace: T('en Stockport, junto a Mánchester, al juntarse dos ríos de los Peninos', 'in Stockport, near Manchester, where two Pennine rivers meet', 'a Stockport, al costat de Manchester, on s’ajunten dos rius dels Penins'),
+    desemboca: T('en el mar de Irlanda, en Liverpool', 'into the Irish Sea, at Liverpool', 'al mar d’Irlanda, a Liverpool'),
+    puntos: [[-2.15, 53.41], [-2.3, 53.43], [-2.6, 53.39], [-2.73, 53.34], [-3.0, 53.42]] },
+  { id: 'clyde', nombre: T('Clyde', 'Clyde', 'Clyde'), vertiente: 'atlantico', nivel: 'facil',
+    nace: T('en las Tierras Altas del Sur (Escocia)', 'in the Southern Uplands (Scotland)', 'a les Terres Altes del Sud (Escòcia)'),
+    desemboca: T('en el estuario del Clyde (Atlántico), tras pasar por Glasgow', 'into the Firth of Clyde (Atlantic), after flowing through Glasgow', 'a l’estuari del Clyde (Atlàntic), després de passar per Glasgow'),
+    puntos: [[-3.65, 55.4], [-3.78, 55.67], [-4.0, 55.8], [-4.25, 55.86], [-4.76, 55.95], [-4.9, 55.9]] },
+  { id: 'tay', nombre: T('Tay', 'Tay', 'Tay'), vertiente: 'norte', nivel: 'facil',
+    nace: T('en los Montes Grampianos (Escocia)', 'in the Grampian Mountains (Scotland)', 'a les Muntanyes Grampianes (Escòcia)'),
+    desemboca: T('en el mar del Norte, junto a Dundee: es el río más largo de Escocia', 'into the North Sea, near Dundee: it is the longest river in Scotland', 'al mar del Nord, al costat de Dundee: és el riu més llarg d’Escòcia'),
+    puntos: [[-4.8, 56.4], [-4.15, 56.52], [-3.87, 56.62], [-3.55, 56.57], [-3.43, 56.4], [-2.97, 56.46], [-2.75, 56.45]] },
+  { id: 'tyne', nombre: T('Tyne', 'Tyne', 'Tyne'), vertiente: 'norte', nivel: 'medio',
+    nace: T('en los montes del norte de Inglaterra, junto a la frontera con Escocia', 'in the hills of northern England, near the Scottish border', 'a les muntanyes del nord d’Anglaterra, a prop de la frontera amb Escòcia'),
+    desemboca: T('en el mar del Norte, tras pasar por Newcastle', 'into the North Sea, after flowing through Newcastle', 'al mar del Nord, després de passar per Newcastle'),
+    puntos: [[-2.6, 55.3], [-2.1, 54.97], [-1.61, 54.97], [-1.42, 55.01]] },
+  { id: 'tweed', nombre: T('Tweed', 'Tweed', 'Tweed'), vertiente: 'norte', nivel: 'medio',
+    nace: T('en las Tierras Altas del Sur (Escocia)', 'in the Southern Uplands (Scotland)', 'a les Terres Altes del Sud (Escòcia)'),
+    desemboca: T('en el mar del Norte, en Berwick: en su último tramo hace de frontera entre Escocia e Inglaterra', 'into the North Sea, at Berwick: in its last stretch it forms the border between Scotland and England', 'al mar del Nord, a Berwick: en el darrer tram fa de frontera entre Escòcia i Anglaterra'),
+    puntos: [[-3.4, 55.42], [-3.19, 55.65], [-2.72, 55.6], [-2.43, 55.6], [-2.0, 55.77]] },
+]
+const MONTES_UK = [
+  { id: 'peninos', nombre: T('Peninos', 'Pennines', 'Penins'), nivel: 'facil',
+    puntos: [[-2.0, 53.0], [-2.0, 53.6], [-2.15, 54.2], [-2.35, 54.7], [-2.5, 55.0]] },
+  { id: 'grampianos', nombre: T('Montes Grampianos', 'Grampian Mountains', 'Muntanyes Grampianes'), nivel: 'facil',
+    puntos: [[-5.2, 56.5], [-4.2, 56.8], [-3.3, 57.0], [-2.5, 57.0]] },
+  { id: 'snowdonia', nombre: T('Snowdonia', 'Snowdonia (Eryri)', 'Snowdonia'), nivel: 'facil',
+    puntos: [[-4.25, 52.8], [-4.08, 53.0], [-3.9, 53.15]] },
+  { id: 'lagos', nombre: T('Distrito de los Lagos', 'Lake District', 'Districte dels Llacs'), nivel: 'facil',
+    puntos: [[-3.4, 54.3], [-3.2, 54.45], [-3.0, 54.6]] },
+  { id: 'cambricos', nombre: T('Montes Cámbricos', 'Cambrian Mountains', 'Muntanyes Cambrianes'), nivel: 'medio',
+    puntos: [[-3.9, 52.75], [-3.75, 52.35], [-3.6, 51.95]] },
+  { id: 'uplands', nombre: T('Tierras Altas del Sur', 'Southern Uplands', 'Terres Altes del Sud'), nivel: 'medio',
+    puntos: [[-5.0, 55.0], [-4.0, 55.35], [-3.0, 55.45], [-2.3, 55.4]] },
+]
+
 // ── Regiones ──────────────────────────────────────────────────────────────
 // Cada mapa con sus ríos, sus sistemas y sus «vertientes» (a qué mar o
 // océano va cada río). El juego las mezcla; cada examen es de una sola.
@@ -381,6 +439,20 @@ export const REGIONES = {
       'Atlantic: the rivers that reach the ocean and its seas, the North Sea and the Baltic (Rhine, Seine, Loire, Elbe, Vistula, Thames). Mediterranean: those that reach the Mediterranean and the Black Sea (Rhône, Po, Danube, Dnieper). Caspian: the Volga and the Ural. Arctic: those of northern Russia, such as the Northern Dvina.',
       'Atlàntic: els rius que van a l’oceà i als seus mars, el del Nord i el Bàltic (Rin, Sena, Loira, Elba, Vístula, Tàmesi). Mediterrani: els que van a la Mediterrània i al mar Negre (Roine, Po, Danubi, Dnièper). Del Caspi: el Volga i l’Ural. Àrtic: els del nord de Rússia, com el Dvinà.'),
     rios: RIOS_EUROPA, montes: MONTES_EUROPA,
+  },
+  'reino-unido': {
+    id: 'reino-unido',
+    nombre: T('el Reino Unido', 'the United Kingdom', 'el Regne Unit'),
+    mapa: { center: [-3.3, 54.5], scale: 2350, atlas: 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json', tierras: { 826: '#334155' } },
+    sepNumeros: 1.3, sepPuntos: 0.6,
+    vertientes: MARES_UK,
+    pregunta: T('¿A qué mar va cada río? Toca un río y luego su mar', 'Which sea does each river flow into? Tap a river, then its sea', 'A quin mar va cada riu? Toca un riu i després el seu mar'),
+    vertientesFacil: ['norte', 'atlantico', 'irlanda'],
+    expVertiente: T(
+      'Los Peninos y las montañas de Gales y Escocia reparten las aguas: al este, los ríos van al mar del Norte (Támesis, Trent por el Humber, Tyne, Tweed, Tay). Al oeste, al mar de Irlanda (el Mersey, en Liverpool) o al Atlántico (el Severn por el canal de Bristol y el Clyde por su estuario).',
+      'The Pennines and the mountains of Wales and Scotland divide the waters: to the east, rivers flow into the North Sea (Thames, Trent through the Humber, Tyne, Tweed, Tay). To the west, into the Irish Sea (the Mersey, at Liverpool) or the Atlantic (the Severn through the Bristol Channel and the Clyde through its firth).',
+      'Els Penins i les muntanyes de Gal·les i Escòcia reparteixen les aigües: a l’est, els rius van al mar del Nord (Tàmesi, Trent pel Humber, Tyne, Tweed, Tay). A l’oest, al mar d’Irlanda (el Mersey, a Liverpool) o a l’Atlàntic (el Severn pel canal de Bristol i el Clyde pel seu estuari).'),
+    rios: RIOS_UK, montes: MONTES_UK,
   },
 }
 export const regionDe = r => REGIONES[r?.region ?? 'espana']
@@ -571,6 +643,12 @@ const PISTA_MONTE = {
   balcanes: T('En Bulgaria, de oeste a este: dan nombre a toda la península balcánica.', 'In Bulgaria, from west to east: they give their name to the whole Balkan peninsula.', 'A Bulgària, d’oest a est: donen nom a tota la península balcànica.'),
   dinaricos: T('Paralelos a la costa del Adriático, de Eslovenia a Albania.', 'Parallel to the Adriatic coast, from Slovenia to Albania.', 'Paral·lels a la costa de l’Adriàtic, d’Eslovènia a Albània.'),
   'macizo-central': T('Un macizo antiguo de volcanes apagados en el centro y el sur de Francia; allí nace el Loira.', 'An old massif of extinct volcanoes in central and southern France; the Loire rises there.', 'Un massís antic de volcans apagats al centre i el sud de França; hi neix el Loira.'),
+  peninos: T('La «columna vertebral» de Inglaterra: recorren el norte de sur a norte.', 'The «backbone of England»: they run through the north from south to north.', 'La «columna vertebral» d’Anglaterra: recorren el nord de sud a nord.'),
+  grampianos: T('En las Highlands de Escocia; aquí está el Ben Nevis, la montaña más alta del Reino Unido.', 'In the Scottish Highlands; Ben Nevis, the highest mountain in the United Kingdom, is here.', 'A les Highlands d’Escòcia; aquí hi ha el Ben Nevis, la muntanya més alta del Regne Unit.'),
+  snowdonia: T('En el norte de Gales; aquí está el Snowdon, la montaña más alta de Gales.', 'In north Wales; Snowdon, the highest mountain in Wales, is here.', 'Al nord de Gal·les; aquí hi ha l’Snowdon, la muntanya més alta de Gal·les.'),
+  lagos: T('En el noroeste de Inglaterra (Cumbria); aquí está el Scafell Pike, la montaña más alta de Inglaterra.', 'In north-west England (Cumbria); Scafell Pike, the highest mountain in England, is here.', 'Al nord-oest d’Anglaterra (Cúmbria); aquí hi ha l’Scafell Pike, la muntanya més alta d’Anglaterra.'),
+  cambricos: T('Recorren el centro de Gales de norte a sur; allí nace el Severn.', 'They run through central Wales from north to south; the Severn rises there.', 'Recorren el centre de Gal·les de nord a sud; hi neix el Severn.'),
+  uplands: T('En el sur de Escocia, de costa a costa, cerca de la frontera con Inglaterra.', 'In southern Scotland, from coast to coast, near the English border.', 'Al sud d’Escòcia, de costa a costa, a prop de la frontera amb Anglaterra.'),
 }
 
 export function textoRespuesta(r, l) {
