@@ -211,6 +211,7 @@ export const SUBJECT_DEFS = [
       conditionals:      { es: 'Conditionals (condicionales)', en: 'Conditionals', ca: 'Conditionals (condicionals)' },
       modals:            { es: 'Modal Verbs (modales)',    en: 'Modal Verbs',      ca: 'Modal Verbs (modals)' },
       'word-order':      { es: 'Word Order (orden de las palabras)', en: 'Word Order', ca: 'Word Order (ordre de les paraules)' },
+      'irregular-verbs': { es: 'Irregular Verbs (verbos irregulares)', en: 'Irregular Verbs', ca: 'Irregular Verbs (verbs irregulars)' },
       spelling:          { es: 'Spelling (ortografía)',    en: 'Spelling',         ca: 'Spelling (ortografia)' },
     },
   },

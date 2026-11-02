@@ -564,6 +564,9 @@ export const TOPIC_CATALOG = {
       // Corrige el Texto con el banco inglés: sus faltas son las del inglés
       // (dobles consonantes, letras mudas, their/there), no las del castellano.
       spelling: examTema({ corregirExamen: 'corrige-el-texto-en-test' }, { niveles: ['primaria', 'eso'] }),
+      // Las tres formas de los verbos irregulares: tema propio (todas las listas
+      // de clase lo tratan aparte del pasado simple), con su juego y su examen.
+      'irregular-verbs': examTema({ irregularesExamen: 'verbos-irregulares-test' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
     },
     formatos: {
       // Único formato por MECÁNICA de la materia: un solo juego para los cinco
@@ -597,6 +600,15 @@ export const TOPIC_CATALOG = {
         tracksTopic: true,
         temas: ['spelling'],
       },
+      irregulares: {
+        label: { es: 'Verbos Irregulares (juego)', en: 'Irregular Verbs (game)', ca: 'Verbs Irregulars (joc)' },
+        emoji: '🔁',
+        game: 'verbos-irregulares',
+        usesLevel: false,
+        tracksTopic: true,
+        temas: ['irregular-verbs'],
+      },
+      irregularesExamen: examFormato({ es: 'Verbos irregulares (examen)', en: 'Irregular verbs (exam)', ca: 'Verbs irregulars (examen)' }, '🔁'),
       corregirExamen: examFormato({ es: 'Corregir el texto (examen)', en: 'Proofread the text (exam)', ca: 'Corregir el text (examen)' }, '🔍'),
     },
   },

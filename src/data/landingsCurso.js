@@ -211,7 +211,7 @@ export const LANDINGS = [
       en: ['English word order', 'Present simple and the he/she/it -s', 'Articles: a, an, the', 'Nouns, verbs and adjectives', 'Spotting mistakes in a text'],
       ca: ["L'ordre de la frase en anglès", 'Present simple i la -s de he/she/it', 'Articles: a, an, the', 'Substantius, verbs i adjectius', 'Detectar faltes en un text'],
     },
-    juegos: ['ordena-frase', 'pieza-que-falta', 'corrige-el-texto'],
+    juegos: ['ordena-frase', 'verbos-irregulares', 'pieza-que-falta', 'corrige-el-texto'],
     temas: [
       { arte: 'ingles/present-simple', ruta: '/examen/ingles-grammar-present-simple-test', titulo: T('Present Simple', 'Present Simple', 'Present Simple') },
       { arte: 'ingles/articles', ruta: '/examen/ingles-grammar-articles-test', titulo: T('Articles', 'Articles', 'Articles') },
@@ -456,7 +456,7 @@ export const LANDINGS = [
       en: ['Past simple and present perfect', 'The passive voice', 'Connectors and prepositions', 'Adverbs and word order', 'Spotting mistakes in a text'],
       ca: ['Past simple i present perfect', 'La veu passiva', 'Connectors i preposicions', "Adverbis i ordre de la frase", 'Detectar errors en un text'],
     },
-    juegos: ['pieza-que-falta', 'ordena-frase', 'corrige-el-texto'],
+    juegos: ['pieza-que-falta', 'verbos-irregulares', 'ordena-frase', 'corrige-el-texto'],
     temas: [
       { arte: 'ingles/past-simple', ruta: '/examen/ingles-grammar-past-simple-test', titulo: T('Past Simple', 'Past Simple', 'Past Simple') },
       { arte: 'ingles/present-perfect', ruta: '/examen/ingles-grammar-present-perfect-test', titulo: T('Present Perfect', 'Present Perfect', 'Present Perfect') },
@@ -863,7 +863,7 @@ export const LANDINGS = [
       en: ['Conditionals, wishes and inversion', 'The passive in every tense', 'Present perfect versus past simple', 'Connectors and prepositions', 'Word order and proofreading'],
       ca: ['Conditionals, wishes i inversió', 'Veu passiva en tots els temps', 'Present perfect davant de past simple', 'Connectors i preposicions', 'Ordre de la frase i correcció de textos'],
     },
-    juegos: ['pieza-que-falta', 'ordena-frase', 'corrige-el-texto'],
+    juegos: ['pieza-que-falta', 'verbos-irregulares', 'ordena-frase', 'corrige-el-texto'],
     temas: [
       { arte: 'ingles/conditionals', ruta: '/examen/ingles-grammar-conditionals-test', titulo: T('Conditionals & Wishes', 'Conditionals & Wishes', 'Conditionals & Wishes') },
       { arte: 'ingles/passive', ruta: '/examen/ingles-grammar-passive-test', titulo: T('Passive Voice', 'Passive Voice', 'Passive Voice') },

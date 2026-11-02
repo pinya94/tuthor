@@ -9,6 +9,8 @@ const CATEGORIAS = [
   { id: 'grammar', titulo: { es: 'Grammar', en: 'Grammar', ca: 'Grammar' }, emoji: '📝', gradient: 'from-blue-500 to-indigo-600', path: '/estudiar/idiomas/ingles/grammar' },
   { id: 'word-order', titulo: { es: 'Word order', en: 'Word order', ca: 'Word order' }, emoji: '🔤', gradient: 'from-cyan-500 to-blue-700', path: '/juegos/ordena-frase',
     sub: { es: 'Ordena la frase jugando', en: 'Order the sentence by playing', ca: 'Ordena la frase jugant' } },
+  { id: 'irregular-verbs', titulo: { es: 'Irregular verbs', en: 'Irregular verbs', ca: 'Irregular verbs' }, emoji: '🔁', gradient: 'from-sky-500 to-cyan-700', path: '/juegos/verbos-irregulares',
+    sub: { es: 'Pasado y participio: go · went · gone', en: 'Past simple and participle: go · went · gone', ca: 'Passat i participi: go · went · gone' } },
   // Con tema: sin él, Corrige el Texto abre en el idioma de la interfaz, y
   // desde Inglés lo que toca es el texto en inglés.
   { id: 'spelling', titulo: { es: 'Spelling', en: 'Spelling', ca: 'Spelling' }, emoji: '🔍', gradient: 'from-amber-500 to-orange-700', path: '/juegos/corrige-el-texto', state: { tema: 'spelling' },

@@ -557,6 +557,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'verbos-irregulares': {
+    label: { es: 'Verbos Irregulares', en: 'Irregular Verbs', ca: 'Verbs Irregulars' },
+    emoji: '🔁',
+    subject: 'ingles',
+    route: '/juegos/verbos-irregulares',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'balanza-algebraica': {
     label: { es: 'Balanza Algebraica', en: 'Algebra Balance', ca: 'Balança Algebraica' },
     emoji: '⚖️',

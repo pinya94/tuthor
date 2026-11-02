@@ -287,6 +287,11 @@ export const EXAMS = {
     emoji: '🎻', subject: 'musica',
     path: 'examen/la-orquesta-test', page: () => import('../pages/LaOrquestaExamen'),
   },
+  'verbos-irregulares-test': {
+    label: { es: 'Verbos Irregulares (con el juego)', en: 'Irregular Verbs (with the game)', ca: 'Verbs Irregulars (amb el joc)' },
+    emoji: '🔁', subject: 'ingles',
+    path: 'examen/verbos-irregulares-test', page: () => import('../pages/VerbosIrregularesExamen'),
+  },
   'compas-completo-test': {
     label: { es: 'Compás Completo (con el juego)', en: 'Full Bar (with the game)', ca: 'Compàs Complet (amb el joc)' },
     emoji: '🥁', subject: 'musica',

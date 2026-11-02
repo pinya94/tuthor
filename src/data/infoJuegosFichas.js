@@ -58,6 +58,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Biología', niveles: 'ESO, Bachillerato',
   },
+  'verbos-irregulares': {
+    titulo: 'Verbos Irregulares',
+    subtitulo: 'Juego de verbos irregulares en inglés: pasado y participio',
+    emoji: '🔁', gradient: 'from-sky-500 to-cyan-700',
+    path: '/juegos/verbos-irregulares',
+    intro: 'Un juego para aprender los verbos irregulares de inglés sin repetir la tabla de memoria. Sale el infinitivo y hay que forjar el pasado y el participio con fichas, entre las que están las formas que se inventa quien no se lo sabe (goed, buyed) y las que se confunden de verdad (bought y brought, thought y taught). En otras rondas se agrupan los verbos por patrón, se escriben letra a letra y se coloca cada forma en su frase: con yesterday va el pasado; detrás de have, el participio. Más de 100 verbos en tres niveles, de go-went-gone a seek-sought-sought.',
+    beneficios: [
+      { titulo: 'Por patrones, no de uno en uno', texto: 'Los verbos irregulares no son 100 casos sueltos: cut-cut-cut tiene las tres formas iguales, buy-bought-bought repite el pasado en el participio, go-went-gone las tiene distintas y come-came-come vuelve al infinitivo. Clasificarlos por grupos es la forma más rápida de memorizarlos.' },
+      { titulo: 'Las trampas de los exámenes', texto: 'Las fichas falsas no son al azar: la forma regular inventada (catched, teached), el verbo vecino (bought por brought) y la forma del otro tiempo (went donde va gone). Son exactamente los errores que más se corrigen en clase.' },
+      { titulo: 'Usarlos, no solo recitarlos', texto: 'Saber que el participio de eat es eaten no basta si luego se escribe «I have ate». Las rondas de frases piden decidir qué forma va con yesterday y cuál con have, que es lo que se evalúa en el pasado simple y el present perfect.' },
+    ],
+    ejemplo: 'Sale «bring (traer)». Entre las fichas están brought, bought, bringed y brang. El alumno pone bought en el pasado, se da cuenta de que es el pasado de buy, lo cambia por brought y pone brought también en el participio.',
+    enPapel: {
+      titulo: 'La tabla por patrones',
+      pasos: [
+        'Divide un folio en cuatro columnas: A-A-A, A-B-B, A-B-C y A-B-A.',
+        'Escribe cada verbo de tu lista en su columna con sus tres formas.',
+        'Tapa el pasado y el participio y dilos en voz alta, columna por columna.',
+        'Escribe dos frases con cada verbo de la columna A-B-C: una con yesterday y otra con have.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de verbos irregulares', desc: 'Diez preguntas con la misma mecánica, sin reloj y con nota, en tres niveles.' },
+      { nombre: 'La Pieza que Falta', desc: 'Monta frases en pasado simple, present perfect y pasiva con las piezas.' },
+      { nombre: 'Ordena la Frase', desc: 'Coloca las palabras de una frase en inglés en su orden.' },
+    ],
+    asignatura: 'Inglés', niveles: 'Primaria, ESO, Bachillerato',
+  },
   'pieza-que-falta': {
     titulo: 'La Pieza que Falta',
     subtitulo: 'Juego de gramática inglesa: tiempos verbales, artículos, pasiva, condicionales y modales',
@@ -2598,6 +2626,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Biology', niveles: 'Secondary, Sixth Form',
   },
+  'verbos-irregulares': {
+    titulo: 'Irregular Verbs',
+    subtitulo: 'Irregular verbs game: past simple and past participle',
+    emoji: '🔁', gradient: 'from-sky-500 to-cyan-700', path: '/juegos/verbos-irregulares',
+    intro: 'A game for learning English irregular verbs without chanting the list. You get the infinitive and build the past simple and the past participle from tiles, which include the made-up regular forms (goed, buyed) and the ones people genuinely mix up (bought and brought, thought and taught). In other rounds you group verbs by pattern, type them letter by letter and put each form in the right sentence: yesterday takes the past simple; after have comes the past participle. Over 100 verbs across three levels, from go-went-gone to seek-sought-sought.',
+    beneficios: [
+      { titulo: 'By pattern, not one at a time', texto: 'Irregular verbs are not 100 separate cases: cut-cut-cut has three identical forms, buy-bought-bought repeats the past in the participle, go-went-gone has three different ones and come-came-come goes back to the infinitive. Sorting them into groups is the quickest way to learn them.' },
+      { titulo: 'The mistakes teachers mark', texto: 'The wrong tiles are not random: the invented regular form (catched, teached), the neighbouring verb (bought for brought) and the other tense (went where gone belongs). They are exactly the errors corrected most often in class.' },
+      { titulo: 'Using them, not just reciting them', texto: 'Knowing that the participle of eat is eaten is not enough if you then write “I have ate”. The sentence rounds ask which form goes with yesterday and which with have, which is what past simple and present perfect tests check.' },
+    ],
+    ejemplo: 'The verb is “bring”. The tiles are brought, bought, bringed and brang. The student puts bought in the past simple, realises it is the past of buy, swaps it for brought and puts brought in the participle as well.',
+    enPapel: {
+      titulo: 'The pattern table',
+      pasos: [
+        'Split a sheet into four columns: A-A-A, A-B-B, A-B-C and A-B-A.',
+        'Write each verb from your list in its column with its three forms.',
+        'Cover the past and the participle and say them aloud, column by column.',
+        'Write two sentences for each A-B-C verb: one with yesterday and one with have.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The irregular verbs exam', desc: 'Ten questions with the same mechanics, untimed and marked, on three levels.' },
+      { nombre: 'Missing Piece', desc: 'Build past simple, present perfect and passive sentences from pieces.' },
+      { nombre: 'Word Order', desc: 'Put the words of an English sentence in the right order.' },
+    ],
+    asignatura: 'English', niveles: 'Primary, Secondary, Sixth Form',
+  },
   'pieza-que-falta': {
     titulo: 'Missing Piece',
     subtitulo: 'English grammar game: verb tenses, articles, the passive, conditionals and modals',
@@ -4735,6 +4790,33 @@ export const FICHAS_CA = {
       { nombre: 'Els pèsols de Mendel', desc: 'Repassa l’experiment original: per què va triar pèsols, quins set caràcters va estudiar i com va arribar a les proporcions sense saber que existia l’ADN.' },
     ],
     asignatura: 'Biologia', niveles: 'ESO, Batxillerat',
+  },
+  'verbos-irregulares': {
+    titulo: 'Verbs Irregulars',
+    subtitulo: 'Joc de verbs irregulars en anglès: passat i participi',
+    emoji: '🔁', gradient: 'from-sky-500 to-cyan-700', path: '/juegos/verbos-irregulares',
+    intro: 'Un joc per aprendre els verbs irregulars d’anglès sense repetir la taula de memòria. Surt l’infinitiu i cal forjar el passat i el participi amb fitxes, entre les quals hi ha les formes que s’inventa qui no ho sap (goed, buyed) i les que es confonen de debò (bought i brought, thought i taught). En altres rondes s’agrupen els verbs per patró, s’escriuen lletra a lletra i es col·loca cada forma a la seva frase: amb yesterday va el passat; darrere de have, el participi. Més de 100 verbs en tres nivells, de go-went-gone a seek-sought-sought.',
+    beneficios: [
+      { titulo: 'Per patrons, no d’un en un', texto: 'Els verbs irregulars no són 100 casos solts: cut-cut-cut té les tres formes iguals, buy-bought-bought repeteix el passat al participi, go-went-gone les té diferents i come-came-come torna a l’infinitiu. Classificar-los per grups és la manera més ràpida de memoritzar-los.' },
+      { titulo: 'Els paranys dels exàmens', texto: 'Les fitxes falses no són a l’atzar: la forma regular inventada (catched, teached), el verb veí (bought per brought) i la forma de l’altre temps (went on va gone). Són exactament els errors que més es corregeixen a classe.' },
+      { titulo: 'Fer-los servir, no només recitar-los', texto: 'Saber que el participi d’eat és eaten no serveix si després s’escriu «I have ate». Les rondes de frases demanen decidir quina forma va amb yesterday i quina amb have, que és el que s’avalua al passat simple i al present perfect.' },
+    ],
+    ejemplo: 'Surt «bring (portar)». Entre les fitxes hi ha brought, bought, bringed i brang. L’alumne posa bought al passat, s’adona que és el passat de buy, el canvia per brought i posa brought també al participi.',
+    enPapel: {
+      titulo: 'La taula per patrons',
+      pasos: [
+        'Divideix un full en quatre columnes: A-A-A, A-B-B, A-B-C i A-B-A.',
+        'Escriu cada verb de la teva llista a la seva columna amb les tres formes.',
+        'Tapa el passat i el participi i digues-los en veu alta, columna per columna.',
+        'Escriu dues frases amb cada verb de la columna A-B-C: una amb yesterday i una altra amb have.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de verbs irregulars', desc: 'Deu preguntes amb la mateixa mecànica, sense rellotge i amb nota, en tres nivells.' },
+      { nombre: 'La Peça que Falta', desc: 'Munta frases en passat simple, present perfect i passiva amb les peces.' },
+      { nombre: 'Ordena la Frase', desc: 'Col·loca les paraules d’una frase en anglès en el seu ordre.' },
+    ],
+    asignatura: 'Anglès', niveles: 'Primària, ESO, Batxillerat',
   },
   'pieza-que-falta': {
     titulo: 'La Peça que Falta',

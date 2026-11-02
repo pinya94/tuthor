@@ -213,11 +213,38 @@ function MideElVerso(p) {
   )
 }
 
+function VerbosIrregulares(p) {
+  // Tres casillas de un verbo: el infinitivo, el pasado ya puesto y la ficha
+  // del participio cayendo en su hueco.
+  return (
+    <Lienzo {...p}>
+      <rect x="14" y="74" width="62" height="32" rx="7" fill="#EC4899" />
+      <T x={45} y={95} s={15} c="#FFFFFF">go</T>
+      <rect x="89" y="74" width="62" height="32" rx="7" fill="#EC4899" />
+      <T x={120} y={95} s={15} c="#FFFFFF">went</T>
+      <rect x="164.75" y="74.75" width="60.5" height="30.5" rx="7" stroke="#F472B6" strokeWidth="1.5" strokeDasharray="4 3" />
+      <T x={45} y={122} s={9} c="#F9A8D4" w={700}>INF</T>
+      <T x={120} y={122} s={9} c="#F9A8D4" w={700}>PAST</T>
+      <T x={195} y={122} s={9} c="#F9A8D4" w={700}>PP</T>
+      <g transform="rotate(9 195 34)">
+        <rect x="167" y="21" width="58" height="30" rx="7" fill="#000000" fillOpacity=".25" />
+        <rect x="164" y="18" width="58" height="30" rx="7" fill="#FBBF24" />
+        <T x={193} y={38} s={14} c="#422006">gone</T>
+      </g>
+      <Flecha x1={195} y1={54} x2={195} y2={69} c="#FBBF24" />
+      <rect x="22" y="22" width="56" height="26" rx="6" fill="#334155" />
+      <T x={50} y={40} s={12} c="#94A3B8">goed</T>
+      <path d="M26 35H74" stroke="#F43F5E" strokeWidth="3" strokeLinecap="round" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_LENGUA = {
   intruso: Intruso,
   'analiza-frases': AnalizaFrases,
   'ordena-frase': OrdenaFrase,
   'pieza-que-falta': PiezaQueFalta,
+  'verbos-irregulares': VerbosIrregulares,
   'pon-la-tilde': PonLaTilde,
   'que-letra': QueLetra,
   'coma-a-coma': ComaAComa,
