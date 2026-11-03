@@ -671,9 +671,20 @@ export const TOPIC_CATALOG = {
     temas: {
       'antigua-medieval': examTema({ examen: 'filosofia-antigua', quienLoPenso: 'quien-lo-penso-antigua-test' }, { niveles: ['eso', 'bachillerato'] }),
       'moderna-contemporanea': examTema({ examen: 'filosofia-moderna', quienLoPenso: 'quien-lo-penso-moderna-test' }, { niveles: ['eso', 'bachillerato'] }),
+      // La lógica proposicional de 1.º de Bachillerato (argumentación), con su juego
+      logica: examTema({ tablaExamen: 'tabla-verdad-test' }, { niveles: ['bachillerato'] }),
     },
     formatos: {
       examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
+      tabla: {
+        label: { es: 'Tabla de Verdad (juego)', en: 'Truth Table (game)', ca: 'Taula de Veritat (joc)' },
+        emoji: '🧠',
+        game: 'tabla-verdad',
+        usesLevel: false,
+        tracksTopic: true,
+        temas: ['logica'],
+      },
+      tablaExamen: examFormato({ es: 'Tabla de Verdad (examen)', en: 'Truth Table (exam)', ca: 'Taula de Veritat (examen)' }, '🧠'),
       quienLoPenso: examFormato({ es: '¿Quién lo Pensó? (con el juego)', en: 'Who Thought It? (with the game)', ca: 'Qui ho va Pensar? (amb el joc)' }, '🦉'),
     },
   },

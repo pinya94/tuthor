@@ -622,6 +622,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'tabla-verdad': {
+    label: { es: 'Tabla de Verdad', en: 'Truth Table', ca: 'Taula de Veritat' },
+    emoji: '🧠',
+    subject: 'filosofia',
+    route: '/juegos/tabla-verdad',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'quien-lo-penso': {
     label: { es: '¿Quién lo Pensó?', en: 'Who Thought It?', ca: 'Qui ho va Pensar?' },
     emoji: '🦉',

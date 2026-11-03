@@ -343,6 +343,32 @@ function QueEstilo(p) {
   )
 }
 
+function TablaVerdad(p) {
+  const filas = [['V', 'V', 'V'], ['V', 'F', 'F'], ['F', 'V', 'V'], ['F', 'F', null]]
+  return (
+    <Lienzo {...p}>
+      <rect x="40" y="10" width="160" height="116" rx="8" fill="#1E1B4B" />
+      <T x={70} y={30} s={13} c="#C4B5FD">p</T>
+      <T x={110} y={30} s={13} c="#C4B5FD">q</T>
+      <T x={162} y={30} s={13} c="#FBBF24">p → q</T>
+      <path d="M48 38H192M134 16V120" stroke="#4C1D95" strokeWidth="2" />
+      {filas.map(([a, b, c], i) => {
+        const yy = 58 + i * 21
+        const col = x => (x === 'V' ? '#7DD3FC' : '#FDA4AF')
+        return (
+          <g key={i}>
+            <T x={70} y={yy} s={13} c={col(a)}>{a}</T>
+            <T x={110} y={yy} s={13} c={col(b)}>{b}</T>
+            {c
+              ? <><rect x="148" y={yy - 15} width="28" height="20" rx="5" fill={c === 'V' ? '#0369A1' : '#BE123C'} /><T x={162} y={yy} s={13} c="#FFFFFF">{c}</T></>
+              : <rect x="148.75" y={yy - 14.25} width="26.5" height="18.5" rx="5" stroke="#FBBF24" strokeWidth="1.5" strokeDasharray="3 3" />}
+          </g>
+        )
+      })}
+    </Lienzo>
+  )
+}
+
 export const ARTE_HISTORIA_GEO = {
   'tuthor-time': TuthorTime,
   'linea-temporal': LineaTemporal,
@@ -357,6 +383,7 @@ export const ARTE_HISTORIA_GEO = {
   'rios-montanas': RiosMontanas,
   'quien-decide': QuienDecide,
   'quien-lo-penso': QuienLoPenso,
+  'tabla-verdad': TablaVerdad,
   climograma: Climograma,
   'que-estilo': QueEstilo,
   'la-galeria': LaGaleria,

@@ -47,6 +47,10 @@ export default function FilosofiaIndex() {
           titulo={tr({ es: '¿Quién lo Pensó? (juego)', en: 'Who Thought It? (game)', ca: 'Qui ho va Pensar? (joc)' })}
           sub={tr({ es: 'De Tales a Arendt: ¿de quién es cada idea?', en: 'From Thales to Arendt: whose idea is it?', ca: 'De Tales a Arendt: de qui és cada idea?' })}
           to={localPath('/juegos/quien-lo-penso')} />
+        <TarjetaArte Arte={ARTE_JUEGOS['tabla-verdad']}
+          titulo={tr({ es: 'Tabla de Verdad (juego)', en: 'Truth Table (game)', ca: 'Taula de Veritat (joc)' })}
+          sub={tr({ es: 'Lógica: tablas, conectores y argumentos válidos', en: 'Logic: tables, connectives and valid arguments', ca: 'Lògica: taules, connectors i arguments vàlids' })}
+          to={localPath('/juegos/tabla-verdad')} />
       </div>
     </div>
   )

@@ -1029,6 +1029,11 @@ export const EXAMS = {
     emoji: '🏛️', subject: 'filosofia',
     path: 'examen/filosofia-antigua', page: () => import('../pages/FilosofiaAntiguaExamen'),
   },
+  'tabla-verdad-test': {
+    label: { es: 'Tabla de Verdad (con el juego)', en: 'Truth Table (with the game)', ca: 'Taula de Veritat (amb el joc)' },
+    emoji: '🧠', subject: 'filosofia',
+    path: 'examen/tabla-verdad-test', page: () => import('../pages/TablaVerdadExamen'),
+  },
   'quien-lo-penso-antigua-test': {
     label: { es: '¿Quién lo Pensó? (Antigüedad)', en: 'Who Thought It? (Antiquity)', ca: 'Qui ho va Pensar? (Antiguitat)' },
     emoji: '🦉', subject: 'filosofia',

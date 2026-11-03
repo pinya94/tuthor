@@ -1983,6 +1983,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'Primaria, ESO',
   },
+  'tabla-verdad': {
+    titulo: 'Tabla de Verdad',
+    subtitulo: 'Juego de lógica proposicional: tablas de verdad, conectores y argumentos',
+    emoji: '🧠', gradient: 'from-violet-500 to-indigo-700',
+    path: '/juegos/tabla-verdad',
+    intro: 'Un juego de lógica para la Filosofía de Bachillerato. Sale una fórmula y hay que completar su tabla de verdad tocando V o F en cada fila; en otras rondas se formaliza una frase montando la fórmula con fichas (p, q, ¬, ∧, ∨, →, ↔ y paréntesis), se clasifican fórmulas en tautologías, contradicciones y contingencias, y se decide si un argumento es válido. Todo se calcula fila a fila, así que vale cualquier formalización equivalente, como en un libro que acepte ¬q → ¬p para «si p, q».',
+    beneficios: [
+      { titulo: 'El condicional, por fin', texto: 'p → q solo es falso cuando p es verdadero y q falso: es la fila que más se falla en los exámenes. El juego la pone una y otra vez, con negaciones y paréntesis, hasta que la tabla sale sin pensar.' },
+      { titulo: 'Del lenguaje a los símbolos', texto: '«Pero» es una conjunción, «ni… ni…» niega las dos cosas y «p solo si q» se formaliza p → q, mientras que «p si q» es q → p. Las frases están escritas para que esas trampas salgan de verdad.' },
+      { titulo: 'Válido no es lo mismo que verdadero', texto: 'Modus ponens, modus tollens y los silogismos disyuntivo e hipotético son válidos; afirmar el consecuente y negar el antecedente parecen razonables pero no lo son. Clasificarlos, y en difícil ponerles nombre, es lo que piden los ejercicios de argumentación.' },
+    ],
+    ejemplo: 'Sale «Llueve solo si hace frío», con p = llueve y q = hace frío. El alumno monta q → p, lo comprueba y ve que está mal: «solo si» introduce el consecuente, así que la fórmula es p → q. En la siguiente ronda completa la tabla de ¬p ∨ q y descubre que su columna es la misma que la del condicional.',
+    enPapel: {
+      titulo: 'Tablas de verdad a mano',
+      pasos: [
+        'Escribe las filas en el orden de los libros: VV, VF, FV y FF (con tres variables, ocho filas).',
+        'Para una fórmula larga, añade una columna por cada parte antes de llegar a la final.',
+        'Formaliza cinco frases del periódico que lleven «si», «pero» o «solo si».',
+        'Escribe un argumento de cada regla con frases tuyas y otro con cada falacia.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de lógica', desc: 'Diez preguntas con la misma mecánica, sin reloj y con nota, en tres niveles.' },
+      { nombre: '¿Quién lo Pensó?', desc: 'El otro juego de filosofía: cada idea con su autor, su época y su escuela.' },
+      { nombre: 'Balanza Algebraica', desc: 'Si te gusta razonar paso a paso, resuelve ecuaciones con el método de la balanza.' },
+    ],
+    asignatura: 'Filosofía', niveles: 'Bachillerato',
+  },
   'quien-lo-penso': {
     titulo: '¿Quién lo Pensó?',
     subtitulo: 'Juego de historia de la filosofía: ideas, autores, conceptos y corrientes',
@@ -4221,6 +4249,33 @@ export const FICHAS_EN = {
       { nombre: 'Felt-tip chromatography', desc: 'Draw a dot with a black felt-tip on a strip of kitchen paper, dip the end in water and watch the colours separate.' },
     ],
     asignatura: 'Chemistry', niveles: 'Primary, Secondary',
+  },
+  'tabla-verdad': {
+    titulo: 'Truth Table',
+    subtitulo: 'Propositional logic game: truth tables, connectives and arguments',
+    emoji: '🧠', gradient: 'from-violet-500 to-indigo-700', path: '/juegos/tabla-verdad',
+    intro: 'A logic game for sixth-form philosophy. A formula appears and you complete its truth table by tapping T or F on each row; in other rounds you formalise a sentence by building the formula from tiles (p, q, ¬, ∧, ∨, →, ↔ and brackets), sort formulas into tautologies, contradictions and contingencies, and decide whether an argument is valid. Everything is worked out row by row, so any equivalent formalisation counts, just as a textbook would accept ¬q → ¬p for “if p, then q”.',
+    beneficios: [
+      { titulo: 'The conditional, at last', texto: 'p → q is only false when p is true and q is false: it is the row students get wrong most often. The game brings it back again and again, with negations and brackets, until the table comes without thinking.' },
+      { titulo: 'From language to symbols', texto: '“But” is a conjunction, and “p only if q” is p → q while “p if q” is q → p. The sentences are written so that these traps genuinely come up.' },
+      { titulo: 'Valid is not the same as true', texto: 'Modus ponens, modus tollens and the disjunctive and hypothetical syllogisms are valid; affirming the consequent and denying the antecedent look reasonable but are not. Sorting them, and naming them on hard, is exactly what argument exercises ask for.' },
+    ],
+    ejemplo: 'The sentence is “It rains only if it is cold”, with p = it rains and q = it is cold. The student builds q → p, checks it and sees it is wrong: “only if” introduces the consequent, so the formula is p → q. In the next round they fill in the table for ¬p ∨ q and find that its column matches the conditional’s.',
+    enPapel: {
+      titulo: 'Truth tables by hand',
+      pasos: [
+        'Write the rows in textbook order: TT, TF, FT and FF (eight rows with three variables).',
+        'For a long formula, add a column for each part before the final one.',
+        'Formalise five sentences from a newspaper that use “if”, “but” or “only if”.',
+        'Write an argument of your own for each rule and another for each fallacy.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The logic exam', desc: 'Ten questions with the same mechanics, untimed and marked, on three levels.' },
+      { nombre: 'Who Thought It?', desc: 'The other philosophy game: each idea with its author, period and school.' },
+      { nombre: 'Algebra Balance', desc: 'If you enjoy step-by-step reasoning, solve equations with the balance method.' },
+    ],
+    asignatura: 'Philosophy', niveles: 'Sixth Form',
   },
   'quien-lo-penso': {
     titulo: 'Who Thought It?',
@@ -6464,6 +6519,33 @@ export const FICHAS_CA = {
       { nombre: 'Cromatografia amb retoladors', desc: 'Pinta un punt amb retolador negre en una tira de paper de cuina, posa’n la punta a l’aigua i mira com se separen els colors.' },
     ],
     asignatura: 'Química', niveles: 'Primària, ESO',
+  },
+  'tabla-verdad': {
+    titulo: 'Taula de Veritat',
+    subtitulo: 'Joc de lògica proposicional: taules de veritat, connectors i arguments',
+    emoji: '🧠', gradient: 'from-violet-500 to-indigo-700', path: '/juegos/tabla-verdad',
+    intro: 'Un joc de lògica per a la Filosofia de Batxillerat. Surt una fórmula i cal completar la seva taula de veritat tocant V o F a cada fila; en altres rondes es formalitza una frase muntant la fórmula amb fitxes (p, q, ¬, ∧, ∨, →, ↔ i parèntesis), es classifiquen fórmules en tautologies, contradiccions i contingències, i es decideix si un argument és vàlid. Tot es calcula fila a fila, així que val qualsevol formalització equivalent, com en un llibre que accepti ¬q → ¬p per «si p, q».',
+    beneficios: [
+      { titulo: 'El condicional, per fi', texto: 'p → q només és fals quan p és vertader i q fals: és la fila que més es falla als exàmens. El joc la posa una vegada i una altra, amb negacions i parèntesis, fins que la taula surt sense pensar.' },
+      { titulo: 'Del llenguatge als símbols', texto: '«Però» és una conjunció, «ni… ni…» nega les dues coses i «p només si q» es formalitza p → q, mentre que «p si q» és q → p. Les frases estan escrites perquè aquests paranys surtin de debò.' },
+      { titulo: 'Vàlid no vol dir vertader', texto: 'El modus ponens, el modus tollens i els sil·logismes disjuntiu i hipotètic són vàlids; afirmar el conseqüent i negar l’antecedent semblen raonables però no ho són. Classificar-los, i en difícil posar-los nom, és el que demanen els exercicis d’argumentació.' },
+    ],
+    ejemplo: 'Surt «Plou només si fa fred», amb p = plou i q = fa fred. L’alumne munta q → p, ho comprova i veu que és incorrecte: «només si» introdueix el conseqüent, així que la fórmula és p → q. A la ronda següent completa la taula de ¬p ∨ q i descobreix que la seva columna és la mateixa que la del condicional.',
+    enPapel: {
+      titulo: 'Taules de veritat a mà',
+      pasos: [
+        'Escriu les files en l’ordre dels llibres: VV, VF, FV i FF (amb tres variables, vuit files).',
+        'Per a una fórmula llarga, afegeix una columna per a cada part abans d’arribar a la final.',
+        'Formalitza cinc frases del diari que portin «si», «però» o «només si».',
+        'Escriu un argument de cada regla amb frases teves i un altre amb cada fal·làcia.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de lògica', desc: 'Deu preguntes amb la mateixa mecànica, sense rellotge i amb nota, en tres nivells.' },
+      { nombre: 'Qui ho va Pensar?', desc: 'L’altre joc de filosofia: cada idea amb el seu autor, la seva època i la seva escola.' },
+      { nombre: 'Balança Algebraica', desc: 'Si t’agrada raonar pas a pas, resol equacions amb el mètode de la balança.' },
+    ],
+    asignatura: 'Filosofia', niveles: 'Batxillerat',
   },
   'quien-lo-penso': {
     titulo: 'Qui ho va Pensar?',

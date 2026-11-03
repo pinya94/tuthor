@@ -196,6 +196,7 @@ const InglesIndex            = lazy(() => import('./pages/InglesIndex'))
 const InglesGrammarIndex     = lazy(() => import('./pages/InglesGrammarIndex'))
 const PiezaQueFalta          = lazy(() => import('./pages/PiezaQueFalta'))
 const VerbosIrregulares      = lazy(() => import('./pages/VerbosIrregulares'))
+const TablaVerdad            = lazy(() => import('./pages/TablaVerdad'))
 
 // Rutas de exámenes generadas desde el registro central (src/lib/exams.js).
 // Añadir un examen allí crea su ruta automáticamente.
@@ -395,6 +396,7 @@ function AppRoutes() {
       <Route path="juegos/rios-montanas" element={<RiosMontanas />} />
       <Route path="juegos/quien-decide" element={<QuienDecide />} />
       <Route path="juegos/quien-lo-penso" element={<QuienLoPenso />} />
+      <Route path="juegos/tabla-verdad" element={<TablaVerdad />} />
       <Route path="juegos/climograma" element={<Climograma />} />
       <Route path="juegos/que-estilo" element={<QueEstilo />} />
       <Route path="juegos/la-galeria" element={<LaGaleria />} />

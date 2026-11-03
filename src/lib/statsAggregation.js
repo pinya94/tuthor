@@ -251,6 +251,7 @@ export const SUBJECT_DEFS = [
     catLabels: {
       'antigua-medieval': { es: 'Filosofía antigua y medieval', en: 'Ancient and medieval philosophy', ca: 'Filosofia antiga i medieval' },
       'moderna-contemporanea': { es: 'Filosofía moderna y contemporánea', en: 'Modern and contemporary philosophy', ca: 'Filosofia moderna i contemporània' },
+      logica: { es: 'Lógica proposicional', en: 'Propositional logic', ca: 'Lògica proposicional' },
     },
   },
   {
