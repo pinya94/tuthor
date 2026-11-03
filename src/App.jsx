@@ -126,6 +126,7 @@ const PentagramaPath         = lazy(() => import('./pages/PentagramaPath'))
 const CompasCompleto         = lazy(() => import('./pages/CompasCompleto'))
 const LaOrquesta             = lazy(() => import('./pages/LaOrquesta'))
 const EscalasAcordes         = lazy(() => import('./pages/EscalasAcordes'))
+const QuienDesafina          = lazy(() => import('./pages/QuienDesafina'))
 const Reaccion               = lazy(() => import('./pages/Reaccion'))
 const SenalASenal            = lazy(() => import('./pages/SenalASenal'))
 const OjoAlMensaje           = lazy(() => import('./pages/OjoAlMensaje'))
@@ -369,6 +370,7 @@ function AppRoutes() {
       <Route path="juegos/compas-completo" element={<CompasCompleto />} />
       <Route path="juegos/la-orquesta" element={<LaOrquesta />} />
       <Route path="juegos/escalas-acordes" element={<EscalasAcordes />} />
+      <Route path="juegos/quien-desafina" element={<QuienDesafina />} />
       <Route path="juegos/reaccion" element={<Reaccion />} />
       <Route path="juegos/senal-a-senal" element={<SenalASenal />} />
       <Route path="juegos/ojo-al-mensaje" element={<OjoAlMensaje />} />

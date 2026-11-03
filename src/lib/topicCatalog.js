@@ -649,6 +649,8 @@ export const TOPIC_CATALOG = {
       instrumentos: examTema({ examen: 'musica-instrumentos-test', orquesta: 'la-orquesta-test' }, { niveles: ['primaria', 'eso'] }),
       // Intervalos, escalas y acordes (teoría de 2.º-4.º de ESO), con su juego
       armonia: examTema({ escalasExamen: 'escalas-acordes-test' }, { niveles: ['eso'] }),
+      // El sonido: altura (frecuencia) y afinación, con oído
+      sonido: examTema({ desafinaExamen: 'quien-desafina-test' }, { niveles: ['primaria', 'eso'] }),
     },
     formatos: {
       pentagrama: {
@@ -662,6 +664,12 @@ export const TOPIC_CATALOG = {
         emoji: '🎹', game: 'escalas-acordes', usesLevel: false, tracksTopic: true,
         temas: ['armonia'],
       },
+      desafina: {
+        label: { es: '¿Quién Desafina? (juego)', en: 'Who’s Out of Tune? (game)', ca: 'Qui Desafina? (joc)' },
+        emoji: '🎶', game: 'quien-desafina', usesLevel: false, tracksTopic: true,
+        temas: ['sonido'],
+      },
+      desafinaExamen: examFormato({ es: '¿Quién Desafina? (examen)', en: 'Who’s Out of Tune? (exam)', ca: 'Qui Desafina? (examen)' }, '🎶'),
       escalasExamen: examFormato({ es: 'Escalas y Acordes (examen)', en: 'Scales and Chords (exam)', ca: 'Escales i Acords (examen)' }, '🎹'),
       orquesta: examFormato({ es: 'La Orquesta (con el juego)', en: 'The Orchestra (with the game)', ca: 'L’Orquestra (amb el joc)' }, '🎻'),
     },

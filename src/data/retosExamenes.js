@@ -20,7 +20,7 @@ export const RETOS_EXAMENES = [
   'cadena-carbono-test', 'receta-quimica-test', 'que-enlace-test', 'prepara-disolucion-test', 'medidor-ph-test',
   'encuentra-elemento-test', 'orbita-test', 'la-biblioteca-test', 'detective-textos-test', 'cazafiguras-test',
   'coma-a-coma-test', 'que-letra-test', 'mide-el-verso-test', 'la-galeria-test', 'que-estilo-test',
-  'quien-lo-penso-antigua-test', 'quien-lo-penso-moderna-test', 'tabla-verdad-test', 'cuentas-claras-test', 'escalas-acordes-test', 'verbos-irregulares-test', 'cambio-estado-test', 'nombres-cambio-test', 'ordena-frase-test',
+  'quien-lo-penso-antigua-test', 'quien-lo-penso-moderna-test', 'tabla-verdad-test', 'cuentas-claras-test', 'escalas-acordes-test', 'quien-desafina-test', 'verbos-irregulares-test', 'cambio-estado-test', 'nombres-cambio-test', 'ordena-frase-test',
 ]
 
 // Los tipo test (ExamenMC): una pregunta con sus opciones, un solo intento

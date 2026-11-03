@@ -942,6 +942,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Economía', niveles: 'ESO, Bachillerato',
   },
+  'quien-desafina': {
+    titulo: '¿Quién Desafina?',
+    subtitulo: 'Juego de afinación: oído musical, frecuencias y cents',
+    emoji: '🎶', gradient: 'from-amber-500 to-rose-700',
+    path: '/juegos/quien-desafina',
+    intro: 'Un juego de música para entrenar el oído. Tres instrumentos tocan la misma nota y uno está desafinado: hay que escucharlos, descubrir cuál es y, en los niveles altos, decir si está alto o bajo y afinarlo moviendo una clavija hasta que suene igual que el de referencia. Al corregir aparecen las frecuencias en hercios y cuánto se desviaba en cents, así que el juego une lo que se oye con la física del sonido.',
+    beneficios: [
+      { titulo: 'La altura es frecuencia', texto: 'Un sonido es más agudo cuanto más rápido vibra. El La de afinar vibra 440 veces por segundo (440 Hz); si un instrumento da 452 Hz, está alto. Ver los números después de oírlo es lo que une la teoría de la altura con la experiencia.' },
+      { titulo: 'Cents: medir lo que se oye', texto: 'Cien cents son un semitono y la frecuencia se multiplica por 2 elevado a cents/1200. Así se entiende por qué 20 cents en un La agudo son más hercios que en uno grave, y por qué los afinadores hablan en cents y no en hercios.' },
+      { titulo: 'Afinar de oído', texto: 'Al tocar dos notas casi iguales a la vez se oye un temblor, los batidos, que se hace más lento al acercarse y desaparece cuando están afinadas. Es el truco de los músicos de orquesta antes de un concierto, y aquí se practica con la clavija.' },
+    ],
+    ejemplo: 'Tocan un La la flauta, la trompeta y el violín. El alumno los escucha uno a uno y nota que la trompeta suena un poco por encima. Marca «está alto» y acierta: la flauta y el violín dan 440,0 Hz y la trompeta 450,3 Hz, +40 cents.',
+    enPapel: {
+      titulo: 'Afinar en clase',
+      pasos: [
+        'Con un afinador del móvil, toca la misma nota con dos instrumentos (o dos voces) y apunta cuántos cents marca cada uno.',
+        'Busca la frecuencia de cada nota de la escala de La a partir de 440 Hz multiplicando por 2^(1/12) en cada semitono.',
+        'Toca a la vez dos notas casi iguales y cuenta cuántos batidos oyes por segundo: es la diferencia de frecuencias.',
+        'Afina un instrumento de cuerda de oído y compruébalo después con el afinador.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de afinación', desc: 'Diez rondas con la misma mecánica y sonido, sin reloj y con nota.' },
+      { nombre: 'La Orquesta', desc: 'Los mismos instrumentos: sus familias y cómo producen el sonido.' },
+      { nombre: 'Escalas y Acordes', desc: 'Intervalos, escalas y acordes en un teclado que suena.' },
+    ],
+    asignatura: 'Música', niveles: 'Primaria, ESO',
+  },
   'escalas-acordes': {
     titulo: 'Escalas y Acordes',
     subtitulo: 'Juego de teoría musical: intervalos, escalas y acordes en el teclado',
@@ -3446,6 +3474,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Economics', niveles: 'Secondary, Sixth Form',
   },
+  'quien-desafina': {
+    titulo: 'Who’s Out of Tune?',
+    subtitulo: 'Tuning game: musical ear, frequencies and cents',
+    emoji: '🎶', gradient: 'from-amber-500 to-rose-700', path: '/juegos/quien-desafina',
+    intro: 'A music game to train your ear. Three instruments play the same note and one is out of tune: listen to them, find which one it is and, on the higher levels, say whether it is sharp or flat and tune it by moving a peg until it sounds like the reference. When it is marked you see the frequencies in hertz and how many cents it was out, so the game links what you hear with the physics of sound.',
+    beneficios: [
+      { titulo: 'Pitch is frequency', texto: 'A sound is higher the faster it vibrates. The tuning A vibrates 440 times a second (440 Hz); if an instrument plays 452 Hz, it is sharp. Seeing the numbers after hearing it connects the theory of pitch with experience.' },
+      { titulo: 'Cents: measuring what you hear', texto: 'A hundred cents make a semitone, and the frequency is multiplied by 2 to the power of cents/1200. That explains why 20 cents on a high A is more hertz than on a low one, and why tuners talk in cents rather than hertz.' },
+      { titulo: 'Tuning by ear', texto: 'Playing two almost identical notes together makes a wobble, called beats, which slows down as they get closer and disappears when they are in tune. It is what orchestral players listen for before a concert, and here you practise it with the peg.' },
+    ],
+    ejemplo: 'The flute, the trumpet and the violin play an A. The student listens to each one and notices the trumpet is slightly high. They choose “sharp” and get it right: the flute and violin play 440.0 Hz and the trumpet 450.3 Hz, +40 cents.',
+    enPapel: {
+      titulo: 'Tuning in class',
+      pasos: [
+        'With a phone tuner, play the same note on two instruments (or two voices) and note how many cents each one shows.',
+        'Work out the frequency of each note of the A scale from 440 Hz by multiplying by 2^(1/12) for each semitone.',
+        'Play two almost identical notes together and count the beats per second: that is the difference in frequency.',
+        'Tune a string instrument by ear and then check it with the tuner.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The tuning exam', desc: 'Ten rounds with the same mechanics and sound, untimed and marked.' },
+      { nombre: 'The Orchestra', desc: 'The same instruments: their families and how they make their sound.' },
+      { nombre: 'Scales and Chords', desc: 'Intervals, scales and chords on a keyboard that plays.' },
+    ],
+    asignatura: 'Music', niveles: 'Primary, Secondary',
+  },
   'escalas-acordes': {
     titulo: 'Scales and Chords',
     subtitulo: 'Music theory game: intervals, scales and chords on the keyboard',
@@ -5769,6 +5824,33 @@ export const FICHAS_CA = {
       { nombre: 'El joc de la Borsa de taula', desc: 'Jocs de taula clàssics sobre invertir en empreses i gestionar una cartera ensenyen les mateixes idees de risc i diversificació sense pantalles.' },
     ],
     asignatura: 'Economia', niveles: 'ESO, Batxillerat',
+  },
+  'quien-desafina': {
+    titulo: 'Qui Desafina?',
+    subtitulo: 'Joc d’afinació: orella musical, freqüències i cents',
+    emoji: '🎶', gradient: 'from-amber-500 to-rose-700', path: '/juegos/quien-desafina',
+    intro: 'Un joc de música per entrenar l’orella. Tres instruments toquen la mateixa nota i un està desafinat: cal escoltar-los, descobrir quin és i, en els nivells alts, dir si està alt o baix i afinar-lo movent una clavilla fins que soni igual que el de referència. En corregir apareixen les freqüències en hertzs i quant es desviava en cents, així que el joc uneix el que se sent amb la física del so.',
+    beneficios: [
+      { titulo: 'L’altura és freqüència', texto: 'Un so és més agut com més ràpid vibra. El La d’afinar vibra 440 vegades per segon (440 Hz); si un instrument dona 452 Hz, està alt. Veure els números després de sentir-ho és el que uneix la teoria de l’altura amb l’experiència.' },
+      { titulo: 'Cents: mesurar el que se sent', texto: 'Cent cents són un semitò i la freqüència es multiplica per 2 elevat a cents/1200. Així s’entén per què 20 cents en un La agut són més hertzs que en un de greu, i per què els afinadors parlen en cents i no en hertzs.' },
+      { titulo: 'Afinar d’orella', texto: 'En tocar dues notes gairebé iguals alhora se sent un tremolor, els batecs, que es fa més lent en acostar-se i desapareix quan estan afinades. És el truc dels músics d’orquestra abans d’un concert, i aquí es practica amb la clavilla.' },
+    ],
+    ejemplo: 'Toquen un La la flauta, la trompeta i el violí. L’alumne els escolta un a un i nota que la trompeta sona una mica per sobre. Marca «està alt» i l’encerta: la flauta i el violí donen 440,0 Hz i la trompeta 450,3 Hz, +40 cents.',
+    enPapel: {
+      titulo: 'Afinar a classe',
+      pasos: [
+        'Amb un afinador del mòbil, toca la mateixa nota amb dos instruments (o dues veus) i apunta quants cents marca cadascun.',
+        'Busca la freqüència de cada nota de l’escala de La a partir de 440 Hz multiplicant per 2^(1/12) a cada semitò.',
+        'Toca alhora dues notes gairebé iguals i compta quants batecs sents per segon: és la diferència de freqüències.',
+        'Afina un instrument de corda d’orella i comprova-ho després amb l’afinador.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen d’afinació', desc: 'Deu rondes amb la mateixa mecànica i so, sense rellotge i amb nota.' },
+      { nombre: 'L’Orquestra', desc: 'Els mateixos instruments: les seves famílies i com produeixen el so.' },
+      { nombre: 'Escales i Acords', desc: 'Intervals, escales i acords en un teclat que sona.' },
+    ],
+    asignatura: 'Música', niveles: 'Primària, ESO',
   },
   'escalas-acordes': {
     titulo: 'Escales i Acords',

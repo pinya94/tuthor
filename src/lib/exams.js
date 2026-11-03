@@ -282,6 +282,11 @@ export const EXAMS = {
     emoji: '🎼', subject: 'musica',
     path: 'examen/musica', page: () => import('../pages/MusicaExamen'),
   },
+  'quien-desafina-test': {
+    label: { es: '¿Quién Desafina? (con el juego)', en: 'Who’s Out of Tune? (with the game)', ca: 'Qui Desafina? (amb el joc)' },
+    emoji: '🎶', subject: 'musica',
+    path: 'examen/quien-desafina-test', page: () => import('../pages/QuienDesafinaExamen'),
+  },
   'escalas-acordes-test': {
     label: { es: 'Escalas y Acordes (con el juego)', en: 'Scales and Chords (with the game)', ca: 'Escales i Acords (amb el joc)' },
     emoji: '🎹', subject: 'musica',

@@ -235,6 +235,14 @@ export const GAMES = {
     // % de aciertos sobre 150 monedas máx
     coins: ({ correct, total }) => (total > 0 ? Math.round((correct / total) * 150) : 0),
   },
+  'quien-desafina': {
+    label: { es: '¿Quién Desafina?', en: 'Who’s Out of Tune?', ca: 'Qui Desafina?' },
+    emoji: '🎶',
+    subject: 'musica',
+    route: '/juegos/quien-desafina',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'escalas-acordes': {
     label: { es: 'Escalas y Acordes', en: 'Scales and Chords', ca: 'Escales i Acords' },
     emoji: '🎹',
