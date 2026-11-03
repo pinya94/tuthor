@@ -45,6 +45,10 @@ export default function EconomiaIndex() {  const { lang, localPath, tr } = useL
           titulo={tr({ es: 'Punto Muerto (juego)', en: 'Break-Even (game)', ca: 'Punt Mort (joc)' })}
           sub={tr({ es: 'Ingresos contra costes: dónde empieza el beneficio', en: 'Revenue against costs: where profit begins', ca: 'Ingressos contra costos: on comença el benefici' })}
           to={localPath('/juegos/punto-muerto')} />
+        <TarjetaArte Arte={ARTE_JUEGOS['cuentas-claras']}
+          titulo={tr({ es: 'Cuentas Claras (juego)', en: 'Money Matters (game)', ca: 'Comptes Clars (joc)' })}
+          sub={tr({ es: 'Presupuesto, interés compuesto, inflación y deuda', en: 'Budgeting, compound interest, inflation and debt', ca: 'Pressupost, interès compost, inflació i deute' })}
+          to={localPath('/juegos/cuentas-claras')} />
       </div>
     </div>
   )

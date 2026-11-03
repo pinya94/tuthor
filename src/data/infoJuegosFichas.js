@@ -2152,6 +2152,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Geografía', niveles: 'Primaria, ESO',
   },
+  'cuentas-claras': {
+    titulo: 'Cuentas Claras',
+    subtitulo: 'Juego de finanzas personales: presupuesto, interés, inflación y deuda',
+    emoji: '🐷', gradient: 'from-emerald-500 to-teal-700',
+    path: '/juegos/cuentas-claras',
+    intro: 'Un juego de educación financiera con cuentas de verdad. Se reparte un sueldo con la regla 50/30/20, se separan los gastos en necesidades, deseos y ahorro, y se calcula cuánto dinero hay al final con interés simple y con interés compuesto. En los niveles altos hay que prever cuánto costará algo con inflación, ordenar planes de ahorro por lo que rinden y averiguar en cuántos pagos se salda una tarjeta que cobra intereses cada mes. Todo se calcula al momento, así que nunca salen dos rondas iguales.',
+    beneficios: [
+      { titulo: 'El interés compuesto, con números', texto: 'Mil euros al 5 % durante diez años no son 1.500 €, sino 1.629 €: el interés también da interés. Escribir el resultado y verlo al lado del interés simple es la forma más clara de entender por qué importa empezar a ahorrar pronto.' },
+      { titulo: 'Presupuesto antes que inversión', texto: 'La regla 50/30/20 y la diferencia entre necesidad y deseo son la base de cualquier presupuesto. Los gastos del juego son solo los que no admiten discusión (alquiler, luz, cine, fondo de emergencia), para que lo que se practique sea el criterio.' },
+      { titulo: 'Lo que cuesta pagar a plazos', texto: 'Una deuda de tarjeta con un interés mensual se alarga mucho más de lo que parece si la cuota es pequeña. Calcular los pagos y los intereses totales enseña a desconfiar de la cuota mínima.' },
+    ],
+    ejemplo: 'Sale «metes 2.000 € al 4 % anual durante 5 años, con interés compuesto». El alumno multiplica 2.000 × 1,04 cinco veces y escribe 2.433 €. La explicación le enseña que con interés simple habrían sido 2.400 €: los 33 € de diferencia son intereses de los intereses.',
+    enPapel: {
+      titulo: 'Tu presupuesto en una hoja',
+      pasos: [
+        'Apunta durante una semana todo lo que gastas, aunque sean cantidades pequeñas.',
+        'Marca cada gasto como necesidad, deseo o ahorro.',
+        'Compara tus porcentajes con la regla 50/30/20 y decide qué recortarías.',
+        'Calcula a mano cuánto tendrías en 5 años si ahorraras cada mes lo que sobra, al 3 % compuesto.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Cuentas Claras', desc: 'Diez preguntas con la misma mecánica, sin reloj y con nota, en tres niveles.' },
+      { nombre: 'Spicy', desc: 'El simulador de inversión de Tuthor: inflación, diversificación y estafas en una partida.' },
+      { nombre: 'Rebajas', desc: 'Practica los porcentajes de descuentos e IVA, la base de todas estas cuentas.' },
+    ],
+    asignatura: 'Economía', niveles: 'ESO, Bachillerato',
+  },
   'punto-muerto': {
     titulo: 'Punto Muerto',
     subtitulo: 'Juego del punto de equilibrio o umbral de rentabilidad',
@@ -4411,6 +4439,33 @@ export const FICHAS_EN = {
       { nombre: 'Official statistics', desc: 'National statistics offices publish the population pyramid for each year: look for the baby boom and the gaps left by wars.' },
     ],
     asignatura: 'Geography', niveles: 'Primary, Secondary',
+  },
+  'cuentas-claras': {
+    titulo: 'Money Matters',
+    subtitulo: 'Personal finance game: budgeting, interest, inflation and debt',
+    emoji: '🐷', gradient: 'from-emerald-500 to-teal-700', path: '/juegos/cuentas-claras',
+    intro: 'A financial education game with real sums. You split a salary with the 50/30/20 rule, sort expenses into needs, wants and savings, and work out how much money there is at the end with simple and with compound interest. On the higher levels you predict what something will cost with inflation, order savings plans by how much they pay and find out how many payments it takes to clear a credit card that charges interest every month. Everything is calculated on the spot, so no two rounds are the same.',
+    beneficios: [
+      { titulo: 'Compound interest, in numbers', texto: '€1,000 at 5% for ten years is not €1,500 but €1,629: the interest earns interest too. Typing the answer and seeing it next to simple interest is the clearest way to understand why starting to save early matters.' },
+      { titulo: 'Budgeting before investing', texto: 'The 50/30/20 rule and the difference between a need and a want are the basis of any budget. The game only uses expenses that are not up for debate (rent, electricity, cinema, an emergency fund), so what you practise is the reasoning.' },
+      { titulo: 'The real cost of paying slowly', texto: 'Credit card debt with monthly interest lasts far longer than it seems when the payment is small. Working out the payments and the total interest teaches you to be wary of the minimum payment.' },
+    ],
+    ejemplo: 'The round says “you put €2,000 in at 4% a year for 5 years, with compound interest”. The student multiplies 2,000 by 1.04 five times and types €2,433. The explanation shows that simple interest would have given €2,400: the €33 difference is interest on the interest.',
+    enPapel: {
+      titulo: 'Your budget on one sheet',
+      pasos: [
+        'For a week, write down everything you spend, even small amounts.',
+        'Mark each expense as a need, a want or savings.',
+        'Compare your percentages with the 50/30/20 rule and decide what you would cut.',
+        'Work out by hand how much you would have in 5 years by saving what is left each month at 3% compound interest.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Money Matters exam', desc: 'Ten questions with the same mechanics, untimed and marked, on three levels.' },
+      { nombre: 'Spicy', desc: 'Tuthor’s investing simulator: inflation, diversification and scams in one game.' },
+      { nombre: 'Sale!', desc: 'Practise discount and VAT percentages, the basis of all these sums.' },
+    ],
+    asignatura: 'Economics', niveles: 'Secondary, Sixth Form',
   },
   'punto-muerto': {
     titulo: 'Break-Even',
@@ -6681,6 +6736,33 @@ export const FICHAS_CA = {
       { nombre: 'Dades de l’Idescat i l’INE', desc: 'A les webs d’estadística es pot veure la piràmide de cada any: busqueu el baby boom i el buit de la Guerra Civil.' },
     ],
     asignatura: 'Geografia', niveles: 'Primària, ESO',
+  },
+  'cuentas-claras': {
+    titulo: 'Comptes Clars',
+    subtitulo: 'Joc de finances personals: pressupost, interès, inflació i deute',
+    emoji: '🐷', gradient: 'from-emerald-500 to-teal-700', path: '/juegos/cuentas-claras',
+    intro: 'Un joc d’educació financera amb comptes de debò. Es reparteix un sou amb la regla 50/30/20, se separen les despeses en necessitats, desitjos i estalvi, i es calcula quants diners hi ha al final amb interès simple i amb interès compost. En els nivells alts cal preveure quant costarà una cosa amb inflació, ordenar plans d’estalvi pel que rendeixen i esbrinar en quants pagaments se salda una targeta que cobra interessos cada mes. Tot es calcula al moment, així que mai no surten dues rondes iguals.',
+    beneficios: [
+      { titulo: 'L’interès compost, amb números', texto: 'Mil euros al 5 % durant deu anys no són 1.500 €, sinó 1.629 €: l’interès també dona interès. Escriure el resultat i veure’l al costat de l’interès simple és la manera més clara d’entendre per què importa començar a estalviar aviat.' },
+      { titulo: 'Pressupost abans que inversió', texto: 'La regla 50/30/20 i la diferència entre necessitat i desig són la base de qualsevol pressupost. Les despeses del joc són només les que no admeten discussió (lloguer, llum, cinema, fons d’emergència), perquè el que es practiqui sigui el criteri.' },
+      { titulo: 'El que costa pagar a terminis', texto: 'Un deute de targeta amb un interès mensual s’allarga molt més del que sembla si la quota és petita. Calcular els pagaments i els interessos totals ensenya a desconfiar de la quota mínima.' },
+    ],
+    ejemplo: 'Surt «poses 2.000 € al 4 % anual durant 5 anys, amb interès compost». L’alumne multiplica 2.000 × 1,04 cinc vegades i escriu 2.433 €. L’explicació li mostra que amb interès simple haurien estat 2.400 €: els 33 € de diferència són interessos dels interessos.',
+    enPapel: {
+      titulo: 'El teu pressupost en un full',
+      pasos: [
+        'Apunta durant una setmana tot el que gastes, encara que siguin quantitats petites.',
+        'Marca cada despesa com a necessitat, desig o estalvi.',
+        'Compara els teus percentatges amb la regla 50/30/20 i decideix què retallaries.',
+        'Calcula a mà quant tindries en 5 anys si estalviessis cada mes el que sobra, al 3 % compost.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Comptes Clars', desc: 'Deu preguntes amb la mateixa mecànica, sense rellotge i amb nota, en tres nivells.' },
+      { nombre: 'Spicy', desc: 'El simulador d’inversió de Tuthor: inflació, diversificació i estafes en una partida.' },
+      { nombre: 'Rebaixes', desc: 'Practica els percentatges de descomptes i IVA, la base de tots aquests comptes.' },
+    ],
+    asignatura: 'Economia', niveles: 'ESO, Batxillerat',
   },
   'punto-muerto': {
     titulo: 'Punt Mort',

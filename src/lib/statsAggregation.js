@@ -220,7 +220,9 @@ export const SUBJECT_DEFS = [
     label: { es: 'Economía', en: 'Economics', ca: 'Economia' },
     gameIds: [],
     catIds: [],
-    catLabels: {},
+    catLabels: {
+      'finanzas-personales': { es: 'Finanzas personales', en: 'Personal finance', ca: 'Finances personals' },
+    },
   },
   {
     id: 'musica', emoji: '🎼',

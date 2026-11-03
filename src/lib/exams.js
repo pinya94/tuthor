@@ -314,6 +314,11 @@ export const EXAMS = {
     emoji: '🏭', subject: 'economia',
     path: 'examen/punto-equilibrio', page: () => import('../pages/PuntoEquilibrioExamen'),
   },
+  'cuentas-claras-test': {
+    label: { es: 'Cuentas Claras (con el juego)', en: 'Money Matters (with the game)', ca: 'Comptes Clars (amb el joc)' },
+    emoji: '🐷', subject: 'economia',
+    path: 'examen/cuentas-claras-test', page: () => import('../pages/CuentasClarasExamen'),
+  },
   'punto-muerto-test': {
     label: { es: 'Punto Muerto (con el juego)', en: 'Break-Even (with the game)', ca: 'Punt Mort (amb el joc)' },
     emoji: '🏭', subject: 'economia',

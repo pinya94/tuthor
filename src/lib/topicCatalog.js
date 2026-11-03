@@ -617,7 +617,7 @@ export const TOPIC_CATALOG = {
   // estructura ya exista cuando se añadan más formatos o temas.
   economia: {
     temas: {
-      'finanzas-personales': examTema({ examen: 'finanzas-personales' }, { niveles: ['eso', 'bachillerato'] }),
+      'finanzas-personales': examTema({ examen: 'finanzas-personales', cuentasExamen: 'cuentas-claras-test' }, { niveles: ['eso', 'bachillerato'] }),
       'punto-equilibrio': examTema({ examen: 'punto-equilibrio', puntoMuerto: 'punto-muerto-test' }, { niveles: ['bachillerato'] }),
       mercado: examTema({ examen: 'mercado', oferta: 'oferta-demanda-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
@@ -629,6 +629,13 @@ export const TOPIC_CATALOG = {
         emoji: '🌶️', game: 'spicy', usesLevel: false, tracksTopic: false,
         temas: ['finanzas-personales'],
       },
+      // Cuentas Claras sí dice qué tema se jugó: guarda category = finanzas-personales
+      cuentas: {
+        label: { es: 'Cuentas Claras (juego)', en: 'Money Matters (game)', ca: 'Comptes Clars (joc)' },
+        emoji: '🐷', game: 'cuentas-claras', usesLevel: false, tracksTopic: true,
+        temas: ['finanzas-personales'],
+      },
+      cuentasExamen: examFormato({ es: 'Cuentas Claras (examen)', en: 'Money Matters (exam)', ca: 'Comptes Clars (examen)' }, '🐷'),
       examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
       oferta: examFormato({ es: 'Oferta y demanda (con el juego)', en: 'Supply and Demand (with the game)', ca: 'Oferta i demanda (amb el joc)' }, '🛒'),
       puntoMuerto: examFormato({ es: 'Punto Muerto (con el juego)', en: 'Break-Even (with the game)', ca: 'Punt Mort (amb el joc)' }, '🏭'),

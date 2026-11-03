@@ -8,7 +8,7 @@ export const FICHAS_JUEGO_SLUGS = new Set([
   'encuentra-elemento', 'epocas-historicas', 'escalera-unidades',
   'estadistico-expres', 'fuerza-neta', 'funciones-grafica', 'genetica',
   'geomapa', 'georush', 'intruso', 'lee-el-grafico', 'lee-el-movimiento', 'linea-temporal',
-  'medidor-ph', 'newton-accion', 'menor-a-mayor', 'microscopio', 'nombra-compuesto', 'punto-muerto', 'numeros-romanos', 'numpath', 'oferta-demanda',
+  'medidor-ph', 'newton-accion', 'menor-a-mayor', 'microscopio', 'nombra-compuesto', 'punto-muerto', 'cuentas-claras', 'numeros-romanos', 'numpath', 'oferta-demanda',
   'orbita', 'ordena-frase', 'pentagrama-path', 'compas-completo', 'la-orquesta', 'pieza-que-falta', 'verbos-irregulares', 'europa-27', 'rios-montanas', 'quien-decide', 'quien-lo-penso', 'tabla-verdad', 'la-galeria', 'placas-movimiento', 'piramide-poblacion', 'climograma', 'que-estilo', 'mide-el-verso',
   'pon-la-tilde', 'prepara-disolucion', 'que-enlace', 'que-letra', 'coma-a-coma', 'cazafiguras', 'detective-textos', 'la-biblioteca', 'receta-quimica', 'cadena-carbono', 'portadas', 'portero', 'quien-es-quien', 'rayo-de-luz',
   'bloques-primos', 'rayos-x', 'reaccion', 'senal-a-senal', 'ojo-al-mensaje', 'rebajas', 'redondeo', 'reloj-horas', 'reparte-pastel',

@@ -121,6 +121,7 @@ const ElIntruso              = lazy(() => import('./pages/ElIntruso'))
 const Spicy                  = lazy(() => import('./pages/Spicy'))
 const OfertaDemanda          = lazy(() => import('./pages/OfertaDemanda'))
 const PuntoMuerto            = lazy(() => import('./pages/PuntoMuerto'))
+const CuentasClaras          = lazy(() => import('./pages/CuentasClaras'))
 const PentagramaPath         = lazy(() => import('./pages/PentagramaPath'))
 const CompasCompleto         = lazy(() => import('./pages/CompasCompleto'))
 const LaOrquesta             = lazy(() => import('./pages/LaOrquesta'))
@@ -362,6 +363,7 @@ function AppRoutes() {
       <Route path="juegos/spicy" element={<Spicy />} />
       <Route path="juegos/oferta-demanda" element={<OfertaDemanda />} />
       <Route path="juegos/punto-muerto" element={<PuntoMuerto />} />
+      <Route path="juegos/cuentas-claras" element={<CuentasClaras />} />
       <Route path="juegos/pentagrama-path" element={<PentagramaPath />} />
       <Route path="juegos/compas-completo" element={<CompasCompleto />} />
       <Route path="juegos/la-orquesta" element={<LaOrquesta />} />

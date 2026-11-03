@@ -259,6 +259,14 @@ export const GAMES = {
     // puntos por nota leída (100 máx/nota, con multiplicador de racha) → hasta 200 monedas
     coins: DEFAULT_COINS,
   },
+  'cuentas-claras': {
+    label: { es: 'Cuentas Claras', en: 'Money Matters', ca: 'Comptes Clars' },
+    emoji: '🐷',
+    subject: 'economia',
+    route: '/juegos/cuentas-claras',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'punto-muerto': {
     label: { es: 'Punto Muerto', en: 'Break-Even', ca: 'Punt Mort' },
     emoji: '🏭',

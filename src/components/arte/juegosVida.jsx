@@ -166,10 +166,30 @@ function OfertaDemanda(p) {
   )
 }
 
+function CuentasClaras(p) {
+  return (
+    <Lienzo {...p}>
+      <ellipse cx="82" cy="84" rx="46" ry="34" fill="#F472B6" />
+      <circle cx="122" cy="80" r="13" fill="#F472B6" />
+      <ellipse cx="129" cy="82" rx="6" ry="5" fill="#DB2777" />
+      <circle cx="104" cy="70" r="3.5" fill="#1F2937" />
+      <path d="M58 54L66 40L74 54Z" fill="#F472B6" />
+      <rect x="58" y="112" width="10" height="12" rx="3" fill="#DB2777" />
+      <rect x="94" y="112" width="10" height="12" rx="3" fill="#DB2777" />
+      <rect x="70" y="52" width="26" height="5" rx="2.5" fill="#9D174D" />
+      <circle cx="83" cy="30" r="11" fill="#FBBF24" />
+      <text x="83" y="35" textAnchor="middle" fontSize="13" fontWeight="900" fill="#92400E">€</text>
+      {[[160, 18], [176, 30], [192, 46], [208, 68]].map(([x, h]) => <rect key={x} x={x} y={120 - h} width="12" height={h} rx="2" fill="#34D399" />)}
+      <path d="M156 96Q186 90 220 46" stroke="#FBBF24" strokeWidth="3" strokeLinecap="round" fill="none" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_VIDA = {
   spicy: Spicy,
   'oferta-demanda': OfertaDemanda,
   'punto-muerto': PuntoMuerto,
+  'cuentas-claras': CuentasClaras,
   'pentagrama-path': PentagramaPath,
   'compas-completo': CompasCompleto,
   'la-orquesta': LaOrquesta,
