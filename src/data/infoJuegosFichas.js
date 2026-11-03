@@ -942,6 +942,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Economía', niveles: 'ESO, Bachillerato',
   },
+  'escalas-acordes': {
+    titulo: 'Escalas y Acordes',
+    subtitulo: 'Juego de teoría musical: intervalos, escalas y acordes en el teclado',
+    emoji: '🎹', gradient: 'from-indigo-500 to-fuchsia-700',
+    path: '/juegos/escalas-acordes',
+    intro: 'Un juego de música para la teoría de ESO con un teclado de dos octavas que suena. Se toca la nota que está una tercera mayor o una quinta justa por encima de otra, se marcan las notas de una escala mayor o menor entre la tónica y su octava, se montan acordes mayores, menores, disminuidos y aumentados y se clasifican intervalos escritos. Al corregir suena la respuesta buena, para que el oído aprenda a la vez que la vista.',
+    beneficios: [
+      { titulo: 'Contar notas y semitonos', texto: 'Un intervalo tiene número (de Do a Mi hay una tercera, porque se cuentan las dos notas) y calidad (mayor si hay cuatro semitonos, menor si hay tres). El teclado deja ver los semitonos: las teclas negras que hay en medio.' },
+      { titulo: 'Por qué Re mayor lleva Fa♯ y Do♯', texto: 'La escala mayor sigue siempre el patrón tono, tono, semitono, tono, tono, tono, semitono. Al construirla desde Re aparecen solos los dos sostenidos, y la explicación los nombra bien: Fa♯, no Sol♭, porque cada letra sale una vez.' },
+      { titulo: 'Acordes que se oyen', texto: 'Mayor y menor solo cambian la tercera, y el disminuido baja también la quinta. Oír los cuatro tipos uno detrás de otro es lo que hace que se reconozcan en una canción.' },
+    ],
+    ejemplo: 'Sale «marca el acorde de Re mayor», con el Re ya en naranja. El alumno marca Fa y La, comprueba y falla: el teclado le enseña en verde el Fa♯. La explicación dice que la tercera mayor tiene cuatro semitonos, y al escucharlo nota que Re – Fa – La sonaba triste: era el acorde menor.',
+    enPapel: {
+      titulo: 'El teclado de papel',
+      pasos: [
+        'Dibuja dos octavas de un piano en una tira de papel, con las teclas negras.',
+        'Marca con un color los semitonos entre Mi–Fa y Si–Do, que no tienen tecla negra en medio.',
+        'Construye a lápiz las escalas mayores de Do, Sol, Re y Fa siguiendo tono, tono, semitono, tono, tono, tono, semitono.',
+        'Sobre cada nota de la escala de Do, escribe el acorde de tres notas que sale (Do – Mi – Sol, Re – Fa – La…) y si es mayor o menor.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de escalas y acordes', desc: 'Diez preguntas con la misma mecánica, sin reloj y con nota, en tres niveles.' },
+      { nombre: 'Pentagrama Path', desc: 'Lee las notas del pentagrama y tócalas en el piano.' },
+      { nombre: 'Compás Completo', desc: 'Figuras, silencios y compases: el ritmo, la otra mitad de la teoría.' },
+    ],
+    asignatura: 'Música', niveles: 'ESO',
+  },
   'la-orquesta': {
     titulo: 'La Orquesta',
     subtitulo: 'Juego de instrumentos musicales: familias, sonido y orquesta',
@@ -3418,6 +3446,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Economics', niveles: 'Secondary, Sixth Form',
   },
+  'escalas-acordes': {
+    titulo: 'Scales and Chords',
+    subtitulo: 'Music theory game: intervals, scales and chords on the keyboard',
+    emoji: '🎹', gradient: 'from-indigo-500 to-fuchsia-700', path: '/juegos/escalas-acordes',
+    intro: 'A music game for secondary-school theory, with a two-octave keyboard that plays. You play the note a major third or a perfect fifth above another, mark the notes of a major or minor scale between the tonic and its octave, build major, minor, diminished and augmented chords and classify written intervals. When it is marked, the right answer plays, so your ear learns along with your eyes.',
+    beneficios: [
+      { titulo: 'Counting letters and semitones', texto: 'An interval has a number (C to E is a third, because both notes are counted) and a quality (major with four semitones, minor with three). The keyboard shows the semitones: the black keys in between.' },
+      { titulo: 'Why D major has F♯ and C♯', texto: 'A major scale always follows tone, tone, semitone, tone, tone, tone, semitone. Building it from D brings in the two sharps by itself, and the explanation spells them correctly: F♯, not G♭, because each letter appears once.' },
+      { titulo: 'Chords you can hear', texto: 'Major and minor only change the third, and diminished lowers the fifth as well. Hearing the four types one after another is what makes them recognisable in a song.' },
+    ],
+    ejemplo: 'The round says “mark the D major chord”, with D already in orange. The student marks F and A, checks and gets it wrong: the keyboard shows F♯ in green. The explanation says a major third has four semitones, and on hearing it they notice D – F – A sounded sad: that was the minor chord.',
+    enPapel: {
+      titulo: 'The paper keyboard',
+      pasos: [
+        'Draw two octaves of a piano on a strip of paper, with the black keys.',
+        'Colour the semitones between E–F and B–C, which have no black key in between.',
+        'Build the C, G, D and F major scales in pencil with tone, tone, semitone, tone, tone, tone, semitone.',
+        'On each note of the C major scale, write the three-note chord it makes (C – E – G, D – F – A…) and whether it is major or minor.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The scales and chords exam', desc: 'Ten questions with the same mechanics, untimed and marked, on three levels.' },
+      { nombre: 'Pentagrama Path', desc: 'Read the notes on the staff and play them on the piano.' },
+      { nombre: 'Full Bar', desc: 'Note values, rests and bars: rhythm, the other half of theory.' },
+    ],
+    asignatura: 'Music', niveles: 'Secondary',
+  },
   'la-orquesta': {
     titulo: 'The Orchestra',
     subtitulo: 'Musical instruments game: families, sound and orchestra',
@@ -5714,6 +5769,33 @@ export const FICHAS_CA = {
       { nombre: 'El joc de la Borsa de taula', desc: 'Jocs de taula clàssics sobre invertir en empreses i gestionar una cartera ensenyen les mateixes idees de risc i diversificació sense pantalles.' },
     ],
     asignatura: 'Economia', niveles: 'ESO, Batxillerat',
+  },
+  'escalas-acordes': {
+    titulo: 'Escales i Acords',
+    subtitulo: 'Joc de teoria musical: intervals, escales i acords al teclat',
+    emoji: '🎹', gradient: 'from-indigo-500 to-fuchsia-700', path: '/juegos/escalas-acordes',
+    intro: 'Un joc de música per a la teoria d’ESO amb un teclat de dues octaves que sona. Es toca la nota que és una tercera major o una quinta justa per sobre d’una altra, es marquen les notes d’una escala major o menor entre la tònica i la seva octava, es munten acords majors, menors, disminuïts i augmentats i es classifiquen intervals escrits. En corregir sona la resposta bona, perquè l’orella aprengui alhora que la vista.',
+    beneficios: [
+      { titulo: 'Comptar notes i semitons', texto: 'Un interval té número (de Do a Mi hi ha una tercera, perquè es compten les dues notes) i qualitat (major si hi ha quatre semitons, menor si n’hi ha tres). El teclat deixa veure els semitons: les tecles negres que hi ha al mig.' },
+      { titulo: 'Per què Re major porta Fa♯ i Do♯', texto: 'L’escala major segueix sempre el patró to, to, semitò, to, to, to, semitò. En construir-la des de Re apareixen sols els dos sostinguts, i l’explicació els anomena bé: Fa♯, no Sol♭, perquè cada lletra surt una vegada.' },
+      { titulo: 'Acords que se senten', texto: 'Major i menor només canvien la tercera, i el disminuït abaixa també la quinta. Sentir els quatre tipus un darrere l’altre és el que fa que es reconeguin en una cançó.' },
+    ],
+    ejemplo: 'Surt «marca l’acord de Re major», amb el Re ja en taronja. L’alumne marca Fa i La, comprova i falla: el teclat li mostra en verd el Fa♯. L’explicació diu que la tercera major té quatre semitons, i en escoltar-ho s’adona que Re – Fa – La sonava trist: era l’acord menor.',
+    enPapel: {
+      titulo: 'El teclat de paper',
+      pasos: [
+        'Dibuixa dues octaves d’un piano en una tira de paper, amb les tecles negres.',
+        'Marca amb un color els semitons entre Mi–Fa i Si–Do, que no tenen tecla negra al mig.',
+        'Construeix a llapis les escales majors de Do, Sol, Re i Fa seguint to, to, semitò, to, to, to, semitò.',
+        'Sobre cada nota de l’escala de Do, escriu l’acord de tres notes que en surt (Do – Mi – Sol, Re – Fa – La…) i si és major o menor.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen d’escales i acords', desc: 'Deu preguntes amb la mateixa mecànica, sense rellotge i amb nota, en tres nivells.' },
+      { nombre: 'Pentagrama Path', desc: 'Llegeix les notes del pentagrama i toca-les al piano.' },
+      { nombre: 'Compàs Complet', desc: 'Figures, silencis i compassos: el ritme, l’altra meitat de la teoria.' },
+    ],
+    asignatura: 'Música', niveles: 'ESO',
   },
   'la-orquesta': {
     titulo: 'L’Orquestra',

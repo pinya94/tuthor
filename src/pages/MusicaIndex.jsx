@@ -76,6 +76,10 @@ export default function MusicaIndex() {
           titulo={tr({ es: 'La Orquesta (juego)', en: 'The Orchestra (game)', ca: 'L’Orquestra (joc)' })}
           sub={tr({ es: 'Instrumentos dibujados, sus familias y cómo suenan', en: 'Drawn instruments, their families and how they sound', ca: 'Instruments dibuixats, les seves famílies i com sonen' })}
           to={localPath('/juegos/la-orquesta')} />
+        <TarjetaArte Arte={ARTE_JUEGOS['escalas-acordes']}
+          titulo={tr({ es: 'Escalas y Acordes (juego)', en: 'Scales and Chords (game)', ca: 'Escales i Acords (joc)' })}
+          sub={tr({ es: 'Intervalos, escalas y acordes en el teclado, con sonido', en: 'Intervals, scales and chords on the keyboard, with sound', ca: 'Intervals, escales i acords al teclat, amb so' })}
+          to={localPath('/juegos/escalas-acordes')} />
       </div>
     </div>
   )

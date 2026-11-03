@@ -185,11 +185,26 @@ function CuentasClaras(p) {
   )
 }
 
+function EscalasAcordes(p) {
+  const marcadas = [0, 2, 4]
+  return (
+    <Lienzo {...p}>
+      {Array.from({ length: 8 }, (_, i) => (
+        <rect key={i} x={24 + i * 24} y="44" width="23" height="80" rx="3" fill={marcadas.includes(i) ? (i === 0 ? '#F59E0B' : '#38BDF8') : '#F8FAFC'} />
+      ))}
+      {[0, 1, 3, 4, 5, 7].map(i => <rect key={i} x={24 + (i + 1) * 24 - 7} y="44" width="14" height="48" rx="2" fill="#111827" />)}
+      <rect x="64" y="10" width="112" height="26" rx="13" fill="#4C1D95" />
+      <text x="120" y="28" textAnchor="middle" fontSize="13" fontWeight="900" fill="#F5D0FE">Do · Mi · Sol</text>
+    </Lienzo>
+  )
+}
+
 export const ARTE_VIDA = {
   spicy: Spicy,
   'oferta-demanda': OfertaDemanda,
   'punto-muerto': PuntoMuerto,
   'cuentas-claras': CuentasClaras,
+  'escalas-acordes': EscalasAcordes,
   'pentagrama-path': PentagramaPath,
   'compas-completo': CompasCompleto,
   'la-orquesta': LaOrquesta,

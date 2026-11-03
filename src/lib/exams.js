@@ -282,6 +282,11 @@ export const EXAMS = {
     emoji: '🎼', subject: 'musica',
     path: 'examen/musica', page: () => import('../pages/MusicaExamen'),
   },
+  'escalas-acordes-test': {
+    label: { es: 'Escalas y Acordes (con el juego)', en: 'Scales and Chords (with the game)', ca: 'Escales i Acords (amb el joc)' },
+    emoji: '🎹', subject: 'musica',
+    path: 'examen/escalas-acordes-test', page: () => import('../pages/EscalasAcordesExamen'),
+  },
   'la-orquesta-test': {
     label: { es: 'La Orquesta (con el juego)', en: 'The Orchestra (with the game)', ca: 'L’Orquestra (amb el joc)' },
     emoji: '🎻', subject: 'musica',

@@ -233,6 +233,7 @@ export const SUBJECT_DEFS = [
       musica: { es: 'Lectura de Partituras', en: 'Sheet Music Reading', ca: 'Lectura de Partitures' },
       ritmo:  { es: 'Ritmo',                 en: 'Rhythm',              ca: 'Ritme' },
       instrumentos: { es: 'Los Instrumentos', en: 'Musical Instruments', ca: 'Els Instruments' },
+      armonia: { es: 'Intervalos, escalas y acordes', en: 'Intervals, scales and chords', ca: 'Intervals, escales i acords' },
     },
   },
   {

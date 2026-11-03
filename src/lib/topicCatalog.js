@@ -647,6 +647,8 @@ export const TOPIC_CATALOG = {
       musica: examTema({ examen: 'musica' }, { niveles: ['primaria', 'eso'] }),
       ritmo: examTema({ examen: 'musica-ritmo-test', compas: 'compas-completo-test' }, { niveles: ['primaria', 'eso'] }),
       instrumentos: examTema({ examen: 'musica-instrumentos-test', orquesta: 'la-orquesta-test' }, { niveles: ['primaria', 'eso'] }),
+      // Intervalos, escalas y acordes (teoría de 2.º-4.º de ESO), con su juego
+      armonia: examTema({ escalasExamen: 'escalas-acordes-test' }, { niveles: ['eso'] }),
     },
     formatos: {
       pentagrama: {
@@ -655,6 +657,12 @@ export const TOPIC_CATALOG = {
       },
       examen: examFormato({ es: 'Examen', en: 'Exam', ca: 'Examen' }, '📝'),
       compas: examFormato({ es: 'Compás Completo (con el juego)', en: 'Full Bar (with the game)', ca: 'Compàs Complet (amb el joc)' }, '🥁'),
+      escalas: {
+        label: { es: 'Escalas y Acordes (juego)', en: 'Scales and Chords (game)', ca: 'Escales i Acords (joc)' },
+        emoji: '🎹', game: 'escalas-acordes', usesLevel: false, tracksTopic: true,
+        temas: ['armonia'],
+      },
+      escalasExamen: examFormato({ es: 'Escalas y Acordes (examen)', en: 'Scales and Chords (exam)', ca: 'Escales i Acords (examen)' }, '🎹'),
       orquesta: examFormato({ es: 'La Orquesta (con el juego)', en: 'The Orchestra (with the game)', ca: 'L’Orquestra (amb el joc)' }, '🎻'),
     },
   },
