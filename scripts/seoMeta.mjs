@@ -80,7 +80,7 @@ export function resolveMeta(path, lang) {
       // reseñas malas, y sale en el título de ~88 páginas.
       return l === 'en'
         ? { title: `${name} — multiple-choice exam`, desc: `Interactive ${name} exam with instant feedback, explained answers and a final grade. For primary and secondary school students.` }
-        : { title: `Examen de ${name} tipo test`, desc: `Examen interactivo de ${name}, con corrección al instante, explicación en cada respuesta y nota final. Para Primaria, ESO y Bachillerato.` }
+        : { title: `Examen de ${name}: ejercicios tipo test con soluciones`, desc: `Ejercicios tipo test de ${name} con soluciones: corrección al instante y explicación en cada respuesta. Primaria, ESO y Bachillerato.` }
     }
   }
 

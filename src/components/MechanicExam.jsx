@@ -16,6 +16,7 @@
  *   renderQuestion ({ round, phase, answer, onAnswer }) => JSX  (dibuja la mecánica + input + feedback)
  */
 import { useState, useRef, useEffect, useMemo } from 'react'
+import { conEjercicios } from '../lib/seoTitulos'
 import { Link, useLocation } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
@@ -285,7 +286,8 @@ export default function MechanicExam({
     setIdx(i => i + 1); setPhase('choose'); setAnswer(null)
   }
 
-  const pageMeta = <PageMeta title={tr(metaTitle, l)} description={tr(metaDesc, l)} path={metaPath} lang={lang} />
+  // Añade «ejercicios con solución» si el título no lo dice (lib/seoTitulos.js)
+  const pageMeta = <PageMeta title={conEjercicios(tr(metaTitle, l), l)} description={tr(metaDesc, l)} path={metaPath} lang={lang} />
   // Preguntas de ejemplo para el JSON-LD. Estos exámenes no tienen banco de
   // preguntas: cada ronda la GENERA genRound(), así que no hay nada que
   // publicar tal cual. Se generan unas cuantas rondas aquí y cada examen las

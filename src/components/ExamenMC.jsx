@@ -24,6 +24,7 @@ import QuizSchema from './QuizSchema'
 import { skillsFor } from '../data/exerciseSkills'
 import AuthModal from './AuthModal'
 import { ordenOpciones } from '../lib/ordenOpciones'
+import { tituloExamenMC, descExamenMC } from '../lib/seoTitulos'
 import EjemplosExamen from './EjemplosExamen'
 import DescubreTuthor from './DescubreTuthor'
 import { trackFin } from '../lib/analytics'
@@ -109,12 +110,10 @@ export default function ExamenMC({ titulo, emoji, nivelInfo, backFallback, gameI
 
   const tituloStr = get(titulo, lang)
 
-  const metaTitle = en ? `${tituloStr} Exam` : ca ? `Examen de ${tituloStr}` : `Examen de ${tituloStr}`
-  const metaDesc  = en
-    ? `Practice ${tituloStr} with an interactive 10-question exam on Tuthor. Instant feedback after each answer.`
-    : ca
-    ? `Practica ${tituloStr} amb un examen interactiu de 10 preguntes a Tuthor. Retroalimentació immediata.`
-    : `Practica ${tituloStr} con un examen interactivo de 10 preguntas en Tuthor. Retroalimentación inmediata.`
+  // «ejercicios … con soluciones» y los cursos: ver lib/seoTitulos.js
+  const metaLang  = en ? 'en' : ca ? 'ca' : 'es'
+  const metaTitle = tituloExamenMC(tituloStr, metaLang)
+  const metaDesc  = descExamenMC(tituloStr, metaLang, Object.values(nivelInfo).map(n => get(n.label, lang)))
   const pageMeta = <PageMeta title={metaTitle} description={metaDesc} path={`/examen/${gameId}`} lang={lang} />
 
   // ── Estado ────────────────────────────────────────────────────────────────

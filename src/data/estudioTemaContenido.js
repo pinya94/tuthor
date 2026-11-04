@@ -12,9 +12,9 @@
 export const CONTENIDO_TEMA = {
   'celula': {
     metaTitle: {
-      es: 'La Célula: partes, tipos y funciones — resumen para estudiar',
-      en: 'The Cell: parts, types and functions — a study summary',
-      ca: 'La Cèl·lula: parts, tipus i funcions — resum per estudiar',
+      es: 'La Célula: partes, tipos y funciones — resumen y ejercicios',
+      en: 'The Cell: parts, types and functions — summary and practice questions',
+      ca: 'La Cèl·lula: parts, tipus i funcions — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es la célula, sus partes (núcleo, membrana, mitocondrias), la diferencia entre procariotas y eucariotas y entre célula animal y vegetal. Resumen y test.',
@@ -68,9 +68,9 @@ export const CONTENIDO_TEMA = {
 
   'tabla-periodica': {
     metaTitle: {
-      es: 'La Tabla Periódica: grupos, periodos y cómo se lee — resumen',
-      en: 'The Periodic Table: groups, periods and how to read it — summary',
-      ca: 'La Taula Periòdica: grups, períodes i com es llegeix — resum',
+      es: 'La Tabla Periódica: grupos, periodos y cómo se lee — resumen y ejercicios',
+      en: 'The Periodic Table: groups, periods and how to read it — summary and practice questions',
+      ca: 'La Taula Periòdica: grups, períodes i com es llegeix — resum i exercicis',
     },
     metaDesc: {
       es: 'Cómo se ordena la tabla periódica por número atómico, qué son los grupos y los periodos, y por qué los elementos de un mismo grupo se parecen. Resumen y test.',
@@ -337,9 +337,9 @@ export const CONTENIDO_TEMA = {
 
   'cuerpo-humano': {
     metaTitle: {
-      es: 'El Cuerpo Humano: aparatos y sistemas — resumen para estudiar',
-      en: 'The Human Body: systems and how they work — a study summary',
-      ca: 'El Cos Humà: aparells i sistemes — resum per estudiar',
+      es: 'El Cuerpo Humano: aparatos y sistemas — resumen y ejercicios',
+      en: 'The Human Body: systems and how they work — summary and practice questions',
+      ca: 'El Cos Humà: aparells i sistemes — resum i exercicis',
     },
     metaDesc: {
       es: 'Los sistemas del cuerpo humano —digestivo, respiratorio, circulatorio, nervioso, excretor y locomotor— y qué hace cada uno. Resumen claro y test con explicación.',
@@ -393,9 +393,9 @@ export const CONTENIDO_TEMA = {
 
   'estados-materia': {
     metaTitle: {
-      es: 'Los Estados de la Materia: sólido, líquido y gas — resumen',
-      en: 'States of Matter: solid, liquid and gas — a study summary',
-      ca: 'Els Estats de la Matèria: sòlid, líquid i gas — resum',
+      es: 'Los Estados de la Materia: sólido, líquido y gas — resumen y ejercicios',
+      en: 'States of Matter: solid, liquid and gas — summary and practice questions',
+      ca: 'Els Estats de la Matèria: sòlid, líquid i gas — resum i exercicis',
     },
     metaDesc: {
       es: 'Sólido, líquido y gas, en qué se diferencian sus partículas y los cambios de estado (fusión, evaporación, condensación). Resumen para estudiar y test.',
@@ -449,9 +449,9 @@ export const CONTENIDO_TEMA = {
 
   'fuerzas': {
     metaTitle: {
-      es: 'Las Fuerzas y las Leyes de Newton — resumen para estudiar',
-      en: 'Forces and Newton\'s Laws — a study summary',
-      ca: 'Les Forces i les Lleis de Newton — resum per estudiar',
+      es: 'Las Fuerzas y las Leyes de Newton — resumen y ejercicios',
+      en: 'Forces and Newton\'s Laws — summary and practice questions',
+      ca: 'Les Forces i les Lleis de Newton — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es una fuerza, cómo se mide (newtons), la fuerza neta y las tres leyes de Newton, el peso y el rozamiento. Resumen claro y test con explicación.',
@@ -505,9 +505,9 @@ export const CONTENIDO_TEMA = {
 
   'electricidad': {
     metaTitle: {
-      es: 'La Electricidad y los Circuitos — resumen para estudiar',
-      en: 'Electricity and Circuits — a study summary',
-      ca: 'L\'Electricitat i els Circuits — resum per estudiar',
+      es: 'La Electricidad y los Circuitos — resumen y ejercicios',
+      en: 'Electricity and Circuits — summary and practice questions',
+      ca: 'L\'Electricitat i els Circuits — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es la corriente eléctrica, las partes de un circuito, tensión, intensidad y resistencia, la ley de Ohm y los circuitos en serie y en paralelo. Resumen y test.',
@@ -561,9 +561,9 @@ export const CONTENIDO_TEMA = {
 
   'seres-vivos': {
     metaTitle: {
-      es: 'Los Seres Vivos: funciones vitales y los cinco reinos — resumen',
-      en: 'Living Things: life processes and the five kingdoms — summary',
-      ca: 'Els Éssers Vius: funcions vitals i els cinc regnes — resum',
+      es: 'Los Seres Vivos: funciones vitales y los cinco reinos — resumen y ejercicios',
+      en: 'Living Things: life processes and the five kingdoms — summary and practice questions',
+      ca: 'Els Éssers Vius: funcions vitals i els cinc regnes — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es un ser vivo, las funciones vitales (nutrición, relación y reproducción) y la clasificación en cinco reinos y en vertebrados e invertebrados. Resumen y test.',
@@ -617,9 +617,9 @@ export const CONTENIDO_TEMA = {
 
   'ecosistemas': {
     metaTitle: {
-      es: 'Los Ecosistemas: cadena alimentaria y relaciones — resumen',
-      en: 'Ecosystems: food chain and relationships — a study summary',
-      ca: 'Els Ecosistemes: cadena alimentària i relacions — resum',
+      es: 'Los Ecosistemas: cadena alimentaria y relaciones — resumen y ejercicios',
+      en: 'Ecosystems: food chain and relationships — summary and practice questions',
+      ca: 'Els Ecosistemes: cadena alimentària i relacions — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es un ecosistema (biocenosis y biotopo), la cadena alimentaria con productores, consumidores y descomponedores, y las relaciones entre especies. Resumen y test.',
@@ -673,9 +673,9 @@ export const CONTENIDO_TEMA = {
 
   'genetica': {
     metaTitle: {
-      es: 'La Genética: ADN, genes y las leyes de Mendel — resumen',
-      en: 'Genetics: DNA, genes and Mendel\'s laws — a study summary',
-      ca: 'La Genètica: ADN, gens i les lleis de Mendel — resum',
+      es: 'La Genética: ADN, genes y las leyes de Mendel — resumen y ejercicios',
+      en: 'Genetics: DNA, genes and Mendel\'s laws — summary and practice questions',
+      ca: 'La Genètica: ADN, gens i les lleis de Mendel — resum i exercicis',
     },
     metaDesc: {
       es: 'Cómo se heredan los caracteres: el ADN, los genes y los cromosomas, los alelos dominantes y recesivos, las leyes de Mendel y el cuadro de Punnett. Resumen y test.',
@@ -729,9 +729,9 @@ export const CONTENIDO_TEMA = {
 
   'atomos-moleculas': {
     metaTitle: {
-      es: 'Átomos y Moléculas: protones, electrones y enlaces — resumen',
-      en: 'Atoms and Molecules: protons, electrons and bonds — summary',
-      ca: 'Àtoms i Molècules: protons, electrons i enllaços — resum',
+      es: 'Átomos y Moléculas: protones, electrones y enlaces — resumen y ejercicios',
+      en: 'Atoms and Molecules: protons, electrons and bonds — summary and practice questions',
+      ca: 'Àtoms i Molècules: protons, electrons i enllaços — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es un átomo, sus partículas (protones, neutrones y electrones), el número atómico y cómo se unen los átomos para formar moléculas. Resumen y test.',
@@ -785,9 +785,9 @@ export const CONTENIDO_TEMA = {
 
   'acidos-bases': {
     metaTitle: {
-      es: 'Ácidos y Bases: la escala de pH y la neutralización — resumen',
-      en: 'Acids and Bases: the pH scale and neutralisation — summary',
-      ca: 'Àcids i Bases: l\'escala de pH i la neutralització — resum',
+      es: 'Ácidos y Bases: la escala de pH y la neutralización — resumen y ejercicios',
+      en: 'Acids and Bases: the pH scale and neutralisation — summary and practice questions',
+      ca: 'Àcids i Bases: l\'escala de pH i la neutralització — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué son los ácidos y las bases, la escala de pH del 0 al 14, los indicadores como el papel de tornasol y la neutralización. Resumen para estudiar y test.',
@@ -841,9 +841,9 @@ export const CONTENIDO_TEMA = {
 
   'nutricion': {
     metaTitle: {
-      es: 'La Nutrición: nutrientes y aparatos que intervienen — resumen',
+      es: 'La Nutrición: nutrientes y aparatos que intervienen — resumen y ejercicios',
       en: 'Nutrition: nutrients and the systems involved — a summary',
-      ca: 'La Nutrició: nutrients i aparells que hi intervenen — resum',
+      ca: 'La Nutrició: nutrients i aparells que hi intervenen — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es la nutrición, los nutrientes (hidratos, grasas, proteínas, vitaminas), los aparatos que intervienen y qué es una dieta sana. Resumen y test.',
@@ -897,9 +897,9 @@ export const CONTENIDO_TEMA = {
 
   'evolucion': {
     metaTitle: {
-      es: 'La Evolución: Darwin y la selección natural — resumen',
-      en: 'Evolution: Darwin and natural selection — a study summary',
-      ca: 'L\'Evolució: Darwin i la selecció natural — resum',
+      es: 'La Evolución: Darwin y la selección natural — resumen y ejercicios',
+      en: 'Evolution: Darwin and natural selection — summary and practice questions',
+      ca: 'L\'Evolució: Darwin i la selecció natural — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es la evolución, los antepasados comunes, la selección natural de Darwin, los pinzones de Galápagos, Lamarck y las pruebas fósiles. Resumen y test.',
@@ -953,9 +953,9 @@ export const CONTENIDO_TEMA = {
 
   'rocas-minerales': {
     metaTitle: {
-      es: 'Rocas y Minerales: los tres tipos de rocas — resumen',
+      es: 'Rocas y Minerales: los tres tipos de rocas — resumen y ejercicios',
       en: 'Rocks and Minerals: the three types of rock — a summary',
-      ca: 'Roques i Minerals: els tres tipus de roques — resum',
+      ca: 'Roques i Minerals: els tres tipus de roques — resum i exercicis',
     },
     metaDesc: {
       es: 'La diferencia entre roca y mineral y los tres tipos de rocas —ígneas, sedimentarias y metamórficas— y cómo se forman. Resumen para estudiar y test.',
@@ -1009,9 +1009,9 @@ export const CONTENIDO_TEMA = {
 
   'placas-tectonicas': {
     metaTitle: {
-      es: 'Las Placas Tectónicas: capas de la Tierra y terremotos — resumen',
+      es: 'Las Placas Tectónicas: capas de la Tierra y terremotos — resumen y ejercicios',
       en: 'Plate Tectonics: Earth\'s layers and earthquakes — a summary',
-      ca: 'Les Plaques Tectòniques: capes de la Terra i terratrèmols — resum',
+      ca: 'Les Plaques Tectòniques: capes de la Terra i terratrèmols — resum i exercicis',
     },
     metaDesc: {
       es: 'Las capas de la Tierra, las placas tectónicas y su movimiento, y por qué en sus bordes hay montañas, volcanes y terremotos. Resumen y test.',
@@ -1065,9 +1065,9 @@ export const CONTENIDO_TEMA = {
 
   'mezclas-separacion': {
     metaTitle: {
-      es: 'Mezclas y Métodos de Separación — resumen para estudiar',
-      en: 'Mixtures and Separation Methods — a study summary',
-      ca: 'Mescles i Mètodes de Separació — resum per estudiar',
+      es: 'Mezclas y Métodos de Separación — resumen y ejercicios',
+      en: 'Mixtures and Separation Methods — summary and practice questions',
+      ca: 'Mescles i Mètodes de Separació — resum i exercicis',
     },
     metaDesc: {
       es: 'Mezclas homogéneas y heterogéneas y cómo separarlas: filtración, decantación, evaporación y destilación. Resumen para estudiar y test con explicación.',
@@ -1121,9 +1121,9 @@ export const CONTENIDO_TEMA = {
 
   'formulacion': {
     metaTitle: {
-      es: 'Formulación Química: valencias y nomenclatura — resumen',
-      en: 'Chemical Formulas: valencies and naming — a study summary',
-      ca: 'Formulació Química: valències i nomenclatura — resum',
+      es: 'Formulación Química: valencias y nomenclatura — resumen y ejercicios',
+      en: 'Chemical Formulas: valencies and naming — summary and practice questions',
+      ca: 'Formulació Química: valències i nomenclatura — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es formular y nombrar compuestos, las valencias, los subíndices y las familias (óxidos, hidruros, hidróxidos y sales) con la nomenclatura IUPAC. Resumen y test.',
@@ -1177,9 +1177,9 @@ export const CONTENIDO_TEMA = {
 
   'enlace-quimico': {
     metaTitle: {
-      es: 'El enlace químico: iónico, covalente, metálico y fuerzas intermoleculares — resumen',
+      es: 'El enlace químico: iónico, covalente, metálico y fuerzas intermoleculares — resumen y ejercicios',
       en: 'Chemical bonding: ionic, covalent, metallic and intermolecular forces — a summary',
-      ca: 'L’enllaç químic: iònic, covalent, metàl·lic i forces intermoleculars — resum',
+      ca: 'L’enllaç químic: iònic, covalent, metàl·lic i forces intermoleculars — resum i exercicis',
     },
     metaDesc: {
       es: 'Regla del octeto, enlaces iónico, covalente y metálico, propiedades de cada sustancia, electronegatividad, polaridad, geometría y puentes de hidrógeno. Resumen y test.',
@@ -1208,9 +1208,9 @@ export const CONTENIDO_TEMA = {
   },
   'quimica-organica': {
     metaTitle: {
-      es: 'Química orgánica: hidrocarburos, grupos funcionales y nomenclatura — resumen',
+      es: 'Química orgánica: hidrocarburos, grupos funcionales y nomenclatura — resumen y ejercicios',
       en: 'Organic chemistry: hydrocarbons, functional groups and naming — a summary',
-      ca: 'Química orgànica: hidrocarburs, grups funcionals i nomenclatura — resum',
+      ca: 'Química orgànica: hidrocarburs, grups funcionals i nomenclatura — resum i exercicis',
     },
     metaDesc: {
       es: 'El carbono y sus cadenas: alcanos, alquenos, alquinos y benceno, alcoholes, aldehídos, cetonas, ácidos, ésteres y aminas, isomería y reacciones. Resumen y test.',
@@ -1239,9 +1239,9 @@ export const CONTENIDO_TEMA = {
   },
   estequiometria: {
     metaTitle: {
-      es: 'El mol y la estequiometría: masa molar, gases y reactivo limitante — resumen',
+      es: 'El mol y la estequiometría: masa molar, gases y reactivo limitante — resumen y ejercicios',
       en: 'The mole and stoichiometry: molar mass, gases and limiting reactant — a summary',
-      ca: 'El mol i l’estequiometria: massa molar, gasos i reactiu limitant — resum',
+      ca: 'El mol i l’estequiometria: massa molar, gasos i reactiu limitant — resum i exercicis',
     },
     metaDesc: {
       es: 'El mol y el número de Avogadro, la masa molar, las leyes ponderales, los gases ideales y los cálculos con reacciones: reactivo limitante, pureza y rendimiento. Resumen y test.',
@@ -1297,9 +1297,9 @@ export const CONTENIDO_TEMA = {
   },
   dinamica: {
     metaTitle: {
-      es: 'Dinámica: leyes de Newton, rozamiento, plano inclinado y gravitación — resumen',
+      es: 'Dinámica: leyes de Newton, rozamiento, plano inclinado y gravitación — resumen y ejercicios',
       en: 'Dynamics: Newton’s laws, friction, inclined planes and gravitation — a summary',
-      ca: 'Dinàmica: lleis de Newton, fregament, pla inclinat i gravitació — resum',
+      ca: 'Dinàmica: lleis de Newton, fregament, pla inclinat i gravitació — resum i exercicis',
     },
     metaDesc: {
       es: 'Las tres leyes de Newton, peso y masa, rozamiento, plano inclinado, tensiones, momento lineal e impulso, fuerza centrípeta y gravitación universal. Resumen y test.',
@@ -1355,9 +1355,9 @@ export const CONTENIDO_TEMA = {
   },
   'disoluciones': {
     metaTitle: {
-      es: 'Las Disoluciones: soluto, disolvente y concentración — resumen',
+      es: 'Las Disoluciones: soluto, disolvente y concentración — resumen y ejercicios',
       en: 'Solutions: solute, solvent and concentration — a summary',
-      ca: 'Les Dissolucions: solut, dissolvent i concentració — resum',
+      ca: 'Les Dissolucions: solut, dissolvent i concentració — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es una disolución, la diferencia entre soluto y disolvente, las disoluciones saturadas y la concentración (g/L, % y molaridad). Resumen y test.',
@@ -1411,9 +1411,9 @@ export const CONTENIDO_TEMA = {
 
   'energia': {
     metaTitle: {
-      es: 'La Energía: formas, transformaciones y fuentes — resumen',
-      en: 'Energy: forms, transformations and sources — a study summary',
-      ca: 'L\'Energia: formes, transformacions i fonts — resum',
+      es: 'La Energía: formas, transformaciones y fuentes — resumen y ejercicios',
+      en: 'Energy: forms, transformations and sources — summary and practice questions',
+      ca: 'L\'Energia: formes, transformacions i fonts — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es la energía, sus formas (cinética, potencial, térmica…), la conservación de la energía y las fuentes renovables y no renovables. Resumen y test.',
@@ -1467,9 +1467,9 @@ export const CONTENIDO_TEMA = {
 
   'ondas-luz': {
     metaTitle: {
-      es: 'Ondas, Sonido y Luz: reflexión y refracción — resumen',
+      es: 'Ondas, Sonido y Luz: reflexión y refracción — resumen y ejercicios',
       en: 'Waves, Sound and Light: reflection and refraction — a summary',
-      ca: 'Ones, So i Llum: reflexió i refracció — resum',
+      ca: 'Ones, So i Llum: reflexió i refracció — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es una onda, la diferencia entre el sonido (onda mecánica) y la luz (onda electromagnética), y la reflexión y la refracción de la luz. Resumen y test.',
@@ -1523,9 +1523,9 @@ export const CONTENIDO_TEMA = {
 
   'presion-fluidos': {
     metaTitle: {
-      es: 'La Presión y los Fluidos: Pascal y Arquímedes — resumen',
+      es: 'La Presión y los Fluidos: Pascal y Arquímedes — resumen y ejercicios',
       en: 'Pressure and Fluids: Pascal and Archimedes — a summary',
-      ca: 'La Pressió i els Fluids: Pascal i Arquimedes — resum',
+      ca: 'La Pressió i els Fluids: Pascal i Arquimedes — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es la presión, cómo depende de la superficie, la presión en líquidos y la atmosférica, y los principios de Pascal y de Arquímedes. Resumen y test.',
@@ -1579,9 +1579,9 @@ export const CONTENIDO_TEMA = {
 
   movimiento: {
     metaTitle: {
-      es: 'El movimiento: MRU, MRUA, caída libre y gráficas x-t y v-t — resumen',
+      es: 'El movimiento: MRU, MRUA, caída libre y gráficas x-t y v-t — resumen y ejercicios',
       en: 'Motion: uniform and accelerated motion, free fall and x-t and v-t graphs — a summary',
-      ca: 'El moviment: MRU, MRUA, caiguda lliure i gràfiques x-t i v-t — resum',
+      ca: 'El moviment: MRU, MRUA, caiguda lliure i gràfiques x-t i v-t — resum i exercicis',
     },
     metaDesc: {
       es: 'Trayectoria, distancia y desplazamiento, velocidad y aceleración, el MRU y el MRUA con sus ecuaciones, la caída libre y cómo leer las gráficas. Resumen y test.',
@@ -1695,9 +1695,9 @@ export const CONTENIDO_TEMA = {
   },
   'calor-temperatura': {
     metaTitle: {
-      es: 'Calor y Temperatura: en qué se diferencian — resumen',
-      en: 'Heat and Temperature: how they differ — a study summary',
-      ca: 'Calor i Temperatura: en què es diferencien — resum',
+      es: 'Calor y Temperatura: en qué se diferencian — resumen y ejercicios',
+      en: 'Heat and Temperature: how they differ — summary and practice questions',
+      ca: 'Calor i Temperatura: en què es diferencien — resum i exercicis',
     },
     metaDesc: {
       es: 'La diferencia entre calor y temperatura, las escalas Celsius y Kelvin, el equilibrio térmico y las tres formas de transmitir el calor. Resumen y test.',
@@ -2051,9 +2051,9 @@ export const CONTENIDO_TEMA = {
 
   'europa': {
     metaTitle: {
-      es: 'Europa: países, relieve y ríos — resumen para estudiar',
-      en: 'Europe: countries, relief and rivers — a study summary',
-      ca: 'Europa: països, relleu i rius — resum per estudiar',
+      es: 'Europa: países, relieve y ríos — resumen y ejercicios',
+      en: 'Europe: countries, relief and rivers — summary and practice questions',
+      ca: 'Europa: països, relleu i rius — resum i exercicis',
     },
     metaDesc: {
       es: 'Dónde está Europa, sus casi 50 países, la Unión Europea, sus penínsulas, montañas (Alpes, Pirineos) y ríos (Volga, Danubio). Resumen y test de mapa.',
@@ -2327,9 +2327,9 @@ export const CONTENIDO_TEMA = {
 
   'asia': {
     metaTitle: {
-      es: 'Asia: el continente más grande y poblado — resumen',
-      en: 'Asia: the largest and most populated continent — summary',
-      ca: 'Àsia: el continent més gran i poblat — resum',
+      es: 'Asia: el continente más grande y poblado — resumen y ejercicios',
+      en: 'Asia: the largest and most populated continent — summary and practice questions',
+      ca: 'Àsia: el continent més gran i poblat — resum i exercicis',
     },
     metaDesc: {
       es: 'Dónde está Asia, por qué es el continente más grande y poblado, el Himalaya y el Everest, sus grandes ríos y su diversidad. Resumen y test de mapa.',
@@ -2383,9 +2383,9 @@ export const CONTENIDO_TEMA = {
 
   'africa': {
     metaTitle: {
-      es: 'África: el Sáhara, el Nilo y sus países — resumen',
-      en: 'Africa: the Sahara, the Nile and its countries — summary',
-      ca: 'Àfrica: el Sàhara, el Nil i els seus països — resum',
+      es: 'África: el Sáhara, el Nilo y sus países — resumen y ejercicios',
+      en: 'Africa: the Sahara, the Nile and its countries — summary and practice questions',
+      ca: 'Àfrica: el Sàhara, el Nil i els seus països — resum i exercicis',
     },
     metaDesc: {
       es: 'Dónde está África, el Sáhara, las sabanas y selvas, el Nilo, el Kilimanjaro y por qué se la llama la cuna de la humanidad. Resumen y test de mapa.',
@@ -2439,9 +2439,9 @@ export const CONTENIDO_TEMA = {
 
   'oceania': {
     metaTitle: {
-      es: 'Oceanía: Australia y las islas del Pacífico — resumen',
+      es: 'Oceanía: Australia y las islas del Pacífico — resumen y ejercicios',
       en: 'Oceania: Australia and the Pacific islands — a summary',
-      ca: 'Oceania: Austràlia i les illes del Pacífic — resum',
+      ca: 'Oceania: Austràlia i les illes del Pacífic — resum i exercicis',
     },
     metaDesc: {
       es: 'El continente más pequeño: Australia, Nueva Zelanda y las islas del Pacífico (Melanesia, Micronesia, Polinesia), sus animales y la Gran Barrera de Coral. Resumen y test.',
@@ -2495,9 +2495,9 @@ export const CONTENIDO_TEMA = {
 
   'espana': {
     metaTitle: {
-      es: 'España: las 17 comunidades autónomas — resumen para estudiar',
-      en: 'Spain: the 17 autonomous communities — a study summary',
-      ca: 'Espanya: les 17 comunitats autònomes — resum per estudiar',
+      es: 'España: las 17 comunidades autónomas — resumen y ejercicios',
+      en: 'Spain: the 17 autonomous communities — summary and practice questions',
+      ca: 'Espanya: les 17 comunitats autònomes — resum i exercicis',
     },
     metaDesc: {
       es: 'La organización de España en 17 comunidades autónomas, su situación en la península ibérica, las islas, la capital y su relieve. Resumen y test de mapa.',
@@ -2551,9 +2551,9 @@ export const CONTENIDO_TEMA = {
 
   'eeuu': {
     metaTitle: {
-      es: 'Estados Unidos: los 50 estados — resumen para estudiar',
-      en: 'The United States: the 50 states — a study summary',
-      ca: 'Estats Units: els 50 estats — resum per estudiar',
+      es: 'Estados Unidos: los 50 estados — resumen y ejercicios',
+      en: 'The United States: the 50 states — summary and practice questions',
+      ca: 'Estats Units: els 50 estats — resum i exercicis',
     },
     metaDesc: {
       es: 'Cómo se organiza Estados Unidos en 50 estados, su capital, Alaska y Hawái, su relieve y su sistema federal. Resumen para estudiar y test de mapa.',
@@ -2607,9 +2607,9 @@ export const CONTENIDO_TEMA = {
 
   'prehistoria': {
     metaTitle: {
-      es: 'La Prehistoria: Paleolítico y Neolítico — resumen para estudiar',
-      en: 'Prehistory: Palaeolithic and Neolithic — a study summary',
-      ca: 'La Prehistòria: Paleolític i Neolític — resum per estudiar',
+      es: 'La Prehistoria: Paleolítico y Neolítico — resumen y ejercicios',
+      en: 'Prehistory: Palaeolithic and Neolithic — summary and practice questions',
+      ca: 'La Prehistòria: Paleolític i Neolític — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es la Prehistoria, sus dos etapas (Paleolítico y Neolítico), el paso de nómada a sedentario y el descubrimiento de la agricultura. Resumen y test.',
@@ -2663,9 +2663,9 @@ export const CONTENIDO_TEMA = {
 
   'antigua': {
     metaTitle: {
-      es: 'La Edad Antigua: primeras civilizaciones — resumen para estudiar',
-      en: 'The Ancient Age: the first civilisations — a study summary',
-      ca: 'L\'Edat Antiga: primeres civilitzacions — resum per estudiar',
+      es: 'La Edad Antigua: primeras civilizaciones — resumen y ejercicios',
+      en: 'The Ancient Age: the first civilisations — summary and practice questions',
+      ca: 'L\'Edat Antiga: primeres civilitzacions — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es la Edad Antigua, las primeras civilizaciones junto a los ríos (Mesopotamia, Egipto), y Grecia y Roma. De la escritura al año 476. Resumen y test.',
@@ -2719,9 +2719,9 @@ export const CONTENIDO_TEMA = {
 
   'roma': {
     metaTitle: {
-      es: 'La Antigua Roma: de la República al Imperio — resumen',
+      es: 'La Antigua Roma: de la República al Imperio — resumen y ejercicios',
       en: 'Ancient Rome: from the Republic to the Empire — a summary',
-      ca: 'L\'Antiga Roma: de la República a l\'Imperi — resum',
+      ca: 'L\'Antiga Roma: de la República a l\'Imperi — resum i exercicis',
     },
     metaDesc: {
       es: 'Las etapas de Roma (Monarquía, República e Imperio), sus obras de ingeniería, el latín y su derecho, y la caída del Imperio en el 476. Resumen y test.',
@@ -2775,9 +2775,9 @@ export const CONTENIDO_TEMA = {
 
   'gce': {
     metaTitle: {
-      es: 'La Guerra Civil Española (1936–1939) — resumen para estudiar',
-      en: 'The Spanish Civil War (1936–1939) — a study summary',
-      ca: 'La Guerra Civil Espanyola (1936–1939) — resum per estudiar',
+      es: 'La Guerra Civil Española (1936–1939) — resumen y ejercicios',
+      en: 'The Spanish Civil War (1936–1939) — summary and practice questions',
+      ca: 'La Guerra Civil Espanyola (1936–1939) — resum i exercicis',
     },
     metaDesc: {
       es: 'Por qué empezó la Guerra Civil Española, los dos bandos, la intervención extranjera y el resultado: la dictadura de Franco. Resumen y test con explicación.',
@@ -2831,9 +2831,9 @@ export const CONTENIDO_TEMA = {
 
   'edad-media': {
     metaTitle: {
-      es: 'La Edad Media — resumen para estudiar (476–1492)',
-      en: 'The Middle Ages — a study summary (476–1492)',
-      ca: 'L\'Edat Mitjana — resum per estudiar (476–1492)',
+      es: 'La Edad Media — resumen y ejercicios (476–1492)',
+      en: 'The Middle Ages — summary and practice questions (476–1492)',
+      ca: 'L\'Edat Mitjana — resum i exercicis (476–1492)',
     },
     metaDesc: {
       es: 'La Edad Media en un resumen claro: feudalismo, la Iglesia, Al-Ándalus, la Reconquista y los reinos cristianos, de la caída de Roma a 1492. Con test explicado.',
@@ -2892,9 +2892,9 @@ export const CONTENIDO_TEMA = {
   },
   'edad-moderna': {
     metaTitle: {
-      es: 'La Edad Moderna — resumen para estudiar (1492–1789)',
-      en: 'The Early Modern Age — a study summary (1492–1789)',
-      ca: 'L\'Edat Moderna — resum per estudiar (1492–1789)',
+      es: 'La Edad Moderna — resumen y ejercicios (1492–1789)',
+      en: 'The Early Modern Age — summary and practice questions (1492–1789)',
+      ca: 'L\'Edat Moderna — resum i exercicis (1492–1789)',
     },
     metaDesc: {
       es: 'La Edad Moderna resumida: Reyes Católicos, descubrimiento de América, los Austrias, Renacimiento, Reforma protestante, absolutismo e Ilustración. Con test explicado.',
@@ -2953,9 +2953,9 @@ export const CONTENIDO_TEMA = {
   },
   'revolucion-francesa': {
     metaTitle: {
-      es: 'La Revolución Francesa y Napoleón — resumen para estudiar',
-      en: 'The French Revolution and Napoleon — a study summary',
-      ca: 'La Revolució Francesa i Napoleó — resum per estudiar',
+      es: 'La Revolución Francesa y Napoleón — resumen y ejercicios',
+      en: 'The French Revolution and Napoleon — summary and practice questions',
+      ca: 'La Revolució Francesa i Napoleó — resum i exercicis',
     },
     metaDesc: {
       es: 'La Revolución Francesa (1789–1799) y Napoleón (hasta 1815): causas, toma de la Bastilla, Derechos del Hombre, el Terror y el Imperio. Resumen y test con explicación.',
@@ -3014,9 +3014,9 @@ export const CONTENIDO_TEMA = {
   },
   'revolucion-industrial': {
     metaTitle: {
-      es: 'La Revolución Industrial — resumen para estudiar',
-      en: 'The Industrial Revolution — a study summary',
-      ca: 'La Revolució Industrial — resum per estudiar',
+      es: 'La Revolución Industrial — resumen y ejercicios',
+      en: 'The Industrial Revolution — summary and practice questions',
+      ca: 'La Revolució Industrial — resum i exercicis',
     },
     metaDesc: {
       es: 'La Revolución Industrial resumida: máquina de vapor, fábricas, ferrocarril, éxodo rural, burguesía y proletariado y el movimiento obrero. Con test explicado.',
@@ -3075,9 +3075,9 @@ export const CONTENIDO_TEMA = {
   },
   'primera-guerra-mundial': {
     metaTitle: {
-      es: 'La Primera Guerra Mundial — resumen para estudiar (1914–1918)',
-      en: 'The First World War — a study summary (1914–1918)',
-      ca: 'La Primera Guerra Mundial — resum per estudiar (1914–1918)',
+      es: 'La Primera Guerra Mundial — resumen y ejercicios (1914–1918)',
+      en: 'The First World War — summary and practice questions (1914–1918)',
+      ca: 'La Primera Guerra Mundial — resum i exercicis (1914–1918)',
     },
     metaDesc: {
       es: 'La Primera Guerra Mundial resumida: causas, el atentado de Sarajevo, los dos bandos, la guerra de trincheras y el Tratado de Versalles. Con test explicado.',
@@ -3136,9 +3136,9 @@ export const CONTENIDO_TEMA = {
   },
   'guerra-fria': {
     metaTitle: {
-      es: 'La Guerra Fría — resumen para estudiar (1947–1991)',
-      en: 'The Cold War — a study summary (1947–1991)',
-      ca: 'La Guerra Freda — resum per estudiar (1947–1991)',
+      es: 'La Guerra Fría — resumen y ejercicios (1947–1991)',
+      en: 'The Cold War — summary and practice questions (1947–1991)',
+      ca: 'La Guerra Freda — resum i exercicis (1947–1991)',
     },
     metaDesc: {
       es: 'La Guerra Fría resumida: Estados Unidos contra la URSS, el telón de acero, la OTAN y el Pacto de Varsovia, el Muro de Berlín, Cuba y el fin de la URSS. Con test explicado.',
@@ -3200,9 +3200,9 @@ export const CONTENIDO_TEMA = {
   },
   'franquismo': {
     metaTitle: {
-      es: 'El Franquismo y la Transición — resumen para estudiar',
-      en: 'The Franco Era and the Transition — a study summary',
-      ca: 'El Franquisme i la Transició — resum per estudiar',
+      es: 'El Franquismo y la Transición — resumen y ejercicios',
+      en: 'The Franco Era and the Transition — summary and practice questions',
+      ca: 'El Franquisme i la Transició — resum i exercicis',
     },
     metaDesc: {
       es: 'La dictadura de Franco (1939–1975) y la Transición a la democracia: elecciones libres, partidos y la Constitución de 1978. Resumen y test con explicación.',
@@ -3256,9 +3256,9 @@ export const CONTENIDO_TEMA = {
 
   'wwii': {
     metaTitle: {
-      es: 'La Segunda Guerra Mundial (1939–1945) — resumen para estudiar',
-      en: 'World War II (1939–1945) — a study summary',
-      ca: 'La Segona Guerra Mundial (1939–1945) — resum per estudiar',
+      es: 'La Segunda Guerra Mundial (1939–1945) — resumen y ejercicios',
+      en: 'World War II (1939–1945) — summary and practice questions',
+      ca: 'La Segona Guerra Mundial (1939–1945) — resum i exercicis',
     },
     metaDesc: {
       es: 'Los bandos de la Segunda Guerra Mundial (Eje y Aliados), cómo empezó, el Holocausto, las bombas atómicas y la creación de la ONU. Resumen y test.',
@@ -3312,9 +3312,9 @@ export const CONTENIDO_TEMA = {
 
   'usa': {
     metaTitle: {
-      es: 'La Independencia de Estados Unidos (1776) — resumen',
+      es: 'La Independencia de Estados Unidos (1776) — resumen y ejercicios',
       en: 'The Independence of the United States (1776) — a summary',
-      ca: 'La Independència dels Estats Units (1776) — resum',
+      ca: 'La Independència dels Estats Units (1776) — resum i exercicis',
     },
     metaDesc: {
       es: 'Por qué las trece colonias se independizaron de Gran Bretaña, la Declaración de 1776, la guerra y la primera constitución moderna. Resumen y test.',
@@ -3368,9 +3368,9 @@ export const CONTENIDO_TEMA = {
 
   'primaria': {
     metaTitle: {
-      es: 'Grandes Hitos de la Historia: las edades — resumen',
-      en: 'Great Milestones of History: the ages — a study summary',
-      ca: 'Grans Fites de la Història: les edats — resum',
+      es: 'Grandes Hitos de la Historia: las edades — resumen y ejercicios',
+      en: 'Great Milestones of History: the ages — summary and practice questions',
+      ca: 'Grans Fites de la Història: les edats — resum i exercicis',
     },
     metaDesc: {
       es: 'Las grandes edades de la historia (Prehistoria, Antigua, Media, Moderna y Contemporánea) y los hitos que las separan. Resumen para estudiar y test.',
@@ -3641,9 +3641,9 @@ export const CONTENIDO_TEMA = {
 
   'verbos': {
     metaTitle: {
-      es: 'Los Verbos: la conjugación en español — resumen para estudiar',
-      en: 'Spanish Verbs: conjugation explained — a study summary',
-      ca: 'Els Verbs: la conjugació en espanyol — resum per estudiar',
+      es: 'Los Verbos: la conjugación en español — resumen y ejercicios',
+      en: 'Spanish Verbs: conjugation explained — summary and practice questions',
+      ca: 'Els Verbs: la conjugació en espanyol — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es el verbo, la conjugación (persona, número, tiempo, modo), las tres conjugaciones (-ar, -er, -ir) y las formas no personales. Resumen y test.',
@@ -3697,9 +3697,9 @@ export const CONTENIDO_TEMA = {
 
   'adjetivos': {
     metaTitle: {
-      es: 'Los Adjetivos: cualidades y grados — resumen para estudiar',
-      en: 'Spanish Adjectives: qualities and degrees — a study summary',
-      ca: 'Els Adjectius: qualitats i graus — resum per estudiar',
+      es: 'Los Adjetivos: cualidades y grados — resumen y ejercicios',
+      en: 'Spanish Adjectives: qualities and degrees — summary and practice questions',
+      ca: 'Els Adjectius: qualitats i graus — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es un adjetivo, la concordancia con el sustantivo y los grados (positivo, comparativo y superlativo). Sin confundirlo con el determinante. Resumen y test.',
@@ -4369,9 +4369,9 @@ export const CONTENIDO_TEMA = {
 
   'nexos': {
     metaTitle: {
-      es: 'Los Nexos: conjunciones y preposiciones — resumen para estudiar',
+      es: 'Los Nexos: conjunciones y preposiciones — resumen y ejercicios',
       en: 'Spanish Connectors: conjunctions and prepositions — a summary',
-      ca: 'Els Nexos: conjuncions i preposicions — resum per estudiar',
+      ca: 'Els Nexos: conjuncions i preposicions — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué son los nexos, las conjunciones (coordinantes y subordinantes) y las preposiciones, y cómo enlazan las palabras y las oraciones. Resumen y test.',
@@ -4425,9 +4425,9 @@ export const CONTENIDO_TEMA = {
 
   'sintaxis': {
     metaTitle: {
-      es: 'La Sintaxis: sujeto, predicado y complementos — resumen',
+      es: 'La Sintaxis: sujeto, predicado y complementos — resumen y ejercicios',
       en: 'Spanish Syntax: subject, predicate and complements — a summary',
-      ca: 'La Sintaxi: subjecte, predicat i complements — resum',
+      ca: 'La Sintaxi: subjecte, predicat i complements — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es la sintaxis y cómo analizar una oración: el sujeto, el predicado y los complementos (directo, indirecto, circunstanciales, atributo). Resumen y test.',
@@ -4481,9 +4481,9 @@ export const CONTENIDO_TEMA = {
 
   'morfologia': {
     metaTitle: {
-      es: 'La Morfología: clases de palabras y sus partes — resumen',
+      es: 'La Morfología: clases de palabras y sus partes — resumen y ejercicios',
       en: 'Spanish Morphology: word classes and their parts — a summary',
-      ca: 'La Morfologia: classes de paraules i les seves parts — resum',
+      ca: 'La Morfologia: classes de paraules i les seves parts — resum i exercicis',
     },
     metaDesc: {
       es: 'Qué es la morfología y cómo analizar una palabra: su clase, sus rasgos y sus partes (raíz o lexema, morfemas, prefijos y sufijos). Resumen y test.',
