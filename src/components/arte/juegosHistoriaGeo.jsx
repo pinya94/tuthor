@@ -253,6 +253,33 @@ function Europa27(p) {
   )
 }
 
+function QueHoraEs(p) {
+  // Franjas de husos sobre el planeta y dos relojes con horas distintas.
+  const reloj = (cx, h, c) => {
+    const a = (h % 12) / 12 * Math.PI * 2 - Math.PI / 2
+    return (
+      <g>
+        <circle cx={cx} cy="96" r="22" fill="#F8FAFC" stroke={c} strokeWidth="4" />
+        <path d={`M${cx} 96L${(cx + 12 * Math.cos(a)).toFixed(1)} ${(96 + 12 * Math.sin(a)).toFixed(1)}`} stroke="#0F172A" strokeWidth="3.5" strokeLinecap="round" />
+        <path d={`M${cx} 96V80`} stroke="#0F172A" strokeWidth="2.5" strokeLinecap="round" />
+        <circle cx={cx} cy="96" r="2.5" fill="#0F172A" />
+      </g>
+    )
+  }
+  return (
+    <Lienzo {...p}>
+      <rect x="24" y="12" width="192" height="58" rx="10" fill="#0E2A47" />
+      {[0, 1, 2, 3, 4, 5, 6, 7].map(i => <rect key={i} x={24 + i * 24} y="12" width="24" height="58" fill={i % 2 ? '#1E40AF' : '#1D4ED8'} opacity={i === 3 ? 1 : 0.55} />)}
+      <path d="M46 38q14-10 30-2t26 6q10-4 22 2M150 30q16 8 34 0" stroke="#34D399" strokeWidth="6" strokeLinecap="round" />
+      <path d="M108 12V70" stroke="#38BDF8" strokeWidth="2.5" strokeDasharray="4 3" />
+      {reloj(70, 10, '#FBBF24')}
+      <path d="M100 96h32" stroke="#CBD5E1" strokeWidth="3" strokeLinecap="round" />
+      <path d="M126 90l7 6-7 6" stroke="#CBD5E1" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      {reloj(162, 6, '#38BDF8')}
+    </Lienzo>
+  )
+}
+
 function RiosMontanas(p) {
   // Una cordillera con nieve y un río que baja serpenteando hasta el mar.
   return (
@@ -380,6 +407,7 @@ export const ARTE_HISTORIA_GEO = {
   coordenadas: Coordenadas,
   'piramide-poblacion': PiramidePoblacion,
   'europa-27': Europa27,
+  'que-hora-es': QueHoraEs,
   'rios-montanas': RiosMontanas,
   'quien-decide': QuienDecide,
   'quien-lo-penso': QuienLoPenso,

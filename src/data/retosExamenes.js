@@ -20,7 +20,7 @@ export const RETOS_EXAMENES = [
   'cadena-carbono-test', 'receta-quimica-test', 'que-enlace-test', 'prepara-disolucion-test', 'medidor-ph-test',
   'encuentra-elemento-test', 'orbita-test', 'la-biblioteca-test', 'detective-textos-test', 'cazafiguras-test',
   'coma-a-coma-test', 'que-letra-test', 'mide-el-verso-test', 'la-galeria-test', 'que-estilo-test',
-  'quien-lo-penso-antigua-test', 'quien-lo-penso-moderna-test', 'tabla-verdad-test', 'cuentas-claras-test', 'escalas-acordes-test', 'quien-desafina-test', 'verbos-irregulares-test', 'cambio-estado-test', 'nombres-cambio-test', 'ordena-frase-test',
+  'quien-lo-penso-antigua-test', 'quien-lo-penso-moderna-test', 'tabla-verdad-test', 'cuentas-claras-test', 'escalas-acordes-test', 'quien-desafina-test', 'que-hora-es-test', 'verbos-irregulares-test', 'cambio-estado-test', 'nombres-cambio-test', 'ordena-frase-test',
 ]
 
 // Los tipo test (ExamenMC): una pregunta con sus opciones, un solo intento
@@ -36,7 +36,7 @@ export const RETOS_TEST = [
   'estados-materia', 'estequiometria', 'evolucion', 'filosofia-antigua', 'filosofia-moderna',
   'finanzas-personales', 'formulacion', 'fracciones', 'franquismo', 'fuerzas',
   'funciones', 'gce', 'genetica', 'geografia-constitucion-test', 'geografia-fisica-test',
-  'geografia-humana-test', 'geografia-ue-test', 'geometria', 'guerra-fria', 'historia-ciencia',
+  'geografia-humana-test', 'geografia-ue-test', 'geografia-representacion-test', 'geometria', 'guerra-fria', 'historia-ciencia',
   'ingles-grammar-adjectives-test', 'ingles-grammar-adverbs-test', 'ingles-grammar-articles-test', 'ingles-grammar-conditionals-test', 'ingles-grammar-connectors-test',
   'ingles-grammar-modals-test', 'ingles-grammar-nouns-test', 'ingles-grammar-passive-test', 'ingles-grammar-past-simple-test', 'ingles-grammar-present-perfect-test',
   'ingles-grammar-present-simple-test', 'ingles-grammar-pronouns-test', 'ingles-grammar-verbs-test', 'internet-seguro', 'maquinas',

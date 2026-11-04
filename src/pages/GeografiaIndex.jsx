@@ -51,6 +51,16 @@ const TEMAS = [
     examPath: '/examen/geografia-constitucion-test',
   },
   {
+    // Mapas, escalas, coordenadas y husos: conceptos, directo al examen.
+    id: 'representacion',
+    titulo: 'La representación de la Tierra', tituloEn: 'Representing the Earth', tituloCa: 'La representació de la Terra',
+    subtitulo: 'Mapas, escalas, coordenadas y husos horarios', subtituloEn: 'Maps, scales, coordinates and time zones', subtituloCa: 'Mapes, escales, coordenades i fusos horaris',
+    emoji: '🧭', gradient: 'from-sky-600 to-indigo-800',
+    tags: ['mapa', 'escala', 'latitud', 'longitud', 'paralelos', 'meridianos', 'husos horarios', 'proyeccion', 'curvas de nivel', 'time zones', 'map scale'],
+    niveles: nivelesDeTema('geografia', 'representacion'),
+    examPath: '/examen/geografia-representacion-test',
+  },
+  {
     id: 'espana',
     titulo: 'España', tituloEn: 'Spain', tituloCa: 'Espanya',
     subtitulo: 'Las 17 comunidades autónomas', subtituloEn: 'The 17 autonomous communities', subtituloCa: 'Les 17 comunitats autònomes',

@@ -942,6 +942,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Economía', niveles: 'ESO, Bachillerato',
   },
+  'que-hora-es': {
+    titulo: '¿Qué Hora Es Allí?',
+    subtitulo: 'Juego de husos horarios: diferencia de horas, vuelos y meridianos',
+    emoji: '🕒', gradient: 'from-sky-600 to-indigo-800',
+    path: '/juegos/que-hora-es',
+    intro: 'Un juego de geografía para entender los husos horarios. Si en Madrid son las 10:00, ¿qué hora es en Tokio? El alumno gira un reloj hora a hora hasta la de la otra ciudad, calcula a qué hora local aterriza un vuelo y toca en el mapa el huso donde es una hora dada. Cuando la cuenta pasa de medianoche, el reloj cambia de día, y al corregir se ve la operación completa.',
+    beneficios: [
+      { titulo: 'Restar con signo, con sentido', texto: 'Madrid es UTC+1 y Nueva York UTC−5: la diferencia es −5 − (+1) = −6 horas. Es la resta de enteros de matemáticas, pero aquí el signo dice algo que se entiende: hacia el oeste es más temprano.' },
+      { titulo: 'Por qué 15°', texto: 'La Tierra gira 360° en 24 horas, así que cada hora son 15°. Con el mapa de franjas el alumno lo comprueba: 75° al oeste de Greenwich son cinco husos y cinco horas menos.' },
+      { titulo: 'Hora oficial y hora del huso', texto: 'Madrid está en el huso de Greenwich pero va con la hora de Europa central, y Canarias va una hora menos. El juego separa la hora oficial de cada ciudad (UTC) de la hora teórica del huso, que es justo lo que confunde en los exámenes.' },
+    ],
+    ejemplo: 'Sale un vuelo de Madrid a Nueva York a las 9:00 del lunes y dura 8 horas. El alumno suma primero el vuelo (17:00 en Madrid) y luego gira el reloj 6 horas hacia atrás: aterriza a las 11:00 del lunes, hora de Nueva York.',
+    enPapel: {
+      titulo: 'Husos horarios en el aula',
+      pasos: [
+        'Sobre un mapamundi, dibuja los meridianos cada 15° y numera los husos desde Greenwich: +1, +2… hacia el este y −1, −2… hacia el oeste.',
+        'Elige cinco ciudades, busca su UTC y calcula qué hora es en cada una cuando en clase son las 12:00.',
+        'Plantea un viaje con escala y calcula la hora local de cada llegada.',
+        'Busca en el mapa de husos oficiales tres países que no usan el huso que les tocaría por longitud.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de husos horarios', desc: 'Diez rondas con la misma mecánica, sin reloj y con nota.' },
+      { nombre: 'Coordenadas', desc: 'Latitud y longitud: coloca cada país en el globo.' },
+      { nombre: 'La representación de la Tierra', desc: 'Examen de teoría: mapas, escalas, paralelos, meridianos y proyecciones.' },
+    ],
+    asignatura: 'Geografía', niveles: 'Primaria, ESO',
+  },
   'quien-desafina': {
     titulo: '¿Quién Desafina?',
     subtitulo: 'Juego de afinación: oído musical, frecuencias y cents',
@@ -3474,6 +3502,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Economics', niveles: 'Secondary, Sixth Form',
   },
+  'que-hora-es': {
+    titulo: 'What Time Is It There?',
+    subtitulo: 'Time zones game: time differences, flights and meridians',
+    emoji: '🕒', gradient: 'from-sky-600 to-indigo-800', path: '/juegos/que-hora-es',
+    intro: 'A geography game for understanding time zones. If it is 10:00 in Madrid, what time is it in Tokyo? The student turns a clock hour by hour to the other city’s time, works out the local time a flight lands and taps the time zone on the map where it is a given time. When the sum goes past midnight the clock changes day, and when it is marked the whole calculation is shown.',
+    beneficios: [
+      { titulo: 'Subtracting with signs, with meaning', texto: 'Madrid is UTC+1 and New York UTC−5: the difference is −5 − (+1) = −6 hours. It is the same subtraction of integers as in maths, but here the sign means something you can picture: further west, it is earlier.' },
+      { titulo: 'Why 15°', texto: 'The Earth turns 360° in 24 hours, so each hour is 15°. With the striped map the student sees it for themselves: 75° west of Greenwich is five zones and five hours earlier.' },
+      { titulo: 'Official time and zone time', texto: 'Madrid lies in the Greenwich zone but keeps Central European Time, and the Canary Islands are an hour behind. The game keeps each city’s official time (UTC) apart from the theoretical zone time, which is exactly what causes confusion in exams.' },
+    ],
+    ejemplo: 'A flight leaves Madrid for New York at 9:00 on Monday and takes 8 hours. The student first adds the flight (17:00 in Madrid) and then turns the clock back 6 hours: it lands at 11:00 on Monday, New York time.',
+    enPapel: {
+      titulo: 'Time zones in class',
+      pasos: [
+        'On a world map, draw the meridians every 15° and number the zones from Greenwich: +1, +2… to the east and −1, −2… to the west.',
+        'Choose five cities, look up their UTC offset and work out the time in each when it is 12:00 in class.',
+        'Plan a journey with a stopover and work out the local time of each arrival.',
+        'On a map of official time zones, find three countries that do not use the zone their longitude would give them.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The time zones exam', desc: 'Ten rounds with the same mechanics, untimed and marked.' },
+      { nombre: 'Coordinates', desc: 'Latitude and longitude: place each country on the globe.' },
+      { nombre: 'Representing the Earth', desc: 'Theory exam: maps, scales, parallels, meridians and projections.' },
+    ],
+    asignatura: 'Geography', niveles: 'Primary, Secondary',
+  },
   'quien-desafina': {
     titulo: 'Who’s Out of Tune?',
     subtitulo: 'Tuning game: musical ear, frequencies and cents',
@@ -5824,6 +5879,33 @@ export const FICHAS_CA = {
       { nombre: 'El joc de la Borsa de taula', desc: 'Jocs de taula clàssics sobre invertir en empreses i gestionar una cartera ensenyen les mateixes idees de risc i diversificació sense pantalles.' },
     ],
     asignatura: 'Economia', niveles: 'ESO, Batxillerat',
+  },
+  'que-hora-es': {
+    titulo: 'Quina Hora És Allà?',
+    subtitulo: 'Joc de fusos horaris: diferència d’hores, vols i meridians',
+    emoji: '🕒', gradient: 'from-sky-600 to-indigo-800', path: '/juegos/que-hora-es',
+    intro: 'Un joc de geografia per entendre els fusos horaris. Si a Madrid són les 10:00, quina hora és a Tòquio? L’alumne gira un rellotge hora a hora fins a la de l’altra ciutat, calcula a quina hora local aterra un vol i toca al mapa el fus on és una hora donada. Quan el compte passa de mitjanit, el rellotge canvia de dia, i en corregir es veu l’operació sencera.',
+    beneficios: [
+      { titulo: 'Restar amb signe, amb sentit', texto: 'Madrid és UTC+1 i Nova York UTC−5: la diferència és −5 − (+1) = −6 hores. És la resta d’enters de matemàtiques, però aquí el signe diu una cosa que s’entén: cap a l’oest és més d’hora.' },
+      { titulo: 'Per què 15°', texto: 'La Terra gira 360° en 24 hores, així que cada hora són 15°. Amb el mapa de franges l’alumne ho comprova: 75° a l’oest de Greenwich són cinc fusos i cinc hores menys.' },
+      { titulo: 'Hora oficial i hora del fus', texto: 'Madrid és al fus de Greenwich però va amb l’hora d’Europa central, i Canàries va una hora menys. El joc separa l’hora oficial de cada ciutat (UTC) de l’hora teòrica del fus, que és just el que confon als exàmens.' },
+    ],
+    ejemplo: 'Surt un vol de Madrid a Nova York a les 9:00 de dilluns i dura 8 hores. L’alumne suma primer el vol (17:00 a Madrid) i després gira el rellotge 6 hores enrere: aterra a les 11:00 de dilluns, hora de Nova York.',
+    enPapel: {
+      titulo: 'Fusos horaris a l’aula',
+      pasos: [
+        'Sobre un mapamundi, dibuixa els meridians cada 15° i numera els fusos des de Greenwich: +1, +2… cap a l’est i −1, −2… cap a l’oest.',
+        'Tria cinc ciutats, busca el seu UTC i calcula quina hora és a cadascuna quan a classe són les 12:00.',
+        'Planteja un viatge amb escala i calcula l’hora local de cada arribada.',
+        'Busca al mapa de fusos oficials tres països que no fan servir el fus que els tocaria per longitud.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de fusos horaris', desc: 'Deu rondes amb la mateixa mecànica, sense rellotge i amb nota.' },
+      { nombre: 'Coordenades', desc: 'Latitud i longitud: col·loca cada país al globus.' },
+      { nombre: 'La representació de la Terra', desc: 'Examen de teoria: mapes, escales, paral·lels, meridians i projeccions.' },
+    ],
+    asignatura: 'Geografia', niveles: 'Primària, ESO',
   },
   'quien-desafina': {
     titulo: 'Qui Desafina?',

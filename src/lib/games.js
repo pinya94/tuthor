@@ -235,6 +235,14 @@ export const GAMES = {
     // % de aciertos sobre 150 monedas máx
     coins: ({ correct, total }) => (total > 0 ? Math.round((correct / total) * 150) : 0),
   },
+  'que-hora-es': {
+    label: { es: '¿Qué Hora Es Allí?', en: 'What Time Is It There?', ca: 'Quina Hora És Allà?' },
+    emoji: '🕒',
+    subject: 'geografia',
+    route: '/juegos/que-hora-es',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'quien-desafina': {
     label: { es: '¿Quién Desafina?', en: 'Who’s Out of Tune?', ca: 'Qui Desafina?' },
     emoji: '🎶',

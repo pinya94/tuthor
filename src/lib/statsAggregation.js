@@ -111,6 +111,7 @@ export const SUBJECT_DEFS = [
       humana:  { es: 'Geografía Humana', en: 'Human Geography', ca: 'Geografia Humana' },
       'union-europea': { es: 'La Unión Europea', en: 'The European Union', ca: 'La Unió Europea' },
       constitucion: { es: 'La Constitución y el Estado', en: 'The Constitution and the State', ca: 'La Constitució i l’Estat' },
+      representacion: { es: 'La representación de la Tierra', en: 'Representing the Earth', ca: 'La representació de la Terra' },
     },
   },
   {

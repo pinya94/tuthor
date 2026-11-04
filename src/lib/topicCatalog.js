@@ -397,6 +397,8 @@ export const TOPIC_CATALOG = {
       humana: examTema({ teoria: 'geografia-humana-test', piramide: 'piramide-poblacion-test' }, { niveles: ['primaria', 'eso'] }),
       'union-europea': examTema({ teoria: 'geografia-ue-test', europa27: 'europa-27-test' }, { niveles: ['eso', 'bachillerato'] }),
       constitucion: examTema({ teoria: 'geografia-constitucion-test', quienDecide: 'quien-decide-test' }, { niveles: ['eso', 'bachillerato'] }),
+      // Mapas, escalas, coordenadas y husos horarios (1.º de ESO), con su juego
+      representacion: examTema({ teoria: 'geografia-representacion-test', husos: 'que-hora-es-test' }, { niveles: ['primaria', 'eso'] }),
     },
     formatos: {
       pistas: examFormato({ es: 'Adivina por pistas', en: 'Guess from clues', ca: 'Endevina per pistes' }, '🌍'),
@@ -416,6 +418,7 @@ export const TOPIC_CATALOG = {
       riosMundo: examFormato({ es: 'Ríos y Montañas del mundo (con el juego)', en: 'Rivers and Mountains of the World (with the game)', ca: 'Rius i Muntanyes del món (amb el joc)' }, '🌍'),
       europa27: examFormato({ es: 'Europa a 27 (con el juego)', en: 'Europe of 27 (with the game)', ca: 'Europa a 27 (amb el joc)' }, '⭐'),
       quienDecide: examFormato({ es: '¿Quién Decide? (con el juego)', en: 'Who Decides? (with the game)', ca: 'Qui Decideix? (amb el joc)' }, '🗳️'),
+      husos: examFormato({ es: '¿Qué Hora Es Allí? (con el juego)', en: 'What Time Is It There? (with the game)', ca: 'Quina Hora És Allà? (amb el joc)' }, '🕒'),
     },
   },
 

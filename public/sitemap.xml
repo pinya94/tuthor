@@ -377,6 +377,8 @@
   <url><loc>https://www.tuthor.es/en/examen/lee-el-movimiento-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/examen/geografia-ue-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/examen/geografia-ue-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/examen/geografia-representacion-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/examen/geografia-representacion-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/examen/geografia-constitucion-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/examen/geografia-constitucion-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/examen/musica-instrumentos-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -489,6 +491,8 @@
   <url><loc>https://www.tuthor.es/en/examen/piramide-poblacion-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/examen/europa-27-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/examen/europa-27-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/examen/que-hora-es-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/examen/que-hora-es-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/examen/rios-montanas-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/examen/rios-montanas-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/examen/rios-montanas-mundo-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -838,6 +842,7 @@
   <url><loc>https://www.tuthor.es/juegos/coordenadas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/piramide-poblacion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/europa-27</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/que-hora-es</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/rios-montanas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/quien-decide</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/quien-lo-penso</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -1103,6 +1108,7 @@
   <url><loc>https://www.tuthor.es/info/juegos/coordenadas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/piramide-poblacion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/europa-27</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/info/juegos/que-hora-es</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/rios-montanas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/quien-decide</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/quien-lo-penso</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -1242,6 +1248,7 @@
   <url><loc>https://www.tuthor.es/ca/info/juegos/coordenadas</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/piramide-poblacion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/europa-27</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/info/juegos/que-hora-es</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/rios-montanas</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/quien-decide</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/quien-lo-penso</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -1252,6 +1259,7 @@
   <url><loc>https://www.tuthor.es/en/info/juegos/coordenadas</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/piramide-poblacion</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/europa-27</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/juegos/que-hora-es</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/rios-montanas</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/quien-decide</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/quien-lo-penso</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
@@ -1484,6 +1492,7 @@
   <url><loc>https://www.tuthor.es/en/juegos/coordenadas</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/juegos/piramide-poblacion</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/juegos/europa-27</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/en/juegos/que-hora-es</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/juegos/rios-montanas</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/juegos/quien-decide</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/juegos/quien-lo-penso</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>

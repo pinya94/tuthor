@@ -282,6 +282,11 @@ export const EXAMS = {
     emoji: '🎼', subject: 'musica',
     path: 'examen/musica', page: () => import('../pages/MusicaExamen'),
   },
+  'que-hora-es-test': {
+    label: { es: '¿Qué Hora Es Allí? (con el juego)', en: 'What Time Is It There? (with the game)', ca: 'Quina Hora És Allà? (amb el joc)' },
+    emoji: '🕒', subject: 'geografia',
+    path: 'examen/que-hora-es-test', page: () => import('../pages/QueHoraEsExamen'),
+  },
   'quien-desafina-test': {
     label: { es: '¿Quién Desafina? (con el juego)', en: 'Who’s Out of Tune? (with the game)', ca: 'Qui Desafina? (amb el joc)' },
     emoji: '🎶', subject: 'musica',
@@ -1023,6 +1028,11 @@ export const EXAMS = {
     label: { es: 'La Constitución y el Estado', en: 'The Constitution and the State', ca: 'La Constitució i l’Estat' },
     emoji: '📜', subject: 'geografia',
     path: 'examen/geografia-constitucion-test', page: () => import('../pages/ConstitucionExamen'),
+  },
+  'geografia-representacion-test': {
+    label: { es: 'La representación de la Tierra', en: 'Representing the Earth', ca: 'La representació de la Terra' },
+    emoji: '🧭', subject: 'geografia',
+    path: 'examen/geografia-representacion-test', page: () => import('../pages/RepresentacionTierraExamen'),
   },
   'geografia-ue-test': {
     label: { es: 'La Unión Europea', en: 'The European Union', ca: 'La Unió Europea' },

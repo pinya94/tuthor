@@ -247,11 +247,29 @@ function Constitucion(p) {
   )
 }
 
+// La representación de la Tierra: un mapa con cuadrícula y la rosa de los vientos.
+function Representacion(p) {
+  return (
+    <Lienzo {...p}>
+      <rect x="20" y="16" width="130" height="96" rx="6" fill="#E0F2FE" stroke="#0369A1" strokeWidth="3" />
+      {[40, 64, 88].map(y => <path key={y} d={`M20 ${y}H150`} stroke="#7DD3FC" strokeWidth="1.5" />)}
+      {[52, 85, 118].map(x => <path key={x} d={`M${x} 16V112`} stroke="#7DD3FC" strokeWidth="1.5" />)}
+      <path d="M36 70q10-26 34-22t30 18q14-4 22 10q-10 18-40 16t-46-22Z" fill="#86EFAC" stroke="#15803D" strokeWidth="2" />
+      <path d="M30 100h40" stroke="#0F172A" strokeWidth="3" /><path d="M30 96v8M50 96v8M70 96v8" stroke="#0F172A" strokeWidth="2" />
+      <circle cx="192" cy="64" r="32" fill="#0E2A47" />
+      <path d="M192 30l8 34-8 34-8-34Z" fill="#E2E8F0" /><path d="M192 30l8 34h-16Z" fill="#EF4444" />
+      <path d="M158 64l34-6 34 6-34 6Z" fill="#94A3B8" />
+      <T x={192} y={26} s={12} c="#EF4444">N</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_GEOGRAFIA = {
   'geografia/fisica': Fisica,
   'geografia/humana': Humana,
   'geografia/union-europea': UnionEuropea,
   'geografia/constitucion': Constitucion,
+  'geografia/representacion': Representacion,
   'geografia/espana': Espana,
   'geografia/eeuu': Eeuu,
   'geografia/europa': Europa,
