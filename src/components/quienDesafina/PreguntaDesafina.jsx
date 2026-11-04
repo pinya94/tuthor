@@ -59,13 +59,27 @@ function Cual({ r, revelado, onResponder, l, tr }) {
   const todos = () => r.inst.forEach((id, i) => suena(id, fs[i], i * (DUR + 0.25)))
   const listo = elegido !== null && (!r.direccion || dir)
   const envia = () => { if (!revelado && listo) onResponder(r.direccion ? `cual:${elegido}:${dir}` : `cual:${elegido}`) }
+  const nombre = i => tx(instrumento(r.inst[i]).nombre, l)
+  const alto = r.cents > 0
+  const sentido = l === 'en' ? (alto ? 'sharp' : 'flat') : l === 'ca' ? (alto ? 'alt' : 'baix') : (alto ? 'alto' : 'bajo')
+  const veredicto = !revelado ? null
+    : elegido !== r.malo
+      ? { ok: false, txt: tr({ es: `✗ No. El desafinado era: ${nombre(r.malo)} (${sentido})`, en: `✗ No. The out-of-tune one was: ${nombre(r.malo)} (${sentido})`, ca: `✗ No. El desafinat era: ${nombre(r.malo)} (${sentido})` }) }
+      : r.direccion && dir !== (alto ? 'sube' : 'baja')
+        ? { ok: false, txt: tr({ es: `✗ Casi: el instrumento sí (${nombre(r.malo)}), pero estaba ${sentido}`, en: `✗ Nearly: right instrument (${nombre(r.malo)}), but it was ${sentido}`, ca: `✗ Gairebé: l’instrument sí (${nombre(r.malo)}), però estava ${sentido}` }) }
+        : { ok: true, txt: tr({ es: `✓ ¡Correcto! El desafinado era: ${nombre(r.malo)} (${sentido})`, en: `✓ Correct! The out-of-tune one was: ${nombre(r.malo)} (${sentido})`, ca: `✓ Correcte! El desafinat era: ${nombre(r.malo)} (${sentido})` }) }
   return (
     <>
+      {veredicto && <p className={`text-center font-black rounded-xl px-3 py-2 mb-3 ${veredicto.ok ? 'bg-green-500/15 text-green-300' : 'bg-red-500/15 text-red-300'}`}>{veredicto.txt}</p>}
       <div className="grid grid-cols-3 gap-2 mb-3">
         {r.inst.map((id, i) => (
           <Tarjeta key={id} id={id} l={l} activo={elegido === i} onClick={() => toca(i)}
-            marca={revelado ? (i === r.malo ? 'border-red-400 bg-red-500/10' : 'border-green-400/60 bg-green-500/5') : undefined}>
-            <span className="text-white/50 text-[11px] mt-0.5">🔊 {tr({ es: 'tocar', en: 'play', ca: 'tocar' })}</span>
+            marca={revelado ? (i === r.malo ? (elegido === i ? 'border-green-400 bg-green-500/15' : 'border-amber-400 bg-amber-400/10') : elegido === i ? 'border-red-400 bg-red-500/10' : 'border-white/10 bg-white/[0.03] opacity-70') : undefined}>
+            {revelado && i === r.malo
+              ? <span className="text-amber-300 text-[11px] font-black mt-0.5">{tr({ es: 'desafinaba', en: 'out of tune', ca: 'desafinava' })} · {r.cents > 0 ? tr({ es: 'alto ⬆', en: 'sharp ⬆', ca: 'alt ⬆' }) : tr({ es: 'bajo ⬇', en: 'flat ⬇', ca: 'baix ⬇' })}</span>
+              : revelado && elegido === i
+                ? <span className="text-red-300 text-[11px] font-black mt-0.5">{tr({ es: 'tu elección', en: 'your pick', ca: 'la teva tria' })}</span>
+                : <span className="text-white/50 text-[11px] mt-0.5">🔊 {tr({ es: 'tocar', en: 'play', ca: 'tocar' })}</span>}
           </Tarjeta>
         ))}
       </div>
@@ -100,8 +114,12 @@ function Afina({ r, revelado, onResponder, onCents, l, tr }) {
   const tocaRef = () => suena(r.inst[0], f0)
   const tocaOtro = (c = cents) => suena(r.inst[1], conCents(f0, c))
   const envia = () => { if (revelado) return; onCents(cents); onResponder(afinado(r, cents) ? 'afina:ok' : 'afina:mal') }
+  const ok = afinado(r, cents)
   return (
     <>
+      {revelado && <p className={`text-center font-black rounded-xl px-3 py-2 mb-3 ${ok ? 'bg-green-500/15 text-green-300' : 'bg-red-500/15 text-red-300'}`}>{ok
+        ? tr({ es: '✓ ¡Afinado!', en: '✓ In tune!', ca: '✓ Afinat!' })
+        : tr({ es: `✗ Todavía desafina: ${cents > 0 ? 'alto' : 'bajo'}`, en: `✗ Still out of tune: ${cents > 0 ? 'sharp' : 'flat'}`, ca: `✗ Encara desafina: ${cents > 0 ? 'alt' : 'baix'}` })}</p>}
       <div className="grid grid-cols-2 gap-3 mb-3">
         <Tarjeta id={r.inst[0]} l={l} onClick={tocaRef} marca="border-amber-400/60 bg-amber-400/5">
           <span className="text-amber-300 text-[11px] font-bold mt-0.5">🔊 {tr({ es: 'referencia', en: 'reference', ca: 'referència' })}</span>
