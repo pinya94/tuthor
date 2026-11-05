@@ -323,6 +323,41 @@ function RecetaQuimica(p) {
   )
 }
 
+function ConstruyeAtomo(p) {
+  // Un átomo de carbono-12 montado (6 protones rojos y 6 neutrones grises,
+  // electrones 2 + 4 en sus capas), su notación y los botones de − / +.
+  const nucleo = Array.from({ length: 12 }, (_, i) => {
+    const r = 4.6 * Math.sqrt(i + 0.5), a = i * 2.39996
+    return [74 + r * Math.cos(a), 66 + r * Math.sin(a), i % 2 ? '#94A3B8' : '#EF4444']
+  })
+  const capa = (n, R, g) => Array.from({ length: n }, (_, j) => {
+    const a = (j / n) * 2 * Math.PI + g
+    return <circle key={`${R}${j}`} cx={74 + R * Math.cos(a)} cy={66 + R * Math.sin(a)} r="3.8" fill="#38BDF8" stroke="#0F172A" strokeWidth="1" />
+  })
+  return (
+    <Lienzo {...p}>
+      <circle cx="74" cy="66" r="28" stroke="#FFFFFF33" strokeWidth="1.5" />
+      <circle cx="74" cy="66" r="46" stroke="#FFFFFF33" strokeWidth="1.5" />
+      {[...nucleo].reverse().map(([x, y, c], i) => <circle key={i} cx={x} cy={y} r="4.6" fill={c} stroke="#0F172A" strokeWidth="0.8" />)}
+      {capa(2, 28, -Math.PI / 2)}
+      {capa(4, 46, -Math.PI / 4)}
+      <T x={150} y={44} s={11} c="#FCD34D">12</T>
+      <T x={150} y={60} s={11} c="#FCD34D">6</T>
+      <T x={174} y={60} s={30}>C</T>
+      {[['#EF4444', 82], ['#94A3B8', 100], ['#38BDF8', 118]].map(([c, y]) => (
+        <g key={y}>
+          <circle cx="146" cy={y - 4} r="4.5" fill={c} />
+          <rect x="158" y={y - 12} width="16" height="15" rx="4" fill="#334155" />
+          <T x={166} y={y} s={11} c="#FFFFFF">−</T>
+          <T x={188} y={y} s={12} c="#FFFFFF">6</T>
+          <rect x="200" y={y - 12} width="16" height="15" rx="4" fill="#334155" />
+          <T x={208} y={y} s={11} c="#FFFFFF">+</T>
+        </g>
+      ))}
+    </Lienzo>
+  )
+}
+
 function QueEnlace(p) {
   // Un trozo de tabla periódica: Na (metal, azul) y Cl (no metal, verde)
   // marcados, y el electrón que pasa de uno a otro.
@@ -699,6 +734,7 @@ export const ARTE_CIENCIAS = {
   'cambio-estado': CambioEstado,
   'medidor-ph': MedidorPh,
   'prepara-disolucion': PreparaDisolucion,
+  'construye-atomo': ConstruyeAtomo,
   'que-enlace': QueEnlace,
   'receta-quimica': RecetaQuimica,
   'cadena-carbono': CadenaCarbono,

@@ -215,6 +215,13 @@ const MODOS_POR_TEMA = {
       path: 'atomos-moleculas',
     },
     {
+      id: 'construye-atomo-test', emoji: '⚛️', gradient: 'from-red-500 to-sky-700',
+      titulo: { es:'Construye el Átomo (con el juego)', en:'Build the Atom (with the game)', ca:'Construeix l’Àtom (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: monta átomos, iones e isótopos con protones, neutrones y electrones, y reparte los electrones en orbitales.', en:'Using the game mechanic: build atoms, ions and isotopes with protons, neutrons and electrons, and fill the orbitals with electrons.', ca:'Amb la mecànica del joc: munta àtoms, ions i isòtops amb protons, neutrons i electrons, i reparteix els electrons en orbitals.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'construye-atomo-test',
+    },
+    {
       id: 'balanza-ecuaciones-test', emoji: '⚗️', gradient: 'from-emerald-500 to-teal-700',
       titulo: { es:'Átomos en Equilibrio', en:'Atoms in Balance', ca:'Àtoms en Equilibri' },
       descripcion: { es:'Con la mecánica del juego: ajusta los coeficientes hasta que haya los mismos átomos de cada elemento a los dos lados de la reacción.', en:'Using the game mechanic: adjust the coefficients until there are the same atoms of each element on both sides of the reaction.', ca:'Amb la mecànica del joc: ajusta els coeficients fins que hi hagi els mateixos àtoms de cada element als dos costats de la reacció.' },

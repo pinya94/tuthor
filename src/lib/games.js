@@ -395,6 +395,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'construye-atomo': {
+    label: { es: 'Construye el Átomo', en: 'Build the Atom', ca: 'Construeix l’Àtom' },
+    emoji: '⚛️',
+    subject: 'quimica',
+    route: '/juegos/construye-atomo',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'receta-quimica': {
     label: { es: 'La Receta Química', en: 'The Chemical Recipe', ca: 'La Recepta Química' },
     emoji: '🥣',

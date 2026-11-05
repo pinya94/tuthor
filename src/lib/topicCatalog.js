@@ -454,7 +454,7 @@ export const TOPIC_CATALOG = {
 
   quimica: {
     temas: {
-      'atomos-moleculas': examTema({ teoria: 'atomos-moleculas', 'balanza-ecuaciones': 'balanza-ecuaciones-test' }, { niveles: ['primaria', 'eso'] }),
+      'atomos-moleculas': examTema({ teoria: 'atomos-moleculas', construye: 'construye-atomo-test', 'balanza-ecuaciones': 'balanza-ecuaciones-test' }, { niveles: ['primaria', 'eso'] }),
       'tabla-periodica': examTema({ teoria: 'tabla-periodica', 'encuentra-elemento': 'encuentra-elemento-test' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
       'estados-materia': examTema({ teoria: 'estados-materia', 'estado-test': 'cambio-estado-test', 'nombres-cambio': 'nombres-cambio-test' }, { niveles: ['primaria', 'eso'] }),
       'mezclas-separacion': examTema({ teoria: 'mezclas-separacion', laboratorio: 'el-laboratorio-test' }, { niveles: ['primaria', 'eso'] }),
@@ -468,6 +468,7 @@ export const TOPIC_CATALOG = {
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
       'balanza-ecuaciones': examFormato({ es: 'Átomos en Equilibrio (con el juego)', en: 'Atoms in Balance (with the game)', ca: "Àtoms en Equilibri (amb el joc)" }, '⚗️'),
+      construye: examFormato({ es: 'Construye el Átomo (con el juego)', en: 'Build the Atom (with the game)', ca: 'Construeix l’Àtom (amb el joc)' }, '⚛️'),
       'encuentra-elemento': examFormato({ es: 'Encuentra el Elemento (con el juego)', en: 'Find the Element (with the game)', ca: "Troba l'Element (amb el joc)" }, '🔬'),
       disolucion: examFormato({ es: 'Prepara la Disolución (con el juego)', en: 'Make the Solution (with the game)', ca: 'Prepara la Dissolució (amb el joc)' }, '💧'),
       enlace: examFormato({ es: '¿Qué Enlace? (con el juego)', en: 'Which Bond? (with the game)', ca: 'Quin Enllaç? (amb el joc)' }, '🔗'),

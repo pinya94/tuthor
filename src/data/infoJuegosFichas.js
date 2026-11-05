@@ -1731,6 +1731,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'ESO, Bachillerato',
   },
+  'construye-atomo': {
+    titulo: 'Construye el Átomo',
+    subtitulo: 'Juego de estructura atómica: protones, neutrones, iones y configuración electrónica',
+    emoji: '⚛️', gradient: 'from-red-500 to-sky-700',
+    path: '/juegos/construye-atomo',
+    intro: 'Un juego de química para aprender cómo es un átomo por dentro montándolo pieza a pieza. Te piden un átomo («un átomo de oxígeno-16, Z = 8», «³⁵₁₇Cl⁻», «el isótopo del carbono con 8 neutrones») y lo construyes con botones de protones, neutrones y electrones. El átomo se dibuja mientras lo montas: los protones en rojo y los neutrones en gris en el núcleo, y los electrones en azul en sus capas. Al cambiar los protones cambia el nombre del elemento, porque son los protones los que deciden qué elemento es. En el nivel medio salen iones e isótopos, y en el difícil se reparten los electrones en las cajas de orbitales (1s, 2s, 2p, 3s, 3p, 4s, 3d, 4p) y se busca cada configuración en la tabla periódica. Al corregir se explica la cuenta: neutrones = A − Z, cuántos electrones gana o pierde un ion y por qué el 4s va antes que el 3d.',
+    beneficios: [
+      { titulo: 'Los protones deciden el elemento', texto: 'Es la idea que más cuesta en 3.º de ESO: si a un átomo de sodio le quitas un protón, ya no es sodio, es neón. En el juego se ve en directo, porque el nombre del elemento cambia con cada protón. Por eso un ion se hace tocando solo los electrones: quien cambia los protones para conseguir la carga ve cómo el cloro se convierte en azufre, y la corrección se lo explica.' },
+      { titulo: 'Las trampas de siempre', texto: 'Las respuestas se construyen, no se eligen, así que salen los errores de verdad y el juego los nombra: poner A como número de neutrones, sumar electrones a un ion positivo en lugar de quitarlos, o llenar el 3d antes que el 4s. Cada fallo trae una frase que dice qué ha pasado, no solo que está mal.' },
+      { titulo: 'De la configuración a la tabla', texto: 'En el nivel difícil la configuración electrónica se conecta con la tabla periódica: la capa más alta da el periodo y el último subnivel da el bloque y el grupo. Así se entiende por qué la tabla tiene esa forma y cuántos electrones de valencia tiene cada elemento, que es la base del enlace químico.' },
+    ],
+    ejemplo: 'Sale «³⁵₁₇Cl⁻». El 17 de abajo es Z: 17 protones. El 35 de arriba es A, que cuenta protones y neutrones: 35 − 17 = 18 neutrones. La carga −1 quiere decir que ha ganado un electrón: 17 + 1 = 18 electrones. Si pones 16 electrones (lo que tendría un ion positivo) o cambias los protones a 18, el juego te dice exactamente qué ha fallado.',
+    enPapel: {
+      titulo: 'La tabla de partículas',
+      pasos: [
+        'Dibuja una tabla con las columnas: especie, Z, A, protones, neutrones y electrones.',
+        'Rellénala para ¹²₆C, ¹⁴₆C, ²³₁₁Na⁺, ¹⁶₈O²⁻ y ⁵⁶₂₆Fe³⁺.',
+        'Rodea las dos filas que son isótopos del mismo elemento y explica qué tienen en común.',
+        'Escribe la configuración electrónica del Na y del Na⁺ y compárala con la del neón.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Átomos y Moléculas', desc: 'Tipo test sobre partículas subatómicas, elementos, compuestos e isótopos, con explicación en cada respuesta.' },
+      { nombre: 'Encuentra el Elemento', desc: 'Otro juego con la tabla periódica: toca la casilla de cada elemento a partir de una pista.' },
+      { nombre: '¿Qué Enlace?', desc: 'El paso siguiente: con los electrones de valencia, decide si el enlace es iónico, covalente o metálico.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Bachillerato',
+  },
   'receta-quimica': {
     titulo: 'La Receta Química',
     subtitulo: 'Juego de estequiometría: moles, masa molar y reactivo limitante',
@@ -4254,6 +4282,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Chemistry', niveles: 'Secondary, Sixth form',
   },
+  'construye-atomo': {
+    titulo: 'Build the Atom',
+    subtitulo: 'Atomic structure game: protons, neutrons, ions and electron configuration',
+    emoji: '⚛️', gradient: 'from-red-500 to-sky-700', path: '/juegos/construye-atomo',
+    intro: 'A chemistry game for learning what an atom is like inside by building it piece by piece. You are asked for an atom («an atom of oxygen-16, Z = 8», «³⁵₁₇Cl⁻», «the isotope of carbon with 8 neutrons») and you build it with buttons for protons, neutrons and electrons. The atom is drawn as you go: protons in red and neutrons in grey in the nucleus, and electrons in blue in their shells. Change the protons and the element’s name changes, because the protons decide which element it is. The medium level brings ions and isotopes, and on the hard level you fill the orbital boxes (1s, 2s, 2p, 3s, 3p, 4s, 3d, 4p) with electrons and find each configuration in the periodic table. When you answer, the working is explained: neutrons = A − Z, how many electrons an ion gains or loses, and why 4s comes before 3d.',
+    beneficios: [
+      { titulo: 'The protons decide the element', texto: 'It is the idea that costs most at this age: take a proton away from a sodium atom and it is no longer sodium, it is neon. In the game you see it happen, because the element’s name changes with every proton. That is why an ion is made by changing only the electrons: anyone who changes the protons to get the charge sees chlorine turn into sulfur, and the feedback explains why.' },
+      { titulo: 'The usual traps', texto: 'Answers are built, not chosen, so the real mistakes come out and the game names them: taking A as the number of neutrons, adding electrons to a positive ion instead of taking them away, or filling 3d before 4s. Each mistake comes with a sentence saying what happened, not just that it is wrong.' },
+      { titulo: 'From configuration to the table', texto: 'On the hard level the electron configuration is linked to the periodic table: the highest shell gives the period and the last sublevel gives the block and the group. That shows why the table has its shape and how many valence electrons each element has, which is the basis of chemical bonding.' },
+    ],
+    ejemplo: '«³⁵₁₇Cl⁻» appears. The 17 at the bottom is Z: 17 protons. The 35 at the top is A, which counts protons and neutrons: 35 − 17 = 18 neutrons. The −1 charge means it has gained an electron: 17 + 1 = 18 electrons. Put 16 electrons (what a positive ion would have) or change the protons to 18, and the game tells you exactly what went wrong.',
+    enPapel: {
+      titulo: 'The particle table',
+      pasos: [
+        'Draw a table with the columns: species, Z, A, protons, neutrons and electrons.',
+        'Fill it in for ¹²₆C, ¹⁴₆C, ²³₁₁Na⁺, ¹⁶₈O²⁻ and ⁵⁶₂₆Fe³⁺.',
+        'Circle the two rows that are isotopes of the same element and explain what they have in common.',
+        'Write the electron configuration of Na and of Na⁺ and compare it with neon’s.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Find the Element', desc: 'Another periodic table game: tap each element’s cell from a clue.' },
+      { nombre: 'Which Bond?', desc: 'The next step: from the valence electrons, decide whether a bond is ionic, covalent or metallic.' },
+      { nombre: 'Atoms in Balance', desc: 'A chemistry game for balancing reactions atom by atom.' },
+    ],
+    asignatura: 'Chemistry', niveles: 'Secondary, Sixth form',
+  },
   'receta-quimica': {
     titulo: 'The Chemical Recipe',
     subtitulo: 'Stoichiometry game: moles, molar mass and limiting reactant',
@@ -6629,6 +6684,33 @@ export const FICHAS_CA = {
       { nombre: 'L’examen de Química Orgànica', desc: 'Tipus test sobre hidrocarburs, grups funcionals, nomenclatura, isomeria i reaccions orgàniques, amb explicació a cada resposta.' },
       { nombre: 'Anomena el compost', desc: 'La formulació inorgànica: òxids, hidrurs, sals i àcids amb el seu nom.' },
       { nombre: 'La Recepta Química', desc: 'Un altre joc de química: mols, massa molar i reactiu limitant amb la reacció com a recepta.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Batxillerat',
+  },
+  'construye-atomo': {
+    titulo: 'Construeix l’Àtom',
+    subtitulo: 'Joc d’estructura atòmica: protons, neutrons, ions i configuració electrònica',
+    emoji: '⚛️', gradient: 'from-red-500 to-sky-700', path: '/juegos/construye-atomo',
+    intro: 'Un joc de química per aprendre com és un àtom per dins muntant-lo peça a peça. Et demanen un àtom («un àtom d’oxigen-16, Z = 8», «³⁵₁₇Cl⁻», «l’isòtop del carboni amb 8 neutrons») i el construeixes amb botons de protons, neutrons i electrons. L’àtom es dibuixa mentre el muntes: els protons en vermell i els neutrons en gris al nucli, i els electrons en blau a les seves capes. En canviar els protons canvia el nom de l’element, perquè són els protons els que decideixen quin element és. Al nivell mitjà surten ions i isòtops, i al difícil es reparteixen els electrons a les caixes d’orbitals (1s, 2s, 2p, 3s, 3p, 4s, 3d, 4p) i es busca cada configuració a la taula periòdica. En corregir s’explica el compte: neutrons = A − Z, quants electrons guanya o perd un ió i per què el 4s va abans que el 3d.',
+    beneficios: [
+      { titulo: 'Els protons decideixen l’element', texto: 'És la idea que més costa a 3r d’ESO: si a un àtom de sodi li treus un protó, ja no és sodi, és neó. Al joc es veu en directe, perquè el nom de l’element canvia amb cada protó. Per això un ió es fa tocant només els electrons: qui canvia els protons per aconseguir la càrrega veu com el clor es converteix en sofre, i la correcció li ho explica.' },
+      { titulo: 'Els paranys de sempre', texto: 'Les respostes es construeixen, no es trien, així que surten els errors de veritat i el joc els anomena: posar A com a nombre de neutrons, sumar electrons a un ió positiu en lloc de treure’n, o omplir el 3d abans que el 4s. Cada error porta una frase que diu què ha passat, no només que està malament.' },
+      { titulo: 'De la configuració a la taula', texto: 'Al nivell difícil la configuració electrònica es connecta amb la taula periòdica: la capa més alta dona el període i l’últim subnivell dona el bloc i el grup. Així s’entén per què la taula té aquesta forma i quants electrons de valència té cada element, que és la base de l’enllaç químic.' },
+    ],
+    ejemplo: 'Surt «³⁵₁₇Cl⁻». El 17 de baix és Z: 17 protons. El 35 de dalt és A, que compta protons i neutrons: 35 − 17 = 18 neutrons. La càrrega −1 vol dir que ha guanyat un electró: 17 + 1 = 18 electrons. Si poses 16 electrons (el que tindria un ió positiu) o canvies els protons a 18, el joc et diu exactament què ha fallat.',
+    enPapel: {
+      titulo: 'La taula de partícules',
+      pasos: [
+        'Dibuixa una taula amb les columnes: espècie, Z, A, protons, neutrons i electrons.',
+        'Omple-la per a ¹²₆C, ¹⁴₆C, ²³₁₁Na⁺, ¹⁶₈O²⁻ i ⁵⁶₂₆Fe³⁺.',
+        'Encercla les dues files que són isòtops del mateix element i explica què tenen en comú.',
+        'Escriu la configuració electrònica del Na i del Na⁺ i compara-la amb la del neó.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Troba l’Element', desc: 'Un altre joc amb la taula periòdica: toca la casella de cada element a partir d’una pista.' },
+      { nombre: 'Quin Enllaç?', desc: 'El pas següent: amb els electrons de valència, decideix si l’enllaç és iònic, covalent o metàl·lic.' },
+      { nombre: 'Àtoms en Equilibri', desc: 'Un joc de química per ajustar reaccions àtom a àtom.' },
     ],
     asignatura: 'Química', niveles: 'ESO, Batxillerat',
   },
