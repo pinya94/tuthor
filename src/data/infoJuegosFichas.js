@@ -1731,6 +1731,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Química', niveles: 'ESO, Bachillerato',
   },
+  'bajo-presion': {
+    titulo: 'Bajo Presión',
+    subtitulo: 'Juego de las leyes de los gases: Boyle, Charles, Gay-Lussac y PV = nRT',
+    emoji: '🎈', gradient: 'from-cyan-500 to-blue-800',
+    path: '/juegos/bajo-presion',
+    intro: 'Un juego de química para practicar las leyes de los gases con un gas encerrado en un cilindro. A la izquierda está el gas antes del cambio y a la derecha, después: el émbolo marca el volumen, la aguja del manómetro la presión y el termómetro la temperatura, y las partículas se mueven más deprisa cuanto más caliente está el gas. Falta una magnitud y hay que ajustarla con los botones hasta el valor que da la ley: Boyle si la temperatura no cambia, Charles si no cambia la presión, Gay-Lussac si no cambia el volumen, la ley combinada si cambian las tres y, en el nivel difícil, la ecuación de los gases ideales P·V = n·R·T. Al corregir se explica la cuenta paso a paso.',
+    beneficios: [
+      { titulo: 'Siempre en kelvin', texto: 'El error más repetido con los gases es meter los grados Celsius en la fórmula. Desde el nivel medio muchas temperaturas vienen en °C, y si calculas con ellas el juego te lo dice: «has calculado con °C». La corrección empieza siempre pasando a kelvin (27 °C + 273 = 300 K), que es el paso que se olvida en los exámenes.' },
+      { titulo: 'Directa o inversa', texto: 'Al apretar un gas su volumen baja y su presión sube (proporción inversa); al calentarlo se expande o empuja más (proporción directa). Quien multiplica cuando tenía que dividir recibe una pista que se lo explica con el dibujo delante: el émbolo baja y la aguja del manómetro sube.' },
+      { titulo: 'Sin opciones que tantear', texto: 'La respuesta se ajusta con − / +, no se elige entre cuatro, así que hay que hacer la cuenta. Los datos están pensados para que salga exacta (o a la décima en los gases ideales) y no haga falta pelearse con la calculadora.' },
+    ],
+    ejemplo: 'Un globo tiene 3 L a 27 °C y se calienta a 127 °C a presión constante. Es la ley de Charles: V₁/T₁ = V₂/T₂. Primero, a kelvin: 27 °C son 300 K y 127 °C son 400 K. Entonces V₂ = 3 · 400 ÷ 300 = 4 L. Si se hace la cuenta con los grados Celsius sale 3 · 127 ÷ 27 ≈ 14 L, un globo que casi quintuplica su tamaño al calentarlo 100 grados: imposible.',
+    enPapel: {
+      titulo: 'La jeringa y el globo',
+      pasos: [
+        'Tapa la punta de una jeringa con el dedo y empuja el émbolo: nota cómo cuesta cada vez más (Boyle).',
+        'Pon un globo poco inflado en la boca de una botella y mete la botella en agua caliente: el globo se hincha (Charles).',
+        'Calcula qué volumen tendría el aire de la botella a 60 °C si a 20 °C ocupa 1,5 L.',
+        'Repite la cuenta con °C en lugar de kelvin y compara: ¿cuál tiene sentido?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Cambio de Estado', desc: 'Otro juego del mismo tema: sólido, líquido y gas, y los nombres de cada cambio.' },
+      { nombre: 'Termómetro', desc: 'Juego de calor y temperatura: escalas Celsius, Kelvin y Fahrenheit y mezclas de agua.' },
+      { nombre: 'La Receta Química', desc: 'Moles y estequiometría, el paso siguiente para usar P·V = n·R·T en una reacción.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Bachillerato',
+  },
   'construye-atomo': {
     titulo: 'Construye el Átomo',
     subtitulo: 'Juego de estructura atómica: protones, neutrones, iones y configuración electrónica',
@@ -4282,6 +4310,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Chemistry', niveles: 'Secondary, Sixth form',
   },
+  'bajo-presion': {
+    titulo: 'Under Pressure',
+    subtitulo: 'Gas laws game: Boyle, Charles, Gay-Lussac and PV = nRT',
+    emoji: '🎈', gradient: 'from-cyan-500 to-blue-800', path: '/juegos/bajo-presion',
+    intro: 'A chemistry game for practising the gas laws with a gas trapped in a cylinder. On the left is the gas before the change and on the right, after it: the piston shows the volume, the gauge needle the pressure and the thermometer the temperature, and the particles move faster the hotter the gas is. One quantity is missing and you set it with the buttons to the value the law gives: Boyle if the temperature stays the same, Charles if the pressure stays the same, Gay-Lussac if the volume stays the same, the combined law if all three change and, on the hard level, the ideal gas equation P·V = n·R·T. When you answer, the working is explained step by step.',
+    beneficios: [
+      { titulo: 'Always in kelvin', texto: 'The most common mistake with gases is putting degrees Celsius into the formula. From the medium level many temperatures come in °C, and if you calculate with them the game tells you so: «you worked in °C». The working always starts by converting to kelvin (27 °C + 273 = 300 K), the step people forget in exams.' },
+      { titulo: 'Direct or inverse', texto: 'Squeeze a gas and its volume goes down while its pressure goes up (inverse proportion); heat it and it expands or pushes harder (direct proportion). Anyone who multiplies when they should divide gets a hint explaining it with the drawing in front of them: the piston goes down and the gauge needle goes up.' },
+      { titulo: 'No options to guess from', texto: 'You set the answer with − / + rather than choosing from four, so you have to do the calculation. The data are chosen so the answer comes out exact (or to one decimal place for ideal gases), with no fighting the calculator.' },
+    ],
+    ejemplo: 'A balloon holds 3 L at 27 °C and is heated to 127 °C at constant pressure. That is Charles’s law: V₁/T₁ = V₂/T₂. First, to kelvin: 27 °C is 300 K and 127 °C is 400 K. So V₂ = 3 × 400 ÷ 300 = 4 L. Doing it in Celsius gives 3 × 127 ÷ 27 ≈ 14 L, a balloon nearly five times bigger after warming it by 100 degrees: impossible.',
+    enPapel: {
+      titulo: 'The syringe and the balloon',
+      pasos: [
+        'Cover the tip of a syringe with your finger and push the plunger: feel how it gets harder and harder (Boyle).',
+        'Put a slightly inflated balloon over the neck of a bottle and stand the bottle in hot water: the balloon swells (Charles).',
+        'Work out what volume the air in the bottle would have at 60 °C if it takes up 1.5 L at 20 °C.',
+        'Do the sum again in °C instead of kelvin and compare: which one makes sense?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Change of State', desc: 'Another game on the same topic: solid, liquid and gas, and the name of each change.' },
+      { nombre: 'Thermometer', desc: 'A heat and temperature game: Celsius, Kelvin and Fahrenheit scales and mixing water.' },
+      { nombre: 'The Chemical Recipe', desc: 'Moles and stoichiometry, the next step for using P·V = n·R·T in a reaction.' },
+    ],
+    asignatura: 'Chemistry', niveles: 'Secondary, Sixth form',
+  },
   'construye-atomo': {
     titulo: 'Build the Atom',
     subtitulo: 'Atomic structure game: protons, neutrons, ions and electron configuration',
@@ -6684,6 +6739,33 @@ export const FICHAS_CA = {
       { nombre: 'L’examen de Química Orgànica', desc: 'Tipus test sobre hidrocarburs, grups funcionals, nomenclatura, isomeria i reaccions orgàniques, amb explicació a cada resposta.' },
       { nombre: 'Anomena el compost', desc: 'La formulació inorgànica: òxids, hidrurs, sals i àcids amb el seu nom.' },
       { nombre: 'La Recepta Química', desc: 'Un altre joc de química: mols, massa molar i reactiu limitant amb la reacció com a recepta.' },
+    ],
+    asignatura: 'Química', niveles: 'ESO, Batxillerat',
+  },
+  'bajo-presion': {
+    titulo: 'Sota Pressió',
+    subtitulo: 'Joc de les lleis dels gasos: Boyle, Charles, Gay-Lussac i PV = nRT',
+    emoji: '🎈', gradient: 'from-cyan-500 to-blue-800', path: '/juegos/bajo-presion',
+    intro: 'Un joc de química per practicar les lleis dels gasos amb un gas tancat en un cilindre. A l’esquerra hi ha el gas abans del canvi i a la dreta, després: l’èmbol marca el volum, l’agulla del manòmetre la pressió i el termòmetre la temperatura, i les partícules es mouen més de pressa com més calent és el gas. Falta una magnitud i cal ajustar-la amb els botons fins al valor que dona la llei: Boyle si la temperatura no canvia, Charles si no canvia la pressió, Gay-Lussac si no canvia el volum, la llei combinada si canvien totes tres i, al nivell difícil, l’equació dels gasos ideals P·V = n·R·T. En corregir s’explica el compte pas a pas.',
+    beneficios: [
+      { titulo: 'Sempre en kelvin', texto: 'L’error més repetit amb els gasos és posar els graus Celsius a la fórmula. Des del nivell mitjà moltes temperatures vénen en °C, i si calcules amb elles el joc t’ho diu: «has calculat amb °C». La correcció comença sempre passant a kelvin (27 °C + 273 = 300 K), que és el pas que s’oblida als exàmens.' },
+      { titulo: 'Directa o inversa', texto: 'En prémer un gas el seu volum baixa i la pressió puja (proporció inversa); en escalfar-lo s’expandeix o empeny més (proporció directa). Qui multiplica quan havia de dividir rep una pista que l’hi explica amb el dibuix al davant: l’èmbol baixa i l’agulla del manòmetre puja.' },
+      { titulo: 'Sense opcions per tantejar', texto: 'La resposta s’ajusta amb − / +, no es tria entre quatre, així que cal fer el compte. Les dades estan pensades perquè surti exacta (o a la dècima en els gasos ideals) i no calgui barallar-se amb la calculadora.' },
+    ],
+    ejemplo: 'Un globus té 3 L a 27 °C i s’escalfa a 127 °C a pressió constant. És la llei de Charles: V₁/T₁ = V₂/T₂. Primer, a kelvin: 27 °C són 300 K i 127 °C són 400 K. Llavors V₂ = 3 · 400 ÷ 300 = 4 L. Si es fa el compte amb els graus Celsius surt 3 · 127 ÷ 27 ≈ 14 L, un globus que gairebé quintuplica la mida en escalfar-lo 100 graus: impossible.',
+    enPapel: {
+      titulo: 'La xeringa i el globus',
+      pasos: [
+        'Tapa la punta d’una xeringa amb el dit i empeny l’èmbol: nota com costa cada vegada més (Boyle).',
+        'Posa un globus poc inflat a la boca d’una ampolla i fica l’ampolla en aigua calenta: el globus s’infla (Charles).',
+        'Calcula quin volum tindria l’aire de l’ampolla a 60 °C si a 20 °C ocupa 1,5 L.',
+        'Repeteix el compte amb °C en lloc de kelvin i compara: quin té sentit?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Canvi d’Estat', desc: 'Un altre joc del mateix tema: sòlid, líquid i gas, i els noms de cada canvi.' },
+      { nombre: 'Termòmetre', desc: 'Joc de calor i temperatura: escales Celsius, Kelvin i Fahrenheit i barreges d’aigua.' },
+      { nombre: 'La Recepta Química', desc: 'Mols i estequiometria, el pas següent per fer servir P·V = n·R·T en una reacció.' },
     ],
     asignatura: 'Química', niveles: 'ESO, Batxillerat',
   },

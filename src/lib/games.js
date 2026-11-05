@@ -395,6 +395,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'bajo-presion': {
+    label: { es: 'Bajo Presión', en: 'Under Pressure', ca: 'Sota Pressió' },
+    emoji: '🎈',
+    subject: 'quimica',
+    route: '/juegos/bajo-presion',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'construye-atomo': {
     label: { es: 'Construye el Átomo', en: 'Build the Atom', ca: 'Construeix l’Àtom' },
     emoji: '⚛️',

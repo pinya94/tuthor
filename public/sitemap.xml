@@ -611,6 +611,8 @@
   <url><loc>https://www.tuthor.es/en/examen/prepara-disolucion-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/examen/que-enlace-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/examen/que-enlace-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/examen/bajo-presion-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/examen/bajo-presion-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/examen/construye-atomo-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/examen/construye-atomo-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/examen/receta-quimica-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -873,6 +875,7 @@
   <url><loc>https://www.tuthor.es/juegos/medidor-ph</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/prepara-disolucion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/que-enlace</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/bajo-presion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/construye-atomo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/receta-quimica</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/cadena-carbono</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -1140,6 +1143,7 @@
   <url><loc>https://www.tuthor.es/info/juegos/medidor-ph</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/prepara-disolucion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/que-enlace</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/info/juegos/bajo-presion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/construye-atomo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/receta-quimica</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/cadena-carbono</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -1295,6 +1299,7 @@
   <url><loc>https://www.tuthor.es/ca/info/juegos/medidor-ph</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/prepara-disolucion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/que-enlace</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/info/juegos/bajo-presion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/construye-atomo</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/receta-quimica</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/info/juegos/cadena-carbono</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -1318,6 +1323,7 @@
   <url><loc>https://www.tuthor.es/en/info/juegos/medidor-ph</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/prepara-disolucion</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/que-enlace</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/juegos/bajo-presion</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/construye-atomo</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/receta-quimica</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/info/juegos/cadena-carbono</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
@@ -1526,6 +1532,7 @@
   <url><loc>https://www.tuthor.es/en/juegos/medidor-ph</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/juegos/prepara-disolucion</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/juegos/que-enlace</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/en/juegos/bajo-presion</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/juegos/construye-atomo</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/juegos/receta-quimica</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/en/juegos/cadena-carbono</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>

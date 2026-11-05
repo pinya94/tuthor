@@ -17,7 +17,7 @@ export const RETOS_EXAMENES = [
   'placas-movimiento-test', 'brote-test', 'arbol-vida-test', 'ciclo-rocas-test', 'el-tiempo-test',
   'newton-accion-test', 'termometro-test', 'cadena-energia-test', 'lee-el-movimiento-test', 'engranajes-test',
   'flota-o-se-hunde-test', 'clave-dicotomica-test', 'lee-la-etiqueta-test', 'el-laboratorio-test', 'nombra-compuesto-test',
-  'cadena-carbono-test', 'construye-atomo-test', 'receta-quimica-test', 'que-enlace-test', 'prepara-disolucion-test', 'medidor-ph-test',
+  'cadena-carbono-test', 'bajo-presion-test', 'construye-atomo-test', 'receta-quimica-test', 'que-enlace-test', 'prepara-disolucion-test', 'medidor-ph-test',
   'encuentra-elemento-test', 'orbita-test', 'la-biblioteca-test', 'detective-textos-test', 'cazafiguras-test',
   'coma-a-coma-test', 'que-letra-test', 'mide-el-verso-test', 'la-galeria-test', 'que-estilo-test',
   'quien-lo-penso-antigua-test', 'quien-lo-penso-moderna-test', 'tabla-verdad-test', 'cuentas-claras-test', 'escalas-acordes-test', 'quien-desafina-test', 'que-hora-es-test', 'verbos-irregulares-test', 'cambio-estado-test', 'nombres-cambio-test', 'ordena-frase-test',

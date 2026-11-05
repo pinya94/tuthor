@@ -153,6 +153,13 @@ const MODOS_POR_TEMA = {
   ],
   'estados-materia': [
     {
+      id: 'bajo-presion-test', emoji: '🎈', gradient: 'from-cyan-500 to-blue-800',
+      titulo: { es:'Bajo Presión: leyes de los gases (con el juego)', en:'Under Pressure: gas laws (with the game)', ca:'Sota Pressió: lleis dels gasos (amb el joc)' },
+      descripcion: { es:'Con la mecánica del juego: ajusta el émbolo, el manómetro o el termómetro con las leyes de Boyle, Charles y Gay-Lussac, la ley combinada y PV = nRT.', en:'Using the game mechanic: set the piston, the gauge or the thermometer with Boyle’s, Charles’s and Gay-Lussac’s laws, the combined law and PV = nRT.', ca:'Amb la mecànica del joc: ajusta l’èmbol, el manòmetre o el termòmetre amb les lleis de Boyle, Charles i Gay-Lussac, la llei combinada i PV = nRT.' },
+      detalles: { es:['3 niveles','10 preguntas','Sin cronómetro','Con el juego'], en:['3 levels','10 questions','No timer','With the game'], ca:['3 nivells','10 preguntes','Sense cronòmetre','Amb el joc'] },
+      path: 'bajo-presion-test',
+    },
+    {
       id: 'examen', emoji: '📝', gradient: 'from-teal-500 to-cyan-700',
       titulo: { es:'Examen', en:'Exam', ca:'Examen' },
       descripcion: { es:'Identifica estados, cambios de estado y sus propiedades. Preguntas de opción múltiple con explicación.', en:'Identify states, changes of state and their properties. Multiple choice questions with explanation.', ca:'Identifica estats, canvis d\'estat i les seves propietats. Preguntes d\'opció múltiple amb explicació.' },

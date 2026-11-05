@@ -685,6 +685,11 @@ export const EXAMS = {
     emoji: '⛓️', subject: 'quimica',
     path: 'examen/cadena-carbono-test', page: () => import('../pages/CadenaCarbonoExamen'),
   },
+  'bajo-presion-test': {
+    label: { es: 'Bajo Presión (con el juego)', en: 'Under Pressure (with the game)', ca: 'Sota Pressió (amb el joc)' },
+    emoji: '🎈', subject: 'quimica',
+    path: 'examen/bajo-presion-test', page: () => import('../pages/BajoPresionExamen'),
+  },
   'construye-atomo-test': {
     label: { es: 'Construye el Átomo (con el juego)', en: 'Build the Atom (with the game)', ca: 'Construeix l’Àtom (amb el joc)' },
     emoji: '⚛️', subject: 'quimica',

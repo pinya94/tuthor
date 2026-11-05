@@ -406,14 +406,17 @@ export const CONTENIDO_TEMA = {
       es: [
         'La materia se presenta en tres estados principales: sólido, líquido y gas. Lo que los distingue es cómo están unidas sus partículas. En el sólido están muy juntas y ordenadas, así que tiene forma y volumen fijos. En el líquido están juntas pero pueden moverse: mantiene el volumen, pero adopta la forma del recipiente. En el gas están muy separadas y se mueven libres: ni forma ni volumen fijos, ocupa todo el espacio disponible.',
         'Un mismo material puede cambiar de estado si le damos o le quitamos calor. Al calentar, un sólido se funde y un líquido se evapora; al enfriar, un gas se condensa y un líquido se solidifica. Estos cambios ocurren a temperaturas concretas —la de fusión y la de ebullición— y, mientras dura el cambio, la temperatura no sube: todo el calor se emplea en separar las partículas. Existe un cuarto estado, el plasma, que forma las estrellas.',
+        'Los gases se explican con la teoría cinética: sus partículas se mueven sin parar y chocan contra las paredes, y esos choques son la presión. Si se aprieta un gas sin cambiar su temperatura, su volumen baja y su presión sube (ley de Boyle: P·V no cambia). Si se calienta sin cambiar la presión, se expande (ley de Charles: V/T no cambia), y si se calienta en un recipiente cerrado, su presión sube (ley de Gay-Lussac: P/T no cambia). En todas estas fórmulas la temperatura va en kelvin, que se obtiene sumando 273 a los grados Celsius.',
       ],
       en: [
         'Matter comes in three main states: solid, liquid and gas. What tells them apart is how their particles are joined. In a solid they are close together and ordered, so it has a fixed shape and volume. In a liquid they are close but can move: it keeps its volume but takes the shape of its container. In a gas they are far apart and move freely: no fixed shape or volume, filling all the space available.',
         'The same material can change state if we add or remove heat. On heating, a solid melts and a liquid evaporates; on cooling, a gas condenses and a liquid solidifies. These changes happen at set temperatures —the melting point and the boiling point— and, while the change lasts, the temperature does not rise: all the heat goes into separating the particles. There is a fourth state, plasma, which makes up the stars.',
+        'Gases are explained by kinetic theory: their particles never stop moving and they hit the walls of the container, and those collisions are the pressure. Squeeze a gas without changing its temperature and its volume goes down while its pressure goes up (Boyle’s law: P·V stays the same). Heat it without changing the pressure and it expands (Charles’s law: V/T stays the same), and heat it in a sealed container and its pressure rises (Gay-Lussac’s law: P/T stays the same). In all these formulas temperature goes in kelvin, which you get by adding 273 to the degrees Celsius.',
       ],
       ca: [
         'La matèria es presenta en tres estats principals: sòlid, líquid i gas. El que els distingeix és com estan unides les seves partícules. En el sòlid estan molt juntes i ordenades, així que té forma i volum fixos. En el líquid estan juntes però es poden moure: manté el volum, però adopta la forma del recipient. En el gas estan molt separades i es mouen lliures: ni forma ni volum fixos, ocupa tot l\'espai disponible.',
         'Un mateix material pot canviar d\'estat si li donem o li traiem calor. En escalfar, un sòlid es fon i un líquid s\'evapora; en refredar, un gas es condensa i un líquid es solidifica. Aquests canvis passen a temperatures concretes —la de fusió i la d\'ebullició— i, mentre dura el canvi, la temperatura no puja: tota la calor s\'empra a separar les partícules. Hi ha un quart estat, el plasma, que forma les estrelles.',
+        'Els gasos s’expliquen amb la teoria cinètica: les seves partícules es mouen sense parar i xoquen contra les parets, i aquests xocs són la pressió. Si es prem un gas sense canviar-ne la temperatura, el volum baixa i la pressió puja (llei de Boyle: P·V no canvia). Si s’escalfa sense canviar la pressió, s’expandeix (llei de Charles: V/T no canvia), i si s’escalfa en un recipient tancat, la pressió puja (llei de Gay-Lussac: P/T no canvia). En totes aquestes fórmules la temperatura va en kelvin, que s’obté sumant 273 als graus Celsius.',
       ],
     },
     puntosClave: {
@@ -425,6 +428,8 @@ export const CONTENIDO_TEMA = {
         'La sublimación pasa directamente de sólido a gas (el hielo seco).',
         'Los cambios ocurren a temperaturas fijas: la de fusión y la de ebullición.',
         'Durante el cambio de estado, la temperatura se mantiene constante.',
+        'Teoría cinética: las partículas de un gas se mueven sin parar y sus choques contra las paredes son la presión.',
+        'Leyes de los gases: Boyle (P·V constante), Charles (V/T constante) y Gay-Lussac (P/T constante), con T en kelvin (K = °C + 273).',
       ],
       en: [
         'Three main states: solid, liquid and gas (plus plasma, uncommon).',
@@ -434,6 +439,8 @@ export const CONTENIDO_TEMA = {
         'Sublimation goes straight from solid to gas (dry ice).',
         'The changes happen at set temperatures: the melting and boiling points.',
         'During a change of state, the temperature stays constant.',
+        'Kinetic theory: gas particles never stop moving and their collisions with the walls are the pressure.',
+        'Gas laws: Boyle (P·V constant), Charles (V/T constant) and Gay-Lussac (P/T constant), with T in kelvin (K = °C + 273).',
       ],
       ca: [
         'Tres estats principals: sòlid, líquid i gas (i el plasma, poc comú).',
@@ -443,6 +450,8 @@ export const CONTENIDO_TEMA = {
         'La sublimació passa directament de sòlid a gas (el gel sec).',
         'Els canvis passen a temperatures fixes: la de fusió i la d\'ebullició.',
         'Durant el canvi d\'estat, la temperatura es manté constant.',
+        'Teoria cinètica: les partícules d’un gas es mouen sense parar i els seus xocs contra les parets són la pressió.',
+        'Lleis dels gasos: Boyle (P·V constant), Charles (V/T constant) i Gay-Lussac (P/T constant), amb T en kelvin (K = °C + 273).',
       ],
     },
   },

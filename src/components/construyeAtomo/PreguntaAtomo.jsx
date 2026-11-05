@@ -7,6 +7,7 @@
 // Todas responden una sola vez al pulsar Comprobar.
 import { useState } from 'react'
 import { useLang } from '../../context/LangContext'
+import ConIndices from '../ConIndices'
 import {
   el, nombre, simbolo, Z_MAX, SUBNIVELES, ORDEN_CAPAS, idx, configDe, porCapa,
   cargaTexto, enunciado, explicacion, pistaFallo, respuestaAtomo, respuestaConfig, leeAtomo, leeConfig, esCorrecta,
@@ -25,19 +26,6 @@ function Veredicto({ ok, children }) {
 
 // Configuración con <sup> de verdad: los superíndices Unicode ⁴-⁹ salen con
 // otra fuente y «2p⁶» se lee como «2pᶜ»
-const SUPS = '⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻', SUBS = '₀₁₂₃₄₅₆₇₈₉'
-const PLANO = '0123456789+−'
-// Texto de la lib (con superíndices/subíndices Unicode) → JSX con <sup>/<sub>
-function ConIndices({ texto }) {
-  const trozos = texto.split(/([⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]+|[₀₁₂₃₄₅₆₇₈₉]+)/)
-  return trozos.map((t, i) => {
-    if (!t) return null
-    if (SUPS.includes(t[0])) return <sup key={i} className="text-[0.68em]">{[...t].map(c => PLANO[SUPS.indexOf(c)]).join('')}</sup>
-    if (SUBS.includes(t[0])) return <sub key={i} className="text-[0.68em]">{[...t].map(c => PLANO[SUBS.indexOf(c)]).join('')}</sub>
-    return t
-  })
-}
-
 function ConfigTexto({ c }) {
   const partes = SUBNIVELES.map((x, i) => (c[i] ? <span key={x.id} className="inline-block mr-1.5 last:mr-0">{x.id}<sup className="text-[0.62em] ml-px">{c[i]}</sup></span> : null)).filter(Boolean)
   return partes.length ? <>{partes}</> : '—'

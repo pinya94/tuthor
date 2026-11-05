@@ -323,6 +323,30 @@ function RecetaQuimica(p) {
   )
 }
 
+function BajoPresion(p) {
+  // Antes y después: el émbolo baja (V ↓), la aguja del manómetro sube (P ↑)
+  // y las partículas se apiñan. Ley de Boyle en una imagen.
+  const pts = (x0, y0, w, h) => [[0.2, 0.3], [0.7, 0.2], [0.45, 0.6], [0.15, 0.8], [0.8, 0.7], [0.55, 0.15], [0.35, 0.9], [0.85, 0.45]]
+    .map(([a, b], i) => <circle key={i} cx={x0 + a * w} cy={y0 + b * h} r="3.6" fill="#38BDF8" />)
+  const cil = (x, tope, ang) => (
+    <g>
+      <path d={`M${x} 34V118H${x + 62}V34`} fill="#0F1C3A" stroke="#94A3B8" strokeWidth="2.5" />
+      {pts(x + 6, tope + 10, 50, 112 - tope - 16)}
+      <rect x={x + 2} y={tope} width="58" height="7" rx="2" fill="#64748B" />
+      <rect x={x + 28} y="20" width="6" height={tope - 20} fill="#475569" />
+      <circle cx={x + 52} cy="20" r="10" fill="#1E293B" stroke="#CBD5E1" strokeWidth="2" />
+      <line x1={x + 52} y1="20" x2={x + 52 + 7 * Math.cos(ang)} y2={20 + 7 * Math.sin(ang)} stroke="#FBBF24" strokeWidth="2.2" strokeLinecap="round" />
+    </g>
+  )
+  return (
+    <Lienzo {...p}>
+      {cil(22, 44, Math.PI * 0.9)}
+      <Flecha x1={96} y1={76} x2={142} y2={76} c="#FBBF24" />
+      {cil(156, 82, Math.PI * 1.8)}
+    </Lienzo>
+  )
+}
+
 function ConstruyeAtomo(p) {
   // Un átomo de carbono-12 montado (6 protones rojos y 6 neutrones grises,
   // electrones 2 + 4 en sus capas), su notación y los botones de − / +.
@@ -734,6 +758,7 @@ export const ARTE_CIENCIAS = {
   'cambio-estado': CambioEstado,
   'medidor-ph': MedidorPh,
   'prepara-disolucion': PreparaDisolucion,
+  'bajo-presion': BajoPresion,
   'construye-atomo': ConstruyeAtomo,
   'que-enlace': QueEnlace,
   'receta-quimica': RecetaQuimica,
