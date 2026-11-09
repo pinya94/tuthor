@@ -432,4 +432,320 @@ const movimiento = {
   ],
 }
 
-export const AMPLIACION = { pronombres, morfologia, adjetivos, nexos, verbos, disoluciones, movimiento }
+// ── GEOGRAFÍA ─────────────────────────────────────────────────────────────
+
+// Fila país–capital: nombres {es, en, ca}; si un valor es string, vale igual
+// en los tres idiomas.
+const P = (pais, capital) => [pais, capital]
+const N = (es, en = es, ca = es) => ({ es, en, ca })
+const tablaPaises = filas => ({
+  columnas: L(['País', 'Capital'], ['Country', 'Capital'], ['País', 'Capital']),
+  filas,
+})
+
+const asia = {
+  metaTitle: L('Asia: países y capitales por regiones, relieve y ríos (con tabla) — resumen y ejercicios', 'Asia: countries and capitals by region, relief and rivers (with table) — summary and practice questions', 'Àsia: països i capitals per regions, relleu i rius (amb taula) — resum i exercicis'),
+  secciones: [
+    {
+      titulo: L('Asia Oriental y Sudeste asiático: países y capitales', 'East and Southeast Asia: countries and capitals', 'Àsia Oriental i Sud-est asiàtic: països i capitals'),
+      tabla: tablaPaises([
+        P(N('China', 'China', 'Xina'), N('Pekín', 'Beijing', 'Pequín')),
+        P(N('Japón', 'Japan', 'Japó'), N('Tokio', 'Tokyo', 'Tòquio')),
+        P(N('Corea del Sur', 'South Korea', 'Corea del Sud'), N('Seúl', 'Seoul', 'Seül')),
+        P(N('Corea del Norte', 'North Korea', 'Corea del Nord'), N('Pionyang', 'Pyongyang', 'Pyongyang')),
+        P(N('Mongolia', 'Mongolia', 'Mongòlia'), N('Ulán Bator', 'Ulaanbaatar', 'Ulan Bator')),
+        P(N('Vietnam'), N('Hanói', 'Hanoi', 'Hanoi')),
+        P(N('Laos'), N('Vientián', 'Vientiane', 'Vientiane')),
+        P(N('Camboya', 'Cambodia', 'Cambodja'), N('Nom Pen', 'Phnom Penh', 'Phnom Penh')),
+        P(N('Tailandia', 'Thailand', 'Tailàndia'), 'Bangkok'),
+        P(N('Birmania (Myanmar)', 'Myanmar (Burma)', 'Birmània (Myanmar)'), N('Naipyidó', 'Naypyidaw', 'Naypyidaw')),
+        P(N('Malasia', 'Malaysia', 'Malàisia'), 'Kuala Lumpur'),
+        P(N('Singapur', 'Singapore', 'Singapur'), N('Singapur', 'Singapore', 'Singapur')),
+        P(N('Indonesia', 'Indonesia', 'Indonèsia'), N('Yakarta', 'Jakarta', 'Jakarta')),
+        P(N('Filipinas', 'Philippines', 'Filipines'), 'Manila'),
+        P(N('Brunéi', 'Brunei', 'Brunei'), 'Bandar Seri Begawan'),
+        P(N('Timor Oriental', 'East Timor', 'Timor Oriental'), 'Dili'),
+      ]),
+    },
+    {
+      titulo: L('Asia del Sur y Asia Central: países y capitales', 'South and Central Asia: countries and capitals', 'Àsia del Sud i Àsia Central: països i capitals'),
+      tabla: tablaPaises([
+        P(N('India', 'India', 'Índia'), N('Nueva Delhi', 'New Delhi', 'Nova Delhi')),
+        P(N('Pakistán', 'Pakistan', 'Pakistan'), 'Islamabad'),
+        P(N('Bangladés', 'Bangladesh', 'Bangladesh'), N('Daca', 'Dhaka', 'Dhaka')),
+        P(N('Sri Lanka'), 'Sri Jayawardenepura Kotte'),
+        P(N('Nepal'), N('Katmandú', 'Kathmandu', 'Katmandú')),
+        P(N('Bután', 'Bhutan', 'Bhutan'), N('Timbu', 'Thimphu', 'Thimphu')),
+        P(N('Maldivas', 'Maldives', 'Maldives'), 'Malé'),
+        P(N('Afganistán', 'Afghanistan', 'Afganistan'), 'Kabul'),
+        P(N('Kazajistán', 'Kazakhstan', 'Kazakhstan'), N('Astaná', 'Astana', 'Astanà')),
+        P(N('Uzbekistán', 'Uzbekistan', 'Uzbekistan'), N('Taskent', 'Tashkent', 'Taixkent')),
+        P(N('Turkmenistán', 'Turkmenistan', 'Turkmenistan'), N('Asjabad', 'Ashgabat', 'Aixkhabad')),
+        P(N('Tayikistán', 'Tajikistan', 'Tadjikistan'), N('Dusambé', 'Dushanbe', 'Duixanbe')),
+        P(N('Kirguistán', 'Kyrgyzstan', 'Kirguizistan'), N('Biskek', 'Bishkek', 'Bixkek')),
+      ]),
+    },
+    {
+      titulo: L('Oriente Próximo y el Cáucaso: países y capitales', 'The Middle East and the Caucasus: countries and capitals', 'Pròxim Orient i el Caucas: països i capitals'),
+      tabla: tablaPaises([
+        P(N('Turquía', 'Turkey', 'Turquia'), 'Ankara'),
+        P(N('Siria', 'Syria', 'Síria'), N('Damasco', 'Damascus', 'Damasc')),
+        P(N('Líbano', 'Lebanon', 'Líban'), 'Beirut'),
+        P(N('Israel'), N('Jerusalén (casi todas las embajadas están en Tel Aviv)', 'Jerusalem (most embassies are in Tel Aviv)', 'Jerusalem (gairebé totes les ambaixades són a Tel Aviv)')),
+        P(N('Jordania', 'Jordan', 'Jordània'), N('Amán', 'Amman', 'Amman')),
+        P(N('Irak', 'Iraq', 'Iraq'), N('Bagdad', 'Baghdad', 'Bagdad')),
+        P(N('Irán', 'Iran', 'Iran'), N('Teherán', 'Tehran', 'Teheran')),
+        P(N('Arabia Saudí', 'Saudi Arabia', 'Aràbia Saudita'), N('Riad', 'Riyadh', 'Riad')),
+        P(N('Kuwait'), N('Kuwait', 'Kuwait City', 'Kuwait')),
+        P(N('Baréin', 'Bahrain', 'Bahrain'), 'Manama'),
+        P(N('Catar', 'Qatar', 'Qatar'), 'Doha'),
+        P(N('Emiratos Árabes Unidos', 'United Arab Emirates', 'Emirats Àrabs Units'), N('Abu Dabi', 'Abu Dhabi', 'Abu Dhabi')),
+        P(N('Omán', 'Oman', 'Oman'), N('Mascate', 'Muscat', 'Mascat')),
+        P(N('Yemen', 'Yemen', 'Iemen'), N('Saná', 'Sanaa', 'Sanaa')),
+        P(N('Georgia', 'Georgia', 'Geòrgia'), N('Tiflis', 'Tbilisi', 'Tbilissi')),
+        P(N('Armenia', 'Armenia', 'Armènia'), N('Ereván', 'Yerevan', 'Erevan')),
+        P(N('Azerbaiyán', 'Azerbaijan', 'Azerbaidjan'), N('Bakú', 'Baku', 'Bakú')),
+      ]),
+      lista: L(
+        ['Rusia y Turquía son transcontinentales: tienen territorio en Europa y en Asia. Rusia se cuenta como país europeo (su capital, Moscú, está en Europa), aunque la mayor parte de su superficie, Siberia, es asiática.'],
+        ['Russia and Turkey are transcontinental: they have land in both Europe and Asia. Russia is counted as a European country (its capital, Moscow, is in Europe), although most of its area, Siberia, is Asian.'],
+        ['Rússia i Turquia són transcontinentals: tenen territori a Europa i a Àsia. Rússia es compta com a país europeu (la capital, Moscou, és a Europa), tot i que la major part de la superfície, Sibèria, és asiàtica.'],
+      ),
+    },
+    {
+      titulo: L('Los récords del relieve de Asia', 'Asia’s record-breaking landscape', 'Els rècords del relleu d’Àsia'),
+      tabla: {
+        columnas: L(['Récord', 'Dónde', 'Dato'], ['Record', 'Where', 'Fact'], ['Rècord', 'On', 'Dada']),
+        filas: [
+          [L('Montaña más alta del mundo', 'Highest mountain in the world', 'Muntanya més alta del món'), L('Everest (Himalaya, entre Nepal y China)', 'Everest (Himalayas, between Nepal and China)', 'Everest (Himàlaia, entre el Nepal i la Xina)'), '8.849 m'],
+          [L('Punto más bajo de tierra firme', 'Lowest point on dry land', 'Punt més baix de terra ferma'), L('Orillas del mar Muerto', 'Shores of the Dead Sea', 'Vores del mar Mort'), L('unos 430 m bajo el nivel del mar', 'about 430 m below sea level', 'uns 430 m sota el nivell del mar')],
+          [L('Río más largo de Asia', 'Longest river in Asia', 'Riu més llarg d’Àsia'), L('Yangtsé (China)', 'Yangtze (China)', 'Iang-tsé (Xina)'), L('unos 6.300 km', 'about 6,300 km', 'uns 6.300 km')],
+          [L('Lago más grande del mundo', 'Largest lake in the world', 'Llac més gran del món'), L('Mar Caspio', 'Caspian Sea', 'Mar Càspia'), L('es un lago, aunque se llame mar', 'it is a lake, despite its name', 'és un llac, encara que es digui mar')],
+          [L('Lago más profundo', 'Deepest lake', 'Llac més profund'), L('Baikal (Siberia, Rusia)', 'Baikal (Siberia, Russia)', 'Baikal (Sibèria, Rússia)'), L('más de 1.600 m', 'over 1,600 m', 'més de 1.600 m')],
+          [L('Países más poblados', 'Most populous countries', 'Països més poblats'), L('India y China', 'India and China', 'Índia i Xina'), L('más de 1.400 millones cada uno', 'over 1.4 billion each', 'més de 1.400 milions cadascun')],
+        ],
+      },
+    },
+  ],
+  preguntas: [
+    { p: T('¿Cuántos países tiene Asia?', 'How many countries are there in Asia?', 'Quants països té Àsia?'),
+      r: T('Unos 48, según cómo se cuenten Rusia y Turquía (transcontinentales) y territorios como Taiwán o Palestina, que no son miembros de pleno derecho de la ONU.', 'About 48, depending on how Russia and Turkey (transcontinental) and territories such as Taiwan or Palestine, which are not full UN members, are counted.', 'Uns 48, segons com es comptin Rússia i Turquia (transcontinentals) i territoris com Taiwan o Palestina, que no són membres de ple dret de l’ONU.') },
+    { p: T('¿Qué separa Asia de Europa?', 'What separates Asia from Europe?', 'Què separa Àsia d’Europa?'),
+      r: T('No hay mar entre ellas: la frontera se traza por los montes Urales, el río Ural, el mar Caspio, el Cáucaso y los estrechos del Bósforo y los Dardanelos.', 'There is no sea between them: the border is drawn along the Ural Mountains, the Ural River, the Caspian Sea, the Caucasus and the Bosporus and Dardanelles straits.', 'No hi ha mar entre elles: la frontera es traça pels Urals, el riu Ural, la mar Càspia, el Caucas i els estrets del Bòsfor i els Dardanels.') },
+    { p: T('¿Cuáles son las regiones de Asia?', 'What are the regions of Asia?', 'Quines són les regions d’Àsia?'),
+      r: T('Asia Oriental (China, Japón, Corea), el Sudeste asiático (Vietnam, Tailandia, Indonesia), Asia del Sur (India, Pakistán), Asia Central (los países terminados en -stán), Oriente Próximo (Turquía, Arabia, Irán) y Siberia, la parte asiática de Rusia.', 'East Asia (China, Japan, Korea), Southeast Asia (Vietnam, Thailand, Indonesia), South Asia (India, Pakistan), Central Asia (the countries ending in -stan), the Middle East (Turkey, Arabia, Iran) and Siberia, the Asian part of Russia.', 'Àsia Oriental (Xina, Japó, Corea), el Sud-est asiàtic (Vietnam, Tailàndia, Indonèsia), Àsia del Sud (Índia, Pakistan), Àsia Central (els països acabats en -stan), el Pròxim Orient (Turquia, Aràbia, Iran) i Sibèria, la part asiàtica de Rússia.') },
+  ],
+  ejercicios: [
+    { e: T('¿Cuál es la capital de Kazajistán, el país más grande de Asia Central?', 'What is the capital of Kazakhstan, the largest country in Central Asia?', 'Quina és la capital del Kazakhstan, el país més gran d’Àsia Central?'),
+      s: T('Astaná. La antigua capital, y ciudad más grande, es Almatý.', 'Astana. The former capital, and largest city, is Almaty.', 'Astanà. L’antiga capital, i la ciutat més gran, és Almati.') },
+    { e: T('Une cada país con su capital: Japón, Corea del Sur, Tailandia, Irán. (Bangkok, Teherán, Tokio, Seúl)', 'Match each country to its capital: Japan, South Korea, Thailand, Iran. (Bangkok, Tehran, Tokyo, Seoul)', 'Uneix cada país amb la seva capital: Japó, Corea del Sud, Tailàndia, Iran. (Bangkok, Teheran, Tòquio, Seül)'),
+      s: T('Japón–Tokio, Corea del Sur–Seúl, Tailandia–Bangkok, Irán–Teherán.', 'Japan–Tokyo, South Korea–Seoul, Thailand–Bangkok, Iran–Tehran.', 'Japó–Tòquio, Corea del Sud–Seül, Tailàndia–Bangkok, Iran–Teheran.') },
+    { e: T('¿Qué cordillera separa la India de China y qué montaña récord está en ella?', 'Which mountain range separates India from China, and which record-breaking mountain is in it?', 'Quina serralada separa l’Índia de la Xina i quina muntanya rècord hi ha?'),
+      s: T('El Himalaya, con el Everest (8.849 m), en la frontera entre Nepal y China.', 'The Himalayas, with Everest (8,849 m), on the border between Nepal and China.', 'L’Himàlaia, amb l’Everest (8.849 m), a la frontera entre el Nepal i la Xina.') },
+    { e: T('¿Qué tienen en común Uzbekistán, Turkmenistán, Tayikistán y Kirguistán?', 'What do Uzbekistan, Turkmenistan, Tajikistan and Kyrgyzstan have in common?', 'Què tenen en comú l’Uzbekistan, el Turkmenistan, el Tadjikistan i el Kirguizistan?'),
+      s: T('Son países de Asia Central, sin salida al mar, que formaron parte de la Unión Soviética hasta 1991. Con Kazajistán son los cinco «-stán» de Asia Central («-stán» significa «tierra de»).', 'They are landlocked Central Asian countries that were part of the Soviet Union until 1991. With Kazakhstan they are the five «-stans» of Central Asia («-stan» means «land of»).', 'Són països d’Àsia Central, sense sortida al mar, que van formar part de la Unió Soviètica fins al 1991. Amb el Kazakhstan són els cinc «-stan» d’Àsia Central («-stan» vol dir «terra de»).') },
+    { e: T('¿El mar Caspio es un mar o un lago?', 'Is the Caspian Sea a sea or a lake?', 'La mar Càspia és un mar o un llac?'),
+      s: T('Es un lago: está rodeado de tierra por todas partes y no comunica con el océano. Es el lago más grande del mundo.', 'It is a lake: it is surrounded by land on every side and does not connect with the ocean. It is the largest lake in the world.', 'És un llac: està envoltat de terra per tot arreu i no comunica amb l’oceà. És el llac més gran del món.') },
+    { e: T('¿Cuál es la capital de la India? ¿Y su ciudad más poblada?', 'What is the capital of India? And its most populous city?', 'Quina és la capital de l’Índia? I la ciutat més poblada?'),
+      s: T('La capital es Nueva Delhi; la ciudad más poblada, Bombay (Mumbai), según cómo se cuente el área metropolitana de Delhi.', 'The capital is New Delhi; the most populous city is Mumbai, depending on how the Delhi metropolitan area is counted.', 'La capital és Nova Delhi; la ciutat més poblada, Bombai (Mumbai), segons com es compti l’àrea metropolitana de Delhi.') },
+  ],
+}
+
+const oceania = {
+  metaTitle: L('Oceanía: países y capitales, Australia y las islas del Pacífico (con tabla) — resumen y ejercicios', 'Oceania: countries and capitals, Australia and the Pacific islands (with table) — summary and practice questions', 'Oceania: països i capitals, Austràlia i les illes del Pacífic (amb taula) — resum i exercicis'),
+  secciones: [
+    {
+      titulo: L('Los 14 países de Oceanía y sus capitales', 'The 14 countries of Oceania and their capitals', 'Els 14 països d’Oceania i les seves capitals'),
+      tabla: {
+        columnas: L(['País', 'Capital', 'Región'], ['Country', 'Capital', 'Region'], ['País', 'Capital', 'Regió']),
+        filas: [
+          [N('Australia', 'Australia', 'Austràlia'), 'Canberra', 'Australasia'],
+          [N('Nueva Zelanda', 'New Zealand', 'Nova Zelanda'), 'Wellington', N('Polinesia', 'Polynesia', 'Polinèsia')],
+          [N('Papúa Nueva Guinea', 'Papua New Guinea', 'Papua Nova Guinea'), 'Port Moresby', N('Melanesia', 'Melanesia', 'Melanèsia')],
+          [N('Fiyi', 'Fiji', 'Fiji'), 'Suva', N('Melanesia', 'Melanesia', 'Melanèsia')],
+          [N('Islas Salomón', 'Solomon Islands', 'Illes Salomó'), 'Honiara', N('Melanesia', 'Melanesia', 'Melanèsia')],
+          [N('Vanuatu'), 'Port Vila', N('Melanesia', 'Melanesia', 'Melanèsia')],
+          [N('Samoa'), 'Apia', N('Polinesia', 'Polynesia', 'Polinèsia')],
+          [N('Tonga'), N('Nukualofa', 'Nuku’alofa', 'Nuku’alofa'), N('Polinesia', 'Polynesia', 'Polinèsia')],
+          [N('Tuvalu'), 'Funafuti', N('Polinesia', 'Polynesia', 'Polinèsia')],
+          [N('Kiribati'), N('Tarawa Sur', 'South Tarawa', 'Tarawa Sud'), N('Micronesia', 'Micronesia', 'Micronèsia')],
+          [N('Micronesia (Estados Federados)', 'Micronesia (Federated States)', 'Micronèsia (Estats Federats)'), 'Palikir', N('Micronesia', 'Micronesia', 'Micronèsia')],
+          [N('Islas Marshall', 'Marshall Islands', 'Illes Marshall'), 'Majuro', N('Micronesia', 'Micronesia', 'Micronèsia')],
+          [N('Palaos', 'Palau', 'Palau'), 'Ngerulmud', N('Micronesia', 'Micronesia', 'Micronèsia')],
+          [N('Nauru'), N('Yaren (sin capital oficial)', 'Yaren (no official capital)', 'Yaren (sense capital oficial)'), N('Micronesia', 'Micronesia', 'Micronèsia')],
+        ],
+      },
+      lista: L(
+        ['Melanesia significa «islas negras», Micronesia «islas pequeñas» y Polinesia «muchas islas».', 'La capital de Australia es Canberra, no Sídney ni Melbourne: se construyó a propósito entre las dos para no elegir a ninguna.'],
+        ['Melanesia means «black islands», Micronesia «small islands» and Polynesia «many islands».', 'Australia’s capital is Canberra, not Sydney or Melbourne: it was built on purpose between the two so as not to choose either.'],
+        ['Melanèsia vol dir «illes negres», Micronèsia «illes petites» i Polinèsia «moltes illes».', 'La capital d’Austràlia és Canberra, no Sydney ni Melbourne: es va construir expressament entre totes dues per no triar-ne cap.'],
+      ),
+    },
+    {
+      titulo: L('Relieve, clima y animales', 'Landscape, climate and animals', 'Relleu, clima i animals'),
+      tabla: {
+        columnas: L(['Qué', 'Dónde', 'Dato'], ['What', 'Where', 'Fact'], ['Què', 'On', 'Dada']),
+        filas: [
+          [L('Gran Barrera de Coral', 'Great Barrier Reef', 'Gran Barrera de Corall'), L('Noreste de Australia', 'North-east Australia', 'Nord-est d’Austràlia'), L('el mayor arrecife de coral del mundo, más de 2.000 km', 'the largest coral reef in the world, over 2,000 km', 'l’escull de corall més gran del món, més de 2.000 km')],
+          [L('Uluru', 'Uluru', 'Uluru'), L('Centro de Australia (outback)', 'Central Australia (the outback)', 'Centre d’Austràlia (outback)'), L('gran monolito de roca roja, sagrado para los aborígenes', 'a huge red rock monolith, sacred to Aboriginal people', 'gran monòlit de roca vermella, sagrat per als aborígens')],
+          [L('Río más largo', 'Longest river', 'Riu més llarg'), L('Murray (Australia)', 'Murray (Australia)', 'Murray (Austràlia)'), L('unos 2.500 km', 'about 2,500 km', 'uns 2.500 km')],
+          [L('Volcanes y géiseres', 'Volcanoes and geysers', 'Volcans i guèisers'), L('Nueva Zelanda', 'New Zealand', 'Nova Zelanda'), L('está sobre el borde de dos placas tectónicas', 'it lies on the boundary between two tectonic plates', 'és sobre la vora de dues plaques tectòniques')],
+          [L('Marsupiales y monotremas', 'Marsupials and monotremes', 'Marsupials i monotremes'), L('Australia', 'Australia', 'Austràlia'), L('canguro y koala (crían en una bolsa); ornitorrinco (mamífero que pone huevos)', 'kangaroo and koala (they raise young in a pouch); platypus (a mammal that lays eggs)', 'cangur i coala (crien en una bossa); ornitorinc (mamífer que pon ous)')],
+        ],
+      },
+    },
+  ],
+  preguntas: [
+    { p: T('¿Cuántos países hay en Oceanía?', 'How many countries are there in Oceania?', 'Quants països hi ha a Oceania?'),
+      r: T('Catorce países independientes. Además hay territorios que dependen de otros países, como la Polinesia Francesa, Nueva Caledonia (Francia), Guam (Estados Unidos) o Hawái, que es un estado de EE. UU.', 'Fourteen independent countries. There are also territories that belong to other countries, such as French Polynesia, New Caledonia (France), Guam (United States) or Hawaii, which is a US state.', 'Catorze països independents. A més hi ha territoris que depenen d’altres països, com la Polinèsia Francesa, Nova Caledònia (França), Guam (Estats Units) o Hawaii, que és un estat dels EUA.') },
+    { p: T('¿Australia es un continente o un país?', 'Is Australia a continent or a country?', 'Austràlia és un continent o un país?'),
+      r: T('Las dos cosas: es un país y ocupa casi toda la masa de tierra del continente, que en España se llama Oceanía e incluye también las islas del Pacífico.', 'Both: it is a country and it takes up almost all the land of the continent, which in Spain is called Oceania and also includes the Pacific islands.', 'Totes dues coses: és un país i ocupa gairebé tota la massa de terra del continent, que a Espanya s’anomena Oceania i inclou també les illes del Pacífic.') },
+  ],
+  ejercicios: [
+    { e: T('¿Cuál es la capital de Australia?', 'What is the capital of Australia?', 'Quina és la capital d’Austràlia?'),
+      s: T('Canberra. Sídney es la ciudad más grande, pero no la capital.', 'Canberra. Sydney is the largest city, but not the capital.', 'Canberra. Sydney és la ciutat més gran, però no la capital.') },
+    { e: T('¿En qué región de Oceanía están Fiyi, Samoa y las Islas Marshall?', 'Which region of Oceania are Fiji, Samoa and the Marshall Islands in?', 'A quina regió d’Oceania són Fiji, Samoa i les Illes Marshall?'),
+      s: T('Fiyi en Melanesia, Samoa en Polinesia y las Islas Marshall en Micronesia.', 'Fiji in Melanesia, Samoa in Polynesia and the Marshall Islands in Micronesia.', 'Fiji a Melanèsia, Samoa a Polinèsia i les Illes Marshall a Micronèsia.') },
+    { e: T('¿Cuál es la capital de Nueva Zelanda?', 'What is the capital of New Zealand?', 'Quina és la capital de Nova Zelanda?'),
+      s: T('Wellington, en la Isla Norte. La ciudad más grande es Auckland.', 'Wellington, on the North Island. The largest city is Auckland.', 'Wellington, a l’Illa del Nord. La ciutat més gran és Auckland.') },
+    { e: T('¿Por qué Nueva Zelanda tiene volcanes, géiseres y terremotos, y el centro de Australia casi no?', 'Why does New Zealand have volcanoes, geysers and earthquakes, while central Australia has almost none?', 'Per què Nova Zelanda té volcans, guèisers i terratrèmols, i el centre d’Austràlia gairebé no?'),
+      s: T('Porque Nueva Zelanda está sobre el límite entre dos placas tectónicas (la del Pacífico y la indoaustraliana) y Australia está en el centro de una placa.', 'Because New Zealand sits on the boundary between two tectonic plates (the Pacific and the Indo-Australian) and Australia is in the middle of a plate.', 'Perquè Nova Zelanda és sobre el límit entre dues plaques tectòniques (la del Pacífic i la indoaustraliana) i Austràlia és al centre d’una placa.') },
+    { e: T('¿En qué hemisferio está casi toda Oceanía y en qué estación es Navidad allí?', 'Which hemisphere is almost all of Oceania in, and what season is Christmas there?', 'En quin hemisferi és gairebé tota Oceania i en quina estació és Nadal allà?'),
+      s: T('En el hemisferio sur, así que las estaciones van al revés que en España: en Navidad es verano.', 'In the southern hemisphere, so the seasons are the other way round from Europe: Christmas is in summer.', 'A l’hemisferi sud, així que les estacions van al revés que a Espanya: per Nadal és estiu.') },
+  ],
+}
+
+// Estados de EE. UU.: [es, en, ca, capital, región (N, M, S, O)]
+const EST = [
+  ['Alabama', 'Alabama', 'Alabama', 'Montgomery', 'S'], ['Alaska', 'Alaska', 'Alaska', 'Juneau', 'O'],
+  ['Arizona', 'Arizona', 'Arizona', 'Phoenix', 'O'], ['Arkansas', 'Arkansas', 'Arkansas', 'Little Rock', 'S'],
+  ['California', 'California', 'Califòrnia', 'Sacramento', 'O'], ['Carolina del Norte', 'North Carolina', 'Carolina del Nord', 'Raleigh', 'S'],
+  ['Carolina del Sur', 'South Carolina', 'Carolina del Sud', 'Columbia', 'S'], ['Colorado', 'Colorado', 'Colorado', 'Denver', 'O'],
+  ['Connecticut', 'Connecticut', 'Connecticut', 'Hartford', 'N'], ['Dakota del Norte', 'North Dakota', 'Dakota del Nord', 'Bismarck', 'M'],
+  ['Dakota del Sur', 'South Dakota', 'Dakota del Sud', 'Pierre', 'M'], ['Delaware', 'Delaware', 'Delaware', 'Dover', 'S'],
+  ['Florida', 'Florida', 'Florida', 'Tallahassee', 'S'], ['Georgia', 'Georgia', 'Geòrgia', 'Atlanta', 'S'],
+  ['Hawái', 'Hawaii', 'Hawaii', 'Honolulu', 'O'], ['Idaho', 'Idaho', 'Idaho', 'Boise', 'O'],
+  ['Illinois', 'Illinois', 'Illinois', 'Springfield', 'M'], ['Indiana', 'Indiana', 'Indiana', 'Indianápolis', 'M'],
+  ['Iowa', 'Iowa', 'Iowa', 'Des Moines', 'M'], ['Kansas', 'Kansas', 'Kansas', 'Topeka', 'M'],
+  ['Kentucky', 'Kentucky', 'Kentucky', 'Frankfort', 'S'], ['Luisiana', 'Louisiana', 'Louisiana', 'Baton Rouge', 'S'],
+  ['Maine', 'Maine', 'Maine', 'Augusta', 'N'], ['Maryland', 'Maryland', 'Maryland', 'Annapolis', 'S'],
+  ['Massachusetts', 'Massachusetts', 'Massachusetts', 'Boston', 'N'], ['Míchigan', 'Michigan', 'Michigan', 'Lansing', 'M'],
+  ['Minnesota', 'Minnesota', 'Minnesota', 'Saint Paul', 'M'], ['Misisipi', 'Mississippi', 'Mississipí', 'Jackson', 'S'],
+  ['Misuri', 'Missouri', 'Missouri', 'Jefferson City', 'M'], ['Montana', 'Montana', 'Montana', 'Helena', 'O'],
+  ['Nebraska', 'Nebraska', 'Nebraska', 'Lincoln', 'M'], ['Nevada', 'Nevada', 'Nevada', 'Carson City', 'O'],
+  ['Nueva Hampshire', 'New Hampshire', 'Nou Hampshire', 'Concord', 'N'], ['Nueva Jersey', 'New Jersey', 'Nova Jersey', 'Trenton', 'N'],
+  ['Nuevo México', 'New Mexico', 'Nou Mèxic', 'Santa Fe', 'O'], ['Nueva York', 'New York', 'Nova York', 'Albany', 'N'],
+  ['Ohio', 'Ohio', 'Ohio', 'Columbus', 'M'], ['Oklahoma', 'Oklahoma', 'Oklahoma', 'Oklahoma City', 'S'],
+  ['Oregón', 'Oregon', 'Oregon', 'Salem', 'O'], ['Pensilvania', 'Pennsylvania', 'Pennsilvània', 'Harrisburg', 'N'],
+  ['Rhode Island', 'Rhode Island', 'Rhode Island', 'Providence', 'N'], ['Tennessee', 'Tennessee', 'Tennessee', 'Nashville', 'S'],
+  ['Texas', 'Texas', 'Texas', 'Austin', 'S'], ['Utah', 'Utah', 'Utah', 'Salt Lake City', 'O'],
+  ['Vermont', 'Vermont', 'Vermont', 'Montpelier', 'N'], ['Virginia', 'Virginia', 'Virgínia', 'Richmond', 'S'],
+  ['Virginia Occidental', 'West Virginia', 'Virgínia de l’Oest', 'Charleston', 'S'], ['Washington', 'Washington', 'Washington', 'Olympia', 'O'],
+  ['Wisconsin', 'Wisconsin', 'Wisconsin', 'Madison', 'M'], ['Wyoming', 'Wyoming', 'Wyoming', 'Cheyenne', 'O'],
+]
+const REGION_EEUU = {
+  N: N('Noreste', 'Northeast', 'Nord-est'),
+  M: N('Medio Oeste', 'Midwest', 'Mig Oest'),
+  S: N('Sur', 'South', 'Sud'),
+  O: N('Oeste', 'West', 'Oest'),
+}
+export const ESTADOS_EEUU = EST
+
+const eeuu = {
+  metaTitle: L('Estados Unidos: los 50 estados y sus capitales (con tabla) — resumen y ejercicios', 'The United States: the 50 states and their capitals (with table) — summary and practice questions', 'Estats Units: els 50 estats i les seves capitals (amb taula) — resum i exercicis'),
+  secciones: [
+    {
+      titulo: L('Los 50 estados de Estados Unidos y sus capitales', 'The 50 US states and their capitals', 'Els 50 estats dels Estats Units i les seves capitals'),
+      texto: L(
+        ['Muchas capitales no son la ciudad más famosa del estado: la de California es Sacramento (no Los Ángeles), la de Nueva York es Albany, la de Texas es Austin y la de Florida, Tallahassee.'],
+        ['Many state capitals are not the state’s best-known city: California’s is Sacramento (not Los Angeles), New York’s is Albany, Texas’s is Austin and Florida’s is Tallahassee.'],
+        ['Moltes capitals no són la ciutat més famosa de l’estat: la de Califòrnia és Sacramento (no Los Angeles), la de Nova York és Albany, la de Texas és Austin i la de Florida, Tallahassee.'],
+      ),
+      tabla: {
+        columnas: L(['Estado', 'Capital', 'Región'], ['State', 'Capital', 'Region'], ['Estat', 'Capital', 'Regió']),
+        filas: EST.map(([es, en, ca, cap, r]) => [N(es, en, ca), cap === 'Indianápolis' ? N('Indianápolis', 'Indianapolis', 'Indianapolis') : cap, REGION_EEUU[r]]),
+      },
+    },
+    {
+      titulo: L('Relieve y récords', 'Landscape and records', 'Relleu i rècords'),
+      tabla: {
+        columnas: L(['Qué', 'Dónde', 'Dato'], ['What', 'Where', 'Fact'], ['Què', 'On', 'Dada']),
+        filas: [
+          [L('Estado más grande', 'Largest state', 'Estat més gran'), 'Alaska', L('más del doble que Texas', 'more than twice the size of Texas', 'més del doble que Texas')],
+          [L('Estado más pequeño', 'Smallest state', 'Estat més petit'), 'Rhode Island', L('menor que la provincia de Gerona', 'smaller than the province of Girona', 'més petit que la província de Girona')],
+          [L('Estado más poblado', 'Most populous state', 'Estat més poblat'), N('California', 'California', 'Califòrnia'), L('unos 39 millones de habitantes', 'about 39 million people', 'uns 39 milions d’habitants')],
+          [L('Gran río', 'Great river', 'Gran riu'), L('Misisipi-Misuri', 'Mississippi–Missouri', 'Mississipí-Missouri'), L('uno de los sistemas fluviales más largos del mundo', 'one of the longest river systems in the world', 'un dels sistemes fluvials més llargs del món')],
+          [L('Cordilleras', 'Mountain ranges', 'Serralades'), L('Montañas Rocosas (oeste) y Apalaches (este)', 'Rocky Mountains (west) and Appalachians (east)', 'Muntanyes Rocoses (oest) i Apalatxes (est)'), L('entre ellas, las Grandes Llanuras', 'between them, the Great Plains', 'entre elles, les Grans Planes')],
+          [L('Grandes Lagos', 'Great Lakes', 'Grans Llacs'), L('Frontera con Canadá', 'Border with Canada', 'Frontera amb el Canadà'), L('Superior, Míchigan, Hurón, Erie y Ontario', 'Superior, Michigan, Huron, Erie and Ontario', 'Superior, Michigan, Huron, Erie i Ontario')],
+        ],
+      },
+    },
+  ],
+  preguntas: [
+    { p: T('¿Cuál es la capital de Estados Unidos?', 'What is the capital of the United States?', 'Quina és la capital dels Estats Units?'),
+      r: T('Washington D. C. (Distrito de Columbia), que no pertenece a ningún estado. No hay que confundirlo con el estado de Washington, en la costa del Pacífico, cuya capital es Olympia.', 'Washington, D.C. (District of Columbia), which does not belong to any state. Not to be confused with Washington State, on the Pacific coast, whose capital is Olympia.', 'Washington D. C. (Districte de Colúmbia), que no pertany a cap estat. No s’ha de confondre amb l’estat de Washington, a la costa del Pacífic, que té la capital a Olympia.') },
+    { p: T('¿Por qué la bandera tiene 50 estrellas y 13 franjas?', 'Why does the flag have 50 stars and 13 stripes?', 'Per què la bandera té 50 estrelles i 13 franges?'),
+      r: T('Cada estrella es un estado; las 13 franjas son las 13 colonias que se independizaron de Gran Bretaña en 1776.', 'Each star is a state; the 13 stripes are the 13 colonies that became independent from Britain in 1776.', 'Cada estrella és un estat; les 13 franges són les 13 colònies que es van independitzar de la Gran Bretanya el 1776.') },
+  ],
+  ejercicios: [
+    { e: T('¿Cuál es la capital de California? ¿Y la de Texas?', 'What is the capital of California? And of Texas?', 'Quina és la capital de Califòrnia? I la de Texas?'),
+      s: T('Sacramento y Austin. Los Ángeles y Houston son más grandes, pero no son capitales.', 'Sacramento and Austin. Los Angeles and Houston are bigger, but they are not capitals.', 'Sacramento i Austin. Los Angeles i Houston són més grans, però no són capitals.') },
+    { e: T('¿Qué dos estados no limitan con ningún otro estado?', 'Which two states do not border any other state?', 'Quins dos estats no limiten amb cap altre estat?'),
+      s: T('Alaska, entre Canadá y el estrecho de Bering, y Hawái, un archipiélago en el Pacífico.', 'Alaska, between Canada and the Bering Strait, and Hawaii, an archipelago in the Pacific.', 'Alaska, entre el Canadà i l’estret de Bering, i Hawaii, un arxipèlag al Pacífic.') },
+    { e: T('¿Cuál es la capital del estado de Nueva York?', 'What is the capital of New York State?', 'Quina és la capital de l’estat de Nova York?'),
+      s: T('Albany. La ciudad de Nueva York es la más grande del país, pero no es la capital de su estado.', 'Albany. New York City is the largest in the country, but it is not its state’s capital.', 'Albany. La ciutat de Nova York és la més gran del país, però no és la capital del seu estat.') },
+    { e: T('Une cada estado con su capital: Florida, Georgia, Massachusetts, Colorado. (Boston, Denver, Tallahassee, Atlanta)', 'Match each state to its capital: Florida, Georgia, Massachusetts, Colorado. (Boston, Denver, Tallahassee, Atlanta)', 'Uneix cada estat amb la seva capital: Florida, Geòrgia, Massachusetts, Colorado. (Boston, Denver, Tallahassee, Atlanta)'),
+      s: T('Florida–Tallahassee, Georgia–Atlanta, Massachusetts–Boston, Colorado–Denver.', 'Florida–Tallahassee, Georgia–Atlanta, Massachusetts–Boston, Colorado–Denver.', 'Florida–Tallahassee, Geòrgia–Atlanta, Massachusetts–Boston, Colorado–Denver.') },
+    { e: T('¿Qué cordillera recorre el oeste de Estados Unidos y cuál el este?', 'Which mountain range runs through the west of the United States, and which through the east?', 'Quina serralada recorre l’oest dels Estats Units i quina l’est?'),
+      s: T('Al oeste, las Montañas Rocosas; al este, los Apalaches, más bajos y antiguos.', 'In the west, the Rocky Mountains; in the east, the Appalachians, which are lower and older.', 'A l’oest, les Muntanyes Rocoses; a l’est, els Apalatxes, més baixos i antics.') },
+  ],
+}
+
+// ── Ejercicios para los temas de gramática ya ampliados en octubre ───────
+
+const sustantivos = {
+  ejercicios: [
+    { e: T('Subraya los sustantivos: «El perro de mi vecina ladra con mucha alegría».', 'Underline the nouns: «El perro de mi vecina ladra con mucha alegría».', 'Subratlla els substantius: «El perro de mi vecina ladra con mucha alegría».'),
+      s: T('Perro, vecina y alegría.', 'Perro, vecina and alegría.', 'Perro, vecina i alegría.') },
+    { e: T('¿Común o propio? Madrid, ciudad, Ebro, río, Lucía.', 'Common or proper? Madrid, ciudad, Ebro, río, Lucía.', 'Comú o propi? Madrid, ciudad, Ebro, río, Lucía.'),
+      s: T('Propios (con mayúscula, nombran a uno en concreto): Madrid, Ebro, Lucía. Comunes: ciudad, río.', 'Proper (capitalised, naming one specific thing): Madrid, Ebro, Lucía. Common: ciudad, río.', 'Propis (amb majúscula, anomenen un de concret): Madrid, Ebro, Lucía. Comuns: ciudad, río.') },
+    { e: T('¿Concreto o abstracto? mesa, miedo, libertad, manzana.', 'Concrete or abstract? mesa, miedo, libertad, manzana.', 'Concret o abstracte? mesa, miedo, libertad, manzana.'),
+      s: T('Concretos (se perciben con los sentidos): mesa, manzana. Abstractos (ideas o sentimientos): miedo, libertad.', 'Concrete (perceived with the senses): mesa, manzana. Abstract (ideas or feelings): miedo, libertad.', 'Concrets (es perceben amb els sentits): mesa, manzana. Abstractes (idees o sentiments): miedo, libertad.') },
+    { e: T('¿Qué sustantivos son colectivos? rebaño, oveja, orquesta, músico, enjambre.', 'Which nouns are collective? rebaño, oveja, orquesta, músico, enjambre.', 'Quins substantius són col·lectius? rebaño, oveja, orquesta, músico, enjambre.'),
+      s: T('Rebaño, orquesta y enjambre: en singular nombran un grupo (de ovejas, músicos y abejas).', 'Rebaño, orquesta and enjambre: in the singular they name a group (of sheep, musicians and bees).', 'Rebaño, orquesta i enjambre: en singular anomenen un grup (d’ovelles, músics i abelles).') },
+    { e: T('Escribe el femenino de: actor, gallo, el periodista.', 'Write the feminine of: actor, gallo, el periodista.', 'Escriu el femení de: actor, gallo, el periodista.'),
+      s: T('Actriz, gallina y la periodista (solo cambia el artículo).', 'Actriz, gallina and la periodista (only the article changes).', 'Actriz, gallina i la periodista (només canvia l’article).') },
+  ],
+}
+
+const adverbios = {
+  ejercicios: [
+    { e: T('Subraya los adverbios: «Mañana llegaremos muy temprano, seguramente».', 'Underline the adverbs: «Mañana llegaremos muy temprano, seguramente».', 'Subratlla els adverbis: «Mañana llegaremos muy temprano, seguramente».'),
+      s: T('Mañana (tiempo), muy (cantidad), temprano (tiempo) y seguramente (duda o probabilidad).', 'Mañana (time), muy (quantity), temprano (time) and seguramente (doubt or probability).', 'Mañana (temps), muy (quantitat), temprano (temps) i seguramente (dubte o probabilitat).') },
+    { e: T('Di de qué tipo es cada adverbio: aquí, ayer, despacio, no, quizás, bastante.', 'Say what type each adverb is: aquí, ayer, despacio, no, quizás, bastante.', 'Digues de quin tipus és cada adverbi: aquí, ayer, despacio, no, quizás, bastante.'),
+      s: T('Aquí: lugar. Ayer: tiempo. Despacio: modo. No: negación. Quizás: duda. Bastante: cantidad.', 'Aquí: place. Ayer: time. Despacio: manner. No: negation. Quizás: doubt. Bastante: quantity.', 'Aquí: lloc. Ayer: temps. Despacio: manera. No: negació. Quizás: dubte. Bastante: quantitat.') },
+    { e: T('Forma adverbios en -mente a partir de: rápido, fácil, tranquilo.', 'Form -mente adverbs from: rápido, fácil, tranquilo.', 'Forma adverbis en -mente a partir de: rápido, fácil, tranquilo.'),
+      s: T('Rápidamente, fácilmente y tranquilamente: se añade -mente al femenino del adjetivo y se conserva su tilde.', 'Rápidamente, fácilmente and tranquilamente: -mente is added to the feminine form of the adjective, which keeps its accent.', 'Rápidamente, fácilmente i tranquilamente: s’afegeix -mente al femení de l’adjectiu i se’n conserva l’accent.') },
+    { e: T('¿Adverbio o adjetivo? «Habla claro» y «Un cielo claro».', 'Adverb or adjective? «Habla claro» and «Un cielo claro».', 'Adverbi o adjectiu? «Habla claro» i «Un cielo claro».'),
+      s: T('En «Habla claro» es adverbio (modifica al verbo y no varía). En «Un cielo claro» es adjetivo (acompaña al sustantivo: una noche clara).', 'In «Habla claro» it is an adverb (it modifies the verb and does not change). In «Un cielo claro» it is an adjective (it goes with the noun: una noche clara).', 'A «Habla claro» és adverbi (modifica el verb i no varia). A «Un cielo claro» és adjectiu (acompanya el substantiu: una noche clara).') },
+    { e: T('Corrige: «Se sentó detrás mío».', 'Correct: «Se sentó detrás mío».', 'Corregeix: «Se sentó detrás mío».'),
+      s: T('«Se sentó detrás de mí». Con detrás, delante, encima o cerca se usa de + pronombre, no el posesivo.', '«Se sentó detrás de mí». With detrás, delante, encima or cerca you use de + pronoun, not the possessive.', '«Se sentó detrás de mí». Amb detrás, delante, encima o cerca es fa servir de + pronom, no el possessiu.') },
+  ],
+}
+
+const determinantes = {
+  ejercicios: [
+    { e: T('Subraya los determinantes: «Aquellos dos niños perdieron su pelota en el parque».', 'Underline the determiners: «Aquellos dos niños perdieron su pelota en el parque».', 'Subratlla els determinants: «Aquellos dos niños perdieron su pelota en el parque».'),
+      s: T('Aquellos (demostrativo), dos (numeral), su (posesivo) y el (artículo, dentro de «en el parque»).', 'Aquellos (demonstrative), dos (numeral), su (possessive) and el (article, in «en el parque»).', 'Aquellos (demostratiu), dos (numeral), su (possessiu) i el (article, dins d’«en el parque»).') },
+    { e: T('Di de qué tipo es cada determinante: «el», «mis», «esa», «algunos», «tercer», «¿qué?».', 'Say what type each determiner is: «el», «mis», «esa», «algunos», «tercer», «¿qué?».', 'Digues de quin tipus és cada determinant: «el», «mis», «esa», «algunos», «tercer», «¿qué?».'),
+      s: T('El: artículo. Mis: posesivo. Esa: demostrativo. Algunos: indefinido. Tercer: numeral ordinal. ¿Qué?: interrogativo (¿qué libro?).', 'El: article. Mis: possessive. Esa: demonstrative. Algunos: indefinite. Tercer: ordinal numeral. ¿Qué?: interrogative (¿qué libro?).', 'El: article. Mis: possessiu. Esa: demostratiu. Algunos: indefinit. Tercer: numeral ordinal. ¿Qué?: interrogatiu (¿qué libro?).') },
+    { e: T('¿Determinante o pronombre? «Mi bici es roja; la tuya, azul».', 'Determiner or pronoun? «Mi bici es roja; la tuya, azul».', 'Determinant o pronom? «Mi bici es roja; la tuya, azul».'),
+      s: T('Mi es determinante (acompaña a «bici»); la tuya es pronombre (sustituye a «tu bici»).', 'Mi is a determiner (it goes with «bici»); la tuya is a pronoun (it replaces «tu bici»).', 'Mi és determinant (acompanya «bici»); la tuya és pronom (substitueix «tu bici»).') },
+    { e: T('¿Por qué se dice «el agua» pero «las aguas» y «esta agua»?', 'Why do we say «el agua» but «las aguas» and «esta agua»?', 'Per què es diu «el agua» però «las aguas» i «esta agua»?'),
+      s: T('Agua es femenino. Delante de un sustantivo femenino que empieza por a- o ha- tónica, el artículo la pasa a el solo en singular («el agua», «el águila»); los demás determinantes siguen en femenino.', 'Agua is feminine. Before a feminine noun starting with a stressed a- or ha-, the article la becomes el only in the singular («el agua», «el águila»); the other determiners stay feminine.', 'Agua és femení. Davant d’un substantiu femení que comença per a- o ha- tònica, l’article la passa a el només en singular («el agua», «el águila»); els altres determinants continuen en femení.') },
+    { e: T('Completa con la forma correcta: «Vivo en el ___ piso» (primero) y «Es el ___ día» (tercero).', 'Fill in the right form: «Vivo en el ___ piso» (primero) and «Es el ___ día» (tercero).', 'Completa amb la forma correcta: «Vivo en el ___ piso» (primero) i «Es el ___ día» (tercero).'),
+      s: T('«Vivo en el primer piso» y «Es el tercer día»: delante de un sustantivo masculino singular se acortan.', '«Vivo en el primer piso» and «Es el tercer día»: before a masculine singular noun they are shortened.', '«Vivo en el primer piso» i «Es el tercer día»: davant d’un substantiu masculí singular s’escurcen.') },
+  ],
+}
+
+export const AMPLIACION = { pronombres, morfologia, adjetivos, nexos, verbos, disoluciones, movimiento, asia, oceania, eeuu, sustantivos, adverbios, determinantes }
