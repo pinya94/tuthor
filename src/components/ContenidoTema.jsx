@@ -79,6 +79,25 @@ export default function ContenidoTema({ tema, lang = 'es', className = '' }) {
           )}
         </section>
       ))}
+      {c.ejercicios && (
+        // Ejercicios con la solución desplegable: el texto de la solución
+        // está en el HTML (prerender), así que cuenta para «ejercicios de X
+        // con soluciones», pero el alumno puede intentarlo antes de mirar.
+        <section>
+          <h2 className="text-white font-black text-lg sm:text-xl mt-7 mb-3">{L === 'ca' ? 'Exercicis resolts' : L === 'en' ? 'Practice questions with answers' : 'Ejercicios resueltos'}</h2>
+          <ol className="space-y-3">
+            {c.ejercicios.map((ej, i) => (
+              <li key={i} className="rounded-xl bg-white/[0.04] border border-white/10 px-3.5 py-3">
+                <p className="text-white text-[15px] leading-relaxed"><span className="text-amber-400 font-black mr-1.5">{i + 1}.</span>{celda(ej.e, L)}</p>
+                <details className="mt-1.5 group">
+                  <summary className="cursor-pointer text-sky-300 text-sm font-bold select-none">{L === 'ca' ? 'Veure la solució' : L === 'en' ? 'Show the answer' : 'Ver la solución'}</summary>
+                  <p className="text-white/75 text-[15px] leading-relaxed mt-1.5">{celda(ej.s, L)}</p>
+                </details>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
       {c.preguntas && (
         <section>
           <h2 className="text-white font-black text-lg sm:text-xl mt-7 mb-3">{L === 'ca' ? 'Preguntes freqüents' : L === 'en' ? 'Frequently asked questions' : 'Preguntas frecuentes'}</h2>

@@ -124,7 +124,7 @@ export default function MedidorPh() {
   }
 
   const seo = {
-    title: tr({ es: 'Medidor de pH — Juego de ácidos y bases', en: 'pH Meter — Acids and bases game', ca: 'Mesurador de pH — Joc d’àcids i bases' }),
+    title: tr({ es: 'Medidor de pH — Juego del pH: escala de pH, ácidos y bases', en: 'pH Meter — pH game: the pH scale, acids and bases', ca: 'Mesurador de pH — Joc del pH: escala de pH, àcids i bases' }),
     desc: tr({
       es: 'Coloca limón, lejía, café, agua de mar o jabón en la escala de pH del 0 al 14 y mira el color del indicador universal. Tres niveles, 26 sustancias de casa con su pH real. Juego de química gratis.',
       en: 'Place lemon, bleach, coffee, seawater or soap on the pH scale from 0 to 14 and see the universal indicator colour. Three levels, 26 household substances with their real pH. Free chemistry game.',

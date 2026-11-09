@@ -9,6 +9,8 @@
 // de src/data/ciencias.js (disciplinaDeTema). Ampliar = añadir aquí un tema
 // más y su URL ×3 idiomas al sitemap; el test de invariantes obliga a ambas.
 
+import { AMPLIACION } from './temaAmpliado.js'
+
 export const CONTENIDO_TEMA = {
   'celula': {
     metaTitle: {
@@ -4543,4 +4545,16 @@ export const CONTENIDO_TEMA = {
       ],
     },
   },
+}
+
+// Ampliaciones (tablas, dudas y ejercicios resueltos) de los temas que Google
+// ya enseña: ver temaAmpliado.js. Se suman a lo que ya hay; metaTitle, si
+// viene, sustituye al de aquí.
+for (const [tema, extra] of Object.entries(AMPLIACION)) {
+  const c = CONTENIDO_TEMA[tema]
+  if (!c) throw new Error(`temaAmpliado: el tema «${tema}» no existe en CONTENIDO_TEMA`)
+  if (extra.metaTitle) c.metaTitle = extra.metaTitle
+  if (extra.secciones) c.secciones = [...(c.secciones ?? []), ...extra.secciones]
+  if (extra.preguntas) c.preguntas = [...(c.preguntas ?? []), ...extra.preguntas]
+  if (extra.ejercicios) c.ejercicios = [...(c.ejercicios ?? []), ...extra.ejercicios]
 }
