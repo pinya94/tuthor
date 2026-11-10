@@ -328,6 +328,18 @@ function Divisibilidad(p) {
   )
 }
 
+function Romanos(p) {
+  // Una lápida con el año en romanos y su traducción debajo.
+  return (
+    <Lienzo {...p}>
+      <rect x="34" y="26" width="172" height="62" rx="6" fill="#57534E" stroke="#D6D3D1" strokeWidth="2.5" />
+      <rect x="42" y="34" width="156" height="46" rx="3" fill="none" stroke="#A8A29E" strokeWidth="1.2" />
+      <T x={120} y={66} s={26} c="#FAFAF9">MMXXVI</T>
+      <T x={120} y={112} s={15} c="#FCD34D">1000 + 1000 + 10 + 10 + 5 + 1</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_MATEMATICAS = {
   'matematicas/sumas': Sumas,
   'matematicas/restas': Restas,
@@ -347,4 +359,5 @@ export const ARTE_TEMAS_MATEMATICAS = {
   'matematicas/estadistica': Estadistica,
   'matematicas/enteros-racionales': Enteros,
   'matematicas/algebra': Algebra,
+  'matematicas/numeros-romanos': Romanos,
 }

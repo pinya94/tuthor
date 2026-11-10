@@ -154,7 +154,7 @@ export function resolveMeta(path, lang) {
 
   // Temas de estudio con contenido propio: ciencias, geografía, historia y la
   // gramática española (ruta más profunda). Todos leen del mismo CONTENIDO_TEMA.
-  m = path.match(/^\/estudiar\/(?:quimica|fisica|biologia|geologia|geografia|historia)\/([\w-]+)$/)
+  m = path.match(/^\/estudiar\/(?:quimica|fisica|biologia|geologia|geografia|historia|matematicas)\/([\w-]+)$/)
     || path.match(/^\/estudiar\/idiomas\/espanol\/gramatica\/([\w-]+)$/)
     || path.match(/^\/estudiar\/idiomas\/espanol\/ortografia\/([\w-]+)$/)
     || path.match(/^\/estudiar\/idiomas\/ingles\/grammar\/([\w-]+)$/)

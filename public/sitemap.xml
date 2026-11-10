@@ -62,6 +62,9 @@
   <url><loc>https://www.tuthor.es/estudiar/matematicas/estadistica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/matematicas/enteros-racionales</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/matematicas/algebra</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/matematicas/numeros-romanos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/matematicas/numeros-romanos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/matematicas/numeros-romanos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
   <url><loc>https://www.tuthor.es/estudiar/historia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/historia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>

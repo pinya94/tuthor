@@ -62,4 +62,10 @@ export const TEMAS_MATEMATICAS_EXTRA = [
     emoji: '🔣', gradient: 'from-red-500 to-rose-700',
     tags: ['ecuacion', 'variable', 'monomio', 'sistema', 'cuadratica'],
   },
+  {
+    id: 'numeros-romanos',
+    titulo: 'Números romanos', tituloEn: 'Roman numerals', tituloCa: 'Nombres romans',
+    emoji: '🏛️', gradient: 'from-stone-500 to-amber-700',
+    tags: ['romanos', 'numeracion', 'siglos', 'roman numerals'],
+  },
 ]
