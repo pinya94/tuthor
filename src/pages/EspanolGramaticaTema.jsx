@@ -98,6 +98,18 @@ const TEMAS = {
       { id: 'frases-nexos-test', emoji: '🧐', gradient: 'from-violet-500 to-fuchsia-700', titulo: { es: 'Señálalos en la frase', en: 'Spot them in the sentence', ca: 'Assenyala\'ls a la frase' }, desc: { es: 'Con la mecánica del juego: marca las preposiciones y conjunciones.', en: 'Using the game mechanic: mark the prepositions and conjunctions.', ca: 'Amb la mecànica del joc: marca les preposicions i conjuncions.' }, detalles: { es: ['2 niveles', '10 preguntas', 'Con el juego'], en: ['2 levels', '10 questions', 'With the game'], ca: ['2 nivells', '10 preguntes', 'Amb el joc'] } },
     ],
   },
+  'sinonimos-antonimos': {
+    titulo: { es: 'Sinónimos y antónimos', en: 'Synonyms & antonyms', ca: 'Sinònims i antònims' }, emoji: '🔁',
+    modos: [
+      { id: 'fabrica-palabras-test', emoji: '🏭', gradient: 'from-orange-500 to-rose-700', titulo: { es: 'La Fábrica de Palabras (con el juego)', en: 'The Word Factory (with the game)', ca: 'La Fàbrica de Paraules (amb el joc)' }, desc: { es: 'Monta palabras pegando prefijos y sufijos y une sinónimos y antónimos. Desde aquí puedes pasar al juego contra reloj.', en: 'Build Spanish words with prefixes and suffixes and match synonyms and antonyms. From here you can go on to the timed game.', ca: 'Munta paraules enganxant prefixos i sufixos i uneix sinònims i antònims. Des d’aquí pots passar al joc contra rellotge.' }, detalles: { es: ['3 niveles', '10 preguntas', 'Con el juego'], en: ['3 levels', '10 questions', 'With the game'], ca: ['3 nivells', '10 preguntes', 'Amb el joc'] } },
+    ],
+  },
+  'prefijos-sufijos': {
+    titulo: { es: 'Prefijos y sufijos', en: 'Prefixes & suffixes', ca: 'Prefixos i sufixos' }, emoji: '🧩',
+    modos: [
+      { id: 'fabrica-palabras-test', emoji: '🏭', gradient: 'from-orange-500 to-rose-700', titulo: { es: 'La Fábrica de Palabras (con el juego)', en: 'The Word Factory (with the game)', ca: 'La Fàbrica de Paraules (amb el joc)' }, desc: { es: 'Monta palabras pegando prefijos y sufijos y une sinónimos y antónimos. Desde aquí puedes pasar al juego contra reloj.', en: 'Build Spanish words with prefixes and suffixes and match synonyms and antonyms. From here you can go on to the timed game.', ca: 'Munta paraules enganxant prefixos i sufixos i uneix sinònims i antònims. Des d’aquí pots passar al joc contra rellotge.' }, detalles: { es: ['3 niveles', '10 preguntas', 'Con el juego'], en: ['3 levels', '10 questions', 'With the game'], ca: ['3 nivells', '10 preguntes', 'Amb el joc'] } },
+    ],
+  },
   morfologia: {
     titulo: { es: 'Género y número', en: 'Gender & number', ca: 'Gènere i nombre' }, emoji: '♀️',
     modos: [

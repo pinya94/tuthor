@@ -13,6 +13,8 @@ export const TEMAS_GRAMATICA = [
   { id: 'adverbios', titulo: { es: 'Adverbios', en: 'Adverbs', ca: 'Adverbis' }, emoji: '⏱️', gradient: 'from-teal-500 to-cyan-600' },
   { id: 'nexos', titulo: { es: 'Preposiciones y conjunciones', en: 'Prepositions & conjunctions', ca: 'Preposicions i conjuncions' }, emoji: '🔗', gradient: 'from-sky-500 to-blue-600' },
   { id: 'sintaxis', titulo: { es: 'Sintaxis', en: 'Syntax', ca: 'Sintaxi' }, emoji: '🔬', gradient: 'from-purple-500 to-violet-600' },
+  { id: 'sinonimos-antonimos', titulo: { es: 'Sinónimos y antónimos', en: 'Synonyms & antonyms', ca: 'Sinònims i antònims' }, emoji: '🔁', gradient: 'from-sky-500 to-indigo-600' },
+  { id: 'prefijos-sufijos', titulo: { es: 'Prefijos y sufijos', en: 'Prefixes & suffixes', ca: 'Prefixos i sufixos' }, emoji: '🧩', gradient: 'from-orange-500 to-rose-700' },
   { id: 'morfologia', titulo: { es: 'Género y número', en: 'Gender & number', ca: 'Gènere i nombre' }, emoji: '♀️', gradient: 'from-fuchsia-500 to-purple-600' },
 ]
 

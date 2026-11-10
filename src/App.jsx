@@ -173,6 +173,7 @@ const CadenaAlimentaria      = lazy(() => import('./pages/CadenaAlimentaria'))
 const Microscopio            = lazy(() => import('./pages/Microscopio'))
 const PonLaTilde             = lazy(() => import('./pages/PonLaTilde'))
 const QueLetra               = lazy(() => import('./pages/QueLetra'))
+const FabricaPalabras        = lazy(() => import('./pages/FabricaPalabras'))
 const ComaAComa              = lazy(() => import('./pages/ComaAComa'))
 const Cazafiguras            = lazy(() => import('./pages/Cazafiguras'))
 const DetectiveTextos        = lazy(() => import('./pages/DetectiveTextos'))
@@ -279,6 +280,7 @@ function AppRoutes() {
       <Route path="juegos/microscopio" element={<Microscopio />} />
       <Route path="juegos/pon-la-tilde" element={<PonLaTilde />} />
       <Route path="juegos/que-letra" element={<QueLetra />} />
+      <Route path="juegos/fabrica-palabras" element={<FabricaPalabras />} />
       <Route path="juegos/coma-a-coma" element={<ComaAComa />} />
       <Route path="juegos/cazafiguras" element={<Cazafiguras />} />
       <Route path="juegos/detective-textos" element={<DetectiveTextos />} />

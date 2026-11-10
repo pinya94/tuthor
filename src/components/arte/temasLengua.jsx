@@ -149,6 +149,42 @@ function Sintaxis(p) {
 }
 
 // Género y número: gato → gata → gatos.
+function SinonimosAntonimos(p) {
+  // alegre = contento y alto ≠ bajo, en dos filas de fichas.
+  const ficha = (x, y, txt, c) => (
+    <g key={txt}>
+      <rect x={x} y={y} width="72" height="32" rx="8" fill="#FFFFFF" fillOpacity=".05" stroke={c} strokeWidth="2.5" />
+      <T x={x + 36} y={y + 21} s={14} c="#E2E8F0">{txt}</T>
+    </g>
+  )
+  return (
+    <Lienzo {...p}>
+      {ficha(30, 28, 'alegre', CIELO)}
+      <T x={120} y={50} s={22} c={CIELO}>=</T>
+      {ficha(138, 28, 'contento', CIELO)}
+      {ficha(30, 78, 'alto', ROSA)}
+      <T x={120} y={100} s={22} c={ROSA}>≠</T>
+      {ficha(138, 78, 'bajo', ROSA)}
+    </Lienzo>
+  )
+}
+
+function PrefijosSufijos(p) {
+  // re- + hacer y zapat- + -ero: el prefijo delante y el sufijo detrás.
+  return (
+    <Lienzo {...p}>
+      <rect x="22" y="30" width="44" height="32" rx="8" fill={ROSA} fillOpacity=".3" stroke={ROSA} strokeWidth="2" />
+      <T x={44} y={52} s={15} c="#FFFFFF">re-</T>
+      <rect x="70" y="30" width="64" height="32" rx="8" fill="#FFFFFF" fillOpacity=".06" stroke="#94A3B8" strokeWidth="2" />
+      <T x={102} y={52} s={15} c="#E2E8F0">hacer</T>
+      <rect x="96" y="80" width="64" height="32" rx="8" fill="#FFFFFF" fillOpacity=".06" stroke="#94A3B8" strokeWidth="2" />
+      <T x={128} y={102} s={15} c="#E2E8F0">zapat-</T>
+      <rect x="164" y="80" width="50" height="32" rx="8" fill={CIELO} fillOpacity=".3" stroke={CIELO} strokeWidth="2" />
+      <T x={189} y={102} s={15} c="#FFFFFF">-ero</T>
+    </Lienzo>
+  )
+}
+
 function Morfologia(p) {
   const formas = [['gat', 'o', CIELO, 18], ['gat', 'a', ROSA, 90], ['gat', 'os', '#A78BFA', 162]]
   return (
@@ -458,6 +494,8 @@ export const ARTE_TEMAS_LENGUA = {
   'gramatica/nexos': Nexos,
   'gramatica/sintaxis': Sintaxis,
   'gramatica/morfologia': Morfologia,
+  'gramatica/sinonimos-antonimos': SinonimosAntonimos,
+  'gramatica/prefijos-sufijos': PrefijosSufijos,
   'ingles/present-simple': PresentSimple,
   'ingles/past-simple': PastSimple,
   'ingles/present-perfect': PresentPerfect,

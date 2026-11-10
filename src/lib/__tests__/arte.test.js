@@ -70,7 +70,7 @@ describe('arte de los temas', () => {
     // Lengua: las rejillas de EspanolGramaticaIndex, InglesGrammarIndex y
     // EspanolOrtografiaIndex (+ portadas). La gramática inglesa reutiliza los
     // conceptos de la castellana (CONCEPTO_INGLES).
-    ...['sustantivos', 'adjetivos', 'determinantes', 'pronombres', 'verbos', 'adverbios', 'nexos', 'sintaxis', 'morfologia'].map(id => `gramatica/${id}`),
+    ...['sustantivos', 'adjetivos', 'determinantes', 'pronombres', 'verbos', 'adverbios', 'nexos', 'sintaxis', 'morfologia', 'sinonimos-antonimos', 'prefijos-sufijos'].map(id => `gramatica/${id}`),
     ...['present-simple', 'past-simple', 'present-perfect', 'articles', 'passive', 'conditionals', 'modals'].map(id => `ingles/${id}`),
     ...['acentuacion', 'bv', 'gj', 'letras', 'puntuacion', 'correccion'].map(id => `ortografia/${id}`),
     'lengua/gramatica', 'lengua/literatura', 'lengua/textos', 'lengua/figuras', 'lengua/metrica',

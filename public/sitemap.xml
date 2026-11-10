@@ -248,6 +248,12 @@
   <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica/morfologia</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/gramatica/morfologia</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/gramatica/morfologia</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica/sinonimos-antonimos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/gramatica/sinonimos-antonimos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/gramatica/sinonimos-antonimos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica/prefijos-sufijos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/gramatica/prefijos-sufijos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/gramatica/prefijos-sufijos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/geografia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/economia</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/musica</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
@@ -445,6 +451,7 @@
   <url><loc>https://www.tuthor.es/en/examen/tabla-verdad-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/examen/espanol-figuras-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/mide-el-verso-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/examen/fabrica-palabras-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/que-letra-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/coma-a-coma-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/examen/cazafiguras-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -925,6 +932,7 @@
   <url><loc>https://www.tuthor.es/juegos/el-laboratorio</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/cambio-estado</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/pon-la-tilde</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/fabrica-palabras</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/que-letra</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/coma-a-coma</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/juegos/cazafiguras</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -1193,6 +1201,7 @@
   <url><loc>https://www.tuthor.es/info/juegos/el-laboratorio</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/cambio-estado</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/pon-la-tilde</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/info/juegos/fabrica-palabras</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/que-letra</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/coma-a-coma</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/info/juegos/cazafiguras</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>

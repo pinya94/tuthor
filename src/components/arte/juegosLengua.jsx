@@ -165,6 +165,23 @@ function QueLetra(p) {
   )
 }
 
+function FabricaPalabras(p) {
+  // La base «zapat-» y la pieza «-ero» que encaja; debajo, una pareja unida.
+  return (
+    <Lienzo {...p}>
+      <rect x="40" y="26" width="86" height="40" rx="9" fill="#334155" stroke="#94A3B8" strokeWidth="2" />
+      <T x={83} y={53} s={20} c="#F8FAFC">zapat-</T>
+      <rect x="132" y="26" width="64" height="40" rx="9" fill="#F59E0B" />
+      <T x={164} y={53} s={20} c="#111827">-ero</T>
+      <rect x="30" y="86" width="74" height="30" rx="8" fill="#38BDF8" fillOpacity=".25" stroke="#38BDF8" strokeWidth="2" />
+      <T x={67} y={106} s={14} c="#E0F2FE">alegre</T>
+      <path d="M106 101H134" stroke="#38BDF8" strokeWidth="2.5" strokeLinecap="round" />
+      <rect x="136" y="86" width="80" height="30" rx="8" fill="#38BDF8" fillOpacity=".25" stroke="#38BDF8" strokeWidth="2" />
+      <T x={176} y={106} s={14} c="#E0F2FE">contento</T>
+    </Lienzo>
+  )
+}
+
 function PonLaTilde(p) {
   return (
     <Lienzo {...p}>
@@ -246,6 +263,7 @@ export const ARTE_LENGUA = {
   'pieza-que-falta': PiezaQueFalta,
   'verbos-irregulares': VerbosIrregulares,
   'pon-la-tilde': PonLaTilde,
+  'fabrica-palabras': FabricaPalabras,
   'que-letra': QueLetra,
   'coma-a-coma': ComaAComa,
   cazafiguras: Cazafiguras,

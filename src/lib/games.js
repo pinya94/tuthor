@@ -789,6 +789,15 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'fabrica-palabras': {
+    label: { es: 'La Fábrica de Palabras', en: 'The Word Factory', ca: 'La Fàbrica de Paraules' },
+    emoji: '🏭',
+    subject: 'lengua',
+    route: '/juegos/fabrica-palabras',
+    idiomas: ['es'], // formación de palabras del castellano: ver disponibleEn
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'que-letra': {
     label: { es: '¿Qué Letra Va?', en: 'Which Letter?', ca: 'Quina Lletra Va?' },
     emoji: '🔠',

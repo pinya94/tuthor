@@ -311,6 +311,7 @@ export const TOPIC_CATALOG = {
       gj: examTema({ test: 'espanol-ortografia-gj-test' }, { niveles: ['primaria', 'eso'] }),
       letras: examTema({ test: 'espanol-ortografia-letras-test', letra: 'que-letra-test' }, { niveles: ['primaria', 'eso'] }),
       puntuacion: examTema({ test: 'espanol-ortografia-puntuacion-test', coma: 'coma-a-coma-test' }, { niveles: ['primaria', 'eso'] }),
+      vocabulario: examTema({ fabrica: 'fabrica-palabras-test' }, { niveles: ['primaria', 'eso'] }),
       literatura: examTema({ test: 'espanol-literatura-test', biblioteca: 'la-biblioteca-test' }, { niveles: ['eso', 'bachillerato'] }),
       textos: examTema({ test: 'espanol-textos-test', detective: 'detective-textos-test' }, { niveles: ['primaria', 'eso'] }),
       figuras: examTema({ test: 'espanol-figuras-test', cazar: 'cazafiguras-test' }, { niveles: ['eso', 'bachillerato'] }),
@@ -331,6 +332,7 @@ export const TOPIC_CATALOG = {
       // cuelga solo de «letras» (un examen en tres temas colisiona al volver de
       // una tarea); en b/v y g/j sale el juego. tracksTopic: false porque la
       // página guarda siempre category = 'letras'.
+      fabrica: examFormato({ es: 'La Fábrica de Palabras (con el juego)', en: 'The Word Factory (with the game)', ca: 'La Fàbrica de Paraules (amb el joc)' }, '🏭'),
       queLetra: {
         label: { es: '¿Qué Letra Va? (juego)', en: 'Which Letter? (game)', ca: 'Quina Lletra Va? (joc)' },
         emoji: '🔠',

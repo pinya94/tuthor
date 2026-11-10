@@ -2039,6 +2039,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Lengua', niveles: 'Primaria, ESO',
   },
+  'fabrica-palabras': {
+    titulo: 'La Fábrica de Palabras',
+    subtitulo: 'Juego de prefijos y sufijos, sinónimos y antónimos',
+    emoji: '🏭', gradient: 'from-orange-500 to-rose-700',
+    path: '/juegos/fabrica-palabras',
+    intro: 'Un juego de vocabulario para aprender cómo se forman las palabras en castellano. Sale una definición y una base, por ejemplo «Persona que hace o vende zapatos» y zapat-, y hay que pegarle la pieza correcta de una paleta: un sufijo detrás (-ero, y sale zapatero) o un prefijo delante (re-, y sale rehacer). La palabra se va montando mientras se elige, así que se ve enseguida si suena a palabra de verdad. Otras rondas son de parejas: cuatro palabras a cada lado para unir sinónimos (alegre y contento) o antónimos (abrir y cerrar). Al corregir se explica qué significa cada pieza: -ería es una tienda, re- es volver a hacer y im- es el prefijo in- delante de p y b.',
+    beneficios: [
+      { titulo: 'Las piezas tienen significado', texto: 'Quien sabe que -ero indica un oficio, -ería una tienda y re- repetir puede entender palabras que nunca ha visto. El juego no pide memorizar listas: hace montar la palabra a partir de su definición y, al corregir, explica qué aporta cada prefijo o sufijo.' },
+      { titulo: 'Solo una pieza encaja', texto: 'Las piezas trampa nunca significan lo mismo que la buena, para que no haya dos respuestas válidas: si la palabra es cantante, -or no sale, porque cantor también existe. En las parejas, dos pares que se podrían cruzar (alto–bajo y grande–pequeño) nunca salen juntos.' },
+      { titulo: 'La ortografía del prefijo', texto: 'En el nivel difícil la trampa es la ortografía de la negación: inposible, iposible o imposible. Al fallar, el juego recuerda la regla: in- se escribe im- delante de p y b, e i- delante de l y r (ilegal).' },
+    ],
+    ejemplo: 'Sale «Tienda donde se vende fruta» con la base frut- y las piezas -ería, -ito, -oso y -mente. Al tocar -ería se monta frutería y es la buena: el sufijo -ería forma nombres de tiendas o lugares (librería, panadería). Si se toca -ito sale frutito, que no significa una tienda.',
+    enPapel: {
+      titulo: 'Familias de palabras',
+      pasos: [
+        'Escribe una palabra sencilla en el centro de una hoja: pan, flor o mar.',
+        'Alrededor, escribe todas las palabras de su familia que se te ocurran (panadero, panadería, empanada…).',
+        'Rodea en cada una la base y subraya los prefijos y los sufijos.',
+        'Escribe un sinónimo y un antónimo para cinco de las palabras que te hayan salido.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de la Fábrica de Palabras', desc: 'Las mismas mecánicas sin cronómetro, con nota y tres niveles.' },
+      { nombre: '¿Qué Letra Va?', desc: 'Otro juego de lengua: la ortografía de b/v, g/j, h, ll/y y c/z con la regla de cada palabra.' },
+      { nombre: 'Analiza la Frase', desc: 'Para pasar de la palabra a la frase: sustantivos, verbos, adjetivos y su función.' },
+    ],
+    asignatura: 'Lengua', niveles: 'Primaria, ESO',
+  },
   'que-letra': {
     titulo: '¿Qué Letra Va?',
     subtitulo: 'Juego de ortografía: b/v, g/j, h, ll/y y c/z con sus reglas',

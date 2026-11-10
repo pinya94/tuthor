@@ -989,6 +989,11 @@ export const EXAMS = {
     emoji: '🖋️', subject: 'lengua',
     path: 'examen/coma-a-coma-test', page: () => import('../pages/ComaAComaExamen'),
   },
+  'fabrica-palabras-test': {
+    label: { es: 'La Fábrica de Palabras (con el juego)', en: 'The Word Factory (with the game)', ca: 'La Fàbrica de Paraules (amb el joc)' },
+    emoji: '🏭', subject: 'lengua',
+    path: 'examen/fabrica-palabras-test', page: () => import('../pages/FabricaPalabrasExamen'),
+  },
   'que-letra-test': {
     label: { es: '¿Qué Letra Va? (con el juego)', en: 'Which Letter? (with the game)', ca: 'Quina Lletra Va? (amb el joc)' },
     emoji: '🔠', subject: 'lengua',
