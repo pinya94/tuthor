@@ -199,6 +199,7 @@ const EspanolGramaticaIndex  = lazy(() => import('./pages/EspanolGramaticaIndex'
 const EspanolGramaticaTema   = lazy(() => import('./pages/EspanolGramaticaTema'))
 const EspanolOrtografiaIndex = lazy(() => import('./pages/EspanolOrtografiaIndex'))
 const EspanolOrtografiaTema = lazy(() => import('./pages/EspanolOrtografiaTema'))
+const InglesGrammarTema      = lazy(() => import('./pages/InglesGrammarTema'))
 const InglesIndex            = lazy(() => import('./pages/InglesIndex'))
 const InglesGrammarIndex     = lazy(() => import('./pages/InglesGrammarIndex'))
 const PiezaQueFalta          = lazy(() => import('./pages/PiezaQueFalta'))
@@ -346,6 +347,7 @@ function AppRoutes() {
       <Route path="estudiar/idiomas/espanol/ortografia/:tema" element={<EspanolOrtografiaTema />} />
       <Route path="estudiar/idiomas/ingles"                   element={<InglesIndex />} />
       <Route path="estudiar/idiomas/ingles/grammar"           element={<InglesGrammarIndex />} />
+      <Route path="estudiar/idiomas/ingles/grammar/:tema"     element={<InglesGrammarTema />} />
 
       {/* ── GEOGRAFÍA ── */}
       <Route path="estudiar/geografia" element={<GeografiaIndex />} />

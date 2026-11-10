@@ -24,7 +24,13 @@ const TEMAS = [
   { id: 'connectors', titulo: 'Prepositions & Conjunctions', emoji: '🔗', gradient: 'from-sky-500 to-blue-600', gameId: 'ingles-grammar-connectors-test' },
 ]
 
+// Temas con página de estudio propia (InglesGrammarTema + temaIngles.js): la
+// tarjeta lleva ahí, y desde la página se salta al examen.
+const CON_PAGINA = ['present-simple', 'past-simple', 'present-perfect', 'modals', 'conditionals', 'passive', 'adjectives']
+
 const L = {
+  verbos: { es: 'Verbos irregulares: lista por grupos y juego', en: 'Irregular verbs: list by pattern and game', ca: 'Verbs irregulars: llista per grups i joc' },
+  verbosSub: { es: 'Infinitivo, pasado, participio y significado', en: 'Infinitive, past simple and past participle', ca: 'Infinitiu, passat, participi i significat' },
   elige:  { es: 'Elige un tema', en: 'Choose a topic', ca: 'Tria un tema' },
   mezcla: { es: 'Los siete temas mezclados, a contrarreloj', en: 'All seven topics mixed, against the clock', ca: 'Els set temes barrejats, a contrarellotge' },
 }
@@ -62,9 +68,15 @@ export default function InglesGrammarIndex() {
         {TEMAS.map(tema => (
           <TarjetaArte key={tema.id} titulo={tema.titulo}
             Arte={ARTE_TEMAS[CONCEPTO_INGLES[tema.id] ? `gramatica/${CONCEPTO_INGLES[tema.id]}` : `ingles/${tema.id}`]}
-            to={localPath(`/examen/${tema.gameId}`)} />
+            to={localPath(CON_PAGINA.includes(tema.id) ? `/estudiar/idiomas/ingles/grammar/${tema.id}` : `/examen/${tema.gameId}`)} />
         ))}
       </div>
+
+      <Link to={localPath('/estudiar/idiomas/ingles/grammar/irregular-verbs')}
+        className="max-w-3xl mx-auto w-full mt-4 block rounded-2xl border border-white/[0.08] bg-[#141b2e] p-4 text-left transition-colors hover:border-white/20">
+        <div className="text-white font-bold">🔤 {t('verbos')}</div>
+        <div className="text-white/40 text-sm">{t('verbosSub')}</div>
+      </Link>
 
       <Link to={localPath('/estudiar/idiomas/ingles')} className="inline-block mt-8 text-white/40 hover:text-white/70 text-sm text-center">
         ← English

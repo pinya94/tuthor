@@ -395,7 +395,7 @@ describe('estudio de ciencias con contenido propio ↔ sitemap y meta', () => {
     for (const tema of Object.keys(CONTENIDO_TEMA)) {
       // su URL /estudiar/<materia>/<tema> vive en el sitemap; se localiza sola
       // (incluida la ruta más profunda de la gramática española)
-      const ruta = [...neutralPaths].find(p => new RegExp(`^/estudiar/(?:[a-z-]+|idiomas/espanol/(?:gramatica|ortografia))/${tema}$`).test(p))
+      const ruta = [...neutralPaths].find(p => new RegExp(`^/estudiar/(?:[a-z-]+|idiomas/espanol/(?:gramatica|ortografia)|idiomas/ingles/grammar)/${tema}$`).test(p))
       expect(ruta, `el tema con contenido "${tema}" no tiene URL /estudiar/<materia>/${tema} en el sitemap`).toBeTruthy()
       // prerender: debe resolver meta específica en cada idioma
       for (const lang of ['es', 'en']) {

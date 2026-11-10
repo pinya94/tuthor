@@ -274,6 +274,30 @@
   <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/ortografia/puntuacion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/present-simple</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/past-simple</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/present-perfect</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/modals</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/conditionals</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/passive</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/adjectives</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/irregular-verbs</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/present-simple</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/past-simple</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/present-perfect</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/modals</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/conditionals</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/passive</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/adjectives</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/irregular-verbs</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/present-simple</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/past-simple</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/present-perfect</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/modals</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/conditionals</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/passive</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/adjectives</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/irregular-verbs</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
   <!-- EXÁMENES -->
   <url><loc>https://www.tuthor.es/examen/historia</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
