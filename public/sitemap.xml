@@ -257,6 +257,21 @@
   <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/ortografia</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/ortografia/acentuacion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/ortografia/b-y-v</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/ortografia/g-y-j</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/ortografia/h-ll-y-c-z</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/ortografia/puntuacion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/ortografia/acentuacion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/ortografia/b-y-v</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/ortografia/g-y-j</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/ortografia/h-ll-y-c-z</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/ortografia/puntuacion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/ortografia/acentuacion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/ortografia/b-y-v</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/ortografia/g-y-j</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/ortografia/h-ll-y-c-z</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/ortografia/puntuacion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 

@@ -10,6 +10,7 @@
 // más y su URL ×3 idiomas al sitemap; el test de invariantes obliga a ambas.
 
 import { AMPLIACION } from './temaAmpliado.js'
+import { ORTOGRAFIA_TEMA } from './temaOrtografia.js'
 
 export const CONTENIDO_TEMA = {
   'celula': {
@@ -4550,6 +4551,12 @@ export const CONTENIDO_TEMA = {
 // Ampliaciones (tablas, dudas y ejercicios resueltos) de los temas que Google
 // ya enseña: ver temaAmpliado.js. Se suman a lo que ya hay; metaTitle, si
 // viene, sustituye al de aquí.
+// Temas de ortografía (página propia desde nov-2026): ver temaOrtografia.js
+for (const [slug, c] of Object.entries(ORTOGRAFIA_TEMA)) {
+  if (CONTENIDO_TEMA[slug]) throw new Error(`temaOrtografia: «${slug}» ya existe en CONTENIDO_TEMA`)
+  CONTENIDO_TEMA[slug] = c
+}
+
 for (const [tema, extra] of Object.entries(AMPLIACION)) {
   const c = CONTENIDO_TEMA[tema]
   if (!c) throw new Error(`temaAmpliado: el tema «${tema}» no existe en CONTENIDO_TEMA`)

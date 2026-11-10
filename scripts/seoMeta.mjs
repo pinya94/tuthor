@@ -156,6 +156,7 @@ export function resolveMeta(path, lang) {
   // gramática española (ruta más profunda). Todos leen del mismo CONTENIDO_TEMA.
   m = path.match(/^\/estudiar\/(?:quimica|fisica|biologia|geologia|geografia|historia)\/([\w-]+)$/)
     || path.match(/^\/estudiar\/idiomas\/espanol\/gramatica\/([\w-]+)$/)
+    || path.match(/^\/estudiar\/idiomas\/espanol\/ortografia\/([\w-]+)$/)
   if (m && CONTENIDO_TEMA[m[1]]) {
     const c = CONTENIDO_TEMA[m[1]]
     return { title: c.metaTitle[l] || c.metaTitle.es, desc: c.metaDesc[l] || c.metaDesc.es }

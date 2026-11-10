@@ -35,7 +35,7 @@ export default function EspanolOrtografiaIndex() {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto w-full">
         {TEMAS.map(tema => (
           <TarjetaArte key={tema.id} Arte={ARTE_TEMAS[`ortografia/${tema.id}`]} titulo={tema.titulo[lang] || tema.titulo.es}
-            to={localPath(`/examen/${tema.gameId}`)} />
+            to={localPath(tema.slug ? `/estudiar/idiomas/espanol/ortografia/${tema.slug}` : `/examen/${tema.gameId}`)} />
         ))}
       </div>
 
