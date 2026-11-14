@@ -328,6 +328,54 @@ function Divisibilidad(p) {
   )
 }
 
+function Pitagoras(p) {
+  // Triángulo 3-4-5 con sus cuadrados: 9 + 16 = 25.
+  return (
+    <Lienzo {...p}>
+      <path d="M70 100H134V52Z" fill="#A78BFA" fillOpacity=".25" stroke="#A78BFA" strokeWidth="3" strokeLinejoin="round" />
+      <path d="M126 100V92H134" stroke="#E2E8F0" strokeWidth="1.5" />
+      <T x={102} y={118} s={13} c="#E2E8F0">a</T>
+      <T x={146} y={80} s={13} c="#E2E8F0">b</T>
+      <T x={92} y={70} s={13} c="#FCD34D">c</T>
+      <T x={188} y={56} s={16} c="#FCD34D">c² =</T>
+      <T x={188} y={80} s={16} c="#E2E8F0">a² + b²</T>
+      <T x={188} y={104} s={13} c="#94A3B8">25 = 9 + 16</T>
+    </Lienzo>
+  )
+}
+
+function Sistemas(p) {
+  // Dos rectas que se cortan: el punto de corte es la solución.
+  return (
+    <Lienzo {...p}>
+      <path d="M30 112H150M40 122V18" stroke="#475569" strokeWidth="1.5" />
+      <path d="M44 108L146 24" stroke="#38BDF8" strokeWidth="3" strokeLinecap="round" />
+      <path d="M44 34L146 104" stroke="#F472B6" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="97" cy="64" r="6" fill="#FCD34D" />
+      <T x={196} y={50} s={14} c="#38BDF8">x + y = 10</T>
+      <T x={196} y={74} s={14} c="#F472B6">x − y = 2</T>
+      <T x={196} y={100} s={14} c="#FCD34D">(6, 4)</T>
+    </Lienzo>
+  )
+}
+
+function Decimales(p) {
+  // 23,475 con cada cifra en su casilla de valor.
+  const cifras = [['2', 'D'], ['3', 'U'], [',', ''], ['4', 'd'], ['7', 'c'], ['5', 'm']]
+  return (
+    <Lienzo {...p}>
+      {cifras.map(([c, l], i) => (
+        <g key={i}>
+          {c !== ',' && <rect x={40 + i * 28} y="44" width="24" height="34" rx="5" fill="#FFFFFF" fillOpacity=".06" stroke={i > 2 ? '#38BDF8' : '#94A3B8'} strokeWidth="2" />}
+          <T x={52 + i * 28} y={68} s={20} c={i > 2 ? '#7DD3FC' : '#F8FAFC'}>{c}</T>
+          <T x={52 + i * 28} y={96} s={11} c="#94A3B8">{l}</T>
+        </g>
+      ))}
+      <T x={120} y={118} s={11} c="#7DD3FC">décimas · centésimas · milésimas</T>
+    </Lienzo>
+  )
+}
+
 function Romanos(p) {
   // Una lápida con el año en romanos y su traducción debajo.
   return (
@@ -360,4 +408,7 @@ export const ARTE_TEMAS_MATEMATICAS = {
   'matematicas/enteros-racionales': Enteros,
   'matematicas/algebra': Algebra,
   'matematicas/numeros-romanos': Romanos,
+  'matematicas/teorema-de-pitagoras': Pitagoras,
+  'matematicas/sistemas-de-ecuaciones': Sistemas,
+  'matematicas/numeros-decimales': Decimales,
 }

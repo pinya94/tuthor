@@ -63,6 +63,24 @@ export const TEMAS_MATEMATICAS_EXTRA = [
     tags: ['ecuacion', 'variable', 'monomio', 'sistema', 'cuadratica'],
   },
   {
+    id: 'teorema-de-pitagoras',
+    titulo: 'Teorema de Pitágoras', tituloEn: 'Pythagoras’ theorem', tituloCa: 'Teorema de Pitàgores',
+    emoji: '📐', gradient: 'from-indigo-500 to-violet-700',
+    tags: ['pitagoras', 'hipotenusa', 'cateto', 'triangulo rectangulo', 'pythagoras'],
+  },
+  {
+    id: 'sistemas-de-ecuaciones',
+    titulo: 'Sistemas de ecuaciones', tituloEn: 'Simultaneous equations', tituloCa: 'Sistemes d’equacions',
+    emoji: '🔣', gradient: 'from-red-500 to-rose-700',
+    tags: ['sistema', 'ecuaciones', 'sustitucion', 'igualacion', 'reduccion', 'simultaneous'],
+  },
+  {
+    id: 'numeros-decimales',
+    titulo: 'Números decimales', tituloEn: 'Decimals', tituloCa: 'Nombres decimals',
+    emoji: '🔢', gradient: 'from-sky-500 to-cyan-700',
+    tags: ['decimales', 'decimas', 'centesimas', 'redondear', 'decimals'],
+  },
+  {
     id: 'numeros-romanos',
     titulo: 'Números romanos', tituloEn: 'Roman numerals', tituloCa: 'Nombres romans',
     emoji: '🏛️', gradient: 'from-stone-500 to-amber-700',

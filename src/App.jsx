@@ -201,7 +201,7 @@ const EspanolGramaticaTema   = lazy(() => import('./pages/EspanolGramaticaTema')
 const EspanolOrtografiaIndex = lazy(() => import('./pages/EspanolOrtografiaIndex'))
 const EspanolOrtografiaTema = lazy(() => import('./pages/EspanolOrtografiaTema'))
 const InglesGrammarTema      = lazy(() => import('./pages/InglesGrammarTema'))
-const NumerosRomanosTema     = lazy(() => import('./pages/NumerosRomanosTema'))
+const MatematicasTemaExtra   = lazy(() => import('./pages/MatematicasTemaExtra'))
 const InglesIndex            = lazy(() => import('./pages/InglesIndex'))
 const InglesGrammarIndex     = lazy(() => import('./pages/InglesGrammarIndex'))
 const PiezaQueFalta          = lazy(() => import('./pages/PiezaQueFalta'))
@@ -252,7 +252,10 @@ function AppRoutes() {
       <Route path="estudiar/matematicas/estadistica" element={<EstadisticaTema />} />
       <Route path="estudiar/matematicas/enteros-racionales" element={<EnterosRacionalesTema />} />
       <Route path="estudiar/matematicas/algebra" element={<AlgebraTema />} />
-      <Route path="estudiar/matematicas/numeros-romanos" element={<NumerosRomanosTema />} />
+      <Route path="estudiar/matematicas/numeros-romanos" element={<MatematicasTemaExtra slug="numeros-romanos" />} />
+      <Route path="estudiar/matematicas/teorema-de-pitagoras" element={<MatematicasTemaExtra slug="teorema-de-pitagoras" />} />
+      <Route path="estudiar/matematicas/sistemas-de-ecuaciones" element={<MatematicasTemaExtra slug="sistemas-de-ecuaciones" />} />
+      <Route path="estudiar/matematicas/numeros-decimales" element={<MatematicasTemaExtra slug="numeros-decimales" />} />
       <Route path="estudiar/matematicas/porcentajes" element={<PorcentajesTema />} />
       <Route path="estudiar/matematicas/divisibilidad" element={<DivisibilidadTema />} />
       <Route path="estudiar/matematicas/trigonometria" element={<TrigonometriaTema />} />

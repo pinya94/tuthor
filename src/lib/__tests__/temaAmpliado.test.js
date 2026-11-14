@@ -50,3 +50,10 @@ describe('páginas de ortografía', () => {
     }
   })
 })
+
+describe('páginas de matemáticas', () => {
+  it('las ternas pitagóricas cumplen el teorema', async () => {
+    const { TERNAS } = await import('../../data/temaMatematicas')
+    for (const [a, b, c] of TERNAS) expect(a * a + b * b, `${a}-${b}-${c}`).toBe(c * c)
+  })
+})

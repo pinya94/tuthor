@@ -51,7 +51,7 @@ export default function EspanolIndex() {
         </p>
         {[
           { titulo: { es: 'Gramática', en: 'Grammar', ca: 'Gramàtica' }, temas: TEMAS_GRAMATICA.map(t => ({ ...t, path: `/estudiar/idiomas/espanol/gramatica/${t.id}` })) },
-          { titulo: { es: 'Ortografía', en: 'Spelling', ca: 'Ortografia' }, temas: TEMAS_ORTOGRAFIA.map(t => ({ ...t, path: `/examen/${t.gameId}` })) },
+          { titulo: { es: 'Ortografía', en: 'Spelling', ca: 'Ortografia' }, temas: TEMAS_ORTOGRAFIA.map(t => ({ ...t, path: t.slug ? `/estudiar/idiomas/espanol/ortografia/${t.slug}` : `/examen/${t.gameId}` })) },
         ].map(g => (
           <div key={g.titulo.es}>
             <p className="text-white/60 text-sm font-bold mb-2">{tr(g.titulo)}</p>
