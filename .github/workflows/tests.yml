@@ -1,0 +1,23 @@
+# Pasa los tests de invariantes en cada subida. Vercel publica main en cuanto
+# llega, así que esto no bloquea el despliegue: avisa (correo de GitHub y ✗ en
+# el commit) de que se ha subido algo roto. No lanza el build completo porque
+# el prerender tarda ~15 minutos y ya lo ejecuta Vercel.
+name: tests
+on:
+  push:
+    branches: [main, entrada-suave]
+  pull_request:
+jobs:
+  vitest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      - run: npx vitest run

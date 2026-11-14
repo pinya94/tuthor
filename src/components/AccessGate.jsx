@@ -1,18 +1,14 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { loadAccessCached, PLANS } from '../lib/access'
-import { requiresAccess, normalizePath } from '../lib/paidRoutes'
+import { requiresAccess } from '../lib/paidRoutes'
 import AuthModal from './AuthModal'
-import SEOHead from './SEOHead'
-import QuizSchema from './QuizSchema'
-// resolveMeta vive en scripts/ porque lo usa el prerender (Node) y los tests
-// de invariantes, pero es un módulo puro (sin I/O) — se puede importar aquí
-// igual que cualquier otro módulo de src/. Es la MISMA fuente que ya usa el
-// prerender para title/desc, así que no hay dos ideas distintas de la meta
-// de una URL.
-import { resolveMeta } from '../../scripts/seoMeta.mjs'
+// La meta del muro va en un chunk aparte: arrastra todo seoMeta (≈2 MB) y solo
+// hace falta cuando se pinta la pantalla de pago. Ver LockedMeta.jsx.
+const LockedMetaLazy = lazy(() => import('./LockedMeta'))
+const LockedMeta = props => <Suspense fallback={null}><LockedMetaLazy {...props} /></Suspense>
 
 // Puerta única del muro de pago. Se monta una sola vez alrededor de las rutas
 // (App.jsx) en lugar de envolver ruta por ruta: las de juegos y exámenes están
@@ -111,18 +107,7 @@ function Checking() {
 // suscripción). kind: 'Quiz' para /examen/*, 'LearningResource' para el
 // resto — no hay preguntas reales que enseñar aquí (la página de verdad no
 // ha llegado a montar), así que no se inventa un `hasPart`.
-function LockedMeta({ pathname, lang }) {
-  const neutral = normalizePath(pathname)
-  const meta = resolveMeta(neutral, lang)
-  if (!meta) return null
-  const kind = neutral === '/examen' || neutral.startsWith('/examen/') ? 'Quiz' : 'LearningResource'
-  return (
-    <>
-      <SEOHead title={meta.title} description={meta.desc} path={neutral} lang={lang} />
-      <QuizSchema name={meta.title} description={meta.desc} path={neutral} lang={lang} kind={kind} isAccessibleForFree={false} />
-    </>
-  )
-}
+// (LockedMeta: ver LockedMeta.jsx)
 
 // Cuánto se espera a Firebase antes de dejar de confiar en que va a
 // responder. Existe por un fallo real: en el prerender (scripts/prerender.mjs)

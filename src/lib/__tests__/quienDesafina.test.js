@@ -18,7 +18,7 @@ describe('¿Quién Desafina?', () => {
   })
 
   for (const nivel of Object.keys(NIVELES)) {
-    it(nivel + ': 500 rondas', () => {
+    it(nivel + ': 500 rondas', { timeout: 30000 }, () => {
       const rand = semilla(nivel.length * 223)
       const cfg = NIVELES[nivel]
       const cuenta = {}

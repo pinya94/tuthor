@@ -272,6 +272,50 @@ export default function Portadas() {
             className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-xl rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-amber-500/30">
             {pu.empezar}
           </button>
+          <ComoSeJuega>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
+              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{pu.reglas}</p>
+              {[
+                ['⏱️', pu.tiempoInicial, `${d.tiempoInicio}s`],
+                ['✅', pu.alAcertar,     `+${d.suma}s`],
+                ['❌', pu.alFallar,      `−${d.resta}s`],
+              ].map(([e, k, v]) => (
+                <div key={k} className="flex items-start justify-between gap-2">
+                  <span className="text-white/40 shrink-0">{e} {k}</span>
+                  <span className="text-white font-semibold">{v}</span>
+                </div>
+              ))}
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
+              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{pu.puntos}</p>
+              {[
+                ['🎯', pu.base, `${d.basePts} pts`],
+                ['🔥', pu.racha2,  `+25% pts`],
+                ['🏆', pu.racha3,  `+50% pts`],
+              ].map(([e, k, v]) => (
+                <div key={k} className="flex items-start justify-between gap-2">
+                  <span className="text-white/40 shrink-0">{e} {k}</span>
+                  <span className="text-white font-semibold">{v}</span>
+                </div>
+              ))}
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{pu.comoFunciona}</p>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                ['📰', pu.paso1],
+                ['🤔', pu.paso2],
+                ['⏱️', pu.paso3],
+                ['💡', pu.paso4],
+              ].map(([e, t]) => (
+                <div key={t} className="flex items-start gap-2 text-sm text-white/50">
+                  <IconoIntro emoji={e} />
+                  <span>{t}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          </ComoSeJuega>
         </div>
       </div>
     )
@@ -385,57 +429,7 @@ export default function Portadas() {
           </div>
 
 
-          <button
-            onClick={continuar}
-            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02]"
-          >
-            {acabaAqui ? pu.verResultado : pu.continuar}
-          </button>
-          <SupportBlock variant="top" className="mt-4" />
-          <ComoSeJuega>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
-              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{pu.reglas}</p>
-              {[
-                ['⏱️', pu.tiempoInicial, `${d.tiempoInicio}s`],
-                ['✅', pu.alAcertar,     `+${d.suma}s`],
-                ['❌', pu.alFallar,      `−${d.resta}s`],
-              ].map(([e, k, v]) => (
-                <div key={k} className="flex items-start justify-between gap-2">
-                  <span className="text-white/40 shrink-0">{e} {k}</span>
-                  <span className="text-white font-semibold">{v}</span>
-                </div>
-              ))}
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3 text-sm">
-              <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">{pu.puntos}</p>
-              {[
-                ['🎯', pu.base, `${d.basePts} pts`],
-                ['🔥', pu.racha2,  `+25% pts`],
-                ['🏆', pu.racha3,  `+50% pts`],
-              ].map(([e, k, v]) => (
-                <div key={k} className="flex items-start justify-between gap-2">
-                  <span className="text-white/40 shrink-0">{e} {k}</span>
-                  <span className="text-white font-semibold">{v}</span>
-                </div>
-              ))}
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-7">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{pu.comoFunciona}</p>
-            <div className="grid grid-cols-2 gap-2">
-              {[
-                ['📰', pu.paso1],
-                ['🤔', pu.paso2],
-                ['⏱️', pu.paso3],
-                ['💡', pu.paso4],
-              ].map(([e, t]) => (
-                <div key={t} className="flex items-start gap-2 text-sm text-white/50">
-                  <IconoIntro emoji={e} />
-                  <span>{t}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 mb-5">
             <p className="text-white/30 text-xs uppercase tracking-widest mb-2">{pu.titularEra}</p>
             <div className={`flex items-center gap-2 font-black text-lg mb-3 ${p.veracidad ? 'text-green-400' : 'text-red-400'}`}>
               <span>{p.veracidad ? '✓' : '✗'}</span>
@@ -443,7 +437,13 @@ export default function Portadas() {
             </div>
             <p className="text-white/60 leading-relaxed">{lt(p, 'explicacion')}</p>
           </div>
-          </ComoSeJuega>
+          <button
+            onClick={continuar}
+            className="w-full py-4 bg-[#EDAE49] hover:bg-amber-400 text-black font-black text-lg rounded-2xl transition-all hover:scale-[1.02]"
+          >
+            {acabaAqui ? pu.verResultado : pu.continuar}
+          </button>
+          <SupportBlock variant="top" className="mt-4" />
         </div>
       </div>
     )

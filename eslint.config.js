@@ -5,7 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', '.claude']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [
@@ -16,6 +16,12 @@ export default defineConfig([
     languageOptions: {
       globals: globals.browser,
       parserOptions: { ecmaFeatures: { jsx: true } },
+    },
+    rules: {
+      // Solo afecta al refresco en caliente en desarrollo, y aquí es norma
+      // exportar datos junto a componentes (registros de arte, TEMAS…): daba
+      // 512 de los 860 errores y tapaba los fallos de verdad (no-undef…).
+      'react-refresh/only-export-components': 'off',
     },
   },
   {
