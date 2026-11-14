@@ -3,13 +3,14 @@ import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
+import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
 
 export default function FraccionesTema() {
   const { lang, localPath, tr } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
 
-  const metaTitle = en ? 'Fractions' : ca ? 'Fraccions' : 'Fracciones'
+  const metaTitle = contenidoMeta('fracciones', lang)?.title ?? (en ? 'Fractions' : ca ? 'Fraccions' : 'Fracciones')
   const metaDesc = en
     ? 'Study Fractions on Tuthor: equivalent fractions, operations, decimals and percentages. Interactive practice for Primary and Secondary.'
     : ca
@@ -99,6 +100,8 @@ export default function FraccionesTema() {
           </div>
         </div>
       </div>
+
+      <ContenidoTema tema="fracciones" lang={lang} />
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">

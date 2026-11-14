@@ -5,6 +5,8 @@ import { INGLES_TEMA } from '../../data/temaIngles'
 import { MATEMATICAS_TEMA } from '../../data/temaMatematicas'
 import { VOCABULARIO_TEMA } from '../../data/temaVocabulario'
 import { ESTUDIO_EXTRA } from '../../data/temaEstudioExtra'
+import { MATEMATICAS_AMPLIADO } from '../../data/temaMatematicasAmpliado'
+import { INGLES_BASICO } from '../../data/temaInglesBasico'
 import { CONTENIDO_TEMA } from '../../data/estudioTemaContenido'
 
 const LANGS = ['es', 'en', 'ca']
@@ -12,7 +14,7 @@ const texto = x => (typeof x === 'string' ? [x] : LANGS.map(l => x[l]))
 
 describe('ampliaciones de las páginas de estudio', () => {
   it('cada tema existe y todo está en los tres idiomas', () => {
-    for (const [tema, a] of Object.entries({ ...AMPLIACION, ...ORTOGRAFIA_TEMA, ...INGLES_TEMA, ...MATEMATICAS_TEMA, ...VOCABULARIO_TEMA, ...ESTUDIO_EXTRA })) {
+    for (const [tema, a] of Object.entries({ ...AMPLIACION, ...ORTOGRAFIA_TEMA, ...INGLES_TEMA, ...MATEMATICAS_TEMA, ...VOCABULARIO_TEMA, ...ESTUDIO_EXTRA, ...MATEMATICAS_AMPLIADO, ...INGLES_BASICO })) {
       expect(CONTENIDO_TEMA[tema], tema).toBeTruthy()
       if (a.metaTitle) for (const l of LANGS) expect(a.metaTitle[l], `${tema} ${l}`).toBeTruthy()
       for (const s of a.secciones ?? []) {
@@ -41,7 +43,7 @@ describe('ampliaciones de las páginas de estudio', () => {
 
 describe('páginas de ortografía', () => {
   it('cada tema trae meta, resumen y puntos clave en los tres idiomas, del mismo largo', () => {
-    for (const [slug, c] of Object.entries({ ...ORTOGRAFIA_TEMA, ...INGLES_TEMA, ...MATEMATICAS_TEMA, ...VOCABULARIO_TEMA, ...ESTUDIO_EXTRA })) {
+    for (const [slug, c] of Object.entries({ ...ORTOGRAFIA_TEMA, ...INGLES_TEMA, ...MATEMATICAS_TEMA, ...VOCABULARIO_TEMA, ...ESTUDIO_EXTRA, ...MATEMATICAS_AMPLIADO, ...INGLES_BASICO })) {
       for (const l of LANGS) {
         expect(c.metaDesc[l].length, `${slug} metaDesc ${l}`).toBeLessThanOrEqual(180)
         expect(c.resumen[l].length, slug).toBe(c.resumen.es.length)

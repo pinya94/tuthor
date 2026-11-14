@@ -3,13 +3,14 @@ import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
+import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
 
 export default function GeometriaTema() {
   const { lang, localPath } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
 
-  const metaTitle = en ? 'Geometry' : ca ? 'Geometria' : 'Geometría'
+  const metaTitle = contenidoMeta('geometria', lang)?.title ?? (en ? 'Geometry' : ca ? 'Geometria' : 'Geometría')
   const metaDesc = en
     ? 'Study Geometry on Tuthor: areas, perimeters, Pythagorean theorem, angles and volumes. Interactive practice for Primary and Secondary.'
     : ca
@@ -82,6 +83,8 @@ export default function GeometriaTema() {
           </div>
         </div>
       </div>
+
+      <ContenidoTema tema="geometria" lang={lang} />
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">

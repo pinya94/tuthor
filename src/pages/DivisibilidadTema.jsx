@@ -8,6 +8,7 @@ import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
+import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
 
 const PATH = '/estudiar/matematicas/divisibilidad'
 
@@ -59,7 +60,7 @@ export default function DivisibilidadTema() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
-      <SEOHead title={titulo} description={desc} path={PATH} />
+      <SEOHead title={contenidoMeta('divisibilidad', lang)?.title ?? titulo} description={desc} path={PATH} />
       <CourseSchema name={titulo} description={desc} path={PATH} lang={lang} subject={tr({ es: 'Matemáticas', en: 'Mathematics', ca: 'Matemàtiques' })} />
       <BreadcrumbSchema lang={lang} items={[
         { name: tr({ es: 'Estudiar', en: 'Study', ca: 'Estudiar' }), path: '/estudiar' },
@@ -80,6 +81,8 @@ export default function DivisibilidadTema() {
           </div>
         </div>
       </div>
+
+      <ContenidoTema tema="divisibilidad" lang={lang} />
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">{tr({ es: 'Modos disponibles', en: 'Available modes', ca: 'Modes disponibles' })}</p>

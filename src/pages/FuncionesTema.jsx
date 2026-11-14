@@ -3,13 +3,14 @@ import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
+import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
 
 export default function FuncionesTema() {
   const { lang, localPath, tr } = useLang()
   const en = lang === 'en'
   const ca = lang === 'ca'
 
-  const metaTitle = ca ? 'Funcions — Matemàtiques' : en ? 'Functions — Mathematics' : 'Funciones — Matemáticas'
+  const metaTitle = contenidoMeta('funciones', lang)?.title ?? (ca ? 'Funcions — Matemàtiques' : en ? 'Functions — Mathematics' : 'Funciones — Matemáticas')
   const metaDesc  = ca
     ? 'Practica funcions lineals, paràboles i funcions a trossos amb jocs i exàmens interactius a Tuthor.'
     : en
@@ -148,6 +149,8 @@ export default function FuncionesTema() {
           </div>
         </div>
       </div>
+
+      <ContenidoTema tema="funciones" lang={lang} />
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">

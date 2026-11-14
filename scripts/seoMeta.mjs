@@ -142,7 +142,7 @@ export function resolveMeta(path, lang) {
   }
 
   m = path.match(/^\/estudiar\/matematicas\/([\w-]+)$/)
-  if (m && MATH_TEMAS.includes(m[1])) {
+  if (m && MATH_TEMAS.includes(m[1]) && !CONTENIDO_TEMA[m[1]]) {
     const exam = EXAMS[m[1]]
     if (exam) {
       const name = label(exam, l)

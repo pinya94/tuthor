@@ -28,7 +28,13 @@ const TEMAS = [
 // tarjeta lleva ahí, y desde la página se salta al examen.
 const CON_PAGINA = ['present-simple', 'past-simple', 'present-perfect', 'modals', 'conditionals', 'passive', 'adjectives']
 
+// Básicos de Primaria y 1.º-2.º ESO: tienen página de estudio pero no examen
+// propio (cada página enlaza al examen que los trabaja), así que van como
+// enlaces y no como tarjetas de la rejilla.
+const BASICOS = [['present-continuous', 'Present Continuous'], ['have-got', 'Have got'], ['there-is-there-are', 'There is / There are'], ['possessives', 'Possessives (my, mine…)'], ['can', 'Can / Can’t']]
+
 const L = {
+  basicos: { es: 'Lo básico: Primaria y 1.º-2.º de ESO', en: 'The basics', ca: 'El bàsic: Primària i 1r-2n d’ESO' },
   verbos: { es: 'Verbos irregulares: lista por grupos y juego', en: 'Irregular verbs: list by pattern and game', ca: 'Verbs irregulars: llista per grups i joc' },
   verbosSub: { es: 'Infinitivo, pasado, participio y significado', en: 'Infinitive, past simple and past participle', ca: 'Infinitiu, passat, participi i significat' },
   elige:  { es: 'Elige un tema', en: 'Choose a topic', ca: 'Tria un tema' },
@@ -77,6 +83,16 @@ export default function InglesGrammarIndex() {
         <div className="text-white font-bold">🔤 {t('verbos')}</div>
         <div className="text-white/40 text-sm">{t('verbosSub')}</div>
       </Link>
+
+      <div className="max-w-3xl mx-auto w-full mt-4 rounded-2xl border border-white/[0.08] bg-[#141b2e] p-4">
+        <div className="text-white font-bold mb-2">🌱 {t('basicos')}</div>
+        <div className="flex flex-wrap gap-2">
+          {BASICOS.map(([slug, nombre]) => (
+            <Link key={slug} to={localPath(`/estudiar/idiomas/ingles/grammar/${slug}`)}
+              className="rounded-full border border-white/15 bg-white/5 hover:bg-white/10 px-3 py-1.5 text-sm text-white/80">{nombre}</Link>
+          ))}
+        </div>
+      </div>
 
       <Link to={localPath('/estudiar/idiomas/ingles')} className="inline-block mt-8 text-white/40 hover:text-white/70 text-sm text-center">
         ← English

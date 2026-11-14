@@ -309,6 +309,11 @@
   <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/passive</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/adjectives</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/irregular-verbs</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/present-continuous</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/have-got</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/there-is-there-are</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/possessives</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/ingles/grammar/can</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/present-simple</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/past-simple</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/present-perfect</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -317,6 +322,11 @@
   <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/passive</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/adjectives</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/irregular-verbs</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/present-continuous</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/have-got</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/there-is-there-are</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/possessives</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/ingles/grammar/can</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/present-simple</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/past-simple</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/present-perfect</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -325,6 +335,11 @@
   <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/passive</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/adjectives</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/irregular-verbs</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/present-continuous</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/have-got</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/there-is-there-are</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/possessives</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/ingles/grammar/can</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
   <!-- EXÁMENES -->
   <url><loc>https://www.tuthor.es/examen/historia</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
