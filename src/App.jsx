@@ -202,6 +202,7 @@ const EspanolOrtografiaIndex = lazy(() => import('./pages/EspanolOrtografiaIndex
 const EspanolOrtografiaTema = lazy(() => import('./pages/EspanolOrtografiaTema'))
 const InglesGrammarTema      = lazy(() => import('./pages/InglesGrammarTema'))
 const MatematicasTemaExtra   = lazy(() => import('./pages/MatematicasTemaExtra'))
+const TemaEstudioExtra       = lazy(() => import('./pages/TemaEstudioExtra'))
 const InglesIndex            = lazy(() => import('./pages/InglesIndex'))
 const InglesGrammarIndex     = lazy(() => import('./pages/InglesGrammarIndex'))
 const PiezaQueFalta          = lazy(() => import('./pages/PiezaQueFalta'))
@@ -358,6 +359,9 @@ function AppRoutes() {
 
       {/* ── GEOGRAFÍA ── */}
       <Route path="estudiar/geografia" element={<GeografiaIndex />} />
+      <Route path="estudiar/idiomas/espanol/literatura/generos-literarios" element={<TemaEstudioExtra slug="generos-literarios" />} />
+      <Route path="estudiar/idiomas/espanol/literatura/figuras-literarias" element={<TemaEstudioExtra slug="figuras-literarias" />} />
+      <Route path="estudiar/geografia/continentes-y-oceanos" element={<TemaEstudioExtra slug="continentes-y-oceanos" />} />
       <Route path="estudiar/geografia/:region" element={<GeografiaTema />} />
       <Route path="examen/geografia" element={<GeoRushExamen />} />
       <Route path="examen/geomapa" element={<GeoMapaExamen />} />

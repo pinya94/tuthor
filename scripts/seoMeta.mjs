@@ -158,6 +158,7 @@ export function resolveMeta(path, lang) {
     || path.match(/^\/estudiar\/idiomas\/espanol\/gramatica\/([\w-]+)$/)
     || path.match(/^\/estudiar\/idiomas\/espanol\/ortografia\/([\w-]+)$/)
     || path.match(/^\/estudiar\/idiomas\/ingles\/grammar\/([\w-]+)$/)
+    || path.match(/^\/estudiar\/idiomas\/espanol\/literatura\/([\w-]+)$/)
   if (m && CONTENIDO_TEMA[m[1]]) {
     const c = CONTENIDO_TEMA[m[1]]
     return { title: c.metaTitle[l] || c.metaTitle.es, desc: c.metaDesc[l] || c.metaDesc.es }

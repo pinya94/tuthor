@@ -275,6 +275,15 @@
   <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/gramatica</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/ortografia</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/literatura/generos-literarios</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/literatura/figuras-literarias</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/geografia/continentes-y-oceanos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/literatura/generos-literarios</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/literatura/figuras-literarias</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/geografia/continentes-y-oceanos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/literatura/generos-literarios</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/literatura/figuras-literarias</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/geografia/continentes-y-oceanos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/ortografia/acentuacion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/ortografia/b-y-v</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/ortografia/g-y-j</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>

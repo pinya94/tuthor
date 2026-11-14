@@ -11,14 +11,14 @@ const CATEGORIAS = [
   { id: 'ortografia', arte: 'ortografia/acentuacion', titulo: { es: 'Ortografía', en: 'Spelling', ca: 'Ortografia' }, emoji: '✍️', gradient: 'from-yellow-500 to-amber-600', path: '/estudiar/idiomas/espanol/ortografia' },
   // Literatura tiene un solo examen, así que no necesita índice propio: la
   // tarjeta lleva directa a la prueba, como hace Matemáticas con Porcentajes.
-  { id: 'literatura', arte: 'lengua/literatura', titulo: { es: 'Literatura', en: 'Literature', ca: 'Literatura' }, emoji: '🖋️', gradient: 'from-indigo-500 to-blue-700', path: '/examen/espanol-literatura-test' },
+  { id: 'literatura', arte: 'lengua/literatura', titulo: { es: 'Literatura', en: 'Literature', ca: 'Literatura' }, emoji: '🖋️', gradient: 'from-indigo-500 to-blue-700', path: '/estudiar/idiomas/espanol/literatura/generos-literarios' },
   // Los textos (tipologías, funciones del lenguaje, propiedades): un solo examen,
   // la tarjeta va directa a él como Literatura.
   { id: 'textos', arte: 'lengua/textos', titulo: { es: 'Los Textos', en: 'Types of Text', ca: 'Els Textos' }, emoji: '📝', gradient: 'from-teal-500 to-cyan-700', path: '/examen/espanol-textos-test' },
   // Figuras literarias: reconocerlas en versos y frases; un solo examen.
   // Métrica: el juego Mide el verso (y su examen, enlazado desde el juego).
   { id: 'metrica', arte: 'lengua/metrica', titulo: { es: 'Métrica', en: 'Metre', ca: 'Mètrica' }, emoji: '✒️', gradient: 'from-rose-600 to-amber-700', path: '/juegos/mide-el-verso' },
-  { id: 'figuras', arte: 'lengua/figuras', titulo: { es: 'Figuras Literarias', en: 'Figures of Speech', ca: 'Figures Literàries' }, emoji: '🎭', gradient: 'from-fuchsia-500 to-purple-700', path: '/examen/espanol-figuras-test' },
+  { id: 'figuras', arte: 'lengua/figuras', titulo: { es: 'Figuras Literarias', en: 'Figures of Speech', ca: 'Figures Literàries' }, emoji: '🎭', gradient: 'from-fuchsia-500 to-purple-700', path: '/estudiar/idiomas/espanol/literatura/figuras-literarias' },
 ]
 
 export default function EspanolIndex() {

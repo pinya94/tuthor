@@ -14,6 +14,7 @@ import { ORTOGRAFIA_TEMA } from './temaOrtografia.js'
 import { INGLES_TEMA } from './temaIngles.js'
 import { MATEMATICAS_TEMA } from './temaMatematicas.js'
 import { VOCABULARIO_TEMA } from './temaVocabulario.js'
+import { ESTUDIO_EXTRA } from './temaEstudioExtra.js'
 
 export const CONTENIDO_TEMA = {
   'celula': {
@@ -4555,7 +4556,7 @@ export const CONTENIDO_TEMA = {
 // ya enseña: ver temaAmpliado.js. Se suman a lo que ya hay; metaTitle, si
 // viene, sustituye al de aquí.
 // Temas de ortografía (página propia desde nov-2026): ver temaOrtografia.js
-for (const [slug, c] of Object.entries({ ...ORTOGRAFIA_TEMA, ...INGLES_TEMA, ...MATEMATICAS_TEMA, ...VOCABULARIO_TEMA })) {
+for (const [slug, c] of Object.entries({ ...ORTOGRAFIA_TEMA, ...INGLES_TEMA, ...MATEMATICAS_TEMA, ...VOCABULARIO_TEMA, ...ESTUDIO_EXTRA })) {
   if (CONTENIDO_TEMA[slug]) throw new Error(`temaOrtografia: «${slug}» ya existe en CONTENIDO_TEMA`)
   CONTENIDO_TEMA[slug] = c
 }

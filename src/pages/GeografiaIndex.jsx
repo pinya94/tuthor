@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { nivelesDeTema } from '../lib/topicCatalog'
 import { useLang } from '../context/LangContext'
 import TemarioGrid from '../components/TemarioGrid'
@@ -154,6 +154,17 @@ export default function GeografiaIndex() {
         hrefDe={item => localPath(item.examPath || `/estudiar/geografia/${item.id}`)}
         placeholder={ca ? 'Cercar regió, país...' : en ? 'Search region, country...' : 'Buscar región, país...'}
       />
+
+      {/* Página de estudio general (no es un tema del catálogo con examen
+          propio): por eso va como enlace y no como tarjeta de la rejilla. */}
+      <Link to={localPath('/estudiar/geografia/continentes-y-oceanos')}
+        className="max-w-3xl mx-auto w-full mt-4 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-3 text-left transition-colors">
+        <span>
+          <span className="block text-white font-bold">🌍 {tr({ es: 'Continentes y océanos', en: 'Continents and oceans', ca: 'Continents i oceans' })}</span>
+          <span className="block text-white/40 text-sm">{tr({ es: 'Los seis continentes y los cinco océanos, de mayor a menor', en: 'The six continents and the five oceans, largest to smallest', ca: 'Els sis continents i els cinc oceans, de més gran a més petit' })}</span>
+        </span>
+        <span className="text-white/30">→</span>
+      </Link>
 
       {/* Los recursos de esta materia, después del temario, que es a lo que se
           viene a un hub: con varias tarjetas encima empujarían los temas fuera
