@@ -14,6 +14,15 @@ const GEOGRAFIA = { label: T3('Geografía', 'Geography', 'Geografia'), path: '/e
 const BIOLOGIA = { label: T3('Biología', 'Biology', 'Biologia'), path: '/estudiar/biologia' }
 
 const TEMAS = {
+  'la-descripcion': {
+    path: '/estudiar/idiomas/espanol/literatura/la-descripcion', miga: ESPANOL, emoji: '🖼️', nombre: T3('La descripción', 'Description', 'La descripció'),
+    modos: [
+      { to: '/juegos/detective-textos', juego: 'detective-textos', emoji: '🔎', gradient: 'from-amber-500 to-orange-700', titulo: T3('Detective de Textos (juego)', 'Text Detective (game)', 'Detectiu de Textos (joc)'), desc: T3('¿Narración, descripción, diálogo, exposición o argumentación? Descúbrelo en cada texto.', 'Narration, description, dialogue, exposition or argument? Find out in each text.', 'Narració, descripció, diàleg, exposició o argumentació? Descobreix-ho a cada text.') },
+      { to: '/juegos/cazafiguras', juego: 'cazafiguras', emoji: '🎭', gradient: 'from-purple-500 to-indigo-700', titulo: T3('Cazafiguras (juego)', 'Figure Hunter (game)', 'Caçafigures (joc)'), desc: T3('Las comparaciones y metáforas de las descripciones subjetivas.', 'The similes and metaphors of subjective descriptions.', 'Les comparacions i metàfores de les descripcions subjectives.') },
+      { to: '/examen/espanol-textos-test', emoji: '📝', gradient: 'from-teal-500 to-cyan-700', titulo: T3('Examen de los textos', 'Types of text exam', 'Examen dels textos'), desc: T3('Tipos de texto, funciones del lenguaje y propiedades, con explicación.', 'Text types, language functions and text properties, with explanations.', 'Tipus de text, funcions del llenguatge i propietats, amb explicació.') },
+      { to: '/estudiar/idiomas/espanol/literatura/generos-literarios', emoji: '📖', gradient: 'from-rose-500 to-red-700', titulo: T3('Géneros literarios', 'Literary genres', 'Gèneres literaris'), desc: T3('Narrativa, lírica y teatro: dónde aparece la descripción.', 'Narrative, poetry and drama: where description appears.', 'Narrativa, lírica i teatre: on apareix la descripció.') },
+    ],
+  },
   'relieve-de-espana': {
     path: '/estudiar/geografia/relieve-de-espana', miga: GEOGRAFIA, emoji: '⛰️', nombre: T3('El relieve de España', 'The relief of Spain', 'El relleu d’Espanya'),
     modos: [
@@ -52,6 +61,7 @@ const TEMAS = {
       { to: '/examen/espanol-literatura-test', emoji: '📝', gradient: 'from-indigo-500 to-blue-700', titulo: T3('Examen de Literatura', 'Literature exam', 'Examen de Literatura'), desc: T3('Géneros, obras, autores y épocas de la literatura española, con explicación.', 'Genres, works, authors and periods of Spanish literature, with explanations.', 'Gèneres, obres, autors i èpoques de la literatura espanyola, amb explicació.') },
       { to: '/juegos/la-biblioteca', juego: 'la-biblioteca', emoji: '📚', gradient: 'from-amber-500 to-orange-700', titulo: T3('La Biblioteca (juego)', 'La Biblioteca (game)', 'La Biblioteca (joc)'), desc: T3('Literatura española: obras, autores y épocas.', 'Spanish literature: works, authors and periods.', 'Literatura espanyola: obres, autors i èpoques.') },
       { to: '/juegos/detective-textos', juego: 'detective-textos', emoji: '📑', gradient: 'from-teal-500 to-cyan-700', titulo: T3('Detective de Textos (juego)', 'Detective de Textos (game)', 'Detective de Textos (joc)'), desc: T3('Tipos de texto, la comunicación y las funciones del lenguaje.', 'Types of text, communication and the functions of language.', 'Tipus de text, la comunicació i les funcions del llenguatge.') },
+      { to: '/estudiar/idiomas/espanol/literatura/la-descripcion', emoji: '🖼️', gradient: 'from-sky-500 to-indigo-700', titulo: T3('La descripción', 'Description', 'La descripció'), desc: T3('Tipos, rasgos y ejemplos: prosopografía, etopeya, retrato, topografía…', 'Types, features and examples: prosopografía, etopeya, retrato, topografía…', 'Tipus, trets i exemples: prosopografia, etopeia, retrat, topografia…') },
     ],
   },
   'figuras-literarias': {

@@ -8,6 +8,7 @@
 
 import { fotosintesis, cicloAgua } from './temaFotosintesisAgua.js'
 import { relieveEspana, climaEspana } from './temaTanda3.js'
+import { laDescripcion } from './temaTanda4.js'
 
 const T = (es, en, ca) => ({ es, en, ca })
 const L = T
@@ -194,4 +195,5 @@ export const ESTUDIO_EXTRA = {
   'ciclo-del-agua': cicloAgua,
   'relieve-de-espana': relieveEspana,
   'clima-de-espana': climaEspana,
+  'la-descripcion': laDescripcion,
 }

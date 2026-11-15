@@ -11,6 +11,7 @@
 // Celdas y ejercicios: string = igual en todos los idiomas, o {es, en, ca}.
 
 import { AMPLIACION_CIENCIAS } from './temaAmpliadoCiencias.js'
+import { AMPLIACION_T4 } from './temaTanda4.js'
 
 const T = (es, en, ca) => ({ es, en, ca })
 const L = (es, en, ca) => ({ es, en, ca })
@@ -750,4 +751,4 @@ const determinantes = {
   ],
 }
 
-export const AMPLIACION = { pronombres, morfologia, adjetivos, nexos, verbos, disoluciones, movimiento, asia, oceania, eeuu, sustantivos, adverbios, determinantes, ...AMPLIACION_CIENCIAS }
+export const AMPLIACION = { pronombres, morfologia, adjetivos, nexos, verbos, disoluciones, movimiento, asia, oceania, eeuu, sustantivos, adverbios, determinantes, ...AMPLIACION_CIENCIAS, ...AMPLIACION_T4 }

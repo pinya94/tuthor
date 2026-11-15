@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
+import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
@@ -9,7 +10,7 @@ export default function EnterosRacionalesTema() {
   const en = lang === 'en'
   const ca = lang === 'ca'
 
-  const metaTitle = en ? 'Integers and Rationals' : ca ? 'Enters i Racionals' : 'Enteros y Racionales'
+  const metaTitle = contenidoMeta('enteros-racionales', lang)?.title ?? (en ? 'Integers and Rationals' : ca ? 'Enters i Racionals' : 'Enteros y Racionales')
   const metaDesc = en
     ? 'Study Integers and Rational Numbers on Tuthor: operations, number line, fractions and decimals. Interactive practice for Primary and Secondary.'
     : ca
@@ -82,6 +83,8 @@ export default function EnterosRacionalesTema() {
           </div>
         </div>
       </div>
+
+      <ContenidoTema tema="enteros-racionales" lang={lang} />
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">

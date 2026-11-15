@@ -8,6 +8,7 @@
 // solo se traduce la prosa (ver memoria «Español: material vs prosa»).
 // Los ríos salen de lib/riosMontanas.js, los mismos datos del juego.
 import { RIOS, VERTIENTES } from '../lib/riosMontanas.js'
+import { oracionCompuesta } from './temaTanda4.js'
 
 const L = (es, en, ca) => ({ es, en, ca })
 const T = L
@@ -285,5 +286,9 @@ const espana = {
       s: T('En el Sistema Ibérico, en la zona de los Montes Universales. Allí cerca nace también el Duero, en los Picos de Urbión.', 'In the Iberian System, in the Montes Universales area. The Douro also rises nearby, in the Picos de Urbión.', 'Al Sistema Ibèric, a la zona dels Montes Universales. A prop també hi neix el Duero, als Picos de Urbión.') },
   ],
 }
+
+// La oración compuesta (cuarta tanda) se suma a la sintaxis
+sintaxis.secciones.push(oracionCompuesta.seccion)
+sintaxis.ejercicios.push(...oracionCompuesta.ejercicios)
 
 export const AMPLIACION_CIENCIAS = { 'estados-materia': estadosMateria, 'seres-vivos': seresVivos, sintaxis, espana }
