@@ -165,6 +165,14 @@ export default function GeografiaIndex() {
         </span>
         <span className="text-white/30">→</span>
       </Link>
+      <Link to={localPath('/estudiar/geografia/ciclo-del-agua')}
+        className="max-w-3xl mx-auto w-full mt-3 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-3 text-left transition-colors">
+        <span>
+          <span className="block text-white font-bold">💧 {tr({ es: 'El ciclo del agua', en: 'The water cycle', ca: 'El cicle de l’aigua' })}</span>
+          <span className="block text-white/40 text-sm">{tr({ es: 'Evaporación, condensación, precipitación… y cuánta agua dulce hay', en: 'Evaporation, condensation, precipitation… and how much fresh water there is', ca: 'Evaporació, condensació, precipitació… i quanta aigua dolça hi ha' })}</span>
+        </span>
+        <span className="text-white/30">→</span>
+      </Link>
 
       {/* Los recursos de esta materia, después del temario, que es a lo que se
           viene a un hub: con varias tarjetas encima empujarían los temas fuera

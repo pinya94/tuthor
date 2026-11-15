@@ -10,6 +10,8 @@
 // ejemplo) va en castellano en los tres idiomas; solo se traduce la prosa.
 // Celdas y ejercicios: string = igual en todos los idiomas, o {es, en, ca}.
 
+import { AMPLIACION_CIENCIAS } from './temaAmpliadoCiencias.js'
+
 const T = (es, en, ca) => ({ es, en, ca })
 const L = (es, en, ca) => ({ es, en, ca })
 
@@ -748,4 +750,4 @@ const determinantes = {
   ],
 }
 
-export const AMPLIACION = { pronombres, morfologia, adjetivos, nexos, verbos, disoluciones, movimiento, asia, oceania, eeuu, sustantivos, adverbios, determinantes }
+export const AMPLIACION = { pronombres, morfologia, adjetivos, nexos, verbos, disoluciones, movimiento, asia, oceania, eeuu, sustantivos, adverbios, determinantes, ...AMPLIACION_CIENCIAS }

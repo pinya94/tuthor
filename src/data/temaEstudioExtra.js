@@ -6,6 +6,8 @@
 // Se fusionan en CONTENIDO_TEMA con la clave = slug. Los ejemplos de figuras
 // son inventados o de autores de dominio público (Bécquer, Santa Teresa).
 
+import { fotosintesis, cicloAgua } from './temaFotosintesisAgua.js'
+
 const T = (es, en, ca) => ({ es, en, ca })
 const L = T
 
@@ -187,4 +189,6 @@ export const ESTUDIO_EXTRA = {
   'generos-literarios': generosLiterarios,
   'figuras-literarias': figurasLiterarias,
   'continentes-y-oceanos': continentesOceanos,
+  fotosintesis,
+  'ciclo-del-agua': cicloAgua,
 }

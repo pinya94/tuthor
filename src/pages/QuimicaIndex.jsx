@@ -263,6 +263,12 @@ const TEMAS = [
 
 // Índice de UNA disciplina de ciencias (Física, Química, Biología o Geología).
 // `disciplina` llega por prop desde la ruta correspondiente en App.jsx.
+const EXTRA_DISCIPLINA = {
+  biologia: [
+    { path: '/estudiar/biologia/fotosintesis', emoji: '🌿', titulo: { es: 'La fotosíntesis', en: 'Photosynthesis', ca: 'La fotosíntesi' }, sub: { es: 'Fórmula, fases y diferencia con la respiración', en: 'The equation, its stages and how it differs from respiration', ca: 'Fórmula, fases i diferència amb la respiració' } },
+  ],
+}
+
 export default function QuimicaIndex({ disciplina = 'quimica' }) {
   const navigate = useNavigate()
   const { lang, localPath, lt, tr } = useLang()
@@ -308,6 +314,19 @@ export default function QuimicaIndex({ disciplina = 'quimica' }) {
         hrefDe={item => localPath(`/estudiar/${disc.id}/${item.id}`)}
         placeholder={ca ? 'Cercar tema...' : en ? 'Search topic...' : 'Buscar tema...'}
       />
+      {/* Páginas de estudio sueltas de la disciplina (temaEstudioExtra.js): no
+          son temas del catálogo con examen propio, así que van como enlace y
+          no como tarjeta de la rejilla. */}
+      {(EXTRA_DISCIPLINA[disc.id] ?? []).map(x => (
+        <Link key={x.path} to={localPath(x.path)}
+          className="max-w-3xl mx-auto w-full mt-4 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-3 text-left transition-colors">
+          <span>
+            <span className="block text-white font-bold">{x.emoji} {tr(x.titulo)}</span>
+            <span className="block text-white/40 text-sm">{tr(x.sub)}</span>
+          </span>
+          <span className="text-white/30">→</span>
+        </Link>
+      ))}
       {/* Los recursos de esta disciplina, después del temario, que es a lo que
           se viene a un hub. Solo en las disciplinas que tienen alguno (hoy,
           Geología por el sistema solar): sin recursos, el título quedaría

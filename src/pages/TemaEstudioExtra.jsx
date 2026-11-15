@@ -11,8 +11,25 @@ import { disponibleEn } from '../lib/games'
 const T3 = (es, en, ca) => ({ es, en, ca })
 const ESPANOL = { label: T3('Español', 'Spanish', 'Castellà'), path: '/estudiar/idiomas/espanol' }
 const GEOGRAFIA = { label: T3('Geografía', 'Geography', 'Geografia'), path: '/estudiar/geografia' }
+const BIOLOGIA = { label: T3('Biología', 'Biology', 'Biologia'), path: '/estudiar/biologia' }
 
 const TEMAS = {
+  fotosintesis: {
+    path: '/estudiar/biologia/fotosintesis', miga: BIOLOGIA, emoji: '🌿', nombre: T3('La fotosíntesis', 'Photosynthesis', 'La fotosíntesi'),
+    modos: [
+      { to: '/juegos/cadena-alimentaria', emoji: '🦊', gradient: 'from-green-600 to-emerald-800', titulo: T3('Cadena Alimentaria (juego)', 'Food Chain (game)', 'Cadena Alimentària (joc)'), desc: T3('Las plantas son los productores: coloca a cada ser vivo en su papel en la cadena.', 'Plants are the producers: put each living thing in its role in the food chain.', 'Les plantes són els productors: col·loca cada ésser viu en el seu paper a la cadena.') },
+      { to: '/examen/ciclo/ciclo-calvin', emoji: '🔁', gradient: 'from-lime-600 to-green-800', titulo: T3('Ordena el ciclo de Calvin', 'Order the Calvin cycle', 'Ordena el cicle de Calvin'), desc: T3('La fase oscura de la fotosíntesis, paso a paso (Bachillerato).', 'The light-independent stage of photosynthesis, step by step (upper secondary).', 'La fase fosca de la fotosíntesi, pas a pas (Batxillerat).') },
+      { to: '/estudiar/biologia/celula', emoji: '🔬', gradient: 'from-teal-600 to-cyan-800', titulo: T3('La célula (cloroplastos y mitocondrias)', 'The cell (chloroplasts and mitochondria)', 'La cèl·lula (cloroplasts i mitocondris)'), desc: T3('Dónde se hacen la fotosíntesis y la respiración.', 'Where photosynthesis and respiration take place.', 'On es fan la fotosíntesi i la respiració.') },
+    ],
+  },
+  'ciclo-del-agua': {
+    path: '/estudiar/geografia/ciclo-del-agua', miga: GEOGRAFIA, emoji: '💧', nombre: T3('El ciclo del agua', 'The water cycle', 'El cicle de l’aigua'),
+    modos: [
+      { to: '/examen/ciclo/ciclo-agua', emoji: '🔁', gradient: 'from-sky-500 to-blue-700', titulo: T3('Ordena el ciclo del agua', 'Order the water cycle', 'Ordena el cicle de l’aigua'), desc: T3('Coloca cada fase antes o después de las demás.', 'Place each stage before or after the others.', 'Col·loca cada fase abans o després de les altres.') },
+      { to: '/juegos/cambio-estado', emoji: '🌡️', gradient: 'from-cyan-500 to-teal-700', titulo: T3('Cambio de Estado (juego)', 'Change of State (game)', 'Canvi d’Estat (joc)'), desc: T3('Evaporación, condensación, fusión…: di en qué estado está cada sustancia.', 'Evaporation, condensation, melting…: say what state each substance is in.', 'Evaporació, condensació, fusió…: digues en quin estat és cada substància.') },
+      { to: '/juegos/el-tiempo', emoji: '⛅', gradient: 'from-indigo-500 to-sky-700', titulo: T3('El Tiempo (juego)', 'The Weather (game)', 'El Temps (joc)'), desc: T3('Lee la previsión: nubes, lluvia y temperaturas.', 'Read the forecast: clouds, rain and temperatures.', 'Llegeix la previsió: núvols, pluja i temperatures.') },
+    ],
+  },
   'generos-literarios': {
     path: '/estudiar/idiomas/espanol/literatura/generos-literarios', miga: ESPANOL, emoji: '📖', nombre: T3('Géneros literarios', 'Literary genres', 'Gèneres literaris'),
     modos: [

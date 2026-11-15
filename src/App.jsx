@@ -344,6 +344,7 @@ function AppRoutes() {
       <Route path="estudiar/fisica" element={<QuimicaIndex disciplina="fisica" />} />
       <Route path="estudiar/fisica/:tema" element={<QuimicaTema />} />
       <Route path="estudiar/biologia" element={<QuimicaIndex disciplina="biologia" />} />
+      <Route path="estudiar/biologia/fotosintesis" element={<TemaEstudioExtra slug="fotosintesis" />} />
       <Route path="estudiar/biologia/:tema" element={<QuimicaTema />} />
       <Route path="estudiar/geologia" element={<QuimicaIndex disciplina="geologia" />} />
       <Route path="estudiar/geologia/:tema" element={<QuimicaTema />} />
@@ -364,6 +365,7 @@ function AppRoutes() {
       <Route path="estudiar/idiomas/espanol/literatura/generos-literarios" element={<TemaEstudioExtra slug="generos-literarios" />} />
       <Route path="estudiar/idiomas/espanol/literatura/figuras-literarias" element={<TemaEstudioExtra slug="figuras-literarias" />} />
       <Route path="estudiar/geografia/continentes-y-oceanos" element={<TemaEstudioExtra slug="continentes-y-oceanos" />} />
+      <Route path="estudiar/geografia/ciclo-del-agua" element={<TemaEstudioExtra slug="ciclo-del-agua" />} />
       <Route path="estudiar/geografia/:region" element={<GeografiaTema />} />
       <Route path="examen/geografia" element={<GeoRushExamen />} />
       <Route path="examen/geomapa" element={<GeoMapaExamen />} />
