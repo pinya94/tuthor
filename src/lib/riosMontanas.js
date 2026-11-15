@@ -613,7 +613,7 @@ export function explicacion(r, l) {
 }
 
 // Una frase para situar cada sistema (de libro, sin datos discutibles)
-const PISTA_MONTE = {
+export const PISTA_MONTE = {
   pirineos: T('Hace de frontera con Francia, de Navarra a Girona.', 'It forms the border with France, from Navarre to Girona.', 'Fa de frontera amb França, de Navarra a Girona.'),
   cantabrica: T('Recorre el norte, paralela a la costa cantábrica.', 'It runs across the north, parallel to the Bay of Biscay coast.', 'Recorre el nord, paral·lela a la costa cantàbrica.'),
   central: T('Divide la Meseta en dos: la norte (Duero) y la sur (Tajo y Guadiana). Incluye Gredos y Guadarrama.', 'It splits the Meseta in two: the north (Douro) and the south (Tagus and Guadiana). It includes Gredos and Guadarrama.', 'Divideix la Meseta en dues: la nord (Duero) i la sud (Tajo i Guadiana). Inclou Gredos i Guadarrama.'),

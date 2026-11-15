@@ -14,6 +14,22 @@ const GEOGRAFIA = { label: T3('Geografía', 'Geography', 'Geografia'), path: '/e
 const BIOLOGIA = { label: T3('Biología', 'Biology', 'Biologia'), path: '/estudiar/biologia' }
 
 const TEMAS = {
+  'relieve-de-espana': {
+    path: '/estudiar/geografia/relieve-de-espana', miga: GEOGRAFIA, emoji: '⛰️', nombre: T3('El relieve de España', 'The relief of Spain', 'El relleu d’Espanya'),
+    modos: [
+      { to: '/juegos/rios-montanas', emoji: '🏞️', gradient: 'from-emerald-600 to-teal-800', titulo: T3('Ríos y Montañas (juego)', 'Rivers and Mountains (game)', 'Rius i Muntanyes (joc)'), desc: T3('Señala en el mapa cada sistema montañoso y cada río.', 'Point to each mountain range and river on the map.', 'Assenyala al mapa cada sistema muntanyós i cada riu.') },
+      { to: '/examen/rios-montanas-test', emoji: '📝', gradient: 'from-teal-600 to-cyan-800', titulo: T3('Examen de ríos y montañas de España', 'Rivers and mountains of Spain exam', 'Examen de rius i muntanyes d’Espanya'), desc: T3('Con la mecánica del juego, sin cronómetro.', 'Using the game mechanic, with no timer.', 'Amb la mecànica del joc, sense cronòmetre.') },
+      { to: '/estudiar/geografia/espana', emoji: '🇪🇸', gradient: 'from-amber-500 to-red-700', titulo: T3('España: comunidades y ríos', 'Spain: regions and rivers', 'Espanya: comunitats i rius'), desc: T3('Las 17 comunidades autónomas y las vertientes de los ríos.', 'The 17 autonomous communities and the river basins.', 'Les 17 comunitats autònomes i els vessants dels rius.') },
+    ],
+  },
+  'clima-de-espana': {
+    path: '/estudiar/geografia/clima-de-espana', miga: GEOGRAFIA, emoji: '🌦️', nombre: T3('Los climas de España', 'The climates of Spain', 'Els climes d’Espanya'),
+    modos: [
+      { to: '/juegos/climograma', emoji: '🌧️', gradient: 'from-sky-500 to-blue-700', titulo: T3('Climograma (juego)', 'Climate Graph (game)', 'Climograma (joc)'), desc: T3('Lee cada climograma y di qué clima es.', 'Read each climate graph and say which climate it is.', 'Llegeix cada climograma i digues quin clima és.') },
+      { to: '/examen/climograma-test', emoji: '📝', gradient: 'from-indigo-500 to-sky-700', titulo: T3('Examen de climogramas', 'Climate graphs exam', 'Examen de climogrames'), desc: T3('Con la mecánica del juego, sin cronómetro.', 'Using the game mechanic, with no timer.', 'Amb la mecànica del joc, sense cronòmetre.') },
+      { to: '/juegos/el-tiempo', emoji: '⛅', gradient: 'from-cyan-500 to-teal-700', titulo: T3('El Tiempo (juego)', 'The Weather (game)', 'El Temps (joc)'), desc: T3('El tiempo no es el clima: lee la previsión de cada día.', 'Weather is not climate: read each day’s forecast.', 'El temps no és el clima: llegeix la previsió de cada dia.') },
+    ],
+  },
   fotosintesis: {
     path: '/estudiar/biologia/fotosintesis', miga: BIOLOGIA, emoji: '🌿', nombre: T3('La fotosíntesis', 'Photosynthesis', 'La fotosíntesi'),
     modos: [

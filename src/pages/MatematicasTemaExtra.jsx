@@ -9,6 +9,14 @@ import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
 const BASE = '/estudiar/matematicas'
 const T3 = (es, en, ca) => ({ es, en, ca })
 const TEMAS = {
+  proporcionalidad: {
+    emoji: '⚖️', nombre: T3('Proporcionalidad', 'Proportion', 'Proporcionalitat'),
+    modos: [
+      { to: '/examen/porcentajes', emoji: '📝', gradient: 'from-emerald-500 to-teal-700', titulo: T3('Examen de proporcionalidad y porcentajes', 'Proportion and percentages exam', 'Examen de proporcionalitat i percentatges'), desc: T3('Regla de tres directa e inversa, repartos y porcentajes, con la solución explicada.', 'Direct and inverse rule of three, sharing and percentages, with worked answers.', 'Regla de tres directa i inversa, repartiments i percentatges, amb la solució explicada.') },
+      { to: '/juegos/rebajas', emoji: '🛍️', gradient: 'from-rose-500 to-pink-700', titulo: T3('Rebajas (juego)', 'Sale! (game)', 'Rebaixes (joc)'), desc: T3('Descuentos y subidas en tanto por ciento, contra reloj.', 'Discounts and increases in percentages, against the clock.', 'Descomptes i pujades en tant per cent, contra rellotge.') },
+      { to: '/estudiar/matematicas/funciones', emoji: '📈', gradient: 'from-indigo-500 to-violet-700', titulo: T3('Funciones lineales', 'Linear functions', 'Funcions lineals'), desc: T3('La proporcionalidad directa dibujada: una recta que pasa por el origen.', 'Direct proportion as a graph: a straight line through the origin.', 'La proporcionalitat directa dibuixada: una recta que passa per l’origen.') },
+    ],
+  },
   'numeros-romanos': {
     emoji: '🏛️', nombre: T3('Números romanos', 'Roman numerals', 'Nombres romans'),
     modos: [

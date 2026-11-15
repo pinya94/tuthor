@@ -259,6 +259,7 @@ function AppRoutes() {
       <Route path="estudiar/matematicas/teorema-de-pitagoras" element={<MatematicasTemaExtra slug="teorema-de-pitagoras" />} />
       <Route path="estudiar/matematicas/sistemas-de-ecuaciones" element={<MatematicasTemaExtra slug="sistemas-de-ecuaciones" />} />
       <Route path="estudiar/matematicas/numeros-decimales" element={<MatematicasTemaExtra slug="numeros-decimales" />} />
+      <Route path="estudiar/matematicas/proporcionalidad" element={<MatematicasTemaExtra slug="proporcionalidad" />} />
       <Route path="estudiar/matematicas/porcentajes" element={<PorcentajesTema />} />
       <Route path="estudiar/matematicas/divisibilidad" element={<DivisibilidadTema />} />
       <Route path="estudiar/matematicas/trigonometria" element={<TrigonometriaTema />} />
@@ -366,6 +367,8 @@ function AppRoutes() {
       <Route path="estudiar/idiomas/espanol/literatura/figuras-literarias" element={<TemaEstudioExtra slug="figuras-literarias" />} />
       <Route path="estudiar/geografia/continentes-y-oceanos" element={<TemaEstudioExtra slug="continentes-y-oceanos" />} />
       <Route path="estudiar/geografia/ciclo-del-agua" element={<TemaEstudioExtra slug="ciclo-del-agua" />} />
+      <Route path="estudiar/geografia/relieve-de-espana" element={<TemaEstudioExtra slug="relieve-de-espana" />} />
+      <Route path="estudiar/geografia/clima-de-espana" element={<TemaEstudioExtra slug="clima-de-espana" />} />
       <Route path="estudiar/geografia/:region" element={<GeografiaTema />} />
       <Route path="examen/geografia" element={<GeoRushExamen />} />
       <Route path="examen/geomapa" element={<GeoMapaExamen />} />

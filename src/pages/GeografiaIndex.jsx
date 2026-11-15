@@ -165,6 +165,22 @@ export default function GeografiaIndex() {
         </span>
         <span className="text-white/30">→</span>
       </Link>
+      <Link to={localPath('/estudiar/geografia/relieve-de-espana')}
+        className="max-w-3xl mx-auto w-full mt-3 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-3 text-left transition-colors">
+        <span>
+          <span className="block text-white font-bold">⛰️ {tr({ es: 'El relieve de España', en: 'The relief of Spain', ca: 'El relleu d’Espanya' })}</span>
+          <span className="block text-white/40 text-sm">{tr({ es: 'La Meseta, los sistemas montañosos y los picos más altos', en: 'The Meseta, the mountain ranges and the highest peaks', ca: 'La Meseta, els sistemes muntanyosos i els cims més alts' })}</span>
+        </span>
+        <span className="text-white/30">→</span>
+      </Link>
+      <Link to={localPath('/estudiar/geografia/clima-de-espana')}
+        className="max-w-3xl mx-auto w-full mt-3 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-3 text-left transition-colors">
+        <span>
+          <span className="block text-white font-bold">🌦️ {tr({ es: 'Los climas de España', en: 'The climates of Spain', ca: 'Els climes d’Espanya' })}</span>
+          <span className="block text-white/40 text-sm">{tr({ es: 'Oceánico, mediterráneo, de interior, de montaña y canario', en: 'Oceanic, Mediterranean, inland, mountain and Canary Islands', ca: 'Oceànic, mediterrani, d’interior, de muntanya i canari' })}</span>
+        </span>
+        <span className="text-white/30">→</span>
+      </Link>
       <Link to={localPath('/estudiar/geografia/ciclo-del-agua')}
         className="max-w-3xl mx-auto w-full mt-3 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-3 text-left transition-colors">
         <span>

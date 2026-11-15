@@ -1,3 +1,4 @@
+import { algebra } from './temaTanda3.js'
 // Contenido de estudio para las páginas de tema de matemáticas que ya existían
 // (/estudiar/matematicas/fracciones, geometria, potencias, divisibilidad,
 // funciones) y solo tenían un título de una palabra y las tarjetas de práctica.
@@ -284,4 +285,4 @@ const funciones = {
   ],
 }
 
-export const MATEMATICAS_AMPLIADO = { fracciones, geometria, potencias, divisibilidad, funciones }
+export const MATEMATICAS_AMPLIADO = { fracciones, geometria, potencias, divisibilidad, funciones, algebra }

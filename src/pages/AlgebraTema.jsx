@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
+import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
 import CourseSchema from '../components/CourseSchema'
 import BreadcrumbSchema from '../components/BreadcrumbSchema'
 
@@ -9,7 +10,7 @@ export default function AlgebraTema() {
   const en = lang === 'en'
   const ca = lang === 'ca'
 
-  const metaTitle = en ? 'Algebra' : ca ? 'Àlgebra' : 'Álgebra'
+  const metaTitle = contenidoMeta('algebra', lang)?.title ?? (en ? 'Algebra' : ca ? 'Àlgebra' : 'Álgebra')
   const metaDesc = en
     ? 'Study Algebra on Tuthor: equations, expressions, polynomials and systems. Interactive practice for Secondary.'
     : ca
@@ -113,14 +114,13 @@ export default function AlgebraTema() {
           <span className="text-5xl">🔣</span>
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">
-              {ca ? 'Àlgebra' : en ? 'Algebra' : 'Álgebra'}
+              {metaTitle}
             </h1>
-            <p className="text-white/40 text-sm mt-0.5">
-              {ca ? 'Equacions, sistemes i factorització' : en ? 'Equations, systems and factorisation' : 'Ecuaciones, sistemas y factorización'}
-            </p>
           </div>
         </div>
       </div>
+
+      <ContenidoTema tema="algebra" lang={lang} />
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">

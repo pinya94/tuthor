@@ -359,6 +359,29 @@ function Sistemas(p) {
   )
 }
 
+function Proporcionalidad(p) {
+  // Dos tablas: directa (×2 arriba, ×2 abajo) e inversa (×2 arriba, ÷2 abajo).
+  const tabla = (x, arriba, abajo, color, op) => (
+    <g>
+      {arriba.map((v, i) => (
+        <g key={i}>
+          <rect x={x + i * 34} y="30" width="30" height="26" rx="4" fill="#FFFFFF" fillOpacity=".06" stroke="#94A3B8" strokeWidth="1.5" />
+          <T x={x + 15 + i * 34} y={48} s={14} c="#F8FAFC">{v}</T>
+          <rect x={x + i * 34} y="60" width="30" height="26" rx="4" fill="#FFFFFF" fillOpacity=".06" stroke={color} strokeWidth="1.5" />
+          <T x={x + 15 + i * 34} y={78} s={14} c={color}>{abajo[i]}</T>
+        </g>
+      ))}
+      <T x={x + 32} y={108} s={12} c={color}>{op}</T>
+    </g>
+  )
+  return (
+    <Lienzo {...p}>
+      {tabla(22, ['1', '2', '4'], ['3', '6', '12'], '#34D399', '×2 → ×2')}
+      {tabla(134, ['1', '2', '4'], ['12', '6', '3'], '#F472B6', '×2 → ÷2')}
+    </Lienzo>
+  )
+}
+
 function Decimales(p) {
   // 23,475 con cada cifra en su casilla de valor.
   const cifras = [['2', 'D'], ['3', 'U'], [',', ''], ['4', 'd'], ['7', 'c'], ['5', 'm']]
@@ -411,4 +434,5 @@ export const ARTE_TEMAS_MATEMATICAS = {
   'matematicas/teorema-de-pitagoras': Pitagoras,
   'matematicas/sistemas-de-ecuaciones': Sistemas,
   'matematicas/numeros-decimales': Decimales,
+  'matematicas/proporcionalidad': Proporcionalidad,
 }

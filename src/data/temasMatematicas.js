@@ -75,6 +75,12 @@ export const TEMAS_MATEMATICAS_EXTRA = [
     tags: ['sistema', 'ecuaciones', 'sustitucion', 'igualacion', 'reduccion', 'simultaneous'],
   },
   {
+    id: 'proporcionalidad',
+    titulo: 'Proporcionalidad', tituloEn: 'Proportion', tituloCa: 'Proporcionalitat',
+    emoji: '⚖️', gradient: 'from-emerald-500 to-teal-700',
+    tags: ['proporcionalidad', 'directa', 'inversa', 'regla de tres', 'reparto', 'proportion'],
+  },
+  {
     id: 'numeros-decimales',
     titulo: 'Números decimales', tituloEn: 'Decimals', tituloCa: 'Nombres decimals',
     emoji: '🔢', gradient: 'from-sky-500 to-cyan-700',

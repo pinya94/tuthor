@@ -3,6 +3,7 @@
 // CONTENIDO_TEMA con la clave = slug (/estudiar/matematicas/<slug>).
 // Los ejemplos salen de aRomano(), la misma función que corrige el juego.
 import { aRomano } from '../lib/romanos.js'
+import { proporcionalidad } from './temaTanda3.js'
 
 const T = (es, en, ca) => ({ es, en, ca })
 const L = T
@@ -291,6 +292,7 @@ const decimales = {
 }
 
 export const MATEMATICAS_TEMA = {
+  proporcionalidad,
   'numeros-romanos': numerosRomanos,
   'teorema-de-pitagoras': pitagoras,
   'sistemas-de-ecuaciones': sistemas,
