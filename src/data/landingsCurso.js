@@ -293,7 +293,7 @@ export const LANDINGS = [
       en: ['Putting events in order on a timeline', 'The ages of history', 'Spain’s autonomous communities', 'Countries and capitals on the map', 'Relief, rivers and population'],
       ca: ['Ordenar fets a la línia del temps', 'Les etapes de la història', "Les comunitats autònomes d'Espanya", 'Països i capitals al mapa', 'Relleu, rius i població'],
     },
-    juegos: ['el-tiempo', 'climograma', 'linea-temporal', 'epocas-historicas', 'geomapa', 'georush', 'coordenadas', 'piramide-poblacion', 'europa-27', 'quien-decide', 'rios-montanas', 'que-hora-es'],
+    juegos: ['el-tiempo', 'climograma', 'linea-temporal', 'epocas-historicas', 'geomapa', 'georush', 'coordenadas', 'piramide-poblacion', 'europa-27', 'quien-decide', 'rios-montanas', 'que-hora-es', 'continentes-oceanos'],
     temas: [
       { arte: 'historia/primaria', ruta: '/estudiar/historia/primaria', titulo: T('Grandes hitos de la historia', 'Great milestones of history', 'Grans fites de la història') },
       { arte: 'historia/prehistoria', ruta: '/estudiar/historia/prehistoria', titulo: T('Prehistoria', 'Prehistory', 'Prehistòria') },
@@ -373,7 +373,7 @@ export const LANDINGS = [
       en: ['Linear equations', 'Linear and quadratic functions', 'Integers and rational numbers', 'Fractions and percentages', 'Statistics: mean, median and mode'],
       ca: ['Equacions de primer grau', 'Funcions lineals i quadràtiques', 'Nombres enters i racionals', 'Fraccions i percentatges', 'Estadística: mitjana, mediana i moda'],
     },
-    juegos: ['balanza-algebraica', 'funciones-grafica', 'rebajas', 'bloques-primos', 'angulo-recto', 'escala-universo', 'sigue-serie', 'trayectoria', 'portero', 'salta-recta', 'reparte-pastel', 'estadistico-expres', 'lee-el-grafico', 'acercate', 'numpath'],
+    juegos: ['balanza-algebraica', 'cruce-rectas', 'funciones-grafica', 'rebajas', 'bloques-primos', 'angulo-recto', 'escala-universo', 'sigue-serie', 'trayectoria', 'portero', 'salta-recta', 'reparte-pastel', 'estadistico-expres', 'lee-el-grafico', 'acercate', 'numpath'],
     temas: [
       { arte: 'matematicas/algebra', ruta: '/estudiar/matematicas/algebra', titulo: T('Álgebra', 'Algebra', 'Àlgebra') },
       { arte: 'matematicas/funciones', ruta: '/estudiar/matematicas/funciones', titulo: T('Funciones', 'Functions', 'Funcions') },
@@ -582,7 +582,7 @@ export const LANDINGS = [
       en: ['Chronology: ordering events and eras', 'From the Middle Ages to the Cold War', 'Spanish Civil War, Franco and the Transition', 'Historical figures', 'Maps: countries, capitals and coordinates'],
       ca: ['Cronologia: ordenar fets i èpoques', "De l'Edat Mitjana a la Guerra Freda", 'Guerra Civil, franquisme i Transició', 'Personatges històrics', 'Mapes: països, capitals i coordenades'],
     },
-    juegos: ['linea-temporal', 'tuthor-time', 'quien-es-quien', 'epocas-historicas', 'portadas', 'que-estilo', 'la-galeria', 'geomapa', 'georush', 'rios-montanas', 'coordenadas', 'climograma', 'piramide-poblacion', 'europa-27', 'quien-decide', 'que-hora-es'],
+    juegos: ['linea-temporal', 'tuthor-time', 'quien-es-quien', 'epocas-historicas', 'portadas', 'que-estilo', 'la-galeria', 'geomapa', 'georush', 'rios-montanas', 'coordenadas', 'climograma', 'piramide-poblacion', 'europa-27', 'quien-decide', 'que-hora-es', 'continentes-oceanos'],
     temas: [
       { arte: 'historia/edad-media', ruta: '/estudiar/historia/edad-media', titulo: T('Edad Media', 'The Middle Ages', 'Edat Mitjana') },
       { arte: 'historia/edad-moderna', ruta: '/estudiar/historia/edad-moderna', titulo: T('Edad Moderna', 'The Early Modern Period', 'Edat Moderna') },
@@ -700,7 +700,7 @@ export const LANDINGS = [
       en: ['Linear, quadratic and piecewise functions', 'Simultaneous equations', 'Quadratic equations', 'Geometry and basic trigonometry', 'Statistics and reading charts'],
       ca: ['Funcions lineals, quadràtiques i a trossos', 'Sistemes d’equacions', 'Equacions de segon grau', 'Geometria i trigonometria bàsica', 'Estadística i lectura de gràfics'],
     },
-    juegos: ['funciones-grafica', 'trayectoria', 'portero', 'balanza-algebraica', 'lee-el-grafico', 'estadistico-expres'],
+    juegos: ['funciones-grafica', 'trayectoria', 'portero', 'balanza-algebraica', 'cruce-rectas', 'lee-el-grafico', 'estadistico-expres'],
     temas: [
       { arte: 'matematicas/funciones', ruta: '/estudiar/matematicas/funciones', titulo: T('Funciones', 'Functions', 'Funcions') },
       { arte: 'matematicas/algebra', ruta: '/estudiar/matematicas/algebra', titulo: T('Álgebra', 'Algebra', 'Àlgebra') },

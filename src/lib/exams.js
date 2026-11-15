@@ -282,6 +282,11 @@ export const EXAMS = {
     emoji: '🎼', subject: 'musica',
     path: 'examen/musica', page: () => import('../pages/MusicaExamen'),
   },
+  'continentes-oceanos-test': {
+    label: { es: 'Continentes y océanos (con el juego)', en: 'Continents and oceans (with the game)', ca: 'Continents i oceans (amb el joc)' },
+    emoji: '🌍', subject: 'geografia',
+    path: 'examen/continentes-oceanos-test', page: () => import('../pages/ContinentesOceanosExamen'),
+  },
   'que-hora-es-test': {
     label: { es: '¿Qué Hora Es Allí? (con el juego)', en: 'What Time Is It There? (with the game)', ca: 'Quina Hora És Allà? (amb el joc)' },
     emoji: '🕒', subject: 'geografia',
@@ -485,6 +490,11 @@ export const EXAMS = {
     label: { es: 'Caza la Función', en: 'Function Hunt', ca: 'Caça la Funció' },
     emoji: '📈', subject: 'matematicas',
     path: 'examen/funciones-grafica-test', page: () => import('../pages/FuncionesGraficaExamen'),
+  },
+  'cruce-rectas-test': {
+    label: { es: 'Sistemas por el método gráfico (con el juego)', en: 'Simultaneous equations: graphical method (with the game)', ca: 'Sistemes pel mètode gràfic (amb el joc)' },
+    emoji: '✖️', subject: 'matematicas',
+    path: 'examen/cruce-rectas-test', page: () => import('../pages/CruceRectasExamen'),
   },
   'balanza-algebraica-test': {
     label: { es: 'Balanza Algebraica', en: 'Algebra Balance', ca: 'Balança Algebraica' },
@@ -1024,6 +1034,11 @@ export const EXAMS = {
     emoji: '📐', subject: 'matematicas',
     path: 'examen/trigonometria', page: () => import('../pages/TrigonometriaExamen'),
   },
+  'numeros-decimales-test': {
+    label: { es: 'Números decimales', en: 'Decimals', ca: 'Nombres decimals' },
+    emoji: '🔢', subject: 'matematicas',
+    path: 'examen/numeros-decimales-test', page: () => import('../pages/NumerosDecimalesExamen'),
+  },
   'divisibilidad': {
     label: { es: 'Divisibilidad', en: 'Divisibility', ca: 'Divisibilitat' },
     emoji: '🌳', subject: 'matematicas',
@@ -1195,6 +1210,33 @@ export const EXAMS = {
     label: { es: 'Modal Verbs', en: 'Modal Verbs', ca: 'Modal Verbs' },
     emoji: '🔑', subject: 'ingles',
     path: 'examen/ingles-grammar-modals-test', page: () => import('../pages/InglesGrammarModalsExamen'),
+  },
+  // Los básicos de Primaria y 1.º-2.º ESO: una página para los cinco
+  // (bancos en inglesBasicoExamenes.js, una página fina por tema), un id por tema para que cada uno guarde sus stats.
+  'ingles-grammar-present-continuous-test': {
+    label: { es: 'Present Continuous', en: 'Present Continuous', ca: 'Present Continuous' },
+    emoji: '⏳', subject: 'ingles',
+    path: 'examen/ingles-grammar-present-continuous-test', page: () => import('../pages/InglesPresentContinuousExamen'),
+  },
+  'ingles-grammar-have-got-test': {
+    label: { es: 'Have got', en: 'Have got', ca: 'Have got' },
+    emoji: '🎒', subject: 'ingles',
+    path: 'examen/ingles-grammar-have-got-test', page: () => import('../pages/InglesHaveGotExamen'),
+  },
+  'ingles-grammar-there-is-there-are-test': {
+    label: { es: 'There is / There are', en: 'There is / There are', ca: 'There is / There are' },
+    emoji: '📍', subject: 'ingles',
+    path: 'examen/ingles-grammar-there-is-there-are-test', page: () => import('../pages/InglesThereIsExamen'),
+  },
+  'ingles-grammar-possessives-test': {
+    label: { es: 'Possessives (my, mine, ’s)', en: 'Possessives (my, mine, ’s)', ca: 'Possessives (my, mine, ’s)' },
+    emoji: '🙋', subject: 'ingles',
+    path: 'examen/ingles-grammar-possessives-test', page: () => import('../pages/InglesPossessivesExamen'),
+  },
+  'ingles-grammar-can-test': {
+    label: { es: 'Can / Can’t', en: 'Can / Can’t', ca: 'Can / Can’t' },
+    emoji: '💪', subject: 'ingles',
+    path: 'examen/ingles-grammar-can-test', page: () => import('../pages/InglesCanExamen'),
   },
   'ingles-grammar-passive-test': {
     label: { es: 'Passive Voice', en: 'Passive Voice', ca: 'Passive Voice' },

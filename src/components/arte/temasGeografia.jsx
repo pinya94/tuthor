@@ -264,7 +264,23 @@ function Representacion(p) {
   )
 }
 
+function ContinentesOceanos(p) {
+  // Un globo con los continentes de colores y las olas de los océanos
+  return (
+    <Lienzo {...p}>
+      <circle cx="120" cy="68" r="52" fill="#0369A1" />
+      <path d="M84 40q12-10 26-4q2 10-8 16q-6 8-2 16q4 10-2 20q-8-2-10-14q-4-10-10-14q-4-12 6-20z" fill="#FBBF24" />
+      <path d="M118 34q14-8 30 0q2 8-8 10q-12 2-20-2q-4-4-2-8z" fill="#F472B6" />
+      <path d="M118 52q14-4 22 4q4 12-2 24q-6 12-12 6q-4-12-8-18q-4-8 0-16z" fill="#22C55E" />
+      <path d="M146 76q10-4 16 4q0 8-8 10q-8 0-10-6z" fill="#A78BFA" />
+      <path d="M80 112q10-6 20 0t20 0 20 0 20 0" stroke="#7DD3FC" strokeWidth="4" strokeLinecap="round" />
+      <path d="M28 40q8-5 16 0t16 0M180 40q8-5 16 0t16 0M176 100q8-5 16 0t16 0" stroke="#38BDF8" strokeWidth="4" strokeLinecap="round" />
+    </Lienzo>
+  )
+}
+
 export const ARTE_TEMAS_GEOGRAFIA = {
+  'geografia/continentes-oceanos': ContinentesOceanos,
   'geografia/fisica': Fisica,
   'geografia/humana': Humana,
   'geografia/union-europea': UnionEuropea,

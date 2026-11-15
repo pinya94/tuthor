@@ -12,7 +12,7 @@ export const RETOS_EXAMENES = [
   'estadistico-rango-test', 'rebajas-test', 'sigue-serie-test', 'escala-universo-test', 'angulo-recto-test',
   'bloques-primos-test', 'reparte-pastel-test', 'reloj-horas-test', 'el-cambio-test', 'numeros-romanos-test',
   'escalera-unidades-test', 'redondeo-test', 'tablas-multiplicar-test', 'figuras-compuestas', 'funciones-grafica-test',
-  'balanza-algebraica-test', 'fuerza-neta-test', 'balanza-test', 'balanza-ecuaciones-test', 'genetica-test',
+  'balanza-algebraica-test', 'cruce-rectas-test', 'fuerza-neta-test', 'balanza-test', 'balanza-ecuaciones-test', 'genetica-test',
   'rayos-x-test', 'microscopio-test', 'cadena-alimentaria-test', 'circuito-cerrado-test', 'rayo-de-luz-test',
   'placas-movimiento-test', 'brote-test', 'arbol-vida-test', 'ciclo-rocas-test', 'el-tiempo-test',
   'newton-accion-test', 'termometro-test', 'cadena-energia-test', 'lee-el-movimiento-test', 'engranajes-test',
@@ -20,14 +20,14 @@ export const RETOS_EXAMENES = [
   'cadena-carbono-test', 'bajo-presion-test', 'construye-atomo-test', 'receta-quimica-test', 'que-enlace-test', 'prepara-disolucion-test', 'medidor-ph-test',
   'encuentra-elemento-test', 'orbita-test', 'la-biblioteca-test', 'detective-textos-test', 'cazafiguras-test',
   'coma-a-coma-test', 'fabrica-palabras-test', 'que-letra-test', 'mide-el-verso-test', 'la-galeria-test', 'que-estilo-test',
-  'quien-lo-penso-antigua-test', 'quien-lo-penso-moderna-test', 'tabla-verdad-test', 'cuentas-claras-test', 'escalas-acordes-test', 'quien-desafina-test', 'que-hora-es-test', 'verbos-irregulares-test', 'cambio-estado-test', 'nombres-cambio-test', 'ordena-frase-test',
+  'quien-lo-penso-antigua-test', 'quien-lo-penso-moderna-test', 'tabla-verdad-test', 'cuentas-claras-test', 'escalas-acordes-test', 'quien-desafina-test', 'que-hora-es-test', 'continentes-oceanos-test', 'verbos-irregulares-test', 'cambio-estado-test', 'nombres-cambio-test', 'ordena-frase-test',
 ]
 
 // Los tipo test (ExamenMC): una pregunta con sus opciones, un solo intento
 export const RETOS_TEST = [
   'acidos-bases', 'algebra', 'antigua', 'arte-arquitectura', 'arte-pintura',
   'atmosfera-clima', 'atomos-moleculas', 'calor-temperatura', 'celula', 'cuerpo-humano',
-  'dinamica', 'disoluciones', 'divisibilidad', 'ecosistemas', 'edad-media',
+  'dinamica', 'disoluciones', 'divisibilidad', 'numeros-decimales-test', 'ecosistemas', 'edad-media',
   'edad-moderna', 'electricidad', 'energia', 'enlace-quimico', 'enteros-racionales',
   'entreguerras', 'espana-xix', 'espanol-figuras-test', 'espanol-gramatica-adjetivos-test', 'espanol-gramatica-adverbios-test',
   'espanol-gramatica-determinantes-test', 'espanol-gramatica-morfologia-test', 'espanol-gramatica-nexos-test', 'espanol-gramatica-pronombres-test', 'espanol-gramatica-sintaxis-test',
@@ -37,7 +37,7 @@ export const RETOS_TEST = [
   'finanzas-personales', 'formulacion', 'fracciones', 'franquismo', 'fuerzas',
   'funciones', 'gce', 'genetica', 'geografia-constitucion-test', 'geografia-fisica-test',
   'geografia-humana-test', 'geografia-ue-test', 'geografia-representacion-test', 'geometria', 'guerra-fria', 'historia-ciencia',
-  'ingles-grammar-adjectives-test', 'ingles-grammar-adverbs-test', 'ingles-grammar-articles-test', 'ingles-grammar-conditionals-test', 'ingles-grammar-connectors-test',
+  'ingles-grammar-adjectives-test', 'ingles-grammar-adverbs-test', 'ingles-grammar-present-continuous-test', 'ingles-grammar-have-got-test', 'ingles-grammar-there-is-there-are-test', 'ingles-grammar-possessives-test', 'ingles-grammar-can-test', 'ingles-grammar-articles-test', 'ingles-grammar-conditionals-test', 'ingles-grammar-connectors-test',
   'ingles-grammar-modals-test', 'ingles-grammar-nouns-test', 'ingles-grammar-passive-test', 'ingles-grammar-past-simple-test', 'ingles-grammar-present-perfect-test',
   'ingles-grammar-present-simple-test', 'ingles-grammar-pronouns-test', 'ingles-grammar-verbs-test', 'internet-seguro', 'maquinas',
   'mercado', 'mezclas-separacion', 'movimiento', 'musica-instrumentos-test', 'musica-ritmo-test',

@@ -351,6 +351,23 @@ function BalanzaAlgebraica(p) {
   )
 }
 
+function CruceRectas(p) {
+  // Cuadrícula con dos rectas que se cruzan y el punto de corte marcado
+  const xs = [40, 64, 88, 112, 136, 160, 184, 208]
+  return (
+    <Lienzo {...p}>
+      <rect x="28" y="10" width="192" height="116" rx="10" fill="#1E1238" />
+      {xs.map(x => <path key={x} d={`M${x} 18V118`} stroke="#ffffff14" />)}
+      {[22, 46, 70, 94, 118].map(y => <path key={y} d={`M36 ${y}H212`} stroke="#ffffff14" />)}
+      <path d="M40 118L208 22" stroke="#FBBF24" strokeWidth="4" strokeLinecap="round" />
+      <path d="M40 30L208 110" stroke="#38BDF8" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="64" cy="104" r="5" fill="#FBBF24" /><circle cx="184" cy="36" r="5" fill="#FBBF24" />
+      <circle cx="64" cy="41" r="5" fill="#38BDF8" /><circle cx="184" cy="99" r="5" fill="#38BDF8" />
+      <circle cx="125" cy="70" r="9" fill="#22C55E" stroke="#1E1238" strokeWidth="3" />
+    </Lienzo>
+  )
+}
+
 function Rebajas(p) {
   return (
     <Lienzo {...p}>
@@ -477,4 +494,5 @@ export const ARTE_MATES = {
   portero: Portero,
   'funciones-grafica': FuncionesGrafica,
   'balanza-algebraica': BalanzaAlgebraica,
+  'cruce-rectas': CruceRectas,
 }

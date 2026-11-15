@@ -253,6 +253,31 @@ function Europa27(p) {
   )
 }
 
+function ContinentesOceanos(p) {
+  // Mapamundi sencillo: un continente ya tocado (verde), puntos de océano y
+  // la etiqueta del que se acaba de acertar.
+  return (
+    <Lienzo {...p}>
+      <rect x="14" y="10" width="212" height="112" rx="12" fill="#0E2A47" />
+      {/* América */}
+      <path d="M40 30q14-8 30-2q4 10-6 18q-6 6-2 12q6 4 10 14q2 14-6 28q-4 6-8 0q-4-14-10-22q-6-8-4-16q-12-6-12-16q0-10 8-16z" fill="#2B4A7A" />
+      {/* Europa y África (África, la tocada) */}
+      <path d="M108 28q10-6 22-2q2 8-6 12q-8 2-14-2q-4-4-2-8z" fill="#2B4A7A" />
+      <path d="M106 48q14-6 28 0q6 10 2 22q-4 12-12 22q-6 6-10-2q-4-12-8-20q-6-10 0-22z" fill="#22C55E" />
+      {/* Asia y Oceanía */}
+      <path d="M134 26q24-8 52-2q12 6 8 18q-8 10-24 10q-8 8-18 4q-10-6-14-16q-6-6-4-14z" fill="#2B4A7A" />
+      <path d="M176 82q12-6 24 0q4 8-4 14q-10 4-18 0q-6-6-2-14z" fill="#2B4A7A" />
+      {/* Puntos de océano */}
+      <circle cx="84" cy="66" r="6" fill="#F8FAFC" stroke="#0E2A47" strokeWidth="2" />
+      <circle cx="160" cy="84" r="6" fill="#38BDF8" stroke="#0E2A47" strokeWidth="2" />
+      <circle cx="30" cy="94" r="6" fill="#F8FAFC" stroke="#0E2A47" strokeWidth="2" />
+      <rect x="128" y="96" width="64" height="18" rx="9" fill="#38BDF8" />
+      <T x={160} y={109} s={11} c="#0E2A47">ÍNDICO</T>
+      <T x={120} y={72} s={11} c="#0E2A47">ÁFRICA</T>
+    </Lienzo>
+  )
+}
+
 function QueHoraEs(p) {
   // Franjas de husos sobre el planeta y dos relojes con horas distintas.
   const reloj = (cx, h, c) => {
@@ -408,6 +433,7 @@ export const ARTE_HISTORIA_GEO = {
   'piramide-poblacion': PiramidePoblacion,
   'europa-27': Europa27,
   'que-hora-es': QueHoraEs,
+  'continentes-oceanos': ContinentesOceanos,
   'rios-montanas': RiosMontanas,
   'quien-decide': QuienDecide,
   'quien-lo-penso': QuienLoPenso,

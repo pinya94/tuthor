@@ -25,11 +25,11 @@ const TEMAS = {
   conditionals: { titulo: 'Conditionals', emoji: '🔀', gradient: 'from-indigo-500 to-violet-600', modos: [examen('ingles-grammar-conditionals-test'), piezas('ingles-piezas-conditionals-test')] },
   passive: { titulo: 'Passive Voice', emoji: '🔄', gradient: 'from-red-500 to-rose-600', modos: [examen('ingles-grammar-passive-test'), piezas('ingles-piezas-passive-test')] },
   adjectives: { titulo: 'Comparatives & Superlatives', emoji: '🎨', gradient: 'from-pink-500 to-rose-600', modos: [examen('ingles-grammar-adjectives-test')] },
-  'present-continuous': { titulo: 'Present Continuous', emoji: '⏳', gradient: 'from-emerald-500 to-teal-600', modos: [examen('ingles-grammar-present-simple-test'), piezas('ingles-piezas-present-simple-test')] },
-  'have-got': { titulo: 'Have got', emoji: '🎒', gradient: 'from-sky-500 to-blue-600', modos: [examen('ingles-grammar-present-simple-test')] },
-  'there-is-there-are': { titulo: 'There is / There are', emoji: '📍', gradient: 'from-blue-500 to-cyan-600', modos: [examen('ingles-grammar-articles-test')] },
-  possessives: { titulo: 'Possessives', emoji: '🙋', gradient: 'from-lime-500 to-green-600', modos: [examen('ingles-grammar-pronouns-test')] },
-  can: { titulo: 'Can / Can’t', emoji: '💪', gradient: 'from-amber-500 to-yellow-600', modos: [examen('ingles-grammar-modals-test'), piezas('ingles-piezas-modals-test')] },
+  'present-continuous': { titulo: 'Present Continuous', emoji: '⏳', gradient: 'from-emerald-500 to-teal-600', modos: [examen('ingles-grammar-present-continuous-test')] },
+  'have-got': { titulo: 'Have got', emoji: '🎒', gradient: 'from-sky-500 to-blue-600', modos: [examen('ingles-grammar-have-got-test')] },
+  'there-is-there-are': { titulo: 'There is / There are', emoji: '📍', gradient: 'from-blue-500 to-cyan-600', modos: [examen('ingles-grammar-there-is-there-are-test')] },
+  possessives: { titulo: 'Possessives', emoji: '🙋', gradient: 'from-lime-500 to-green-600', modos: [examen('ingles-grammar-possessives-test'), { ...examen('ingles-grammar-pronouns-test'), key: 'pronouns', titulo: { es: 'Examen de pronombres', en: 'Pronouns exam', ca: 'Examen de pronoms' }, desc: { es: 'Personales, objeto y posesivos mezclados.', en: 'Subject, object and possessive pronouns mixed.', ca: 'Personals, d’objecte i possessius barrejats.' } }] },
+  can: { titulo: 'Can / Can’t', emoji: '💪', gradient: 'from-amber-500 to-yellow-600', modos: [examen('ingles-grammar-can-test'), { ...piezas('ingles-piezas-modals-test'), titulo: { es: 'Modales: completa la frase (con el juego)', en: 'Modals: complete the sentence (with the game)', ca: 'Modals: completa la frase (amb el joc)' } }] },
   'irregular-verbs': { titulo: 'Irregular Verbs', emoji: '🔤', gradient: 'from-orange-500 to-red-600', modos: [juegoVerbos, { ...examen('verbos-irregulares-test'), emoji: '📝', titulo: { es: 'Examen de verbos irregulares', en: 'Irregular verbs exam', ca: 'Examen de verbs irregulars' }, desc: { es: 'Con la mecánica del juego, sin cronómetro.', en: 'Using the game mechanic, with no timer.', ca: 'Amb la mecànica del joc, sense cronòmetre.' } }] },
 }
 

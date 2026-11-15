@@ -235,6 +235,14 @@ export const GAMES = {
     // % de aciertos sobre 150 monedas máx
     coins: ({ correct, total }) => (total > 0 ? Math.round((correct / total) * 150) : 0),
   },
+  'continentes-oceanos': {
+    label: { es: 'Continentes y Océanos', en: 'Continents and Oceans', ca: 'Continents i Oceans' },
+    emoji: '🌍',
+    subject: 'geografia',
+    route: '/juegos/continentes-oceanos',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'que-hora-es': {
     label: { es: '¿Qué Hora Es Allí?', en: 'What Time Is It There?', ca: 'Quina Hora És Allà?' },
     emoji: '🕒',
@@ -610,6 +618,14 @@ export const GAMES = {
     emoji: '🔁',
     subject: 'ingles',
     route: '/juegos/verbos-irregulares',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
+  'cruce-rectas': {
+    label: { es: 'Cruce de Rectas', en: 'Line Crossing', ca: 'Encreuament de Rectes' },
+    emoji: '✖️',
+    subject: 'matematicas',
+    route: '/juegos/cruce-rectas',
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },

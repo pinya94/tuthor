@@ -195,6 +195,7 @@ export const TOPIC_CATALOG = {
         'balanza-algebraica': 'balanza-algebraica-test',
         'segundo-grado': 'ecuaciones-segundo-grado-test',
         sistemas: 'sistemas-ecuaciones-test',
+        'cruce-rectas': 'cruce-rectas-test',
       }, { niveles: ['eso', 'bachillerato'] }),
       geometria: examTema({ teoria: 'geometria', 'figuras-compuestas': 'figuras-compuestas' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
       fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test', 'menor-a-mayor': 'menor-a-mayor-test' }, { niveles: ['primaria', 'eso'] }),
@@ -223,6 +224,7 @@ export const TOPIC_CATALOG = {
       'numeros-romanos': examTema({ romanos: 'numeros-romanos-test' }, { niveles: ['primaria', 'eso'] }),
       'conversion-unidades': examTema({ escalera: 'escalera-unidades-test' }, { niveles: ['primaria', 'eso'] }),
       'redondeo': examTema({ redondeo: 'redondeo-test' }, { niveles: ['primaria', 'eso'] }),
+      'numeros-decimales': examTema({ teoria: 'numeros-decimales-test' }, { niveles: ['primaria', 'eso'] }),
       'tablas-multiplicar': examTema({ tablas: 'tablas-multiplicar-test' }, { niveles: ['primaria'] }),
     },
     formatos: {
@@ -233,6 +235,7 @@ export const TOPIC_CATALOG = {
       portero: examFormato({ es: 'El Portero (con el juego)', en: 'The Goalkeeper (with the game)', ca: 'El Porter (amb el joc)' }, '🥅'),
       'balanza-algebraica': examFormato({ es: 'Balanza Algebraica (con el juego)', en: 'Algebra Balance (with the game)', ca: 'Balança Algebraica (amb el joc)' }, '⚖️'),
       'segundo-grado': examFormato({ es: 'Ecuaciones de 2º grado', en: 'Quadratic equations', ca: 'Equacions de 2n grau' }, '🧮'),
+      'cruce-rectas': examFormato({ es: 'Cruce de Rectas: método gráfico (con el juego)', en: 'Line Crossing: graphical method (with the game)', ca: 'Encreuament de Rectes: mètode gràfic (amb el joc)' }, '✖️'),
       sistemas: examFormato({ es: 'Sistemas de ecuaciones', en: 'Simultaneous equations', ca: "Sistemes d'equacions" }, '🔗'),
       rectas: examFormato({ es: 'Rectas: pendiente y puntos', en: 'Lines: slope and points', ca: 'Rectes: pendent i punts' }, '📏'),
       'reparte-pastel': examFormato({ es: 'Reparte el Pastel (con el juego)', en: 'Slice the Cake (with the game)', ca: 'Reparteix el Pastís (amb el joc)' }, '🍰'),
@@ -401,6 +404,8 @@ export const TOPIC_CATALOG = {
       constitucion: examTema({ teoria: 'geografia-constitucion-test', quienDecide: 'quien-decide-test' }, { niveles: ['eso', 'bachillerato'] }),
       // Mapas, escalas, coordenadas y husos horarios (1.º de ESO), con su juego
       representacion: examTema({ teoria: 'geografia-representacion-test', husos: 'que-hora-es-test' }, { niveles: ['primaria', 'eso'] }),
+      // El mapa del mundo a grandes rasgos (Primaria y 1.º ESO), con su juego
+      'continentes-oceanos': examTema({ continentes: 'continentes-oceanos-test' }, { niveles: ['primaria', 'eso'] }),
     },
     formatos: {
       pistas: examFormato({ es: 'Adivina por pistas', en: 'Guess from clues', ca: 'Endevina per pistes' }, '🌍'),
@@ -420,6 +425,7 @@ export const TOPIC_CATALOG = {
       riosMundo: examFormato({ es: 'Ríos y Montañas del mundo (con el juego)', en: 'Rivers and Mountains of the World (with the game)', ca: 'Rius i Muntanyes del món (amb el joc)' }, '🌍'),
       europa27: examFormato({ es: 'Europa a 27 (con el juego)', en: 'Europe of 27 (with the game)', ca: 'Europa a 27 (amb el joc)' }, '⭐'),
       quienDecide: examFormato({ es: '¿Quién Decide? (con el juego)', en: 'Who Decides? (with the game)', ca: 'Qui Decideix? (amb el joc)' }, '🗳️'),
+      continentes: examFormato({ es: 'Continentes y Océanos (con el juego)', en: 'Continents and Oceans (with the game)', ca: 'Continents i Oceans (amb el joc)' }, '🌍'),
       husos: examFormato({ es: '¿Qué Hora Es Allí? (con el juego)', en: 'What Time Is It There? (with the game)', ca: 'Quina Hora És Allà? (amb el joc)' }, '🕒'),
     },
   },
@@ -563,6 +569,11 @@ export const TOPIC_CATALOG = {
       passive: examTema({ test: 'ingles-grammar-passive-test', piezasExamen: 'ingles-piezas-passive-test' }, { niveles: ['eso', 'bachillerato'] }),
       conditionals: examTema({ test: 'ingles-grammar-conditionals-test', piezasExamen: 'ingles-piezas-conditionals-test' }, { niveles: ['eso', 'bachillerato'] }),
       modals: examTema({ test: 'ingles-grammar-modals-test', piezasExamen: 'ingles-piezas-modals-test' }, { niveles: ['primaria', 'eso'] }),
+      'present-continuous': examTema({ test: 'ingles-grammar-present-continuous-test' }, { niveles: ['primaria', 'eso'] }),
+      'have-got': examTema({ test: 'ingles-grammar-have-got-test' }, { niveles: ['primaria', 'eso'] }),
+      'there-is-there-are': examTema({ test: 'ingles-grammar-there-is-there-are-test' }, { niveles: ['primaria', 'eso'] }),
+      possessives: examTema({ test: 'ingles-grammar-possessives-test' }, { niveles: ['primaria', 'eso'] }),
+      can: examTema({ test: 'ingles-grammar-can-test' }, { niveles: ['primaria', 'eso'] }),
       // El orden de las palabras es un tema propio del temario, no un formato
       // de los demás: su examen mezcla adjetivos, adverbios y preguntas a
       // propósito, así que colgarlo de "Adjectives" o "Present Simple" daría

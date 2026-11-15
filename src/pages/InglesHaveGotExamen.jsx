@@ -1,0 +1,14 @@
+import ExamenMC from '../components/ExamenMC'
+import { BANCOS_BASICO } from '../data/inglesBasicoExamenes'
+
+// Examen tipo test de un básico de inglés; los bancos de los cinco viven en
+// inglesBasicoExamenes.js. El gameId va literal (el test de retos lo lee).
+const banco = BANCOS_BASICO['have-got']
+const nivelInfo = {
+  primaria: { label: { es: 'Primary', en: 'Primary', ca: 'Primary' }, pool: banco.primaria },
+  eso: { label: { es: 'Secondary', en: 'Secondary', ca: 'Secondary' }, pool: banco.eso },
+}
+
+export default function InglesHaveGotExamen() {
+  return <ExamenMC titulo={{ es: 'Have got', en: 'Have got', ca: 'Have got' }} emoji="🎒" nivelInfo={nivelInfo} backFallback="/estudiar/idiomas/ingles/grammar/have-got" gameId="ingles-grammar-have-got-test" />
+}

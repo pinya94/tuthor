@@ -31,6 +31,8 @@ const TEMAS = {
   'continentes-y-oceanos': {
     path: '/estudiar/geografia/continentes-y-oceanos', miga: GEOGRAFIA, emoji: '🌍', nombre: T3('Continentes y océanos', 'Continents and oceans', 'Continents i oceans'),
     modos: [
+      { to: '/juegos/continentes-oceanos', emoji: '🌍', gradient: 'from-emerald-600 to-sky-800', titulo: T3('Continentes y Océanos (juego)', 'Continents and Oceans (game)', 'Continents i Oceans (joc)'), desc: T3('Toca en el mapa cada continente, océano y mar, contra reloj.', 'Tap each continent, ocean and sea on the map, against the clock.', 'Toca al mapa cada continent, oceà i mar, contra rellotge.') },
+      { to: '/examen/continentes-oceanos-test', emoji: '📝', gradient: 'from-sky-600 to-indigo-800', titulo: T3('Examen de continentes y océanos', 'Continents and oceans exam', 'Examen de continents i oceans'), desc: T3('Con la mecánica del juego, sin cronómetro y con tres niveles.', 'Using the game mechanic, with no timer and three levels.', 'Amb la mecànica del joc, sense cronòmetre i amb tres nivells.') },
       { to: '/juegos/geomapa', emoji: '🗺️', gradient: 'from-emerald-500 to-teal-700', titulo: T3('GeoMapa (juego)', 'GeoMap (game)', 'GeoMapa (joc)'), desc: T3('Encuentra cada país en el mapa del mundo.', 'Find each country on the world map.', 'Troba cada país al mapa del món.') },
       { to: '/examen/geografia-fisica-test', emoji: '📝', gradient: 'from-sky-500 to-blue-700', titulo: T3('Examen de Geografía Física', 'Physical Geography exam', 'Examen de Geografia Física'), desc: T3('Relieve, ríos, océanos y climas del mundo, con explicación.', 'Landforms, rivers, oceans and climates of the world, with explanations.', 'Relleu, rius, oceans i climes del món, amb explicació.') },
     ],

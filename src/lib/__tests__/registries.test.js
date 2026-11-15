@@ -302,7 +302,10 @@ describe('catálogo por tema (topicCatalog.js): materia → tema → formato →
     // tarjetas del hub van directas al examen con `examPath`.
     const regiones = ['europa', 'america', 'asia', 'africa', 'oceania', 'espana', 'eeuu']
     const conceptos = ['fisica', 'humana', 'union-europea', 'constitucion', 'representacion']
-    expect(topicIds('geografia').sort()).toEqual([...regiones, ...conceptos].sort())
+    // Continentes y océanos es el mapa del mundo a grandes rasgos: ni es una
+    // región ni lleva teoría tipo test; se examina con su juego (señalar).
+    const deMapa = ['continentes-oceanos']
+    expect(topicIds('geografia').sort()).toEqual([...regiones, ...conceptos, ...deMapa].sort())
 
     // Y la diferencia de formato es lo que los distingue de verdad, no el
     // nombre: si algún día una región usara `teoria`, esta lista dejaría de

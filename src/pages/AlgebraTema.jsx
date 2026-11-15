@@ -68,6 +68,19 @@ export default function AlgebraTema() {
       to: localPath('/examen/sistemas-ecuaciones-test'),
     },
     {
+      id: 'cruce-rectas',
+      titulo: tr({ es: 'Cruce de Rectas: método gráfico', en: 'Line Crossing: graphical method', ca: 'Encreuament de Rectes: mètode gràfic' }),
+      descripcion: tr({ es: 'Con la mecánica del juego: dibuja las dos rectas del sistema y marca dónde se cortan, o di si son paralelas o la misma recta.', en: 'Using the game mechanic: draw both lines of the system and mark where they cross, or say if they are parallel or the same line.', ca: 'Amb la mecànica del joc: dibuixa les dues rectes del sistema i marca on es tallen, o digues si són paral·leles o la mateixa recta.' }),
+      emoji: '✖️',
+      gradient: 'from-amber-500 to-sky-700',
+      detalles: [
+        tr({ es: '3 niveles', en: '3 levels', ca: '3 nivells' }),
+        tr({ es: '10 preguntas', en: '10 questions', ca: '10 preguntes' }),
+        tr({ es: 'Con el juego', en: 'With the game', ca: 'Amb el joc' }),
+      ],
+      to: localPath('/examen/cruce-rectas-test'),
+    },
+    {
       id: 'examen',
       titulo: ca ? 'Examen de pràctica' : en ? 'Practice exam' : 'Examen de práctica',
       descripcion: ca

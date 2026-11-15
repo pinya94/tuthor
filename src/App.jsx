@@ -128,6 +128,7 @@ const LaOrquesta             = lazy(() => import('./pages/LaOrquesta'))
 const EscalasAcordes         = lazy(() => import('./pages/EscalasAcordes'))
 const QuienDesafina          = lazy(() => import('./pages/QuienDesafina'))
 const QueHoraEs              = lazy(() => import('./pages/QueHoraEs'))
+const ContinentesOceanos     = lazy(() => import('./pages/ContinentesOceanos'))
 const Reaccion               = lazy(() => import('./pages/Reaccion'))
 const SenalASenal            = lazy(() => import('./pages/SenalASenal'))
 const OjoAlMensaje           = lazy(() => import('./pages/OjoAlMensaje'))
@@ -136,6 +137,7 @@ const Balanza                = lazy(() => import('./pages/Balanza'))
 const BalanzaEcuaciones      = lazy(() => import('./pages/BalanzaEcuaciones'))
 const FuncionesGrafica       = lazy(() => import('./pages/FuncionesGrafica'))
 const BalanzaAlgebraica      = lazy(() => import('./pages/BalanzaAlgebraica'))
+const CruceRectas            = lazy(() => import('./pages/CruceRectas'))
 const AnalizaFrases          = lazy(() => import('./pages/AnalizaFrases'))
 const OrdenaFrase            = lazy(() => import('./pages/OrdenaFrase'))
 const Genetica               = lazy(() => import('./pages/Genetica'))
@@ -392,6 +394,7 @@ function AppRoutes() {
       <Route path="juegos/escalas-acordes" element={<EscalasAcordes />} />
       <Route path="juegos/quien-desafina" element={<QuienDesafina />} />
       <Route path="juegos/que-hora-es" element={<QueHoraEs />} />
+      <Route path="juegos/continentes-oceanos" element={<ContinentesOceanos />} />
       <Route path="juegos/reaccion" element={<Reaccion />} />
       <Route path="juegos/senal-a-senal" element={<SenalASenal />} />
       <Route path="juegos/ojo-al-mensaje" element={<OjoAlMensaje />} />
@@ -400,6 +403,7 @@ function AppRoutes() {
       <Route path="juegos/balanza-ecuaciones" element={<BalanzaEcuaciones />} />
       <Route path="juegos/funciones-grafica" element={<FuncionesGrafica />} />
       <Route path="juegos/balanza-algebraica" element={<BalanzaAlgebraica />} />
+      <Route path="juegos/cruce-rectas" element={<CruceRectas />} />
       <Route path="juegos/analiza-frases" element={<AnalizaFrases />} />
       <Route path="juegos/ordena-frase" element={<OrdenaFrase />} />
       <Route path="juegos/genetica" element={<Genetica />} />

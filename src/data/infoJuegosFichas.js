@@ -254,6 +254,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'ESO, Bachillerato',
   },
+  'cruce-rectas': {
+    titulo: 'Cruce de Rectas',
+    subtitulo: 'Juego de sistemas de ecuaciones por el método gráfico',
+    emoji: '✖️', gradient: 'from-amber-500 to-sky-700',
+    path: '/juegos/cruce-rectas',
+    intro: 'Un juego de matemáticas para resolver sistemas de dos ecuaciones con dos incógnitas por el método gráfico. Cada ecuación es una recta: el alumno la dibuja tocando en la cuadrícula dos puntos que la cumplan y, con las dos rectas pintadas, toca el punto donde se cortan. Si toca un punto que no está en la recta, ve la cuenta que falla. En el nivel difícil aparecen sistemas sin solución (rectas paralelas) y con infinitas soluciones (la misma recta), y hay que reconocerlos.',
+    beneficios: [
+      { titulo: 'Ver qué es una solución', texto: 'La solución de un sistema no es un número que sale de una cuenta: es el único punto que está en las dos rectas a la vez. Dibujarlas y verlas cruzarse hace que la idea se entienda antes de pasar a sustitución, igualación o reducción.' },
+      { titulo: 'Dibujar una recta con su ecuación', texto: 'Para pintar 2x + y = 7 hay que encontrar dos parejas (x, y) que la cumplan, por ejemplo (0, 7) y (3, 1). Es justo el paso que más se atasca en los ejercicios de gráficas, y aquí cada punto se comprueba al momento.' },
+      { titulo: 'Los tres tipos de sistema', texto: 'Dos rectas que se cortan (una solución), paralelas (ninguna) o la misma recta (infinitas). En el nivel difícil el alumno lo decide mirando las rectas, y la explicación le enseña a verlo también en los coeficientes.' },
+    ],
+    ejemplo: 'Sale el sistema 2x + y = 7 y x − y = 2. El alumno toca (0, 7) y (3, 1) para la primera recta y (2, 0) y (4, 2) para la segunda; las dos se cruzan en (3, 1). Comprueba: 2·3 + 1 = 7 y 3 − 1 = 2, así que x = 3, y = 1.',
+    enPapel: {
+      titulo: 'El método gráfico en clase',
+      pasos: [
+        'En papel cuadriculado, dibuja los ejes de −6 a 6 y escribe un sistema en la pizarra.',
+        'Para cada ecuación, haz una tabla con dos valores de x, calcula la y y une los dos puntos.',
+        'Marca el punto de corte y comprueba que cumple las dos ecuaciones.',
+        'Repite con un sistema de rectas paralelas y explica por qué no tiene solución.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen por el método gráfico', desc: 'Diez sistemas con la misma mecánica, sin reloj y con nota.' },
+      { nombre: 'Sistemas de ecuaciones', desc: 'El examen por reducción, con la resolución paso a paso.' },
+      { nombre: 'Balanza Algebraica', desc: 'El paso previo: despejar la x en ecuaciones de primer grado.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'ESO',
+  },
   'balanza-algebraica': {
     titulo: 'Balanza Algebraica',
     subtitulo: 'Juego de Ecuaciones de Primer Grado (método de la balanza)',
@@ -941,6 +969,34 @@ export const FICHAS_ES = {
       { nombre: 'El juego de la Bolsa de mesa', desc: 'Juegos de mesa clásicos sobre invertir en empresas y gestionar una cartera enseñan las mismas ideas de riesgo y diversificación sin pantallas.' },
     ],
     asignatura: 'Economía', niveles: 'ESO, Bachillerato',
+  },
+  'continentes-oceanos': {
+    titulo: 'Continentes y Océanos',
+    subtitulo: 'Juego de mapa del mundo: continentes, océanos, mares y golfos',
+    emoji: '🌍', gradient: 'from-emerald-600 to-sky-800',
+    path: '/juegos/continentes-oceanos',
+    intro: 'Un juego de geografía para aprender el mapa del mundo tocándolo. Se pide un continente, un océano o un mar y hay que señalarlo en el mapamundi: para un continente vale cualquier país que esté en él, y para un océano o un mar se toca su punto en el agua. Al comprobar se pinta la respuesta y sale un dato corto para recordarla. En los niveles altos se pregunta en qué continente está cada país y qué océano cruza un barco entre dos costas.',
+    beneficios: [
+      { titulo: 'El mapa en la cabeza', texto: 'Saber que el Índico está entre África, Asia y Australia no es lo mismo que encontrarlo. Tocar el mapa una y otra vez fija la imagen de dónde está cada cosa, que es lo que se pide en los mapas mudos de los exámenes.' },
+      { titulo: 'Sin trampas de libro', texto: 'Los países que están entre dos continentes (Turquía, el Cáucaso, Kazajistán) valen para los dos, y Rusia cuenta como Europa hasta los Urales y como Asia a partir de ahí. Nunca se marca mal lo que un libro de texto daría por bueno.' },
+      { titulo: 'De nombres sueltos a relaciones', texto: 'Las travesías (de España a Brasil, de Japón a California) obligan a pensar qué hay entre dos costas, y las preguntas de países unen el mapa político con el físico.' },
+    ],
+    ejemplo: 'Sale «Un barco va de Sudáfrica a Australia por el camino más corto. ¿Qué océano cruza?». En el mapa aparecen los dos lugares y los puntos de los océanos; el alumno toca el que está entre los dos, comprueba y se pinta el océano Índico, con el dato de que es el más cálido de los océanos.',
+    enPapel: {
+      titulo: 'Continentes y océanos en el aula',
+      pasos: [
+        'Reparte un mapa mudo del mundo y pide colorear cada continente de un color y escribir el nombre de los cinco océanos.',
+        'Escribe diez países en la pizarra y que cada alumno ponga su inicial sobre el continente donde está.',
+        'Plantea tres viajes en barco entre dos países y pide decir qué océano o mar cruza cada uno.',
+        'Busca dos países que estén en dos continentes a la vez y explica dónde está la frontera.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de continentes y océanos', desc: 'Diez rondas con la misma mecánica, sin reloj y con nota.' },
+      { nombre: 'GeoMapa', desc: 'El paso siguiente: encontrar cada país en el mapa.' },
+      { nombre: 'Ríos y Montañas', desc: 'Los grandes ríos y cordilleras de España y del mundo.' },
+    ],
+    asignatura: 'Geografía', niveles: 'Primaria, ESO',
   },
   'que-hora-es': {
     titulo: '¿Qué Hora Es Allí?',
@@ -2996,6 +3052,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Mathematics', niveles: 'Secondary, Sixth Form',
   },
+  'cruce-rectas': {
+    titulo: 'Line Crossing',
+    subtitulo: 'Simultaneous equations game: the graphical method',
+    emoji: '✖️', gradient: 'from-amber-500 to-sky-700', path: '/juegos/cruce-rectas',
+    intro: 'A maths game for solving pairs of simultaneous equations with the graphical method. Each equation is a line: the student draws it by tapping two grid points that satisfy it and, with both lines drawn, taps the point where they cross. Tapping a point that is not on the line shows the sum that fails. On the hard level there are systems with no solution (parallel lines) and with infinitely many (the same line), and the student has to recognise them.',
+    beneficios: [
+      { titulo: 'Seeing what a solution is', texto: 'The solution of a system is not just a number that drops out of a calculation: it is the one point that lies on both lines at once. Drawing them and watching them cross makes the idea clear before moving on to substitution or elimination.' },
+      { titulo: 'Drawing a line from its equation', texto: 'To plot 2x + y = 7 you need two pairs (x, y) that satisfy it, such as (0, 7) and (3, 1). That is exactly the step students get stuck on in graph questions, and here each point is checked straight away.' },
+      { titulo: 'The three kinds of system', texto: 'Two lines that cross (one solution), parallel lines (none) or the same line (infinitely many). On the hard level the student decides by looking at the lines, and the explanation shows how to spot it in the coefficients too.' },
+    ],
+    ejemplo: 'The system is 2x + y = 7 and x − y = 2. The student taps (0, 7) and (3, 1) for the first line and (2, 0) and (4, 2) for the second; they cross at (3, 1). Check: 2·3 + 1 = 7 and 3 − 1 = 2, so x = 3, y = 1.',
+    enPapel: {
+      titulo: 'The graphical method in class',
+      pasos: [
+        'On squared paper, draw axes from −6 to 6 and write a system on the board.',
+        'For each equation, make a table with two values of x, work out y and join the two points.',
+        'Mark the crossing point and check that it satisfies both equations.',
+        'Repeat with a pair of parallel lines and explain why there is no solution.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The graphical method exam', desc: 'Ten systems with the same mechanic, no timer and a final mark.' },
+      { nombre: 'Simultaneous equations', desc: 'The elimination exam, with step-by-step solutions.' },
+      { nombre: 'Algebra Balance', desc: 'The step before: solving linear equations for x.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Secondary',
+  },
   'balanza-algebraica': {
     titulo: 'Algebra Balance', subtitulo: 'Linear Equations Game (the balance method)',
     emoji: '⚖️', gradient: 'from-violet-600 to-indigo-800', path: '/juegos/balanza-algebraica',
@@ -3585,6 +3668,33 @@ export const FICHAS_EN = {
       { nombre: 'Board games about investing', desc: 'Classic board games about investing in companies and managing a portfolio teach the same risk and diversification ideas without screens.' },
     ],
     asignatura: 'Economics', niveles: 'Secondary, Sixth Form',
+  },
+  'continentes-oceanos': {
+    titulo: 'Continents and Oceans',
+    subtitulo: 'World map game: continents, oceans, seas and gulfs',
+    emoji: '🌍', gradient: 'from-emerald-600 to-sky-800', path: '/juegos/continentes-oceanos',
+    intro: 'A geography game for learning the world map by touching it. The student is asked for a continent, an ocean or a sea and has to point to it on the world map: for a continent any country in it will do, and for an ocean or a sea they tap its dot in the water. When they check, the answer is coloured in with a short fact to help it stick. On the higher levels they also say which continent a country is in and which ocean a ship crosses between two coasts.',
+    beneficios: [
+      { titulo: 'The map in your head', texto: 'Knowing that the Indian Ocean lies between Africa, Asia and Australia is not the same as finding it. Tapping the map again and again fixes the picture of where everything is, which is exactly what blank-map questions in exams ask for.' },
+      { titulo: 'No textbook traps', texto: 'Countries that lie in two continents (Turkey, the Caucasus, Kazakhstan) count for both, and Russia counts as Europe up to the Urals and as Asia beyond them. Nothing a textbook would accept is ever marked wrong.' },
+      { titulo: 'From names to relationships', texto: 'The sea crossings (Spain to Brazil, Japan to California) make students think about what lies between two coasts, and the country questions link the political map with the physical one.' },
+    ],
+    ejemplo: 'The question is «A ship sails from South Africa to Australia by the shortest route. Which ocean does it cross?». Both places and the ocean dots appear on the map; the student taps the one in between, checks, and the Indian Ocean is coloured in, with the fact that it is the warmest of the oceans.',
+    enPapel: {
+      titulo: 'Continents and oceans in class',
+      pasos: [
+        'Hand out a blank world map and ask students to colour each continent and label the five oceans.',
+        'Write ten countries on the board and have each student write its initial on the right continent.',
+        'Set three sea voyages between two countries and ask which ocean or sea each one crosses.',
+        'Find two countries that lie in two continents and explain where the boundary runs.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The continents and oceans exam', desc: 'Ten rounds with the same mechanic, no timer and a final mark.' },
+      { nombre: 'GeoMap', desc: 'The next step: find each country on the map.' },
+      { nombre: 'Rivers and Mountains', desc: 'The great rivers and mountain ranges of Spain and the world.' },
+    ],
+    asignatura: 'Geography', niveles: 'Primary, Secondary',
   },
   'que-hora-es': {
     titulo: 'What Time Is It There?',
@@ -5350,6 +5460,33 @@ export const FICHAS_CA = {
     ],
     asignatura: 'Matemàtiques', niveles: 'ESO, Batxillerat',
   },
+  'cruce-rectas': {
+    titulo: 'Encreuament de Rectes',
+    subtitulo: 'Joc de sistemes d’equacions pel mètode gràfic',
+    emoji: '✖️', gradient: 'from-amber-500 to-sky-700', path: '/juegos/cruce-rectas',
+    intro: 'Un joc de matemàtiques per resoldre sistemes de dues equacions amb dues incògnites pel mètode gràfic. Cada equació és una recta: l’alumne la dibuixa tocant a la quadrícula dos punts que la compleixin i, amb les dues rectes pintades, toca el punt on es tallen. Si toca un punt que no és a la recta, veu el compte que falla. Al nivell difícil apareixen sistemes sense solució (rectes paral·leles) i amb infinites solucions (la mateixa recta), i cal reconèixer-los.',
+    beneficios: [
+      { titulo: 'Veure què és una solució', texto: 'La solució d’un sistema no és un nombre que surt d’un compte: és l’únic punt que és a les dues rectes alhora. Dibuixar-les i veure-les creuar-se fa que la idea s’entengui abans de passar a substitució, igualació o reducció.' },
+      { titulo: 'Dibuixar una recta amb la seva equació', texto: 'Per pintar 2x + y = 7 cal trobar dues parelles (x, y) que la compleixin, per exemple (0, 7) i (3, 1). És just el pas que més s’encalla als exercicis de gràfiques, i aquí cada punt es comprova a l’instant.' },
+      { titulo: 'Els tres tipus de sistema', texto: 'Dues rectes que es tallen (una solució), paral·leles (cap) o la mateixa recta (infinites). Al nivell difícil l’alumne ho decideix mirant les rectes, i l’explicació li ensenya a veure-ho també en els coeficients.' },
+    ],
+    ejemplo: 'Surt el sistema 2x + y = 7 i x − y = 2. L’alumne toca (0, 7) i (3, 1) per a la primera recta i (2, 0) i (4, 2) per a la segona; es creuen a (3, 1). Comprova: 2·3 + 1 = 7 i 3 − 1 = 2, així que x = 3, y = 1.',
+    enPapel: {
+      titulo: 'El mètode gràfic a classe',
+      pasos: [
+        'En paper quadriculat, dibuixa els eixos de −6 a 6 i escriu un sistema a la pissarra.',
+        'Per a cada equació, fes una taula amb dos valors de x, calcula la y i uneix els dos punts.',
+        'Marca el punt de tall i comprova que compleix les dues equacions.',
+        'Repeteix-ho amb un sistema de rectes paral·leles i explica per què no té solució.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen pel mètode gràfic', desc: 'Deu sistemes amb la mateixa mecànica, sense rellotge i amb nota.' },
+      { nombre: 'Sistemes d’equacions', desc: 'L’examen per reducció, amb la resolució pas a pas.' },
+      { nombre: 'Balança Algebraica', desc: 'El pas previ: aïllar la x en equacions de primer grau.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'ESO',
+  },
   'balanza-algebraica': {
     titulo: 'Balança Algebraica', subtitulo: 'Joc d’Equacions de Primer Grau (mètode de la balança)',
     emoji: '⚖️', gradient: 'from-violet-600 to-indigo-800', path: '/juegos/balanza-algebraica',
@@ -6017,6 +6154,33 @@ export const FICHAS_CA = {
       { nombre: 'El joc de la Borsa de taula', desc: 'Jocs de taula clàssics sobre invertir en empreses i gestionar una cartera ensenyen les mateixes idees de risc i diversificació sense pantalles.' },
     ],
     asignatura: 'Economia', niveles: 'ESO, Batxillerat',
+  },
+  'continentes-oceanos': {
+    titulo: 'Continents i Oceans',
+    subtitulo: 'Joc del mapa del món: continents, oceans, mars i golfs',
+    emoji: '🌍', gradient: 'from-emerald-600 to-sky-800', path: '/juegos/continentes-oceanos',
+    intro: 'Un joc de geografia per aprendre el mapa del món tocant-lo. Es demana un continent, un oceà o un mar i cal assenyalar-lo al mapamundi: per a un continent val qualsevol país que hi sigui, i per a un oceà o un mar es toca el seu punt a l’aigua. En comprovar es pinta la resposta i surt una dada curta per recordar-la. Als nivells alts es pregunta a quin continent és cada país i quin oceà travessa un vaixell entre dues costes.',
+    beneficios: [
+      { titulo: 'El mapa al cap', texto: 'Saber que l’Índic és entre l’Àfrica, Àsia i Austràlia no és el mateix que trobar-lo. Tocar el mapa una vegada i una altra fixa la imatge d’on és cada cosa, que és el que es demana als mapes muts dels exàmens.' },
+      { titulo: 'Sense paranys de llibre', texto: 'Els països que són entre dos continents (Turquia, el Caucas, el Kazakhstan) valen per als dos, i Rússia compta com a Europa fins als Urals i com a Àsia a partir d’allà. Mai no es marca malament el que un llibre de text donaria per bo.' },
+      { titulo: 'De noms solts a relacions', texto: 'Les travessies (d’Espanya al Brasil, del Japó a Califòrnia) obliguen a pensar què hi ha entre dues costes, i les preguntes de països uneixen el mapa polític amb el físic.' },
+    ],
+    ejemplo: 'Surt «Un vaixell va de Sud-àfrica a Austràlia pel camí més curt. Quin oceà travessa?». Al mapa apareixen els dos llocs i els punts dels oceans; l’alumne toca el que és entre tots dos, comprova i es pinta l’oceà Índic, amb la dada que és el més càlid dels oceans.',
+    enPapel: {
+      titulo: 'Continents i oceans a l’aula',
+      pasos: [
+        'Reparteix un mapa mut del món i demana pintar cada continent d’un color i escriure el nom dels cinc oceans.',
+        'Escriu deu països a la pissarra i que cada alumne posi la inicial sobre el continent on és.',
+        'Planteja tres viatges en vaixell entre dos països i demana quin oceà o mar travessa cadascun.',
+        'Busca dos països que siguin en dos continents alhora i explica on és la frontera.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de continents i oceans', desc: 'Deu rondes amb la mateixa mecànica, sense rellotge i amb nota.' },
+      { nombre: 'GeoMapa', desc: 'El pas següent: trobar cada país al mapa.' },
+      { nombre: 'Rius i Muntanyes', desc: 'Els grans rius i serralades d’Espanya i del món.' },
+    ],
+    asignatura: 'Geografia', niveles: 'Primària, ESO',
   },
   'que-hora-es': {
     titulo: 'Quina Hora És Allà?',
