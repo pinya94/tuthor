@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import { formatTime } from '../lib/activity'
 import { FRAMES, BANNERS, AVATARS, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
 import { listarSolicitudes, resolverSolicitud } from '../lib/solicitudesProfe'
+import { getTeacherClasses } from '../lib/classes'
 import { listarSuscritos, aCsv } from '../lib/novedades'
 
 const ADMIN_EMAILS = [
@@ -37,10 +38,82 @@ const GAME_LABELS = {
 // la cuenta se abre al momento: aquí se valida después, se pide que corrijan o
 // aporten datos (lo ven en su panel) o se rechaza (spam: quita el acceso).
 // Cada acción deja el correo al profe escrito, para enviarlo con un clic.
+// Ficha completa de un profe: lo que puso en el alta, su perfil (users/{uid})
+// y sus clases. Solo lee: las rules dejan al admin leer users y classes.
+const fecha = v => (v?.toDate ? v.toDate() : v?.seconds ? new Date(v.seconds * 1000) : typeof v === 'string' || typeof v === 'number' ? new Date(v) : null)
+const fechaTxt = v => { const d = fecha(v); return d && !isNaN(d) ? d.toLocaleString('es-ES') : '—' }
+function Dato({ k, v }) {
+  return (
+    <div className="flex gap-2 text-xs">
+      <span className="text-white/40 shrink-0 w-36">{k}</span>
+      <span className="text-white/80 break-all">{v === undefined || v === null || v === '' ? '—' : String(v)}</span>
+    </div>
+  )
+}
+function FichaProfe({ f }) {
+  const [d, setD] = useState(null)
+  useEffect(() => {
+    Promise.all([
+      getDoc(doc(db, 'users', f.id)).then(x => (x.exists() ? x.data() : {})),
+      getTeacherClasses(f.id).catch(() => []),
+      getDoc(doc(db, 'users', f.id, 'stats', 'global')).then(x => (x.exists() ? x.data() : null)).catch(() => null),
+    ]).then(([user, clases, stats]) => setD({ user, clases, stats })).catch(e => setD({ error: e.message }))
+  }, [f.id])
+  if (!d) return <p className="text-white/30 text-xs mt-2">Cargando ficha…</p>
+  if (d.error) return <p className="text-red-300 text-xs mt-2">No se ha podido leer: {d.error}</p>
+  const tp = d.user.teacherProfile ?? {}
+  const alumnos = d.clases.reduce((n, c) => n + (c.studentIds?.length ?? 0), 0)
+  const bruto = JSON.stringify({ solicitud: f, usuario: d.user }, (k, v) => (v && typeof v === 'object' && 'seconds' in v && 'nanoseconds' in v ? fechaTxt(v) : v), 2)
+  return (
+    <div className="mt-3 rounded-lg bg-white/[0.03] border border-white/10 p-3 space-y-3">
+      <div className="space-y-1">
+        <p className="text-white/60 text-[11px] font-bold uppercase tracking-wider">Lo que puso en el alta</p>
+        <Dato k="Nombre" v={f.nombre} />
+        <Dato k="Correo" v={f.email} />
+        <Dato k="Centro y localidad" v={f.centro} />
+        <Dato k="Etapa" v={f.etapa} />
+        <Dato k="Qué da" v={f.materias} />
+        <Dato k="Mensaje" v={f.mensaje} />
+        <Dato k="Estado" v={f.estado} />
+        <Dato k="Nota que le pediste" v={f.nota} />
+        <Dato k="Fecha del alta" v={fechaTxt(f.createdAt)} />
+        <Dato k="UID" v={f.id} />
+      </div>
+      <div className="space-y-1">
+        <p className="text-white/60 text-[11px] font-bold uppercase tracking-wider">Cuenta</p>
+        <Dato k="Nombre en la cuenta" v={d.user.displayName ?? d.user.name} />
+        <Dato k="Cuenta de profe" v={tp.active ? 'activa' : 'desactivada'} />
+        <Dato k="Centro (perfil)" v={tp.schoolName} />
+        <Dato k="Etapa (perfil)" v={tp.stage} />
+        <Dato k="Profe desde" v={fechaTxt(tp.createdAt)} />
+        <Dato k="Validado por" v={tp.validadoPor ? `${tp.validadoPor} (${fechaTxt(tp.validadoEn)})` : ''} />
+        <Dato k="Suscripción" v={tp.subscriptionStatus} />
+        <Dato k="Monedas / racha" v={d.stats ? `${d.stats.coins ?? 0} / ${d.stats.streak ?? 0}` : ''} />
+      </div>
+      <div className="space-y-1">
+        <p className="text-white/60 text-[11px] font-bold uppercase tracking-wider">Clases ({d.clases.length}) · {alumnos} alumnos con cuenta</p>
+        {d.clases.length === 0
+          ? <p className="text-white/40 text-xs">Todavía no ha creado ninguna clase.</p>
+          : d.clases.map(c => (
+            <p key={c.id} className="text-xs text-white/75">
+              <span className="font-bold">{c.name}</span> · código {c.code} · {c.studentIds?.length ?? 0} con cuenta
+              {c.roster?.length ? ` · ${c.roster.length} en la lista` : ''} · creada {fechaTxt(c.createdAt)}
+            </p>
+          ))}
+      </div>
+      <details>
+        <summary className="text-white/40 text-xs cursor-pointer">Todos los datos en bruto</summary>
+        <pre className="mt-2 text-[10px] text-white/60 whitespace-pre-wrap break-all max-h-80 overflow-auto">{bruto}</pre>
+      </details>
+    </div>
+  )
+}
+
 function SolicitudesProfe() {
   const [filas, setFilas] = useState(null)
   const [ocupado, setOcupado] = useState('')
   const [verTodas, setVerTodas] = useState(false)
+  const [fichaDe, setFichaDe] = useState(null) // uid con la ficha abierta
   const [notaDe, setNotaDe] = useState(null) // uid con el cuadro de «Pedir datos» abierto
   const [nota, setNota] = useState('')
   const carga = () => listarSolicitudes().then(setFilas).catch(() => setFilas([]))
@@ -93,9 +166,11 @@ Puedes hacerlo desde tu panel (https://www.tuthor.es/profesor), en el aviso de a
                 {f.estado !== 'aprobada' && <button disabled={ocupado === f.id} onClick={() => resuelve(f.id, 'validar')} className={`${boton} bg-green-600 hover:bg-green-500 text-white`}>✅ Validar</button>}
                 {f.estado !== 'rechazada' && <button disabled={ocupado === f.id} onClick={() => { setNotaDe(n => (n === f.id ? null : f.id)); setNota('') }} className={`${boton} bg-orange-500/80 hover:bg-orange-500 text-white`}>✏️ Pedir datos</button>}
                 {f.estado !== 'rechazada' && <button disabled={ocupado === f.id} onClick={() => { if (confirm(`¿Rechazar a ${f.nombre}? Pierde el acceso de profe.`)) resuelve(f.id, 'rechazar') }} className={`${boton} bg-white/10 hover:bg-white/20 text-white/80`}>✕ Rechazar</button>}
+                <button onClick={() => setFichaDe(x => (x === f.id ? null : f.id))} className={`${boton} bg-sky-600/80 hover:bg-sky-500 text-white`}>{fichaDe === f.id ? '▲ Ocultar ficha' : '🗂️ Ver ficha'}</button>
                 {f.estado === 'aprobada' && <a href={avisoValidada(f)} className={`${boton} bg-violet-600 hover:bg-violet-500 text-white`}>✉️ Avisarle de que está validada</a>}
                 {f.estado === 'rectificar' && <a href={avisoRectificar(f)} className={`${boton} bg-violet-600 hover:bg-violet-500 text-white`}>✉️ Escribirle lo que falta</a>}
               </div>
+              {fichaDe === f.id && <FichaProfe f={f} />}
               {notaDe === f.id && (
                 <form onSubmit={e => { e.preventDefault(); if (nota.trim().length >= 3) resuelve(f.id, 'rectificar', nota.trim()) }} className="mt-2 space-y-2">
                   <textarea autoFocus rows={2} maxLength={600} value={nota} onChange={e => setNota(e.target.value)}
