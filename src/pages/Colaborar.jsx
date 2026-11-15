@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { avisarAdmin } from '../lib/avisoAdmin'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 
@@ -27,9 +28,10 @@ export default function Colaborar() {
     try {
       const { db } = await import('../lib/firebase')
       const { collection, addDoc, serverTimestamp } = await import('firebase/firestore')
-      await addDoc(collection(db, 'colabMessages'), {
-        name, email, company, message: msg, createdAt: serverTimestamp(), read: false,
+      const ref = await addDoc(collection(db, 'colabMessages'), {
+        name, email, company, message: msg, idioma: lang, createdAt: serverTimestamp(), read: false,
       })
+      avisarAdmin('colaboracion', ref.id)
       setStatus('ok')
     } catch {
       setStatus('error')

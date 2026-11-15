@@ -10,6 +10,8 @@
 import { collection, doc, getDoc, getDocs, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore'
 import { db, auth } from './firebase'
 import { activateTeacherProfile, TEACHER_BETA_CODE } from './classes'
+import { idiomaDeRuta } from './idiomaUsuario'
+import { avisarAdmin } from './avisoAdmin'
 
 export async function miSolicitud(uid) {
   const s = await getDoc(doc(db, 'solicitudesProfe', uid))
@@ -23,6 +25,8 @@ export async function pedirAcceso(user, { nombre, centro, etapa, materias, mensa
     materias: materias.trim().slice(0, 120), mensaje: mensaje.trim().slice(0, 600),
     estado: 'pendiente', createdAt: serverTimestamp(),
   })
+  // Correo al admin: alta nueva o datos corregidos tras «Pedir datos»
+  avisarAdmin('profe', user.uid)
 }
 
 // El alta: la cuenta de profe ya activa y la solicitud para revisarla. Primero
@@ -30,7 +34,11 @@ export async function pedirAcceso(user, { nombre, centro, etapa, materias, mensa
 // de antes, que las rules no dejan reescribir), el profe entra igual.
 export async function darseDeAltaProfe(user, datos) {
   await activateTeacherProfile(user.uid, { schoolName: datos.centro.trim(), stage: datos.etapa, promoCode: TEACHER_BETA_CODE })
-  await pedirAcceso(user, datos).catch(err => console.warn('[alta profe] solicitud no guardada:', err?.code ?? err))
+  // El idioma va en users/{uid} y no en la solicitud: las rules de la
+  // solicitud fijan sus campos (hasOnly) y cambiarlas exige desplegarlas.
+  await setDoc(doc(db, 'users', user.uid), { idioma: idiomaDeRuta() }, { merge: true }).catch(() => {})
+  await pedirAcceso(user, datos)
+    .catch(err => console.warn('[alta profe] solicitud no guardada:', err?.code ?? err))
 }
 
 // Admin

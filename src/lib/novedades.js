@@ -10,6 +10,7 @@
 // genera en el momento desde Firestore, cuyas reglas ya solo dejan leer
 // users/* a su dueño y a los administradores, y la descarga como CSV.
 import { db } from './firebase'
+import { idiomaDeRuta } from './idiomaUsuario'
 import { doc, getDoc, setDoc, getDocs, collection, query, where, serverTimestamp } from 'firebase/firestore'
 
 export async function getNovedades(uid) {
@@ -18,7 +19,7 @@ export async function getNovedades(uid) {
 }
 
 export async function setNovedades(uid, valor) {
-  await setDoc(doc(db, 'users', uid), { newsletter: !!valor, newsletterAt: serverTimestamp() }, { merge: true })
+  await setDoc(doc(db, 'users', uid), { newsletter: !!valor, newsletterAt: serverTimestamp(), idioma: idiomaDeRuta() }, { merge: true })
 }
 
 const fecha = ts => (ts?.toDate ? ts.toDate().toISOString().slice(0, 10) : '')
@@ -29,13 +30,13 @@ export async function listarSuscritos() {
   return snap.docs
     .map(d => d.data())
     .filter(u => u.email)
-    .map(u => ({ nombre: u.name ?? '', email: u.email, alta: fecha(u.createdAt), suscrito: fecha(u.newsletterAt), ultimoAcceso: fecha(u.lastLogin) }))
+    .map(u => ({ nombre: u.name ?? '', email: u.email, alta: fecha(u.createdAt), suscrito: fecha(u.newsletterAt), ultimoAcceso: fecha(u.lastLogin), idioma: u.idioma ?? '' }))
     .sort((a, b) => a.email.localeCompare(b.email))
 }
 
 // CSV con BOM (Excel lo abre con tildes bien) y comillas escapadas.
 export function aCsv(filas) {
-  const cols = ['nombre', 'email', 'alta', 'suscrito', 'ultimoAcceso']
+  const cols = ['nombre', 'email', 'idioma', 'alta', 'suscrito', 'ultimoAcceso']
   const celda = v => `"${String(v ?? '').replace(/"/g, '""')}"`
   return '﻿' + [cols.join(','), ...filas.map(f => cols.map(c => celda(f[c])).join(','))].join('\r\n')
 }

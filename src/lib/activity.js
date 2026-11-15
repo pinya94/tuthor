@@ -1,4 +1,5 @@
 import { db } from './firebase'
+import { idiomaDeRuta } from './idiomaUsuario'
 import {
   doc, collection, addDoc, setDoc, getDoc, updateDoc,
   serverTimestamp, increment,
@@ -304,6 +305,7 @@ export async function upsertUserProfile(user) {
     email: user.email,
     photoURL: user.photoURL,
     lastLogin: serverTimestamp(),
+    idioma: idiomaDeRuta(), // en qué idioma escribirle (ver idiomaUsuario.js)
     ...(isNew ? { createdAt: serverTimestamp() } : {}),
   }, { merge: true })
 

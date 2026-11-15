@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { db } from '../lib/firebase'
-import { doc, getDoc, collection, getDocs, query, orderBy, limit, updateDoc, setDoc } from 'firebase/firestore'
+import { doc, getDoc, collection, getDocs, query, orderBy, limit, setDoc } from 'firebase/firestore'
 import { useAuth } from '../context/AuthContext'
-import { formatTime } from '../lib/activity'
 import { FRAMES, BANNERS, AVATARS, DEFAULT_AVATAR_EMOJI } from '../data/cosmetics'
 import { listarSolicitudes, resolverSolicitud } from '../lib/solicitudesProfe'
 import { getTeacherClasses } from '../lib/classes'
+import { NOMBRE_IDIOMA } from '../lib/idiomaUsuario'
+import MensajesAdmin from '../components/admin/MensajesAdmin'
 import { listarSuscritos, aCsv } from '../lib/novedades'
 
 const ADMIN_EMAILS = [
@@ -82,6 +83,7 @@ function FichaProfe({ f }) {
       <div className="space-y-1">
         <p className="text-white/60 text-[11px] font-bold uppercase tracking-wider">Cuenta</p>
         <Dato k="Nombre en la cuenta" v={d.user.displayName ?? d.user.name} />
+        <Dato k="Idioma" v={d.user.idioma ? (NOMBRE_IDIOMA[d.user.idioma] ?? d.user.idioma) : 'sin dato (entró antes de guardarlo)'} />
         <Dato k="Cuenta de profe" v={tp.active ? 'activa' : 'desactivada'} />
         <Dato k="Centro (perfil)" v={tp.schoolName} />
         <Dato k="Etapa (perfil)" v={tp.stage} />
@@ -116,7 +118,10 @@ function SolicitudesProfe() {
   const [fichaDe, setFichaDe] = useState(null) // uid con la ficha abierta
   const [notaDe, setNotaDe] = useState(null) // uid con el cuadro de «Pedir datos» abierto
   const [nota, setNota] = useState('')
-  const carga = () => listarSolicitudes().then(setFilas).catch(() => setFilas([]))
+  // Con el idioma de cada uno (users/{uid}.idioma), para escribirle en su lengua
+  const carga = () => listarSolicitudes()
+    .then(fs => Promise.all(fs.map(f => getDoc(doc(db, 'users', f.id)).then(u => ({ ...f, idioma: u.data()?.idioma ?? '' })).catch(() => f))))
+    .then(setFilas).catch(() => setFilas([]))
   useEffect(() => { carga() }, [])
   const resuelve = async (uid, accion, texto = '') => {
     setOcupado(uid)
@@ -124,20 +129,55 @@ function SolicitudesProfe() {
     setOcupado('')
   }
   const correo = (f, asunto, cuerpo) => `mailto:${f.email}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`
-  const avisoValidada = f => correo(f, 'Tu cuenta de profe en Tuthor está validada', `Hola, ${f.nombre}:
+  // Los dos correos, en el idioma en que usa Tuthor cada profe (castellano si no se sabe)
+  const avisoValidada = f => {
+    const panel = f.idioma === 'en' ? 'https://www.tuthor.es/en/profesor' : f.idioma === 'ca' ? 'https://www.tuthor.es/ca/profesor' : 'https://www.tuthor.es/profesor'
+    if (f.idioma === 'en') return correo(f, 'Your Tuthor teacher account has been verified', `Hello ${f.nombre},
 
-Hemos revisado tu alta y todo está correcto: tu cuenta de profesor en Tuthor (${f.email}) queda validada. Puedes seguir usándola como hasta ahora en https://www.tuthor.es/profesor
+We have reviewed your sign-up and everything is in order: your Tuthor teacher account (${f.email}) is now verified. You can keep using it as before at ${panel}
+
+Thank you for using Tuthor with your students!`)
+    if (f.idioma === 'ca') return correo(f, 'El teu compte de professor a Tuthor està validat', `Hola, ${f.nombre}:
+
+Hem revisat la teva alta i tot és correcte: el teu compte de professor a Tuthor (${f.email}) queda validat. Pots continuar fent-lo servir com fins ara a ${panel}
+
+Gràcies per fer servir Tuthor amb els teus alumnes!`)
+    return correo(f, 'Tu cuenta de profe en Tuthor está validada', `Hola, ${f.nombre}:
+
+Hemos revisado tu alta y todo está correcto: tu cuenta de profesor en Tuthor (${f.email}) queda validada. Puedes seguir usándola como hasta ahora en ${panel}
 
 ¡Gracias por usar Tuthor con tus alumnos!`)
-  const avisoRectificar = f => correo(f, 'Tu cuenta de profe en Tuthor: necesitamos un dato', `Hola, ${f.nombre}:
+  }
+  const avisoRectificar = f => {
+    const panel = f.idioma === 'en' ? 'https://www.tuthor.es/en/profesor' : f.idioma === 'ca' ? 'https://www.tuthor.es/ca/profesor' : 'https://www.tuthor.es/profesor'
+    if (f.idioma === 'en') return correo(f, 'Your Tuthor teacher account: we need one more detail', `Hello ${f.nombre},
+
+We have reviewed your Tuthor teacher sign-up and need you to correct or add the following:
+
+${f.nota || '…'}
+
+You can do it from your dashboard (${panel}), in the notice at the top. In the meantime you can keep using everything as normal.
+
+Thank you!`)
+    if (f.idioma === 'ca') return correo(f, 'El teu compte de professor a Tuthor: necessitem una dada', `Hola, ${f.nombre}:
+
+Hem revisat la teva alta com a professor a Tuthor i necessitem que corregeixis o completis això:
+
+${f.nota || '…'}
+
+Ho pots fer des del teu tauler (${panel}), a l’avís de dalt. Mentrestant pots continuar fent-ho servir tot amb normalitat.
+
+Gràcies!`)
+    return correo(f, 'Tu cuenta de profe en Tuthor: necesitamos un dato', `Hola, ${f.nombre}:
 
 Hemos revisado tu alta como profesor en Tuthor y necesitamos que corrijas o completes esto:
 
 ${f.nota || '…'}
 
-Puedes hacerlo desde tu panel (https://www.tuthor.es/profesor), en el aviso de arriba. Mientras tanto puedes seguir usándolo todo con normalidad.
+Puedes hacerlo desde tu panel (${panel}), en el aviso de arriba. Mientras tanto puedes seguir usándolo todo con normalidad.
 
 ¡Gracias!`)
+  }
   const visibles = (filas ?? []).filter(f => verTodas || f.estado === 'pendiente')
   const pendientes = (filas ?? []).filter(f => f.estado === 'pendiente').length
   const color = { aprobada: 'text-green-300', rechazada: 'text-red-300', rectificar: 'text-orange-300', pendiente: 'text-amber-300' }
@@ -155,7 +195,8 @@ Puedes hacerlo desde tu panel (https://www.tuthor.es/profesor), en el aviso de a
           {visibles.map(f => (
             <div key={f.id} className="rounded-xl bg-black/20 border border-white/[0.06] p-3">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-white font-bold">{f.nombre} <span className="text-white/40 font-normal text-xs">{f.email}</span></p>
+                <p className="text-white font-bold">{f.nombre} <span className="text-white/40 font-normal text-xs">{f.email}</span>
+                  {f.idioma && <span className="ml-2 text-sky-300/80 font-normal text-xs border border-sky-400/30 rounded px-1.5 py-0.5">{NOMBRE_IDIOMA[f.idioma] ?? f.idioma}</span>}</p>
                 <span className={`text-xs font-bold ${color[f.estado] ?? 'text-white/50'}`}>{nombreEstado[f.estado] ?? f.estado}</span>
               </div>
               <p className="text-white/60 text-sm">{f.centro} · {f.etapa}{f.materias ? ` · ${f.materias}` : ''}</p>
@@ -207,8 +248,10 @@ function ListaNovedades() {
     URL.revokeObjectURL(a.href)
   }
 
-  function copiar() {
-    navigator.clipboard?.writeText(filas.map(f => f.email).join(', '))
+  // Por idioma: así cada correo de novedades va en la lengua de quien lo recibe
+  const idiomaDe = f => f.idioma || 'es'
+  function copiar(idioma) {
+    navigator.clipboard?.writeText(filas.filter(f => !idioma || idiomaDe(f) === idioma).map(f => f.email).join(', '))
   }
 
   return (
@@ -227,8 +270,15 @@ function ListaNovedades() {
           <span className="text-white font-bold text-sm mr-2">{filas.length} suscritos</span>
           <button onClick={descargar} disabled={!filas.length}
             className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-sm font-bold disabled:opacity-40">Descargar CSV</button>
-          <button onClick={copiar} disabled={!filas.length}
-            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-bold disabled:opacity-40">Copiar correos</button>
+          <button onClick={() => copiar()} disabled={!filas.length}
+            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-bold disabled:opacity-40">Copiar todos</button>
+          {Object.entries(NOMBRE_IDIOMA).map(([k, n]) => {
+            const cuantos = filas.filter(f => idiomaDe(f) === k).length
+            return cuantos > 0 && (
+              <button key={k} onClick={() => copiar(k)}
+                className="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold">Copiar en {n} ({cuantos})</button>
+            )
+          })}
         </div>
       )}
       {error && <p className="text-red-400 text-xs mt-2">{error}</p>}
@@ -258,60 +308,6 @@ function MiniBar({ label, value, max }) {
         />
       </div>
       <p className="text-white font-bold text-sm w-10 text-right shrink-0">{value}</p>
-    </div>
-  )
-}
-
-function MessagesSection({ title, messages, onMarkRead, showCompany = false, showPage = false }) {
-  const unread = messages.filter(m => !m.read).length
-  return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-white font-bold">
-          {title}
-          {unread > 0 && (
-            <span className="ml-2 px-2 py-0.5 bg-violet-500 text-white text-xs font-bold rounded-full">{unread} nuevo{unread !== 1 ? 's' : ''}</span>
-          )}
-        </h2>
-        <p className="text-white/30 text-xs">{messages.length} total</p>
-      </div>
-      {messages.length === 0 ? (
-        <p className="text-white/30 text-sm">Sin mensajes todavía</p>
-      ) : (
-        <div className="space-y-3">
-          {messages.map(m => (
-            <div key={m.id} className={`rounded-xl p-4 border transition-all ${m.read ? 'bg-white/3 border-white/5' : 'bg-violet-500/10 border-violet-500/30'}`}>
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    {!m.read && <span className="w-2 h-2 rounded-full bg-violet-400 shrink-0" />}
-                    <p className="text-white font-semibold text-sm">{m.name || '—'}</p>
-                    <p className="text-white/40 text-xs">{m.email || ''}</p>
-                    {showCompany && m.company && (
-                      <span className="text-teal-400/70 text-xs border border-teal-500/20 px-1.5 py-0.5 rounded">{m.company}</span>
-                    )}
-                    {showPage && m.page && (
-                      <span className="text-violet-400/70 text-xs border border-violet-500/20 px-1.5 py-0.5 rounded">📍 {m.page}</span>
-                    )}
-                  </div>
-                  <p className="text-white/70 text-sm whitespace-pre-wrap break-words">{m.message}</p>
-                  {m.createdAt?.toDate && (
-                    <p className="text-white/25 text-xs mt-2">
-                      {m.createdAt.toDate().toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                    </p>
-                  )}
-                </div>
-                {!m.read && (
-                  <button onClick={() => onMarkRead(m.id)}
-                    className="shrink-0 text-xs text-violet-400 hover:text-violet-300 border border-violet-500/30 hover:border-violet-400/50 px-2 py-1 rounded-lg transition-colors">
-                    ✓ Leído
-                  </button>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   )
 }
@@ -483,22 +479,13 @@ export default function Admin() {
         </div>
 
         {/* Mensajes de contacto */}
-        <MessagesSection title="💬 Mensajes de contacto" messages={messages} onMarkRead={async (id) => {
-          await updateDoc(doc(db, 'contactMessages', id), { read: true })
-          setMessages(ms => ms.map(m => m.id === id ? { ...m, read: true } : m))
-        }} />
+        <MensajesAdmin title="💬 Mensajes de contacto" col="contactMessages" messages={messages} setMessages={setMessages} />
 
         {/* Bugs */}
-        <MessagesSection title="🐛 Bugs reportados" messages={bugs} showPage onMarkRead={async (id) => {
-          await updateDoc(doc(db, 'bugReports', id), { read: true })
-          setBugs(bs => bs.map(b => b.id === id ? { ...b, read: true } : b))
-        }} />
+        <MensajesAdmin title="🐛 Bugs reportados" col="bugReports" messages={bugs} setMessages={setBugs} showPage />
 
         {/* Colaboraciones */}
-        <MessagesSection title="📣 Colaboraciones y anuncios" messages={colabs} showCompany onMarkRead={async (id) => {
-          await updateDoc(doc(db, 'colabMessages', id), { read: true })
-          setColabs(cs => cs.map(c => c.id === id ? { ...c, read: true } : c))
-        }} />
+        <MensajesAdmin title="📣 Colaboraciones y anuncios" col="colabMessages" messages={colabs} setMessages={setColabs} showCompany />
 
         {/* Dev Tools */}
         <DevTools uid={user.uid} />
