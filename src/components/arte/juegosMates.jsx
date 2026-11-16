@@ -351,6 +351,21 @@ function BalanzaAlgebraica(p) {
   )
 }
 
+function CazaRaiz(p) {
+  // Parábola que corta el eje X en dos raíces marcadas
+  return (
+    <Lienzo {...p}>
+      <rect x="28" y="10" width="192" height="116" rx="10" fill="#2A1410" />
+      {[52, 76, 100, 124, 148, 172, 196].map(x => <path key={x} d={`M${x} 18V118`} stroke="#ffffff10" />)}
+      <path d="M36 82H212" stroke="#E2E8F0" strokeWidth="2.5" />
+      {[52, 76, 100, 124, 148, 172, 196].map(x => <path key={`t${x}`} d={`M${x} 78V86`} stroke="#E2E8F0" strokeWidth="2" />)}
+      <path d="M58 16Q124 178 190 16" fill="none" stroke="#FB923C" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="76" cy="82" r="8" fill="#22C55E" stroke="#2A1410" strokeWidth="3" />
+      <circle cx="172" cy="82" r="8" fill="#22C55E" stroke="#2A1410" strokeWidth="3" />
+    </Lienzo>
+  )
+}
+
 function CruceRectas(p) {
   // Cuadrícula con dos rectas que se cruzan y el punto de corte marcado
   const xs = [40, 64, 88, 112, 136, 160, 184, 208]
@@ -495,4 +510,5 @@ export const ARTE_MATES = {
   'funciones-grafica': FuncionesGrafica,
   'balanza-algebraica': BalanzaAlgebraica,
   'cruce-rectas': CruceRectas,
+  'caza-la-raiz': CazaRaiz,
 }

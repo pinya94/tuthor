@@ -82,6 +82,19 @@ export default function AlgebraTema() {
       to: localPath('/examen/cruce-rectas-test'),
     },
     {
+      id: 'caza-la-raiz',
+      titulo: tr({ es: 'Caza la Raíz: ecuaciones de 2.º grado', en: 'Root Hunt: quadratic equations', ca: 'Caça l’Arrel: equacions de 2n grau' }),
+      descripcion: tr({ es: 'Con la mecánica del juego: resuelve la ecuación, marca sus soluciones en el eje X y mira cómo la parábola lo corta justo ahí.', en: 'Using the game mechanic: solve the equation, mark its solutions on the x-axis and watch the parabola cross it right there.', ca: 'Amb la mecànica del joc: resol l’equació, marca les solucions a l’eix X i mira com la paràbola el talla just allà.' }),
+      emoji: '🌱',
+      gradient: 'from-orange-500 to-red-700',
+      detalles: [
+        tr({ es: '3 niveles', en: '3 levels', ca: '3 nivells' }),
+        tr({ es: '10 preguntas', en: '10 questions', ca: '10 preguntes' }),
+        tr({ es: 'Con el juego', en: 'With the game', ca: 'Amb el joc' }),
+      ],
+      to: localPath('/examen/caza-la-raiz-test'),
+    },
+    {
       id: 'examen',
       titulo: ca ? 'Examen de pràctica' : en ? 'Practice exam' : 'Examen de práctica',
       descripcion: ca

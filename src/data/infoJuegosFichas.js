@@ -254,6 +254,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'ESO, Bachillerato',
   },
+  'caza-la-raiz': {
+    titulo: 'Caza la Raíz',
+    subtitulo: 'Juego de ecuaciones de segundo grado',
+    emoji: '🌱', gradient: 'from-orange-500 to-red-700',
+    path: '/juegos/caza-la-raiz',
+    intro: 'Un juego de matemáticas para resolver ecuaciones de segundo grado y entender qué significan sus soluciones. Sale una ecuación, el alumno la resuelve y marca las soluciones en el eje X (o dice que no tiene solución real). Al corregir se dibuja la parábola y = ax² + bx + c, que corta el eje justo en esas raíces, y aparece la resolución paso a paso: el despeje en las incompletas o el discriminante y la fórmula en las completas.',
+    beneficios: [
+      { titulo: 'Las incompletas sin fórmula', texto: 'En ax² + c = 0 se despeja x² y se hace la raíz con sus dos signos; en ax² + bx = 0 se saca factor común y siempre sale x = 0. Son los dos atajos que más tiempo ahorran en un examen, y los fallos típicos (olvidar la negativa, dividir entre x y perder el 0) quedan a la vista.' },
+      { titulo: 'El discriminante con sentido', texto: 'Dos soluciones, una doble o ninguna: con la parábola delante se ve que Δ > 0 es cortar el eje dos veces, Δ = 0 es tocarlo en el vértice y Δ < 0 es no llegar a tocarlo.' },
+      { titulo: 'Ordenar antes de resolver', texto: 'En el nivel difícil la ecuación llega sin ordenar (2x² = 10x − 12) y con a distinto de 1, también negativo. Pasar todo a un lado e identificar bien a, b y c es el paso donde más se equivocan los alumnos de 3.º y 4.º de ESO.' },
+    ],
+    ejemplo: 'Sale x² − 5x + 6 = 0. El alumno calcula Δ = 25 − 24 = 1, aplica la fórmula x = (5 ± 1) / 2 y marca x = 2 y x = 3 en el eje. Al comprobar aparece la parábola cortando el eje justo en esos dos puntos.',
+    enPapel: {
+      titulo: 'Ecuaciones de segundo grado en clase',
+      pasos: [
+        'Escribe en la pizarra tres ecuaciones: una sin b, una sin c y una completa.',
+        'Que cada alumno decida qué método usa para cada una antes de resolverla.',
+        'Con una tabla de valores, dibujad la parábola de la completa y comprobad que corta el eje en las soluciones.',
+        'Cambia c para que el discriminante sea 0 y luego negativo, y mirad qué le pasa a la parábola.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Caza la Raíz', desc: 'Diez ecuaciones con la misma mecánica, sin reloj y con nota.' },
+      { nombre: 'Ecuaciones de 2.º grado (tipo test)', desc: 'El examen de opción múltiple con la resolución explicada.' },
+      { nombre: 'Caza la Función', desc: 'Ajusta a, b y c hasta que la parábola encaje con la gráfica.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'ESO',
+  },
   'cruce-rectas': {
     titulo: 'Cruce de Rectas',
     subtitulo: 'Juego de sistemas de ecuaciones por el método gráfico',
@@ -3052,6 +3080,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Mathematics', niveles: 'Secondary, Sixth Form',
   },
+  'caza-la-raiz': {
+    titulo: 'Root Hunt',
+    subtitulo: 'Quadratic equations game',
+    emoji: '🌱', gradient: 'from-orange-500 to-red-700', path: '/juegos/caza-la-raiz',
+    intro: 'A maths game for solving quadratic equations and understanding what their solutions mean. An equation appears, the student solves it and marks the solutions on the x-axis (or says there is no real solution). On checking, the parabola y = ax² + bx + c is drawn crossing the axis exactly at those roots, together with the step-by-step working: rearranging for incomplete equations, or the discriminant and the formula for complete ones.',
+    beneficios: [
+      { titulo: 'Incomplete equations without the formula', texto: 'In ax² + c = 0 you isolate x² and take the square root with both signs; in ax² + bx = 0 you factorise and x = 0 is always a solution. These are the two shortcuts that save most time in an exam, and the typical mistakes (forgetting the negative root, dividing by x and losing the 0) become obvious.' },
+      { titulo: 'The discriminant makes sense', texto: 'Two solutions, one repeated or none: with the parabola in view, Δ > 0 means crossing the axis twice, Δ = 0 means touching it at the vertex and Δ < 0 means never reaching it.' },
+      { titulo: 'Rearrange before solving', texto: 'On Hard the equation is not in standard form (2x² = 10x − 12) and a is not 1, sometimes negative. Moving everything to one side and identifying a, b and c correctly is where students most often go wrong.' },
+    ],
+    ejemplo: 'The equation x² − 5x + 6 = 0 appears. The student works out Δ = 25 − 24 = 1, applies the formula x = (5 ± 1) / 2 and marks x = 2 and x = 3 on the axis. On checking, the parabola appears crossing the axis at exactly those two points.',
+    enPapel: {
+      titulo: 'Quadratic equations in class',
+      pasos: [
+        'Write three equations on the board: one with no x term, one with no constant and one complete.',
+        'Ask each student to decide which method to use for each before solving it.',
+        'Using a table of values, plot the parabola of the complete one and check that it crosses the axis at the solutions.',
+        'Change c so that the discriminant becomes 0 and then negative, and see what happens to the parabola.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Root Hunt exam', desc: 'Ten equations with the same mechanic, no timer and a mark.' },
+      { nombre: 'Quadratic equations (multiple choice)', desc: 'The multiple-choice exam with worked answers.' },
+      { nombre: 'Function Hunt', desc: 'Adjust a, b and c until the parabola matches the graph.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Secondary',
+  },
   'cruce-rectas': {
     titulo: 'Line Crossing',
     subtitulo: 'Simultaneous equations game: the graphical method',
@@ -5459,6 +5514,33 @@ export const FICHAS_CA = {
       { nombre: 'Batalla naval amb coordenades', desc: 'Un clàssic per practicar el pla cartesià i localitzar punts (x, y) jugant.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'ESO, Batxillerat',
+  },
+  'caza-la-raiz': {
+    titulo: 'Caça l’Arrel',
+    subtitulo: 'Joc d’equacions de segon grau',
+    emoji: '🌱', gradient: 'from-orange-500 to-red-700', path: '/juegos/caza-la-raiz',
+    intro: 'Un joc de matemàtiques per resoldre equacions de segon grau i entendre què volen dir les seves solucions. Surt una equació, l’alumne la resol i marca les solucions a l’eix X (o diu que no té solució real). En corregir es dibuixa la paràbola y = ax² + bx + c, que talla l’eix just en aquestes arrels, i apareix la resolució pas a pas: l’aïllament a les incompletes o el discriminant i la fórmula a les completes.',
+    beneficios: [
+      { titulo: 'Les incompletes sense fórmula', texto: 'A ax² + c = 0 s’aïlla x² i es fa l’arrel amb els dos signes; a ax² + bx = 0 es treu factor comú i sempre surt x = 0. Són les dues dreceres que més temps estalvien en un examen, i els errors típics (oblidar la negativa, dividir entre x i perdre el 0) queden a la vista.' },
+      { titulo: 'El discriminant amb sentit', texto: 'Dues solucions, una doble o cap: amb la paràbola al davant es veu que Δ > 0 és tallar l’eix dues vegades, Δ = 0 és tocar-lo al vèrtex i Δ < 0 és no arribar a tocar-lo.' },
+      { titulo: 'Ordenar abans de resoldre', texto: 'Al nivell difícil l’equació arriba sense ordenar (2x² = 10x − 12) i amb a diferent d’1, també negatiu. Passar-ho tot a un costat i identificar bé a, b i c és el pas on més s’equivoquen els alumnes de 3r i 4t d’ESO.' },
+    ],
+    ejemplo: 'Surt x² − 5x + 6 = 0. L’alumne calcula Δ = 25 − 24 = 1, aplica la fórmula x = (5 ± 1) / 2 i marca x = 2 i x = 3 a l’eix. En comprovar apareix la paràbola tallant l’eix just en aquests dos punts.',
+    enPapel: {
+      titulo: 'Equacions de segon grau a classe',
+      pasos: [
+        'Escriu a la pissarra tres equacions: una sense b, una sense c i una completa.',
+        'Que cada alumne decideixi quin mètode fa servir per a cadascuna abans de resoldre-la.',
+        'Amb una taula de valors, dibuixeu la paràbola de la completa i comproveu que talla l’eix a les solucions.',
+        'Canvia c perquè el discriminant sigui 0 i després negatiu, i mireu què li passa a la paràbola.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Caça l’Arrel', desc: 'Deu equacions amb la mateixa mecànica, sense rellotge i amb nota.' },
+      { nombre: 'Equacions de 2n grau (tipus test)', desc: 'L’examen d’opció múltiple amb la resolució explicada.' },
+      { nombre: 'Caça la Funció', desc: 'Ajusta a, b i c fins que la paràbola encaixi amb la gràfica.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'ESO',
   },
   'cruce-rectas': {
     titulo: 'Encreuament de Rectes',

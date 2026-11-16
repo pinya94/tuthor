@@ -139,6 +139,7 @@ const BalanzaEcuaciones      = lazy(() => import('./pages/BalanzaEcuaciones'))
 const FuncionesGrafica       = lazy(() => import('./pages/FuncionesGrafica'))
 const BalanzaAlgebraica      = lazy(() => import('./pages/BalanzaAlgebraica'))
 const CruceRectas            = lazy(() => import('./pages/CruceRectas'))
+const CazaRaiz               = lazy(() => import('./pages/CazaRaiz'))
 const AnalizaFrases          = lazy(() => import('./pages/AnalizaFrases'))
 const OrdenaFrase            = lazy(() => import('./pages/OrdenaFrase'))
 const Genetica               = lazy(() => import('./pages/Genetica'))
@@ -260,6 +261,7 @@ function AppRoutes() {
       <Route path="estudiar/matematicas/teorema-de-pitagoras" element={<MatematicasTemaExtra slug="teorema-de-pitagoras" />} />
       <Route path="estudiar/matematicas/sistemas-de-ecuaciones" element={<MatematicasTemaExtra slug="sistemas-de-ecuaciones" />} />
       <Route path="estudiar/matematicas/numeros-decimales" element={<MatematicasTemaExtra slug="numeros-decimales" />} />
+      <Route path="estudiar/matematicas/ecuaciones-de-segundo-grado" element={<MatematicasTemaExtra slug="ecuaciones-de-segundo-grado" />} />
       <Route path="estudiar/matematicas/proporcionalidad" element={<MatematicasTemaExtra slug="proporcionalidad" />} />
       <Route path="estudiar/matematicas/porcentajes" element={<PorcentajesTema />} />
       <Route path="estudiar/matematicas/divisibilidad" element={<DivisibilidadTema />} />
@@ -346,6 +348,7 @@ function AppRoutes() {
       <Route path="estudiar/fisica" element={<QuimicaIndex disciplina="fisica" />} />
       <Route path="estudiar/fisica/:tema" element={<QuimicaTema />} />
       <Route path="estudiar/biologia" element={<QuimicaIndex disciplina="biologia" />} />
+      <Route path="estudiar/biologia/los-sentidos" element={<TemaEstudioExtra slug="los-sentidos" />} />
       <Route path="estudiar/biologia/fotosintesis" element={<TemaEstudioExtra slug="fotosintesis" />} />
       <Route path="estudiar/quimica/reacciones-quimicas" element={<TemaEstudioExtra slug="reacciones-quimicas" />} />
       <Route path="estudiar/biologia/:tema" element={<QuimicaTema />} />
@@ -368,6 +371,7 @@ function AppRoutes() {
       <Route path="estudiar/idiomas/espanol/literatura/generos-literarios" element={<TemaEstudioExtra slug="generos-literarios" />} />
       <Route path="estudiar/idiomas/espanol/literatura/figuras-literarias" element={<TemaEstudioExtra slug="figuras-literarias" />} />
       <Route path="estudiar/idiomas/espanol/literatura/la-descripcion" element={<TemaEstudioExtra slug="la-descripcion" />} />
+      <Route path="estudiar/idiomas/espanol/literatura/texto-argumentativo" element={<TemaEstudioExtra slug="texto-argumentativo" />} />
       <Route path="estudiar/idiomas/espanol/literatura/tipos-de-texto" element={<TemaEstudioExtra slug="tipos-de-texto" />} />
       <Route path="estudiar/geografia/continentes-y-oceanos" element={<TemaEstudioExtra slug="continentes-y-oceanos" />} />
       <Route path="estudiar/geografia/ciclo-del-agua" element={<TemaEstudioExtra slug="ciclo-del-agua" />} />
@@ -414,6 +418,7 @@ function AppRoutes() {
       <Route path="juegos/funciones-grafica" element={<FuncionesGrafica />} />
       <Route path="juegos/balanza-algebraica" element={<BalanzaAlgebraica />} />
       <Route path="juegos/cruce-rectas" element={<CruceRectas />} />
+      <Route path="juegos/caza-la-raiz" element={<CazaRaiz />} />
       <Route path="juegos/analiza-frases" element={<AnalizaFrases />} />
       <Route path="juegos/ordena-frase" element={<OrdenaFrase />} />
       <Route path="juegos/genetica" element={<Genetica />} />

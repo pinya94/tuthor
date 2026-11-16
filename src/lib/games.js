@@ -629,6 +629,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'caza-la-raiz': {
+    label: { es: 'Caza la Raíz', en: 'Root Hunt', ca: 'Caça l’Arrel' },
+    emoji: '🌱',
+    subject: 'matematicas',
+    route: '/juegos/caza-la-raiz',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'balanza-algebraica': {
     label: { es: 'Balanza Algebraica', en: 'Algebra Balance', ca: 'Balança Algebraica' },
     emoji: '⚖️',

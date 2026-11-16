@@ -496,6 +496,11 @@ export const EXAMS = {
     emoji: '✖️', subject: 'matematicas',
     path: 'examen/cruce-rectas-test', page: () => import('../pages/CruceRectasExamen'),
   },
+  'caza-la-raiz-test': {
+    label: { es: 'Ecuaciones de 2.º grado: Caza la Raíz (con el juego)', en: 'Quadratic equations: Root Hunt (with the game)', ca: 'Equacions de 2n grau: Caça l’Arrel (amb el joc)' },
+    emoji: '🌱', subject: 'matematicas',
+    path: 'examen/caza-la-raiz-test', page: () => import('../pages/CazaRaizExamen'),
+  },
   'balanza-algebraica-test': {
     label: { es: 'Balanza Algebraica', en: 'Algebra Balance', ca: 'Balança Algebraica' },
     emoji: '⚖️', subject: 'matematicas',

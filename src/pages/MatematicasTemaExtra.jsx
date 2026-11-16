@@ -40,6 +40,16 @@ const TEMAS = {
       { to: '/juegos/balanza-algebraica', emoji: '⚖️', gradient: 'from-emerald-500 to-teal-700', titulo: T3('Balanza Algebraica (juego)', 'Algebra Balance (game)', 'Balança Algebraica (joc)'), desc: T3('Para afianzar el paso previo: despejar la x en ecuaciones de primer grado.', 'To secure the step before: solving linear equations for x.', 'Per consolidar el pas previ: aïllar la x en equacions de primer grau.') },
     ],
   },
+  'ecuaciones-de-segundo-grado': {
+    emoji: '🧮', nombre: T3('Ecuaciones de segundo grado', 'Quadratic equations', 'Equacions de segon grau'),
+    modos: [
+      { to: '/juegos/caza-la-raiz', emoji: '🌱', gradient: 'from-orange-500 to-red-700', titulo: T3('Caza la Raíz (juego)', 'Root Hunt (game)', 'Caça l’Arrel (joc)'), desc: T3('Resuelve la ecuación, marca las soluciones en el eje y mira la parábola.', 'Solve the equation, mark the solutions on the axis and see the parabola.', 'Resol l’equació, marca les solucions a l’eix i mira la paràbola.') },
+      { to: '/examen/caza-la-raiz-test', emoji: '✏️', gradient: 'from-amber-500 to-orange-700', titulo: T3('Examen con Caza la Raíz', 'Root Hunt exam', 'Examen amb Caça l’Arrel'), desc: T3('Diez ecuaciones con la mecánica del juego, sin reloj y con nota.', 'Ten equations using the game mechanic, with no timer and a mark.', 'Deu equacions amb la mecànica del joc, sense rellotge i amb nota.') },
+      { to: '/examen/ecuaciones-segundo-grado-test', emoji: '📝', gradient: 'from-orange-500 to-red-700', titulo: T3('Examen de ecuaciones de segundo grado', 'Quadratic equations exam', 'Examen d’equacions de segon grau'), desc: T3('Completas, incompletas y discriminante, con la solución explicada.', 'Complete and incomplete equations and the discriminant, with worked answers.', 'Completes, incompletes i discriminant, amb la solució explicada.') },
+      { to: '/juegos/funciones-grafica', emoji: '📈', gradient: 'from-indigo-500 to-violet-700', titulo: T3('Caza la Función (juego)', 'Catch the Function (game)', 'Caça la Funció (joc)'), desc: T3('Las parábolas y = ax² + bx + c: ajusta a, b y c hasta que encajen.', 'Parabolas y = ax² + bx + c: adjust a, b and c until they fit.', 'Les paràboles y = ax² + bx + c: ajusta a, b i c fins que encaixin.') },
+      { to: '/estudiar/matematicas/algebra', emoji: '🔤', gradient: 'from-emerald-500 to-teal-700', titulo: T3('Álgebra', 'Algebra', 'Àlgebra'), desc: T3('El paso previo: polinomios, identidades notables y ecuaciones de primer grado.', 'The step before: polynomials, special products and linear equations.', 'El pas previ: polinomis, identitats notables i equacions de primer grau.') },
+    ],
+  },
   'numeros-decimales': {
     emoji: '🔢', nombre: T3('Números decimales', 'Decimals', 'Nombres decimals'),
     modos: [
