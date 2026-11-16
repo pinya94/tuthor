@@ -83,6 +83,17 @@ export default function Estudiar() {
         </div>
         <RecursosInteractivos />
       </section>
+
+      {/* Las guías de cada tema (/info/estudiar) no tenían ningún enlace desde
+          arriba: quedaban a 4 clics. Desde aquí, a 2. */}
+      <Link to={localPath('/info/estudiar')}
+        className="max-w-3xl mx-auto w-full mt-6 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-3 text-left transition-colors">
+        <span>
+          <span className="block text-white font-bold">📚 {tr({ es: 'Guías de cada tema', en: 'Topic guides', ca: 'Guies de cada tema' })}</span>
+          <span className="block text-white/40 text-sm">{tr({ es: 'Para profesores y familias: qué se estudia en cada tema y cómo practicarlo', en: 'For teachers and families: what each topic covers and how to practise it', ca: 'Per a professors i famílies: què s’estudia a cada tema i com practicar-ho' })}</span>
+        </span>
+        <span className="text-white/30">→</span>
+      </Link>
     </div>
   )
 }
