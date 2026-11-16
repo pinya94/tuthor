@@ -1,4 +1,6 @@
 import { CONTENIDO_TEMA } from '../data/estudioTemaContenido'
+import PracticaArriba from './PracticaArriba'
+import ProfeComparte from './ProfeComparte'
 
 const norm = lang => (lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es')
 
@@ -32,6 +34,9 @@ export default function ContenidoTema({ tema, lang = 'es', className = '' }) {
   const tPuntos = L === 'ca' ? 'Punts clau' : L === 'en' ? 'Key points' : 'Puntos clave'
 
   return (
+    <>
+    {/* Lo que se puede jugar del tema, adelantado (ver PracticaArriba) */}
+    <PracticaArriba />
     <article className={`max-w-2xl mx-auto w-full mb-8 rounded-2xl border border-white/10 bg-black/20 p-5 sm:p-7 ${className}`}>
       <h2 className="text-white font-black text-lg sm:text-xl mb-3">{tResumen}</h2>
       <div className="space-y-3">
@@ -112,5 +117,9 @@ export default function ContenidoTema({ tema, lang = 'es', className = '' }) {
         </section>
       )}
     </article>
+    <ProfeComparte />
+    {/* Lo que la página pone a partir de aquí son sus juegos y exámenes */}
+    <span data-fin-contenido-tema="" className="block scroll-mt-20" />
+    </>
   )
 }

@@ -11,6 +11,7 @@ import ReferralCard from './ReferralCard'
 import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from './arte'
 import { Acierto, IconoDeEmoji } from './Iconos'
 import PieJuego from './PieJuego'
+import SiguienteJuego from './SiguienteJuego'
 
 // Slug del arte del juego: por su ruta en el registro, o el propio id.
 function slugDeArte(game) {
@@ -140,6 +141,9 @@ export default function GameEndScreen({
             </button>
           ))}
         </div>
+
+        {/* La siguiente partida concreta y «mañana toca…» (ver SiguienteJuego) */}
+        <SiguienteJuego />
 
         {/* Tras la partida: invitar (gratis y da Pro) y el anuncio. El banner
             de "Hazte Pro" se quitó de aquí a propósito: cortaba el final de

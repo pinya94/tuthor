@@ -15,7 +15,7 @@ import AvisoDirecto from './reto/AvisoDirecto'
 import { examRoute } from '../lib/exams'
 
 // Otros juegos de la misma materia (uno por ruta, con dibujo y en este idioma).
-function similares(slug, lang) {
+export function similares(slug, lang) {
   const actual = Object.values(GAMES).find(g => slugDeRuta(g.route) === slug)
   if (!actual) return []
   const vistos = new Set([slug])
