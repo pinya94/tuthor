@@ -26,12 +26,12 @@ const TEMAS = [
 
 // Temas con página de estudio propia (InglesGrammarTema + temaIngles.js): la
 // tarjeta lleva ahí, y desde la página se salta al examen.
-const CON_PAGINA = ['present-simple', 'past-simple', 'present-perfect', 'modals', 'conditionals', 'passive', 'adjectives']
+const CON_PAGINA = ['present-simple', 'past-simple', 'present-perfect', 'modals', 'conditionals', 'passive', 'adjectives', 'pronouns']
 
 // Básicos de Primaria y 1.º-2.º ESO: tienen página de estudio pero no examen
 // propio (cada página enlaza al examen que los trabaja), así que van como
 // enlaces y no como tarjetas de la rejilla.
-const BASICOS = [['present-continuous', 'Present Continuous'], ['have-got', 'Have got'], ['there-is-there-are', 'There is / There are'], ['possessives', 'Possessives (my, mine…)'], ['can', 'Can / Can’t']]
+const BASICOS = [['present-continuous', 'Present Continuous'], ['have-got', 'Have got'], ['there-is-there-are', 'There is / There are'], ['possessives', 'Possessives (my, mine…)'], ['can', 'Can / Can’t'], ['past-continuous', 'Past Continuous'], ['future', 'Future: will / going to']]
 
 const L = {
   basicos: { es: 'Lo básico: Primaria y 1.º-2.º de ESO', en: 'The basics', ca: 'El bàsic: Primària i 1r-2n d’ESO' },

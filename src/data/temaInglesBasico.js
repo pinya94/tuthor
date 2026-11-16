@@ -1,3 +1,4 @@
+import { future, pastContinuous, pronouns } from './temaTanda11.js'
 // Páginas de estudio de inglés básico (Primaria y 1.º-2.º ESO):
 // /estudiar/idiomas/ingles/grammar/<slug>. Mucha demanda en el autocompletado
 // de Google (nov-2026: «present continuous exercises», «have got exercises
@@ -226,4 +227,7 @@ export const INGLES_BASICO = {
   'there-is-there-are': thereIs,
   possessives,
   can,
+  future,
+  'past-continuous': pastContinuous,
+  pronouns,
 }

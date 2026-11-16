@@ -165,6 +165,14 @@ export default function GeografiaIndex() {
         </span>
         <span className="text-white/30">→</span>
       </Link>
+      <Link to={localPath('/estudiar/geografia/provincias-de-espana')}
+        className="max-w-3xl mx-auto w-full mt-3 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-3 text-left transition-colors">
+        <span>
+          <span className="block text-white font-bold">🗺️ {tr({ es: 'Las provincias de España', en: 'Spain’s provinces', ca: 'Les províncies d’Espanya' })}</span>
+          <span className="block text-white/40 text-sm">{tr({ es: 'Las 50 provincias por comunidad autónoma', en: 'All 50 provinces by autonomous community', ca: 'Les 50 províncies per comunitat autònoma' })}</span>
+        </span>
+        <span className="text-white/30">→</span>
+      </Link>
       <Link to={localPath('/estudiar/geografia/relieve-de-espana')}
         className="max-w-3xl mx-auto w-full mt-3 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-3 text-left transition-colors">
         <span>

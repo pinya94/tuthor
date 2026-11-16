@@ -368,10 +368,12 @@ function AppRoutes() {
       <Route path="estudiar/idiomas/espanol/literatura/generos-literarios" element={<TemaEstudioExtra slug="generos-literarios" />} />
       <Route path="estudiar/idiomas/espanol/literatura/figuras-literarias" element={<TemaEstudioExtra slug="figuras-literarias" />} />
       <Route path="estudiar/idiomas/espanol/literatura/la-descripcion" element={<TemaEstudioExtra slug="la-descripcion" />} />
+      <Route path="estudiar/idiomas/espanol/literatura/tipos-de-texto" element={<TemaEstudioExtra slug="tipos-de-texto" />} />
       <Route path="estudiar/geografia/continentes-y-oceanos" element={<TemaEstudioExtra slug="continentes-y-oceanos" />} />
       <Route path="estudiar/geografia/ciclo-del-agua" element={<TemaEstudioExtra slug="ciclo-del-agua" />} />
       <Route path="estudiar/geografia/relieve-de-espana" element={<TemaEstudioExtra slug="relieve-de-espana" />} />
       <Route path="estudiar/geografia/clima-de-espana" element={<TemaEstudioExtra slug="clima-de-espana" />} />
+      <Route path="estudiar/geografia/provincias-de-espana" element={<TemaEstudioExtra slug="provincias-de-espana" />} />
       <Route path="estudiar/geografia/:region" element={<GeografiaTema />} />
       <Route path="examen/geografia" element={<GeoRushExamen />} />
       <Route path="examen/geomapa" element={<GeoMapaExamen />} />

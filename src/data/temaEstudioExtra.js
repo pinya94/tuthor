@@ -10,6 +10,7 @@ import { fotosintesis, cicloAgua } from './temaFotosintesisAgua.js'
 import { relieveEspana, climaEspana } from './temaTanda3.js'
 import { laDescripcion } from './temaTanda4.js'
 import { reaccionesQuimicas } from './temaTanda5.js'
+import { tiposTexto, provincias } from './temaTanda11.js'
 
 const T = (es, en, ca) => ({ es, en, ca })
 const L = T
@@ -198,4 +199,6 @@ export const ESTUDIO_EXTRA = {
   'clima-de-espana': climaEspana,
   'la-descripcion': laDescripcion,
   'reacciones-quimicas': reaccionesQuimicas,
+  'tipos-de-texto': tiposTexto,
+  'provincias-de-espana': provincias,
 }

@@ -15,6 +15,22 @@ const BIOLOGIA = { label: T3('Biología', 'Biology', 'Biologia'), path: '/estudi
 const QUIMICA = { label: T3('Química', 'Chemistry', 'Química'), path: '/estudiar/quimica' }
 
 const TEMAS = {
+  'tipos-de-texto': {
+    path: '/estudiar/idiomas/espanol/literatura/tipos-de-texto', miga: ESPANOL, emoji: '📝', nombre: T3('Los tipos de texto', 'Text types', 'Els tipus de text'),
+    modos: [
+      { to: '/juegos/detective-textos', juego: 'detective-textos', emoji: '🔎', gradient: 'from-amber-500 to-orange-700', titulo: T3('Detective de Textos (juego)', 'Text Detective (game)', 'Detectiu de Textos (joc)'), desc: T3('Descubre el tipo de cada texto, su intención y sus funciones del lenguaje.', 'Work out each text’s type, purpose and language functions.', 'Descobreix el tipus de cada text, la intenció i les funcions del llenguatge.') },
+      { to: '/examen/espanol-textos-test', emoji: '📝', gradient: 'from-teal-500 to-cyan-700', titulo: T3('Examen de los textos', 'Types of text exam', 'Examen dels textos'), desc: T3('Tipos de texto, funciones del lenguaje y propiedades, con explicación.', 'Text types, language functions and text properties, with explanations.', 'Tipus de text, funcions del llenguatge i propietats, amb explicació.') },
+      { to: '/estudiar/idiomas/espanol/literatura/la-descripcion', emoji: '🖼️', gradient: 'from-sky-500 to-indigo-700', titulo: T3('La descripción', 'Description', 'La descripció'), desc: T3('Prosopografía, etopeya, retrato, topografía… con ejemplos.', 'Prosopografía, etopeya, retrato, topografía… with examples.', 'Prosopografia, etopeia, retrat, topografia… amb exemples.') },
+    ],
+  },
+  'provincias-de-espana': {
+    path: '/estudiar/geografia/provincias-de-espana', miga: GEOGRAFIA, emoji: '🗺️', nombre: T3('Las provincias de España', 'Spain’s provinces', 'Les províncies d’Espanya'),
+    modos: [
+      { to: '/examen/geomapa-espana', emoji: '🗺️', gradient: 'from-amber-500 to-red-700', titulo: T3('Mapa de las comunidades autónomas', 'Map of the autonomous communities', 'Mapa de les comunitats autònomes'), desc: T3('Toca cada comunidad en el mapa de España.', 'Tap each community on the map of Spain.', 'Toca cada comunitat al mapa d’Espanya.') },
+      { to: '/estudiar/geografia/espana', emoji: '🇪🇸', gradient: 'from-red-500 to-amber-600', titulo: T3('España: comunidades y ríos', 'Spain: regions and rivers', 'Espanya: comunitats i rius'), desc: T3('Las 17 comunidades autónomas y las vertientes de los ríos.', 'The 17 autonomous communities and the river basins.', 'Les 17 comunitats autònomes i els vessants dels rius.') },
+      { to: '/estudiar/geografia/relieve-de-espana', emoji: '⛰️', gradient: 'from-emerald-600 to-teal-800', titulo: T3('El relieve de España', 'The relief of Spain', 'El relleu d’Espanya'), desc: T3('La Meseta, los sistemas montañosos y los picos más altos.', 'The Meseta, the mountain ranges and the highest peaks.', 'La Meseta, els sistemes muntanyosos i els cims més alts.') },
+    ],
+  },
   'reacciones-quimicas': {
     path: '/estudiar/quimica/reacciones-quimicas', miga: QUIMICA, emoji: '⚗️', nombre: T3('Las reacciones químicas', 'Chemical reactions', 'Les reaccions químiques'),
     modos: [
