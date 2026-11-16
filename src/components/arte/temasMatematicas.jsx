@@ -359,6 +359,21 @@ function Sistemas(p) {
   )
 }
 
+function SegundoGrado(p) {
+  // Parábola y = x² − 5x + 6 cortando el eje X en sus dos soluciones.
+  return (
+    <Lienzo {...p}>
+      <path d="M24 100H168M40 112V16" stroke="#475569" strokeWidth="1.5" />
+      <path d="M52 22Q96 170 140 22" fill="none" stroke="#FB923C" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="74" cy="100" r="5.5" fill="#FCD34D" />
+      <circle cx="118" cy="100" r="5.5" fill="#FCD34D" />
+      <T x={228} y={46} s={13} c="#FB923C">x² − 5x + 6 = 0</T>
+      <T x={228} y={72} s={13} c="#94A3B8">Δ = 1</T>
+      <T x={228} y={98} s={14} c="#FCD34D">x = 2, x = 3</T>
+    </Lienzo>
+  )
+}
+
 function Proporcionalidad(p) {
   // Dos tablas: directa (×2 arriba, ×2 abajo) e inversa (×2 arriba, ÷2 abajo).
   const tabla = (x, arriba, abajo, color, op) => (
@@ -435,4 +450,5 @@ export const ARTE_TEMAS_MATEMATICAS = {
   'matematicas/sistemas-de-ecuaciones': Sistemas,
   'matematicas/numeros-decimales': Decimales,
   'matematicas/proporcionalidad': Proporcionalidad,
+  'matematicas/ecuaciones-de-segundo-grado': SegundoGrado,
 }

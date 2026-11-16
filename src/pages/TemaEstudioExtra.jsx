@@ -15,12 +15,29 @@ const BIOLOGIA = { label: T3('Biología', 'Biology', 'Biologia'), path: '/estudi
 const QUIMICA = { label: T3('Química', 'Chemistry', 'Química'), path: '/estudiar/quimica' }
 
 const TEMAS = {
+  'texto-argumentativo': {
+    path: '/estudiar/idiomas/espanol/literatura/texto-argumentativo', miga: ESPANOL, emoji: '🗣️', nombre: T3('El texto argumentativo', 'The argumentative text', 'El text argumentatiu'),
+    modos: [
+      { to: '/juegos/detective-textos', juego: 'detective-textos', emoji: '🔎', gradient: 'from-amber-500 to-orange-700', titulo: T3('Detective de Textos (juego)', 'Text Detective (game)', 'Detectiu de Textos (joc)'), desc: T3('Descubre el tipo de cada texto, su intención y sus funciones del lenguaje.', 'Work out each text’s type, purpose and language functions.', 'Descobreix el tipus de cada text, la intenció i les funcions del llenguatge.') },
+      { to: '/examen/espanol-textos-test', emoji: '📝', gradient: 'from-teal-500 to-cyan-700', titulo: T3('Examen de los textos', 'Types of text exam', 'Examen dels textos'), desc: T3('Tipos de texto, funciones del lenguaje y propiedades, con explicación.', 'Text types, language functions and text properties, with explanations.', 'Tipus de text, funcions del llenguatge i propietats, amb explicació.') },
+      { to: '/estudiar/idiomas/espanol/literatura/tipos-de-texto', emoji: '📝', gradient: 'from-sky-500 to-indigo-700', titulo: T3('Los tipos de texto', 'Text types', 'Els tipus de text'), desc: T3('Narrativo, descriptivo, expositivo, argumentativo, dialogado e instructivo.', 'Narrative, descriptive, expository, argumentative, dialogue and instructional.', 'Narratiu, descriptiu, expositiu, argumentatiu, dialogat i instructiu.') },
+    ],
+  },
+  'los-sentidos': {
+    path: '/estudiar/biologia/los-sentidos', miga: BIOLOGIA, emoji: '👁️', nombre: T3('Los sentidos', 'The senses', 'Els sentits'),
+    modos: [
+      { to: '/estudiar/biologia/cuerpo-humano', emoji: '💪', gradient: 'from-rose-500 to-red-700', titulo: T3('El cuerpo humano', 'The human body', 'El cos humà'), desc: T3('Los aparatos y sistemas: nutrición, relación y reproducción.', 'The body systems: nutrition, interaction and reproduction.', 'Els aparells i sistemes: nutrició, relació i reproducció.') },
+      { to: '/juegos/rayos-x', emoji: '🦴', gradient: 'from-sky-500 to-indigo-700', titulo: T3('Rayos X (juego)', 'X-Ray (game)', 'Raigs X (joc)'), desc: T3('Localiza órganos, huesos y músculos en el cuerpo, contra reloj.', 'Find organs, bones and muscles on the body, against the clock.', 'Localitza òrgans, ossos i músculs al cos, contra rellotge.') },
+      { to: '/examen/cuerpo-humano', emoji: '📝', gradient: 'from-emerald-500 to-teal-700', titulo: T3('Examen del cuerpo humano', 'Human body exam', 'Examen del cos humà'), desc: T3('Tipo test con la explicación de cada respuesta.', 'Multiple choice with every answer explained.', 'Tipus test amb l’explicació de cada resposta.') },
+    ],
+  },
   'tipos-de-texto': {
     path: '/estudiar/idiomas/espanol/literatura/tipos-de-texto', miga: ESPANOL, emoji: '📝', nombre: T3('Los tipos de texto', 'Text types', 'Els tipus de text'),
     modos: [
       { to: '/juegos/detective-textos', juego: 'detective-textos', emoji: '🔎', gradient: 'from-amber-500 to-orange-700', titulo: T3('Detective de Textos (juego)', 'Text Detective (game)', 'Detectiu de Textos (joc)'), desc: T3('Descubre el tipo de cada texto, su intención y sus funciones del lenguaje.', 'Work out each text’s type, purpose and language functions.', 'Descobreix el tipus de cada text, la intenció i les funcions del llenguatge.') },
       { to: '/examen/espanol-textos-test', emoji: '📝', gradient: 'from-teal-500 to-cyan-700', titulo: T3('Examen de los textos', 'Types of text exam', 'Examen dels textos'), desc: T3('Tipos de texto, funciones del lenguaje y propiedades, con explicación.', 'Text types, language functions and text properties, with explanations.', 'Tipus de text, funcions del llenguatge i propietats, amb explicació.') },
       { to: '/estudiar/idiomas/espanol/literatura/la-descripcion', emoji: '🖼️', gradient: 'from-sky-500 to-indigo-700', titulo: T3('La descripción', 'Description', 'La descripció'), desc: T3('Prosopografía, etopeya, retrato, topografía… con ejemplos.', 'Prosopografía, etopeya, retrato, topografía… with examples.', 'Prosopografia, etopeia, retrat, topografia… amb exemples.') },
+      { to: '/estudiar/idiomas/espanol/literatura/texto-argumentativo', emoji: '🗣️', gradient: 'from-rose-500 to-red-700', titulo: T3('El texto argumentativo', 'The argumentative text', 'El text argumentatiu'), desc: T3('Tesis, argumentos, estructuras y tipos de argumentos.', 'Thesis, arguments, structures and types of argument.', 'Tesi, arguments, estructures i tipus d’arguments.') },
     ],
   },
   'provincias-de-espana': {

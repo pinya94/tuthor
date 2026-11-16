@@ -75,6 +75,12 @@ export const TEMAS_MATEMATICAS_EXTRA = [
     tags: ['sistema', 'ecuaciones', 'sustitucion', 'igualacion', 'reduccion', 'simultaneous'],
   },
   {
+    id: 'ecuaciones-de-segundo-grado',
+    titulo: 'Ecuaciones de segundo grado', tituloEn: 'Quadratic equations', tituloCa: 'Equacions de segon grau',
+    emoji: '🧮', gradient: 'from-orange-500 to-red-700',
+    tags: ['ecuaciones', 'segundo grado', 'cuadratica', 'discriminante', 'incompletas', 'quadratic'],
+  },
+  {
     id: 'proporcionalidad',
     titulo: 'Proporcionalidad', tituloEn: 'Proportion', tituloCa: 'Proporcionalitat',
     emoji: '⚖️', gradient: 'from-emerald-500 to-teal-700',

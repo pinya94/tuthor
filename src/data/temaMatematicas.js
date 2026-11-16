@@ -4,6 +4,7 @@
 // Los ejemplos salen de aRomano(), la misma función que corrige el juego.
 import { aRomano } from '../lib/romanos.js'
 import { proporcionalidad } from './temaTanda3.js'
+import { segundoGrado } from './temaTanda12.js'
 
 const T = (es, en, ca) => ({ es, en, ca })
 const L = T
@@ -297,4 +298,5 @@ export const MATEMATICAS_TEMA = {
   'teorema-de-pitagoras': pitagoras,
   'sistemas-de-ecuaciones': sistemas,
   'numeros-decimales': decimales,
+  'ecuaciones-de-segundo-grado': segundoGrado,
 }

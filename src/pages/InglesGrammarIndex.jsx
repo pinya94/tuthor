@@ -31,7 +31,7 @@ const CON_PAGINA = ['present-simple', 'past-simple', 'present-perfect', 'modals'
 // Básicos de Primaria y 1.º-2.º ESO: tienen página de estudio pero no examen
 // propio (cada página enlaza al examen que los trabaja), así que van como
 // enlaces y no como tarjetas de la rejilla.
-const BASICOS = [['present-continuous', 'Present Continuous'], ['have-got', 'Have got'], ['there-is-there-are', 'There is / There are'], ['possessives', 'Possessives (my, mine…)'], ['can', 'Can / Can’t'], ['past-continuous', 'Past Continuous'], ['future', 'Future: will / going to']]
+const BASICOS = [['present-continuous', 'Present Continuous'], ['have-got', 'Have got'], ['there-is-there-are', 'There is / There are'], ['possessives', 'Possessives (my, mine…)'], ['can', 'Can / Can’t'], ['past-continuous', 'Past Continuous'], ['future', 'Future: will / going to'], ['some-any-much-many', 'Some, any, much, many'], ['question-tags', 'Question tags'], ['relative-pronouns', 'Relative pronouns'], ['reported-speech', 'Reported speech']]
 
 const L = {
   basicos: { es: 'Lo básico: Primaria y 1.º-2.º de ESO', en: 'The basics', ca: 'El bàsic: Primària i 1r-2n d’ESO' },

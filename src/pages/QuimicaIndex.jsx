@@ -268,6 +268,7 @@ const EXTRA_DISCIPLINA = {
     { path: '/estudiar/quimica/reacciones-quimicas', emoji: '⚗️', titulo: { es: 'Las reacciones químicas', en: 'Chemical reactions', ca: 'Les reaccions químiques' }, sub: { es: 'Qué son, cómo se ajustan y tipos, con ejercicios', en: 'What they are, how to balance them and types, with exercises', ca: 'Què són, com s’ajusten i tipus, amb exercicis' } },
   ],
   biologia: [
+    { path: '/estudiar/biologia/los-sentidos', emoji: '👁️', titulo: { es: 'Los sentidos', en: 'The senses', ca: 'Els sentits' }, sub: { es: 'Vista, oído, olfato, gusto y tacto: órganos y partes', en: 'Sight, hearing, smell, taste and touch: organs and parts', ca: 'Vista, oïda, olfacte, gust i tacte: òrgans i parts' } },
     { path: '/estudiar/biologia/fotosintesis', emoji: '🌿', titulo: { es: 'La fotosíntesis', en: 'Photosynthesis', ca: 'La fotosíntesi' }, sub: { es: 'Fórmula, fases y diferencia con la respiración', en: 'The equation, its stages and how it differs from respiration', ca: 'Fórmula, fases i diferència amb la respiració' } },
   ],
 }

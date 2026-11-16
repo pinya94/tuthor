@@ -11,6 +11,7 @@ import { relieveEspana, climaEspana } from './temaTanda3.js'
 import { laDescripcion } from './temaTanda4.js'
 import { reaccionesQuimicas } from './temaTanda5.js'
 import { tiposTexto, provincias } from './temaTanda11.js'
+import { textoArgumentativo, losSentidos } from './temaTanda12.js'
 
 const T = (es, en, ca) => ({ es, en, ca })
 const L = T
@@ -201,4 +202,6 @@ export const ESTUDIO_EXTRA = {
   'reacciones-quimicas': reaccionesQuimicas,
   'tipos-de-texto': tiposTexto,
   'provincias-de-espana': provincias,
+  'texto-argumentativo': textoArgumentativo,
+  'los-sentidos': losSentidos,
 }
