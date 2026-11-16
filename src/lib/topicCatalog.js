@@ -405,7 +405,7 @@ export const TOPIC_CATALOG = {
       'union-europea': examTema({ teoria: 'geografia-ue-test', europa27: 'europa-27-test' }, { niveles: ['eso', 'bachillerato'] }),
       constitucion: examTema({ teoria: 'geografia-constitucion-test', quienDecide: 'quien-decide-test' }, { niveles: ['eso', 'bachillerato'] }),
       // Mapas, escalas, coordenadas y husos horarios (1.º de ESO), con su juego
-      representacion: examTema({ teoria: 'geografia-representacion-test', husos: 'que-hora-es-test' }, { niveles: ['primaria', 'eso'] }),
+      representacion: examTema({ teoria: 'geografia-representacion-test', husos: 'que-hora-es-test', distancias: 'mas-lejos-test' }, { niveles: ['primaria', 'eso'] }),
       // El mapa del mundo a grandes rasgos (Primaria y 1.º ESO), con su juego
       'continentes-oceanos': examTema({ continentes: 'continentes-oceanos-test' }, { niveles: ['primaria', 'eso'] }),
     },
@@ -428,6 +428,7 @@ export const TOPIC_CATALOG = {
       europa27: examFormato({ es: 'Europa a 27 (con el juego)', en: 'Europe of 27 (with the game)', ca: 'Europa a 27 (amb el joc)' }, '⭐'),
       quienDecide: examFormato({ es: '¿Quién Decide? (con el juego)', en: 'Who Decides? (with the game)', ca: 'Qui Decideix? (amb el joc)' }, '🗳️'),
       continentes: examFormato({ es: 'Continentes y Océanos (con el juego)', en: 'Continents and Oceans (with the game)', ca: 'Continents i Oceans (amb el joc)' }, '🌍'),
+      distancias: examFormato({ es: '¿Más Lejos? Distancias (con el juego)', en: 'Further Away? Distances (with the game)', ca: 'Més Lluny? Distàncies (amb el joc)' }, '✈️'),
       husos: examFormato({ es: '¿Qué Hora Es Allí? (con el juego)', en: 'What Time Is It There? (with the game)', ca: 'Quina Hora És Allà? (amb el joc)' }, '🕒'),
     },
   },

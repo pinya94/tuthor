@@ -421,6 +421,22 @@ function TablaVerdad(p) {
   )
 }
 
+function MasLejos(p) {
+  // Dos trayectos sobre un mapa: uno gris discontinuo y otro ámbar con avión
+  return (
+    <Lienzo {...p}>
+      <rect x="14" y="12" width="212" height="112" rx="10" fill="#0A1733" />
+      <path d="M30 70Q50 40 84 46T130 40Q150 56 176 50T214 66V112H30Z" fill="#2B3A6B" />
+      <path d="M44 92Q90 62 136 88" fill="none" stroke="#94A3B8" strokeWidth="3" strokeDasharray="6 4" />
+      <circle cx="44" cy="92" r="4.5" fill="#94A3B8" /><circle cx="136" cy="88" r="4.5" fill="#94A3B8" />
+      <path d="M70 52Q138 6 206 46" fill="none" stroke="#FBBF24" strokeWidth="3.5" />
+      <circle cx="70" cy="52" r="5" fill="#FBBF24" /><circle cx="206" cy="46" r="5" fill="#FBBF24" />
+      <T x={138} y={34} s={20} c="#FFFFFF">✈</T>
+      <T x={186} y={108} s={13} c="#FBBF24">¿+ / −?</T>
+    </Lienzo>
+  )
+}
+
 export const ARTE_HISTORIA_GEO = {
   'tuthor-time': TuthorTime,
   'linea-temporal': LineaTemporal,
@@ -434,6 +450,7 @@ export const ARTE_HISTORIA_GEO = {
   'europa-27': Europa27,
   'que-hora-es': QueHoraEs,
   'continentes-oceanos': ContinentesOceanos,
+  'mas-lejos': MasLejos,
   'rios-montanas': RiosMontanas,
   'quien-decide': QuienDecide,
   'quien-lo-penso': QuienLoPenso,

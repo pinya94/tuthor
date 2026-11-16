@@ -282,6 +282,11 @@ export const EXAMS = {
     emoji: '🎼', subject: 'musica',
     path: 'examen/musica', page: () => import('../pages/MusicaExamen'),
   },
+  'mas-lejos-test': {
+    label: { es: 'Distancias en el mapa: ¿Más Lejos? (con el juego)', en: 'Map distances: Further Away? (with the game)', ca: 'Distàncies al mapa: Més Lluny? (amb el joc)' },
+    emoji: '✈️', subject: 'geografia',
+    path: 'examen/mas-lejos-test', page: () => import('../pages/MasLejosExamen'),
+  },
   'continentes-oceanos-test': {
     label: { es: 'Continentes y océanos (con el juego)', en: 'Continents and oceans (with the game)', ca: 'Continents i oceans (amb el joc)' },
     emoji: '🌍', subject: 'geografia',

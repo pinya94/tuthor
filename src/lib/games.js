@@ -235,6 +235,14 @@ export const GAMES = {
     // % de aciertos sobre 150 monedas máx
     coins: ({ correct, total }) => (total > 0 ? Math.round((correct / total) * 150) : 0),
   },
+  'mas-lejos': {
+    label: { es: '¿Más Lejos?', en: 'Further Away?', ca: 'Més Lluny?' },
+    emoji: '✈️',
+    subject: 'geografia',
+    route: '/juegos/mas-lejos',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'continentes-oceanos': {
     label: { es: 'Continentes y Océanos', en: 'Continents and Oceans', ca: 'Continents i Oceans' },
     emoji: '🌍',

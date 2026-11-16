@@ -1026,6 +1026,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Economía', niveles: 'ESO, Bachillerato',
   },
+  'mas-lejos': {
+    titulo: '¿Más Lejos?',
+    subtitulo: 'Juego de distancias en el mapa del mundo',
+    emoji: '✈️', gradient: 'from-amber-500 to-sky-700',
+    path: '/juegos/mas-lejos',
+    intro: 'Un juego de geografía para hacerse una idea real del tamaño del mundo. Sale un trayecto con sus kilómetros, por ejemplo Cataluña → Andalucía, y después otro: ¿Dublín → Londres está más lejos o más cerca? Al responder se ven sus kilómetros en el mapa y ese trayecto pasa a ser el que hay que superar. Se mezclan comunidades autónomas, ciudades y países de todos los continentes.',
+    beneficios: [
+      { titulo: 'El tamaño del mundo', texto: 'Comparar Madrid → Lisboa con Nueva York → Los Ángeles, o España de punta a punta con Europa entera, da una idea de las distancias que ningún número suelto consigue.' },
+      { titulo: 'Leer el mapa con cuidado', texto: 'Cerca de los polos el mapa estira las distancias, así que una línea que parece larga en el norte puede ser más corta que otra junto al ecuador. Es la mejor forma de entender que todo mapa plano deforma.' },
+      { titulo: 'Situar lugares', texto: 'Cada trayecto se dibuja sobre el mapa con sus extremos: el alumno sitúa ciudades, países y comunidades sin una lista que memorizar.' },
+    ],
+    ejemplo: 'Sale Cataluña → Andalucía, 830 km. Después, Dublín → Londres. El alumno pulsa «Más cerca» y acierta: son 460 km. Ahora Dublín → Londres es el trayecto a superar.',
+    enPapel: {
+      titulo: 'Distancias en clase',
+      pasos: [
+        'Con un mapa del mundo y una cuerda, medid la distancia entre dos ciudades usando la escala.',
+        'Repetid con dos ciudades cerca de un polo y comparad con un globo terráqueo: el mapa plano exagera.',
+        'Cada alumno propone un trayecto y la clase adivina si es más largo o más corto que el anterior.',
+        'Comprobad los kilómetros y ordenad todos los trayectos de menor a mayor.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de ¿Más Lejos?', desc: 'Diez comparaciones sin reloj y con nota.' },
+      { nombre: 'Continentes y Océanos', desc: 'Situar continentes, océanos y mares en el mapa del mundo.' },
+      { nombre: '¿Qué Hora Es Allí?', desc: 'Los husos horarios: otra forma de medir lo lejos que está un lugar.' },
+    ],
+    asignatura: 'Geografía', niveles: 'Primaria, ESO',
+  },
   'continentes-oceanos': {
     titulo: 'Continentes y Océanos',
     subtitulo: 'Juego de mapa del mundo: continentes, océanos, mares y golfos',
@@ -3807,6 +3835,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Economics', niveles: 'Secondary, Sixth Form',
   },
+  'mas-lejos': {
+    titulo: 'Further Away?',
+    subtitulo: 'World map distance game',
+    emoji: '✈️', gradient: 'from-amber-500 to-sky-700', path: '/juegos/mas-lejos',
+    intro: 'A geography game for getting a real feel for the size of the world. A trip appears with its distance, for example Catalonia → Andalusia, and then another: is Dublin → London further or closer? When you answer, its distance appears on the map and that trip becomes the one to beat. Spanish regions, cities and countries from every continent are mixed together.',
+    beneficios: [
+      { titulo: 'The size of the world', texto: 'Comparing Madrid → Lisbon with New York → Los Angeles, or Spain end to end with the whole of Europe, gives a sense of distance that no single number can.' },
+      { titulo: 'Reading the map carefully', texto: 'Near the poles the map stretches distances, so a line that looks long in the north can be shorter than one near the equator. It is the best way to understand that every flat map distorts.' },
+      { titulo: 'Placing places', texto: 'Each trip is drawn on the map with both ends marked, so students place cities, countries and regions without a list to memorise.' },
+    ],
+    ejemplo: 'Catalonia → Andalusia appears, 830 km. Then Dublin → London. The student taps «Closer» and is right: it is 460 km. Now Dublin → London is the trip to beat.',
+    enPapel: {
+      titulo: 'Distances in class',
+      pasos: [
+        'With a world map and a piece of string, measure the distance between two cities using the scale.',
+        'Repeat with two cities near a pole and compare with a globe: the flat map exaggerates.',
+        'Each student suggests a trip and the class guesses whether it is longer or shorter than the last one.',
+        'Check the distances and put all the trips in order from shortest to longest.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Further Away? exam', desc: 'Ten comparisons with no timer and a mark.' },
+      { nombre: 'Continents and Oceans', desc: 'Find continents, oceans and seas on the world map.' },
+      { nombre: 'What Time Is It There?', desc: 'Time zones: another way of measuring how far away a place is.' },
+    ],
+    asignatura: 'Geography', niveles: 'Primary, Secondary',
+  },
   'continentes-oceanos': {
     titulo: 'Continents and Oceans',
     subtitulo: 'World map game: continents, oceans, seas and gulfs',
@@ -6373,6 +6428,33 @@ export const FICHAS_CA = {
       { nombre: 'El joc de la Borsa de taula', desc: 'Jocs de taula clàssics sobre invertir en empreses i gestionar una cartera ensenyen les mateixes idees de risc i diversificació sense pantalles.' },
     ],
     asignatura: 'Economia', niveles: 'ESO, Batxillerat',
+  },
+  'mas-lejos': {
+    titulo: 'Més Lluny?',
+    subtitulo: 'Joc de distàncies al mapa del món',
+    emoji: '✈️', gradient: 'from-amber-500 to-sky-700', path: '/juegos/mas-lejos',
+    intro: 'Un joc de geografia per fer-se una idea real de la mida del món. Surt un trajecte amb els seus quilòmetres, per exemple Catalunya → Andalusia, i després un altre: Dublín → Londres és més lluny o més a prop? En respondre es veuen els quilòmetres al mapa i aquest trajecte passa a ser el que cal superar. Es barregen comunitats autònomes, ciutats i països de tots els continents.',
+    beneficios: [
+      { titulo: 'La mida del món', texto: 'Comparar Madrid → Lisboa amb Nova York → Los Angeles, o Espanya de punta a punta amb Europa sencera, dona una idea de les distàncies que cap número solt no aconsegueix.' },
+      { titulo: 'Llegir el mapa amb compte', texto: 'A prop dels pols el mapa estira les distàncies, així que una línia que sembla llarga al nord pot ser més curta que una altra a prop de l’equador. És la millor manera d’entendre que tot mapa pla deforma.' },
+      { titulo: 'Situar llocs', texto: 'Cada trajecte es dibuixa al mapa amb els extrems marcats: l’alumne situa ciutats, països i comunitats sense cap llista per memoritzar.' },
+    ],
+    ejemplo: 'Surt Catalunya → Andalusia, 830 km. Després, Dublín → Londres. L’alumne prem «Més a prop» i encerta: són 460 km. Ara Dublín → Londres és el trajecte a superar.',
+    enPapel: {
+      titulo: 'Distàncies a classe',
+      pasos: [
+        'Amb un mapa del món i una corda, mesureu la distància entre dues ciutats fent servir l’escala.',
+        'Repetiu-ho amb dues ciutats a prop d’un pol i compareu amb un globus terraqüi: el mapa pla exagera.',
+        'Cada alumne proposa un trajecte i la classe endevina si és més llarg o més curt que l’anterior.',
+        'Comproveu els quilòmetres i ordeneu tots els trajectes de menor a major.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Més Lluny?', desc: 'Deu comparacions sense rellotge i amb nota.' },
+      { nombre: 'Continents i Oceans', desc: 'Situar continents, oceans i mars al mapa del món.' },
+      { nombre: 'Quina Hora És Allà?', desc: 'Els fusos horaris: una altra manera de mesurar com de lluny és un lloc.' },
+    ],
+    asignatura: 'Geografia', niveles: 'Primària, ESO',
   },
   'continentes-oceanos': {
     titulo: 'Continents i Oceans',
