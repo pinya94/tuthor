@@ -11,10 +11,15 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-// Resolver una ecuación de segundo grado lleva su tiempo: 150 s y +12 s por acierto.
-const GAME_TIME = 150
+// Estas ecuaciones se resuelven en papel: medio minuto una incompleta, uno
+// entero una completa sin ordenar. El reloj da para pensar, no para correr
+// (y se para mientras se lee la corrección).
+const TIEMPOS = {
+  facil: { total: 180, acierto: 15 },
+  medio: { total: 240, acierto: 30 },
+  dificil: { total: 300, acierto: 40 },
+}
 const WRONG_TIME = 5
-const CORRECT_TIME = 12
 const REVEAL_MS = 6000 // da tiempo a leer la resolución y ver la parábola
 
 const DIFS = {
@@ -39,7 +44,7 @@ export default function CazaRaiz() {
 
   const [screen, setScreen] = useState('intro')
   const [nivel, setNivel] = useState('facil')
-  const [timeLeft, setTimeLeft] = useState(GAME_TIME)
+  const [timeLeft, setTimeLeft] = useState(TIEMPOS.facil.total)
   const [aciertos, setAciertos] = useState(0)
   const [streak, setStreak] = useState(0)
   const [ronda, setRonda] = useState(null)
@@ -60,7 +65,7 @@ export default function CazaRaiz() {
   const startGame = useCallback((niv = 'facil') => {
     setNivel(niv); setScreen('playing')
     setAciertos(0); setStreak(0)
-    setTimeLeft(GAME_TIME)
+    setTimeLeft(TIEMPOS[niv].total)
     next(niv)
   }, [next])
 
@@ -71,7 +76,7 @@ export default function CazaRaiz() {
     if (user) {
       saveActivity(user.uid, {
         type: 'juego', game: 'caza-la-raiz', category: 'segundo-grado',
-        score: pts, timeSpent: GAME_TIME,
+        score: pts, timeSpent: TIEMPOS[nivel].total,
         coinsEarned: computeCoins('caza-la-raiz', { score: pts }),
         userName: user.displayName, userPhoto: user.photoURL,
       }).catch(() => {})
@@ -97,7 +102,7 @@ export default function CazaRaiz() {
     if (esCorrecta(ronda, r)) {
       setAciertos(a => a + 1)
       setStreak(s => s + 1)
-      setTimeLeft(t => t + CORRECT_TIME)
+      setTimeLeft(t => t + TIEMPOS[nivel].acierto)
     } else {
       setStreak(0)
       setTimeLeft(t => Math.max(0, t - WRONG_TIME))
@@ -135,7 +140,8 @@ export default function CazaRaiz() {
               </button>
             ))}
           </div>
-          <p className="text-white/40 text-xs text-center mb-5">{tr(DIFS[nivel].desc)}</p>
+          <p className="text-white/40 text-xs text-center mb-3">{tr(DIFS[nivel].desc)}</p>
+          <p className="text-amber-200/90 text-sm text-center font-semibold rounded-xl border border-amber-300/20 bg-amber-300/5 px-3 py-2 mb-5">✏️ {tr({ es: 'Ten a mano papel y lápiz: estas ecuaciones se resuelven mejor escritas. El reloj da tiempo de sobra.', en: 'Keep a pen and paper handy: these equations are easier to solve written down. The timer gives you plenty of time.', ca: 'Tingues a mà paper i llapis: aquestes equacions es resolen millor escrites. El rellotge dona temps de sobres.' })}</p>
 
           <button onClick={() => startGame(nivel)}
             className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
@@ -145,7 +151,7 @@ export default function CazaRaiz() {
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'Las soluciones (raíces) de ax² + bx + c = 0 son los puntos donde la parábola y = ax² + bx + c corta el eje X. Resuelve la ecuación en tu cabeza o en un papel, toca en el eje las soluciones y comprueba: al corregir aparece la parábola pasando por ellas, con la resolución paso a paso.', en: 'The solutions (roots) of ax² + bx + c = 0 are the points where the parabola y = ax² + bx + c crosses the x-axis. Solve the equation in your head or on paper, tap the solutions on the axis and check: the parabola then appears passing through them, with the step-by-step working.', ca: 'Les solucions (arrels) de ax² + bx + c = 0 són els punts on la paràbola y = ax² + bx + c talla l’eix X. Resol l’equació de cap o en un paper, toca a l’eix les solucions i comprova: en corregir apareix la paràbola passant-hi, amb la resolució pas a pas.' })}</p>
               <p>{tr({ es: 'Si falta la x (ax² + c = 0), despeja x² y no olvides la raíz negativa. Si falta el número (ax² + bx = 0), saca factor común: una solución es siempre x = 0. Si están completas, usa la fórmula x = (−b ± √(b² − 4ac)) / 2a: si el discriminante es 0 hay una sola solución (márcala una vez) y si es negativo, no hay solución real.', en: 'If there is no x term (ax² + c = 0), isolate x² and remember the negative root. If there is no constant (ax² + bx = 0), factorise: one solution is always x = 0. For complete equations use the formula x = (−b ± √(b² − 4ac)) / 2a: if the discriminant is 0 there is one solution (mark it once) and if it is negative there is no real solution.', ca: 'Si falta la x (ax² + c = 0), aïlla x² i no oblidis l’arrel negativa. Si falta el nombre (ax² + bx = 0), treu factor comú: una solució és sempre x = 0. Si són completes, fes servir la fórmula x = (−b ± √(b² − 4ac)) / 2a: si el discriminant és 0 hi ha una sola solució (marca-la un cop) i si és negatiu, no hi ha solució real.' })}</p>
-              <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
+              <p className="text-white/40 text-xs pt-1">⏱️ {TIEMPOS[nivel].total / 60} min · {tr({ es: `Acierto +10 y +${TIEMPOS[nivel].acierto}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${TIEMPOS[nivel].acierto}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${TIEMPOS[nivel].acierto}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>
         </div>
@@ -178,8 +184,8 @@ export default function CazaRaiz() {
   }
 
   if (!ronda) return null
-  const timerColor = timeLeft > GAME_TIME * 0.66 ? '#22c55e' : timeLeft > GAME_TIME * 0.28 ? '#f59e0b' : '#ef4444'
-  const timerPct = Math.min(1, timeLeft / GAME_TIME)
+  const timerColor = timeLeft > TIEMPOS[nivel].total * 0.66 ? '#22c55e' : timeLeft > TIEMPOS[nivel].total * 0.28 ? '#f59e0b' : '#ef4444'
+  const timerPct = Math.min(1, timeLeft / TIEMPOS[nivel].total)
   const isResult = phase === 'result'
   const acierto = isResult && esCorrecta(ronda, elegida)
 
@@ -209,10 +215,11 @@ export default function CazaRaiz() {
 
       <div className="w-full max-w-[480px]">
         <PreguntaRaiz key={ronda.uid} ronda={ronda} revelado={isResult} onResponder={responder} />
+        {!isResult && <p className="text-center text-white/35 text-xs mt-2">✏️ {tr({ es: 'Resuélvela en papel y marca el resultado', en: 'Solve it on paper, then mark the answer', ca: 'Resol-la en paper i marca el resultat' })}</p>}
         {isResult && (
           <p className="text-center text-xs font-bold mt-2">
             {acierto
-              ? <span className="text-green-400">+10 · +{CORRECT_TIME}s ⏱️{streak >= 2 ? ` · 🔥 ${streak}` : ''}</span>
+              ? <span className="text-green-400">+10 · +{TIEMPOS[nivel].acierto}s ⏱️{streak >= 2 ? ` · 🔥 ${streak}` : ''}</span>
               : <span className="text-red-400">−{WRONG_TIME}s ⏱️</span>}
           </p>
         )}

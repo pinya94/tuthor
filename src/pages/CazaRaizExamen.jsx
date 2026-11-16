@@ -28,7 +28,7 @@ export default function CazaRaizExamen() {
       metaPath="/examen/caza-la-raiz-test"
       subjectSchema="Matemáticas"
       backGamePath="/juegos/caza-la-raiz"
-      playLabel={{ es: 'Modo arcade (150s)', en: 'Arcade mode (150s)', ca: 'Mode arcade (150s)' }}
+      playLabel={{ es: 'Modo arcade (con reloj)', en: 'Arcade mode (timed)', ca: 'Mode arcade (amb rellotge)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}
