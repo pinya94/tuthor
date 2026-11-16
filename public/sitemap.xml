@@ -1670,4 +1670,7 @@
   <url><loc>https://www.tuthor.es/estudiar/idiomas/espanol/literatura/la-descripcion</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/idiomas/espanol/literatura/la-descripcion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/idiomas/espanol/literatura/la-descripcion</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/estudiar/quimica/reacciones-quimicas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/estudiar/quimica/reacciones-quimicas</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/ca/estudiar/quimica/reacciones-quimicas</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

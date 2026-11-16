@@ -346,6 +346,7 @@ function AppRoutes() {
       <Route path="estudiar/fisica/:tema" element={<QuimicaTema />} />
       <Route path="estudiar/biologia" element={<QuimicaIndex disciplina="biologia" />} />
       <Route path="estudiar/biologia/fotosintesis" element={<TemaEstudioExtra slug="fotosintesis" />} />
+      <Route path="estudiar/quimica/reacciones-quimicas" element={<TemaEstudioExtra slug="reacciones-quimicas" />} />
       <Route path="estudiar/biologia/:tema" element={<QuimicaTema />} />
       <Route path="estudiar/geologia" element={<QuimicaIndex disciplina="geologia" />} />
       <Route path="estudiar/geologia/:tema" element={<QuimicaTema />} />

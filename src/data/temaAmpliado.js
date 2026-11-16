@@ -12,6 +12,7 @@
 
 import { AMPLIACION_CIENCIAS } from './temaAmpliadoCiencias.js'
 import { AMPLIACION_T4 } from './temaTanda4.js'
+import { AMPLIACION_T5, mcu } from './temaTanda5.js'
 
 const T = (es, en, ca) => ({ es, en, ca })
 const L = (es, en, ca) => ({ es, en, ca })
@@ -377,7 +378,7 @@ const disoluciones = {
 }
 
 const movimiento = {
-  metaTitle: L('El movimiento: MRU, MRUA, caída libre y gráficas x-t y v-t — resumen y ejercicios', 'Motion: uniform and accelerated motion, free fall and x-t and v-t graphs — summary and practice questions', 'El moviment: MRU, MRUA, caiguda lliure i gràfiques x-t i v-t — resum i exercicis'),
+  metaTitle: L('El movimiento: MRU, MRUA, caída libre, MCU y gráficas x-t y v-t — resumen y ejercicios', 'Motion: uniform, accelerated and circular motion, free fall and x-t and v-t graphs — summary and practice questions', 'El moviment: MRU, MRUA, caiguda lliure, MCU i gràfiques x-t i v-t — resum i exercicis'),
   secciones: [
     {
       titulo: L('Ecuaciones del movimiento', 'Equations of motion', 'Equacions del moviment'),
@@ -751,4 +752,8 @@ const determinantes = {
   ],
 }
 
-export const AMPLIACION = { pronombres, morfologia, adjetivos, nexos, verbos, disoluciones, movimiento, asia, oceania, eeuu, sustantivos, adverbios, determinantes, ...AMPLIACION_CIENCIAS, ...AMPLIACION_T4 }
+// El movimiento circular uniforme (quinta tanda) se suma a «movimiento»
+movimiento.secciones.push(mcu.seccion)
+movimiento.ejercicios.push(...mcu.ejercicios)
+
+export const AMPLIACION = { pronombres, morfologia, adjetivos, nexos, verbos, disoluciones, movimiento, asia, oceania, eeuu, sustantivos, adverbios, determinantes, ...AMPLIACION_CIENCIAS, ...AMPLIACION_T4, ...AMPLIACION_T5 }

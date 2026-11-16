@@ -12,8 +12,17 @@ const T3 = (es, en, ca) => ({ es, en, ca })
 const ESPANOL = { label: T3('Español', 'Spanish', 'Castellà'), path: '/estudiar/idiomas/espanol' }
 const GEOGRAFIA = { label: T3('Geografía', 'Geography', 'Geografia'), path: '/estudiar/geografia' }
 const BIOLOGIA = { label: T3('Biología', 'Biology', 'Biologia'), path: '/estudiar/biologia' }
+const QUIMICA = { label: T3('Química', 'Chemistry', 'Química'), path: '/estudiar/quimica' }
 
 const TEMAS = {
+  'reacciones-quimicas': {
+    path: '/estudiar/quimica/reacciones-quimicas', miga: QUIMICA, emoji: '⚗️', nombre: T3('Las reacciones químicas', 'Chemical reactions', 'Les reaccions químiques'),
+    modos: [
+      { to: '/juegos/balanza-ecuaciones', emoji: '⚖️', gradient: 'from-violet-500 to-purple-700', titulo: T3('Balanza de Ecuaciones (juego)', 'Equation Balance (game)', 'Balança d’Equacions (joc)'), desc: T3('Ajusta cada reacción poniendo los coeficientes hasta que la balanza se equilibre.', 'Balance each reaction by setting the coefficients until the scales level out.', 'Ajusta cada reacció posant els coeficients fins que la balança s’equilibri.') },
+      { to: '/examen/balanza-ecuaciones-test', emoji: '📝', gradient: 'from-indigo-500 to-violet-700', titulo: T3('Examen de ajustar reacciones', 'Balancing equations exam', 'Examen d’ajustar reaccions'), desc: T3('Con la mecánica del juego, sin cronómetro.', 'Using the game mechanic, with no timer.', 'Amb la mecànica del joc, sense cronòmetre.') },
+      { to: '/juegos/receta-quimica', emoji: '🧪', gradient: 'from-emerald-500 to-teal-700', titulo: T3('La Receta Química (juego)', 'The Chemical Recipe (game)', 'La Recepta Química (joc)'), desc: T3('Estequiometría: cuánto reactivo hace falta y cuánto producto sale.', 'Stoichiometry: how much reactant you need and how much product you get.', 'Estequiometria: quant reactiu cal i quant producte en surt.') },
+    ],
+  },
   'la-descripcion': {
     path: '/estudiar/idiomas/espanol/literatura/la-descripcion', miga: ESPANOL, emoji: '🖼️', nombre: T3('La descripción', 'Description', 'La descripció'),
     modos: [

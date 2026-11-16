@@ -264,6 +264,9 @@ const TEMAS = [
 // Índice de UNA disciplina de ciencias (Física, Química, Biología o Geología).
 // `disciplina` llega por prop desde la ruta correspondiente en App.jsx.
 const EXTRA_DISCIPLINA = {
+  quimica: [
+    { path: '/estudiar/quimica/reacciones-quimicas', emoji: '⚗️', titulo: { es: 'Las reacciones químicas', en: 'Chemical reactions', ca: 'Les reaccions químiques' }, sub: { es: 'Qué son, cómo se ajustan y tipos, con ejercicios', en: 'What they are, how to balance them and types, with exercises', ca: 'Què són, com s’ajusten i tipus, amb exercicis' } },
+  ],
   biologia: [
     { path: '/estudiar/biologia/fotosintesis', emoji: '🌿', titulo: { es: 'La fotosíntesis', en: 'Photosynthesis', ca: 'La fotosíntesi' }, sub: { es: 'Fórmula, fases y diferencia con la respiración', en: 'The equation, its stages and how it differs from respiration', ca: 'Fórmula, fases i diferència amb la respiració' } },
   ],
