@@ -758,6 +758,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'ojo-y-oido': {
+    label: { es: 'Ojo y Oído', en: 'Eye and Ear', ca: 'Ull i Orella' },
+    emoji: '👂',
+    subject: 'biologia',
+    route: '/juegos/ojo-y-oido',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'rayos-x': {
     label: { es: 'Rayos X', en: 'X-Ray', ca: 'Raigs X' },
     emoji: '🧠',

@@ -600,6 +600,11 @@ export const EXAMS = {
     emoji: '🧬', subject: 'biologia',
     path: 'examen/genetica-test', page: () => import('../pages/GeneticaExamenJuego'),
   },
+  'ojo-y-oido-test': {
+    label: { es: 'Ojo y Oído (con el juego)', en: 'Eye and Ear (with the game)', ca: 'Ull i Orella (amb el joc)' },
+    emoji: '👂', subject: 'biologia',
+    path: 'examen/ojo-y-oido-test', page: () => import('../pages/OjoOidoExamen'),
+  },
   'rayos-x-test': {
     label: { es: 'Rayos X', en: 'X-Ray', ca: 'Raigs X' },
     emoji: '🧠', subject: 'biologia',

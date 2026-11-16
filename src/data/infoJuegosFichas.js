@@ -1364,6 +1364,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Geografía', niveles: 'Primaria, ESO',
   },
+  'ojo-y-oido': {
+    titulo: 'Ojo y Oído',
+    subtitulo: 'Juego de los sentidos: partes del ojo y del oído',
+    emoji: '👂', gradient: 'from-sky-600 to-violet-800',
+    path: '/juegos/ojo-y-oido',
+    intro: 'Un juego de biología para aprender las partes del ojo y del oído y cómo funcionan. Los dos órganos aparecen dibujados en corte y sin nombres, y el alumno toca la parte que se le pide: primero por su nombre, después por lo que hace (enfocar la imagen, captar la luz, el equilibrio) y, en el nivel difícil, siguiendo en orden el camino de la luz o del sonido hasta el cerebro.',
+    beneficios: [
+      { titulo: 'Las partes en su sitio', texto: 'Córnea, iris, pupila, cristalino, retina; tímpano, huesecillos, cóclea, canales semicirculares. Tocarlas en un corte del órgano, y no en una lista, hace que se recuerde dónde está cada una.' },
+      { titulo: 'Para qué sirve cada parte', texto: 'En el nivel medio la pregunta es la función: la parte que enfoca, la que capta la luz, la que se encarga del equilibrio. Es lo que más preguntan los exámenes de Primaria y de 1.º y 3.º de ESO.' },
+      { titulo: 'El camino de la luz y del sonido', texto: 'Córnea → pupila → cristalino → retina → nervio óptico, y pabellón → conducto → tímpano → huesecillos → cóclea → nervio auditivo. Recorrerlo tocando cada parte fija el orden mejor que memorizar la lista.' },
+    ],
+    ejemplo: 'Sale el oído en corte con la pregunta «Toca la parte que se encarga del equilibrio, no de oír». El alumno toca los tres bucles de arriba, los canales semicirculares; al corregir se marcan en verde con su nombre.',
+    enPapel: {
+      titulo: 'Los sentidos en clase',
+      pasos: [
+        'Dibujad en la pizarra un ojo y un oído en corte, sin nombres.',
+        'Por turnos, un alumno dice la función de una parte y otro sale a señalarla.',
+        'Trazad con una flecha el camino de la luz y el del sonido, numerando cada parte.',
+        'Terminad con un experimento: tapar la nariz y probar un alimento, para ver que el sabor depende del olfato.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de Ojo y Oído', desc: 'Diez preguntas con la misma mecánica, sin reloj y con nota.' },
+      { nombre: 'Los sentidos (teoría)', desc: 'Los cinco sentidos con sus órganos, receptores y ejercicios resueltos.' },
+      { nombre: 'Rayos X', desc: 'Los órganos, huesos y músculos del cuerpo, contra reloj.' },
+    ],
+    asignatura: 'Biología', niveles: 'Primaria, ESO',
+  },
   'rayos-x': {
     titulo: 'Rayos X',
     subtitulo: "Juego de Anatomía: órganos y huesos",
@@ -4093,6 +4121,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Geography', niveles: 'Primary, Secondary',
   },
+  'ojo-y-oido': {
+    titulo: 'Eye and Ear',
+    subtitulo: 'Senses game: parts of the eye and ear',
+    emoji: '👂', gradient: 'from-sky-600 to-violet-800', path: '/juegos/ojo-y-oido',
+    intro: 'A biology game for learning the parts of the eye and ear and how they work. Both organs are drawn in cross-section without labels, and students tap the part they are asked for: first by name, then by what it does (focusing the image, detecting light, balance) and, on the Hard level, by following the path of light or sound to the brain in order.',
+    beneficios: [
+      { titulo: 'Parts in their place', texto: 'Cornea, iris, pupil, lens, retina; eardrum, ossicles, cochlea, semicircular canals. Tapping them on a cross-section of the organ, rather than in a list, helps students remember where each one is.' },
+      { titulo: 'What each part is for', texto: 'On Medium the question is the function: the part that focuses, the one that detects light, the one in charge of balance. That is what primary and secondary exams ask most.' },
+      { titulo: 'The path of light and sound', texto: 'Cornea → pupil → lens → retina → optic nerve, and pinna → ear canal → eardrum → ossicles → cochlea → auditory nerve. Tracing it part by part fixes the order better than memorising a list.' },
+    ],
+    ejemplo: 'The ear appears in cross-section with the prompt «Tap the part that controls balance, not hearing». The student taps the three loops at the top, the semicircular canals; on checking, they turn green with their name.',
+    enPapel: {
+      titulo: 'The senses in class',
+      pasos: [
+        'Draw an eye and an ear in cross-section on the board, without labels.',
+        'Taking turns, one student says what a part does and another comes up to point to it.',
+        'Trace the path of light and of sound with an arrow, numbering each part.',
+        'Finish with an experiment: hold your nose and taste some food, to see that flavour depends on smell.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Eye and Ear exam', desc: 'Ten questions with the same mechanic, no timer and a mark.' },
+      { nombre: 'The senses (theory)', desc: 'The five senses with their organs, receptors and worked exercises.' },
+      { nombre: 'X-Ray', desc: 'The body’s organs, bones and muscles, against the clock.' },
+    ],
+    asignatura: 'Biology', niveles: 'Primary, Secondary',
+  },
   'rayos-x': {
     titulo: 'X-Ray',
     subtitulo: "Anatomy Game: organs and bones",
@@ -6632,6 +6687,33 @@ export const FICHAS_CA = {
       { nombre: 'Un globus terraqui real', desc: 'Si en tens un a casa o a classe, gira\'l fins a un punt a l\'atzar i practica llegir en veu alta la seva latitud i longitud aproximades.' },
     ],
     asignatura: 'Geografia', niveles: 'Primària, ESO',
+  },
+  'ojo-y-oido': {
+    titulo: 'Ull i Orella',
+    subtitulo: 'Joc dels sentits: parts de l’ull i de l’orella',
+    emoji: '👂', gradient: 'from-sky-600 to-violet-800', path: '/juegos/ojo-y-oido',
+    intro: 'Un joc de biologia per aprendre les parts de l’ull i de l’orella i com funcionen. Els dos òrgans apareixen dibuixats en secció i sense noms, i l’alumne toca la part que se li demana: primer pel nom, després pel que fa (enfocar la imatge, captar la llum, l’equilibri) i, al nivell difícil, seguint en ordre el camí de la llum o del so fins al cervell.',
+    beneficios: [
+      { titulo: 'Les parts al seu lloc', texto: 'Còrnia, iris, pupil·la, cristal·lí, retina; timpà, ossets, còclea, canals semicirculars. Tocar-les en una secció de l’òrgan, i no en una llista, fa que es recordi on és cadascuna.' },
+      { titulo: 'Per a què serveix cada part', texto: 'Al nivell mitjà la pregunta és la funció: la part que enfoca, la que capta la llum, la que s’encarrega de l’equilibri. És el que més pregunten els exàmens de Primària i d’ESO.' },
+      { titulo: 'El camí de la llum i del so', texto: 'Còrnia → pupil·la → cristal·lí → retina → nervi òptic, i pavelló → conducte → timpà → ossets → còclea → nervi auditiu. Recórrer-lo tocant cada part fixa l’ordre millor que memoritzar la llista.' },
+    ],
+    ejemplo: 'Surt l’orella en secció amb la pregunta «Toca la part que s’encarrega de l’equilibri, no de sentir-hi». L’alumne toca els tres bucles de dalt, els canals semicirculars; en corregir es marquen en verd amb el seu nom.',
+    enPapel: {
+      titulo: 'Els sentits a classe',
+      pasos: [
+        'Dibuixeu a la pissarra un ull i una orella en secció, sense noms.',
+        'Per torns, un alumne diu la funció d’una part i un altre surt a assenyalar-la.',
+        'Traceu amb una fletxa el camí de la llum i el del so, numerant cada part.',
+        'Acabeu amb un experiment: tapar-se el nas i tastar un aliment, per veure que el gust depèn de l’olfacte.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen d’Ull i Orella', desc: 'Deu preguntes amb la mateixa mecànica, sense rellotge i amb nota.' },
+      { nombre: 'Els sentits (teoria)', desc: 'Els cinc sentits amb els seus òrgans, receptors i exercicis resolts.' },
+      { nombre: 'Raigs X', desc: 'Els òrgans, ossos i músculs del cos, contra rellotge.' },
+    ],
+    asignatura: 'Biologia', niveles: 'Primària, ESO',
   },
   'rayos-x': {
     titulo: 'Raigs X',

@@ -33,6 +33,24 @@ function Genetica(p) {
   )
 }
 
+function OjoOido(p) {
+  // Un ojo en corte (córnea, cristalino, retina) y un rayo de luz que lo cruza
+  return (
+    <Lienzo {...p}>
+      <path d="M176 60L228 54V82L176 76Z" fill="#FACC15" />
+      <path d="M86 40A52 52 0 1 1 86 96Z" fill="#17304F" />
+      <path d="M86 40A52 52 0 1 1 86 96" fill="none" stroke="#E2E8F0" strokeWidth="6" />
+      <path d="M150 30A46 46 0 0 1 150 106" fill="none" stroke="#F97316" strokeWidth="5" />
+      <path d="M86 38Q58 68 86 98" fill="#7DD3FC33" stroke="#7DD3FC" strokeWidth="3" />
+      <rect x="88" y="44" width="6" height="16" rx="2" fill="#A16207" />
+      <rect x="88" y="76" width="6" height="16" rx="2" fill="#A16207" />
+      <ellipse cx="106" cy="68" rx="8" ry="17" fill="#E0F2FE" />
+      <path d="M14 60L106 64L168 68M14 76L106 72L168 68" stroke="#FDE68A" strokeWidth="2" strokeDasharray="5 4" />
+      <circle cx="168" cy="68" r="5" fill="#FBBF24" />
+    </Lienzo>
+  )
+}
+
 function RayosX(p) {
   return (
     <Lienzo {...p}>
@@ -733,6 +751,7 @@ function LeeElMovimiento(p) {
 export const ARTE_CIENCIAS = {
   genetica: Genetica,
   'rayos-x': RayosX,
+  'ojo-y-oido': OjoOido,
   'cadena-alimentaria': CadenaAlimentaria,
   microscopio: Microscopio,
   'fuerza-neta': FuerzaNeta,

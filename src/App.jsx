@@ -170,6 +170,7 @@ const MideElVerso            = lazy(() => import('./pages/MideElVerso'))
 const ArteIndex              = lazy(() => import('./pages/ArteIndex'))
 const FilosofiaIndex         = lazy(() => import('./pages/FilosofiaIndex'))
 const RayosX                 = lazy(() => import('./pages/RayosX'))
+const OjoOido                = lazy(() => import('./pages/OjoOido'))
 const CircuitoCerrado        = lazy(() => import('./pages/CircuitoCerrado'))
 const RayoDeLuz              = lazy(() => import('./pages/RayoDeLuz'))
 const EncuentraElemento      = lazy(() => import('./pages/EncuentraElemento'))
@@ -450,6 +451,7 @@ function AppRoutes() {
       <Route path="juegos/la-galeria" element={<LaGaleria />} />
       <Route path="juegos/mide-el-verso" element={<MideElVerso />} />
       <Route path="juegos/rayos-x" element={<RayosX />} />
+      <Route path="juegos/ojo-y-oido" element={<OjoOido />} />
       <Route path="juegos/circuito-cerrado" element={<CircuitoCerrado />} />
       <Route path="juegos/rayo-de-luz" element={<RayoDeLuz />} />
       <Route path="juegos/encuentra-elemento" element={<EncuentraElemento />} />

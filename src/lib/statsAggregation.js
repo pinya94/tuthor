@@ -148,7 +148,9 @@ export const SUBJECT_DEFS = [
     label: { es: 'Biología', en: 'Biology', ca: 'Biologia' },
     gameIds: [],
     catIds: [],
-    catLabels: {},
+    catLabels: {
+      'los-sentidos': { es: 'Los sentidos', en: 'The senses', ca: 'Els sentits' },
+    },
   },
   {
     id: 'geologia', emoji: '🌌',

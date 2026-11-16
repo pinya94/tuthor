@@ -507,6 +507,8 @@ export const TOPIC_CATALOG = {
     temas: {
       celula: examTema({ teoria: 'celula', microscopioTest: 'microscopio-test' }, { niveles: ['eso', 'bachillerato'] }),
       'cuerpo-humano': examTema({ teoria: 'cuerpo-humano', rayosX: 'rayos-x-test' }, { niveles: ['primaria', 'eso'] }),
+      // Los sentidos: tema propio en Primaria y 1.º/3.º de ESO, con su juego.
+      'los-sentidos': examTema({ ojoOido: 'ojo-y-oido-test' }, { niveles: ['primaria', 'eso'] }),
       'seres-vivos': examTema({ teoria: 'seres-vivos', clave: 'clave-dicotomica-test' }, { niveles: ['primaria', 'eso'] }),
       ecosistemas: examTema({ teoria: 'ecosistemas', cadena: 'cadena-alimentaria-test' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
       genetica: examTema({ teoria: 'genetica', 'punnett': 'genetica-test' }, { niveles: ['eso'] }),
@@ -517,6 +519,7 @@ export const TOPIC_CATALOG = {
     formatos: {
       teoria: examFormato({ es: 'Teoría (tipo test)', en: 'Theory (quiz)', ca: 'Teoria (tipus test)' }, '📝'),
       punnett: examFormato({ es: 'Cuadro de Punnett (con el juego)', en: 'Punnett square (with the game)', ca: 'Quadre de Punnett (amb el joc)' }, '🧬'),
+      ojoOido: examFormato({ es: 'Ojo y Oído (con el juego)', en: 'Eye and Ear (with the game)', ca: 'Ull i Orella (amb el joc)' }, '👂'),
       rayosX: examFormato({ es: 'Rayos X (con el juego)', en: 'X-Ray (with the game)', ca: 'Raigs X (amb el joc)' }, '🧠'),
       cadena: examFormato({ es: 'Cadena Alimentaria (con el juego)', en: 'Food Chain (with the game)', ca: 'Cadena Alimentària (amb el joc)' }, '🌿'),
       arbol: examFormato({ es: 'Árbol de la Vida (con el juego)', en: 'Tree of Life (with the game)', ca: 'Arbre de la Vida (amb el joc)' }, '🦒'),
