@@ -14,6 +14,7 @@ import { AMPLIACION_CIENCIAS } from './temaAmpliadoCiencias.js'
 import { AMPLIACION_T4 } from './temaTanda4.js'
 import { AMPLIACION_T5, mcu } from './temaTanda5.js'
 import { AMPLIACION_T6 } from './temaTanda6.js'
+import { AMPLIACION_T7 } from './temaTanda7.js'
 
 const T = (es, en, ca) => ({ es, en, ca })
 const L = (es, en, ca) => ({ es, en, ca })
@@ -757,4 +758,4 @@ const determinantes = {
 movimiento.secciones.push(mcu.seccion)
 movimiento.ejercicios.push(...mcu.ejercicios)
 
-export const AMPLIACION = { pronombres, morfologia, adjetivos, nexos, verbos, disoluciones, movimiento, asia, oceania, eeuu, sustantivos, adverbios, determinantes, ...AMPLIACION_CIENCIAS, ...AMPLIACION_T4, ...AMPLIACION_T5, ...AMPLIACION_T6 }
+export const AMPLIACION = { pronombres, morfologia, adjetivos, nexos, verbos, disoluciones, movimiento, asia, oceania, eeuu, sustantivos, adverbios, determinantes, ...AMPLIACION_CIENCIAS, ...AMPLIACION_T4, ...AMPLIACION_T5, ...AMPLIACION_T6, ...AMPLIACION_T7 }
