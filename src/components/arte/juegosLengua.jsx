@@ -230,6 +230,22 @@ function MideElVerso(p) {
   )
 }
 
+function ElMensajero(p) {
+  // Un bocadillo con la frase directa y un sobre que la lleva, ya cambiada.
+  return (
+    <Lienzo {...p}>
+      <rect x="14" y="14" width="112" height="40" rx="10" fill="#0EA5E9" />
+      <path d="M38 54L32 68L52 54Z" fill="#0EA5E9" />
+      <T x={70} y={39} s={14} c="#FFFFFF">“I am…”</T>
+      <Flecha x1={132} y1={44} x2={152} y2={64} c="#FBBF24" />
+      <rect x="118" y="70" width="104" height="54" rx="6" fill="#E0E7FF" stroke="#6366F1" strokeWidth="2" />
+      <path d="M118 72L170 102L222 72" fill="none" stroke="#6366F1" strokeWidth="2" />
+      <rect x="18" y="86" width="86" height="28" rx="7" fill="#FBBF24" />
+      <T x={61} y={105} s={13} c="#422006">she was…</T>
+    </Lienzo>
+  )
+}
+
 function VerbosIrregulares(p) {
   // Tres casillas de un verbo: el infinitivo, el pasado ya puesto y la ficha
   // del participio cayendo en su hueco.
@@ -262,6 +278,7 @@ export const ARTE_LENGUA = {
   'ordena-frase': OrdenaFrase,
   'pieza-que-falta': PiezaQueFalta,
   'verbos-irregulares': VerbosIrregulares,
+  'el-mensajero': ElMensajero,
   'pon-la-tilde': PonLaTilde,
   'fabrica-palabras': FabricaPalabras,
   'que-letra': QueLetra,

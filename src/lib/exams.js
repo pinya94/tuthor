@@ -307,6 +307,11 @@ export const EXAMS = {
     emoji: '🎻', subject: 'musica',
     path: 'examen/la-orquesta-test', page: () => import('../pages/LaOrquestaExamen'),
   },
+  'el-mensajero-test': {
+    label: { es: 'Reported speech: El Mensajero (con el juego)', en: 'Reported speech: The Messenger (with the game)', ca: 'Reported speech: El Missatger (amb el joc)' },
+    emoji: '📨', subject: 'ingles',
+    path: 'examen/el-mensajero-test', page: () => import('../pages/ElMensajeroExamen'),
+  },
   'verbos-irregulares-test': {
     label: { es: 'Verbos Irregulares (con el juego)', en: 'Irregular Verbs (with the game)', ca: 'Verbs Irregulars (amb el joc)' },
     emoji: '🔁', subject: 'ingles',

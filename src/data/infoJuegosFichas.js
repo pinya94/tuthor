@@ -58,6 +58,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Biología', niveles: 'ESO, Bachillerato',
   },
+  'el-mensajero': {
+    titulo: 'El Mensajero',
+    subtitulo: 'Juego de reported speech (estilo indirecto en inglés)',
+    emoji: '📨', gradient: 'from-sky-500 to-indigo-700',
+    path: '/juegos/el-mensajero',
+    intro: 'Un juego de inglés para practicar el reported speech, el estilo indirecto. Sale una frase tal como alguien la dijo («I am tired,» said Anna) y debajo su versión indirecta con huecos (Anna said that ___ ___ tired). El alumno llena los huecos con fichas, y entre ellas están las trampas de siempre: la forma sin cambiar, el pronombre de quien hablaba o el orden de pregunta. Al corregir ve qué cambió y por qué.',
+    beneficios: [
+      { titulo: 'Lo que cambia, una cosa cada vez', texto: 'En lugar de escribir la frase entera, el alumno decide solo las piezas que cambian: el pronombre (I → she), el tiempo verbal (am → was, will → would) y las palabras de tiempo y lugar (tomorrow → the next day). Es justo lo que se evalúa en los exámenes de ESO.' },
+      { titulo: 'Las trampas a la vista', texto: 'Las fichas falsas son los errores típicos: dejar el verbo en presente, mantener el I de quien hablaba o copiar el orden de pregunta (asked me where did I live). Elegir entre la buena y la trampa obliga a pensar la regla.' },
+      { titulo: 'Preguntas y órdenes', texto: 'El nivel difícil trabaja lo que más cuesta: las preguntas de sí o no con if o whether, las preguntas con where o what sin do, y las órdenes con told… to y not to.' },
+    ],
+    ejemplo: 'Sale «“I’ll call you tomorrow,” Tom told me.» y debajo «Tom told me (that) ___ ___ call me ___.». Entre las fichas hay he, I, would, will, the next day y tomorrow. El alumno pone he, would y the next day: Tom told me that he would call me the next day.',
+    enPapel: {
+      titulo: 'Reported speech en clase',
+      pasos: [
+        'Escribe en la pizarra cinco frases en estilo directo que haya dicho «alguien de la clase».',
+        'En parejas, uno lee la frase y el otro la cuenta en estilo indirecto: «She said that…».',
+        'Subrayad en cada frase lo que ha cambiado: pronombre, tiempo verbal y palabras de tiempo o lugar.',
+        'Terminad con dos preguntas y una orden, que son las que más cuestan.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de El Mensajero', desc: 'Diez frases con la misma mecánica, sin reloj y con nota.' },
+      { nombre: 'Reported speech (teoría)', desc: 'La tabla de cambios de tiempo y de palabras de tiempo y lugar, con ejercicios resueltos.' },
+      { nombre: 'Verbos Irregulares', desc: 'Para el past perfect hace falta el participio: had seen, had gone.' },
+    ],
+    asignatura: 'Inglés', niveles: 'ESO',
+  },
   'verbos-irregulares': {
     titulo: 'Verbos Irregulares',
     subtitulo: 'Juego de verbos irregulares en inglés: pasado y participio',
@@ -2934,6 +2962,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Biology', niveles: 'Secondary, Sixth Form',
   },
+  'el-mensajero': {
+    titulo: 'The Messenger',
+    subtitulo: 'Reported speech game',
+    emoji: '📨', gradient: 'from-sky-500 to-indigo-700', path: '/juegos/el-mensajero',
+    intro: 'An English game for practising reported speech. A sentence appears exactly as someone said it («I am tired,» said Anna), and below it the reported version with gaps (Anna said that ___ ___ tired). Students fill the gaps with tiles, which include the usual traps: the unchanged form, the speaker’s own pronoun or question word order. On checking, they see what changed and why.',
+    beneficios: [
+      { titulo: 'What changes, one thing at a time', texto: 'Instead of writing the whole sentence, students only decide the pieces that change: the pronoun (I → she), the tense (am → was, will → would) and words for time and place (tomorrow → the next day). That is exactly what secondary-school exams test.' },
+      { titulo: 'Traps in plain sight', texto: 'The wrong tiles are the classic mistakes: leaving the verb in the present, keeping the speaker’s I or copying question word order (asked me where did I live). Choosing between the right tile and the trap makes students think about the rule.' },
+      { titulo: 'Questions and commands', texto: 'The Hard level works on what students find hardest: yes/no questions with if or whether, wh- questions without do, and commands with told… to and not to.' },
+    ],
+    ejemplo: 'The sentence «“I’ll call you tomorrow,” Tom told me.» appears, with «Tom told me (that) ___ ___ call me ___.» below it. The tiles include he, I, would, will, the next day and tomorrow. The student chooses he, would and the next day: Tom told me that he would call me the next day.',
+    enPapel: {
+      titulo: 'Reported speech in class',
+      pasos: [
+        'Write five sentences in direct speech on the board, said by «someone in the class».',
+        'In pairs, one student reads a sentence and the other reports it: «She said that…».',
+        'Underline what has changed in each sentence: pronoun, tense and time or place words.',
+        'Finish with two questions and a command, which are the hardest.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Messenger exam', desc: 'Ten sentences with the same mechanic, no timer and a mark.' },
+      { nombre: 'Reported speech (theory)', desc: 'The table of tense changes and time and place words, with worked exercises.' },
+      { nombre: 'Irregular Verbs', desc: 'The past perfect needs the past participle: had seen, had gone.' },
+    ],
+    asignatura: 'English', niveles: 'Secondary',
+  },
   'verbos-irregulares': {
     titulo: 'Irregular Verbs',
     subtitulo: 'Irregular verbs game: past simple and past participle',
@@ -5368,6 +5423,33 @@ export const FICHAS_CA = {
       { nombre: 'Els pèsols de Mendel', desc: 'Repassa l’experiment original: per què va triar pèsols, quins set caràcters va estudiar i com va arribar a les proporcions sense saber que existia l’ADN.' },
     ],
     asignatura: 'Biologia', niveles: 'ESO, Batxillerat',
+  },
+  'el-mensajero': {
+    titulo: 'El Missatger',
+    subtitulo: 'Joc de reported speech (estil indirecte en anglès)',
+    emoji: '📨', gradient: 'from-sky-500 to-indigo-700', path: '/juegos/el-mensajero',
+    intro: 'Un joc d’anglès per practicar el reported speech, l’estil indirecte. Surt una frase tal com algú la va dir («I am tired,» said Anna) i a sota la versió indirecta amb buits (Anna said that ___ ___ tired). L’alumne omple els buits amb fitxes, i entre elles hi ha els paranys de sempre: la forma sense canviar, el pronom de qui parlava o l’ordre de pregunta. En corregir veu què ha canviat i per què.',
+    beneficios: [
+      { titulo: 'El que canvia, una cosa cada vegada', texto: 'En lloc d’escriure la frase sencera, l’alumne decideix només les peces que canvien: el pronom (I → she), el temps verbal (am → was, will → would) i les paraules de temps i lloc (tomorrow → the next day). És justament el que s’avalua als exàmens d’ESO.' },
+      { titulo: 'Els paranys a la vista', texto: 'Les fitxes falses són els errors típics: deixar el verb en present, mantenir el I de qui parlava o copiar l’ordre de pregunta (asked me where did I live). Triar entre la bona i el parany obliga a pensar la regla.' },
+      { titulo: 'Preguntes i ordres', texto: 'El nivell difícil treballa el que més costa: les preguntes de sí o no amb if o whether, les preguntes amb where o what sense do, i les ordres amb told… to i not to.' },
+    ],
+    ejemplo: 'Surt «“I’ll call you tomorrow,” Tom told me.» i a sota «Tom told me (that) ___ ___ call me ___.». Entre les fitxes hi ha he, I, would, will, the next day i tomorrow. L’alumne posa he, would i the next day: Tom told me that he would call me the next day.',
+    enPapel: {
+      titulo: 'Reported speech a classe',
+      pasos: [
+        'Escriu a la pissarra cinc frases en estil directe que hagi dit «algú de la classe».',
+        'En parelles, un llegeix la frase i l’altre l’explica en estil indirecte: «She said that…».',
+        'Subratlleu en cada frase el que ha canviat: pronom, temps verbal i paraules de temps o lloc.',
+        'Acabeu amb dues preguntes i una ordre, que són les que més costen.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen d’El Missatger', desc: 'Deu frases amb la mateixa mecànica, sense rellotge i amb nota.' },
+      { nombre: 'Reported speech (teoria)', desc: 'La taula de canvis de temps i de paraules de temps i lloc, amb exercicis resolts.' },
+      { nombre: 'Verbs Irregulars', desc: 'Per al past perfect cal el participi: had seen, had gone.' },
+    ],
+    asignatura: 'Anglès', niveles: 'ESO',
   },
   'verbos-irregulares': {
     titulo: 'Verbs Irregulars',

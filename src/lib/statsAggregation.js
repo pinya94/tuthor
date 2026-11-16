@@ -221,6 +221,7 @@ export const SUBJECT_DEFS = [
       can:               { es: 'Can / Can’t',              en: 'Can / Can’t',      ca: 'Can / Can’t' },
       'word-order':      { es: 'Word Order (orden de las palabras)', en: 'Word Order', ca: 'Word Order (ordre de les paraules)' },
       'irregular-verbs': { es: 'Irregular Verbs (verbos irregulares)', en: 'Irregular Verbs', ca: 'Irregular Verbs (verbs irregulars)' },
+      'reported-speech': { es: 'Reported Speech (estilo indirecto)', en: 'Reported Speech', ca: 'Reported Speech (estil indirecte)' },
       spelling:          { es: 'Spelling (ortografía)',    en: 'Spelling',         ca: 'Spelling (ortografia)' },
     },
   },

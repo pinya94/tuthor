@@ -587,6 +587,8 @@ export const TOPIC_CATALOG = {
       // Las tres formas de los verbos irregulares: tema propio (todas las listas
       // de clase lo tratan aparte del pasado simple), con su juego y su examen.
       'irregular-verbs': examTema({ irregularesExamen: 'verbos-irregulares-test' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
+      // Estilo indirecto: tema propio de 3.º-4.º de ESO, con su juego y su examen.
+      'reported-speech': examTema({ mensajeroExamen: 'el-mensajero-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
     formatos: {
       // Único formato por MECÁNICA de la materia: un solo juego para los cinco
@@ -628,6 +630,15 @@ export const TOPIC_CATALOG = {
         tracksTopic: true,
         temas: ['irregular-verbs'],
       },
+      mensajero: {
+        label: { es: 'El Mensajero (juego)', en: 'The Messenger (game)', ca: 'El Missatger (joc)' },
+        emoji: '📨',
+        game: 'el-mensajero',
+        usesLevel: false,
+        tracksTopic: true,
+        temas: ['reported-speech'],
+      },
+      mensajeroExamen: examFormato({ es: 'Reported speech (examen)', en: 'Reported speech (exam)', ca: 'Reported speech (examen)' }, '📨'),
       irregularesExamen: examFormato({ es: 'Verbos irregulares (examen)', en: 'Irregular verbs (exam)', ca: 'Verbs irregulars (examen)' }, '🔁'),
       corregirExamen: examFormato({ es: 'Corregir el texto (examen)', en: 'Proofread the text (exam)', ca: 'Corregir el text (examen)' }, '🔍'),
     },
