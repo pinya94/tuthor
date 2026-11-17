@@ -1,13 +1,16 @@
 // ¿Por Qué Pasó?: causas y consecuencias de hechos históricos. Se clasifican
 // piezas como causa o consecuencia de un hecho (datos en data/causasHistoria).
 //
-//   facil    un hecho, 4 piezas (2 causas y 2 consecuencias)
-//   medio    un hecho, sus 6 piezas
-//   dificil  dos hechos mezclados (8 piezas): de qué hecho es cada una y si es
+//   facil    un hecho, 4 piezas (2 causas y 2 consecuencias) + 1 intrusa
+//   medio    un hecho, 6 piezas (3 + 3) + 2 intrusas
+//   dificil  dos hechos mezclados (8 piezas) + 1 intrusa: de qué hecho es cada una y si es
 //            causa o consecuencia. Los dos hechos se separan al menos SEPARACION
 //            años y son de temas distintos, para que ninguna pieza pueda
 //            valer para los dos (la IGM y el crac del 29 nunca salen juntos:
 //            Versalles es consecuencia de uno y causa del otro).
+// Intrusas («no tiene que ver»): piezas de un hecho de otro tema y separado
+// al menos SEPARACION años de todos los de la ronda, para que no puedan valer.
+// Cada hecho tiene 5 causas y 5 consecuencias: al repetirse, cambian las piezas.
 import { HECHOS } from '../data/causasHistoria.js'
 
 export { HECHOS }
@@ -21,12 +24,21 @@ const baraja = (arr, rand) => { const a = [...arr]; for (let i = a.length - 1; i
 
 // Piezas de un hecho: id «hecho:c:0» (causa) o «hecho:q:1» (consecuencia)
 function piezas(h, n, rand) {
-  const c = baraja([0, 1, 2], rand).slice(0, n).map(i => ({ id: `${h.id}:c:${i}`, hecho: h.id, tipo: 'c', texto: h.causas[i] }))
-  const q = baraja([0, 1, 2], rand).slice(0, n).map(i => ({ id: `${h.id}:q:${i}`, hecho: h.id, tipo: 'q', texto: h.consecuencias[i] }))
+  const c = baraja([0, 1, 2, 3, 4], rand).slice(0, n).map(i => ({ id: `${h.id}:c:${i}`, hecho: h.id, tipo: 'c', texto: h.causas[i] }))
+  const q = baraja([0, 1, 2, 3, 4], rand).slice(0, n).map(i => ({ id: `${h.id}:q:${i}`, hecho: h.id, tipo: 'q', texto: h.consecuencias[i] }))
   return [...c, ...q]
 }
 
 export const compatibles = (a, b) => a.id !== b.id && a.tema !== b.tema && Math.abs(a.año - b.año) >= SEPARACION
+
+// n piezas intrusas de hechos compatibles con todos los de la ronda
+function intrusas(hechos, n, rand) {
+  const pool = HECHOS.filter(x => hechos.every(h => compatibles(h, x)))
+  return baraja(pool, rand).slice(0, n).map(o => {
+    const tipo = rand() < 0.5 ? 'causas' : 'consecuencias', i = Math.floor(rand() * 5)
+    return { id: `${o.id}:${tipo[0]}:${i}:x`, hecho: null, de: o.id, tipo: 'x', texto: o[tipo][i] }
+  })
+}
 
 const recientes = []
 export function genRonda(nivel = 'facil', { rand = Math.random, tema = null } = {}) {
@@ -37,15 +49,16 @@ export function genRonda(nivel = 'facil', { rand = Math.random, tema = null } = 
   if (nivel === 'dificil') {
     const otro = elige(rand, HECHOS.filter(x => compatibles(h, x)))
     const [A, B] = rand() < 0.5 ? [h, otro] : [otro, h]
-    return { id: `${nivel}:${A.id}+${B.id}`, nivel, hechos: [A.id, B.id], piezas: baraja([...piezas(A, 2, rand), ...piezas(B, 2, rand)], rand) }
+    return { id: `${nivel}:${A.id}+${B.id}`, nivel, hechos: [A.id, B.id], piezas: baraja([...piezas(A, 2, rand), ...piezas(B, 2, rand), ...intrusas([A, B], 1, rand)], rand) }
   }
   const n = nivel === 'facil' ? 2 : 3
-  return { id: `${nivel}:${h.id}`, nivel, hechos: [h.id], piezas: baraja(piezas(h, n, rand), rand) }
+  return { id: `${nivel}:${h.id}`, nivel, hechos: [h.id], piezas: baraja([...piezas(h, n, rand), ...intrusas([h], nivel === 'facil' ? 1 : 2, rand)], rand) }
 }
 export const genRound = (difficulty = 'facil') => genRonda(difficulty)
 
-// Respuesta: { [piezaId]: 'A:c' | 'A:q' | 'B:c' | 'B:q' } (A y B = 1.º y 2.º hecho)
-export const casilla = (r, p) => `${r.hechos[0] === p.hecho ? 'A' : 'B'}:${p.tipo}`
+// Respuesta: { [piezaId]: 'A:c' | 'A:q' | 'B:c' | 'B:q' | 'x' } (A y B = 1.º y 2.º
+// hecho; 'x' = no tiene que ver)
+export const casilla = (r, p) => (p.tipo === 'x' ? 'x' : `${r.hechos[0] === p.hecho ? 'A' : 'B'}:${p.tipo}`)
 export function esCorrecta(r, resp) {
   if (!resp) return false
   return r.piezas.every(p => resp[p.id] === casilla(r, p))
@@ -54,9 +67,9 @@ export function esCorrecta(r, resp) {
 const s = (l, es, en, ca) => (l === 'en' ? en : l === 'ca' ? ca : es)
 export function explicacion(r, l) {
   const base = s(l,
-    'Una causa ocurrió antes y ayudó a provocar el hecho; una consecuencia vino después, como resultado de él. Truco: pregúntate «¿esto pasó por culpa del hecho, o el hecho pasó por culpa de esto?».',
-    'A cause happened before and helped bring the event about; a consequence came after, as a result of it. Tip: ask yourself «did this happen because of the event, or did the event happen because of this?».',
-    'Una causa va passar abans i va ajudar a provocar el fet; una conseqüència va venir després, com a resultat d’ell. Truc: pregunta’t «això va passar per culpa del fet, o el fet va passar per culpa d’això?».')
+    'Una causa ocurrió antes y ayudó a provocar el hecho; una consecuencia vino después, como resultado de él; y lo que es de otra época no tiene que ver. Truco: pregúntate «¿esto pasó por culpa del hecho, o el hecho pasó por culpa de esto?».',
+    'A cause happened before and helped bring the event about; a consequence came after, as a result of it; anything from another time has nothing to do with it. Tip: ask yourself «did this happen because of the event, or did the event happen because of this?».',
+    'Una causa va passar abans i va ajudar a provocar el fet; una conseqüència va venir després, com a resultat d’ell; i el que és d’una altra època no hi té res a veure. Truc: pregunta’t «això va passar per culpa del fet, o el fet va passar per culpa d’això?».')
   if (r.hechos.length < 2) return base
   return base + s(l, ' Con dos hechos, fíjate en las fechas y los nombres de cada pieza.', ' With two events, look at the dates and names in each piece.', ' Amb dos fets, fixa’t en les dates i els noms de cada peça.')
 }
@@ -64,7 +77,7 @@ export function explicacion(r, l) {
 // Examen tipo test (schema): «¿Cuál fue una causa / consecuencia de X?»
 export function schemaQuestion(r, l) {
   const h = hecho(r.hechos[0])
-  const pide = r.piezas.find(p => p.hecho === h.id)
+  const pide = r.piezas.find(p => p.hecho === h.id && p.tipo !== 'x')
   const buena = pide.texto[l]
   const malas = [...h[pide.tipo === 'c' ? 'consecuencias' : 'causas'].slice(0, 2).map(t => t[l]),
     elige(Math.random, HECHOS.filter(x => compatibles(h, x))).causas[0][l]]

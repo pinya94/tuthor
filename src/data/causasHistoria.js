@@ -4,6 +4,8 @@
 // hecho: «crisis económica» a secas valdría para medio libro.
 // `tema` = id del tema de historia en topicCatalog.js; `año` = inicio, para
 // separar los hechos que se mezclan en el nivel difícil.
+import { EXTRA } from './causasHistoriaExtra.js'
+
 const T = (es, en, ca) => ({ es, en, ca })
 const H = (id, tema, año, emoji, titulo, causas, consecuencias) => ({ id, tema, año, emoji, titulo, causas, consecuencias })
 
@@ -35,7 +37,7 @@ export const HECHOS = [
       T('Hambrunas de principios del siglo XIV', 'Famines in the early 14th century', 'Fams de principis del segle XIV')],
     [T('Muere un tercio de la población de Europa', 'A third of Europe’s population dies', 'Mor un terç de la població d’Europa'),
       T('Faltan campesinos y suben sus salarios', 'There are too few peasants and their wages rise', 'Falten pagesos i pugen els seus salaris'),
-      T('Revueltas campesinas y crisis del feudalismo', 'Peasant revolts and the crisis of feudalism', 'Revoltes pageses i crisi del feudalisme')]),
+      T('Revueltas campesinas como la Jacquerie francesa (1358)', 'Peasant revolts such as the French Jacquerie (1358)', 'Revoltes pageses com la Jacquerie francesa (1358)')]),
   H('cruzadas', 'edad-media', 1096, '🛡️', T('Las Cruzadas (1096)', 'The Crusades (1096)', 'Les Croades (1096)'),
     [T('Los turcos selyúcidas controlan Jerusalén y los Santos Lugares', 'The Seljuk Turks control Jerusalem and the Holy Places', 'Els turcs seljúcides controlen Jerusalem i els Sants Llocs'),
       T('Llamada del papa Urbano II en Clermont (1095)', 'Pope Urban II’s call at Clermont (1095)', 'Crida del papa Urbà II a Clermont (1095)'),
@@ -48,7 +50,7 @@ export const HECHOS = [
       T('El papel, más barato que el pergamino', 'Paper, cheaper than parchment', 'El paper, més barat que el pergamí'),
       T('Tipos móviles de metal reutilizables', 'Reusable movable metal type', 'Tipus mòbils de metall reutilitzables')],
     [T('Libros más baratos y más gente que lee', 'Cheaper books and more readers', 'Llibres més barats i més gent que llegeix'),
-      T('Las ideas se difunden rápido por Europa', 'Ideas spread quickly across Europe', 'Les idees es difonen ràpidament per Europa'),
+      T('Las ideas se difunden rápido gracias a los libros impresos', 'Ideas spread quickly through printed books', 'Les idees es difonen ràpidament gràcies als llibres impresos'),
       T('Desaparece el oficio de monje copista', 'Monks no longer need to copy books by hand', 'Desapareix l’ofici de monjo copista')]),
   H('america', 'edad-moderna', 1492, '⛵', T('La llegada de Colón a América (1492)', 'Columbus reaches America (1492)', 'L’arribada de Colom a Amèrica (1492)'),
     [T('Buscar otra ruta a las especias de Asia', 'Looking for another route to the spices of Asia', 'Buscar una altra ruta a les espècies d’Àsia'),
@@ -184,3 +186,9 @@ export const HECHOS = [
       T('Caen los regímenes comunistas de Europa del Este', 'The communist regimes of Eastern Europe fall', 'Cauen els règims comunistes de l’Europa de l’Est'),
       T('Fin de la URSS (1991) y de la Guerra Fría', 'The end of the USSR (1991) and of the Cold War', 'Fi de l’URSS (1991) i de la Guerra Freda')]),
 ]
+
+// 5 causas y 5 consecuencias por hecho: las 3 de arriba + las 2 extra
+for (const h of HECHOS) {
+  h.causas.push(...EXTRA[h.id].causas)
+  h.consecuencias.push(...EXTRA[h.id].consecuencias)
+}

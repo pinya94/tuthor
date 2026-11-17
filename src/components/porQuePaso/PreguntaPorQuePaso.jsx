@@ -24,10 +24,12 @@ export default function PreguntaPorQuePaso({ ronda: r, revelado, onResponder }) 
   const dos = r.hechos.length === 2
   const [hechoDe, setHechoDe] = useState(() => (dos ? {} : Object.fromEntries(r.piezas.map(p => [p.id, 'A']))))
   const [tipoDe, setTipoDe] = useState({})
-  const respuesta = Object.fromEntries(r.piezas.filter(p => hechoDe[p.id] && tipoDe[p.id]).map(p => [p.id, `${hechoDe[p.id]}:${tipoDe[p.id]}`]))
+  // «No tiene que ver» no necesita decir de qué hecho
+  const respuesta = Object.fromEntries(r.piezas.filter(p => tipoDe[p.id] === 'x' || (hechoDe[p.id] && tipoDe[p.id])).map(p => [p.id, tipoDe[p.id] === 'x' ? 'x' : `${hechoDe[p.id]}:${tipoDe[p.id]}`]))
   const completa = Object.keys(respuesta).length === r.piezas.length
   const acierto = revelado && esCorrecta(r, respuesta)
   const CAUSA = tr({ es: 'Causa', en: 'Cause', ca: 'Causa' }), CONSEC = tr({ es: 'Consecuencia', en: 'Consequence', ca: 'Conseqüència' })
+  const NADA = tr({ es: 'No tiene que ver', en: 'Not related', ca: 'No hi té res a veure' })
 
   return (
     <div className="w-full">
@@ -45,8 +47,8 @@ export default function PreguntaPorQuePaso({ ronda: r, revelado, onResponder }) 
       {!revelado && (
         <p className="text-center text-white/45 text-xs mb-2">
           {dos
-            ? tr({ es: 'Para cada pieza: ¿de qué hecho es (A o B) y es causa o consecuencia?', en: 'For each piece: which event is it about (A or B), and is it a cause or a consequence?', ca: 'Per a cada peça: de quin fet és (A o B) i és causa o conseqüència?' })
-            : tr({ es: '¿Cada pieza es una causa o una consecuencia del hecho?', en: 'Is each piece a cause or a consequence of the event?', ca: 'Cada peça és una causa o una conseqüència del fet?' })}
+            ? tr({ es: 'Para cada pieza: ¿de qué hecho es (A o B) y es causa o consecuencia? Alguna no tiene que ver con ninguno.', en: 'For each piece: which event is it about (A or B), and is it a cause or a consequence? One is not related to either.', ca: 'Per a cada peça: de quin fet és (A o B) i és causa o conseqüència? Alguna no té res a veure amb cap.' })
+            : tr({ es: '¿Cada pieza es causa o consecuencia del hecho? Ojo: alguna es de otra época y no tiene que ver.', en: 'Is each piece a cause or a consequence of the event? Careful: some are from another time and are not related.', ca: 'Cada peça és causa o conseqüència del fet? Compte: alguna és d’una altra època i no hi té res a veure.' })}
         </p>
       )}
 
@@ -59,14 +61,17 @@ export default function PreguntaPorQuePaso({ ronda: r, revelado, onResponder }) 
             <div key={p.id} className={`rounded-xl border px-3 py-2 ${revelado ? (ok ? 'border-green-500/50 bg-green-500/10' : 'border-red-500/50 bg-red-500/10') : 'border-white/10 bg-white/[0.04]'}`}>
               <p className="text-white text-sm font-semibold leading-snug mb-1.5">{p.texto[l]}</p>
               {!revelado ? (
-                <div className="flex gap-1.5">
-                  {dos && ['A', 'B'].map(x => <Boton key={x} activo={hechoDe[p.id] === x} color={COLOR[x]} onClick={() => setHechoDe(v => ({ ...v, [p.id]: x }))}>{x}</Boton>)}
-                  <Boton activo={tipoDe[p.id] === 'c'} onClick={() => setTipoDe(v => ({ ...v, [p.id]: 'c' }))}>⬅ {CAUSA}</Boton>
-                  <Boton activo={tipoDe[p.id] === 'q'} onClick={() => setTipoDe(v => ({ ...v, [p.id]: 'q' }))}>{CONSEC} ➡</Boton>
+                <div className="space-y-1.5">
+                  <div className="flex gap-1.5">
+                    {dos && ['A', 'B'].map(x => <Boton key={x} activo={tipoDe[p.id] !== 'x' && hechoDe[p.id] === x} color={COLOR[x]} onClick={() => { setHechoDe(v => ({ ...v, [p.id]: x })); if (tipoDe[p.id] === 'x') setTipoDe(v => ({ ...v, [p.id]: undefined })) }}>{x}</Boton>)}
+                    <Boton activo={tipoDe[p.id] === 'c'} onClick={() => setTipoDe(v => ({ ...v, [p.id]: 'c' }))}>⬅ {CAUSA}</Boton>
+                    <Boton activo={tipoDe[p.id] === 'q'} onClick={() => setTipoDe(v => ({ ...v, [p.id]: 'q' }))}>{CONSEC} ➡</Boton>
+                  </div>
+                  <Boton activo={tipoDe[p.id] === 'x'} color="#94a3b8" onClick={() => setTipoDe(v => ({ ...v, [p.id]: 'x' }))}>🚫 {NADA}</Boton>
                 </div>
               ) : (
                 <p className={`text-xs font-black ${ok ? 'text-green-300' : 'text-red-300'}`}>
-                  {ok ? '✓ ' : `✗ ${tr({ es: 'Iba en', en: 'It belongs in', ca: 'Anava a' })}: `}{dos ? `${letraBien} · ` : ''}{tipoBien === 'c' ? CAUSA : CONSEC}
+                  {ok ? '✓ ' : `✗ ${tr({ es: 'Iba en', en: 'It belongs in', ca: 'Anava a' })}: `}{bien === 'x' ? `${NADA} (${hecho(p.de).titulo[l]})` : `${dos ? `${letraBien} · ` : ''}${tipoBien === 'c' ? CAUSA : CONSEC}`}
                 </p>
               )}
             </div>

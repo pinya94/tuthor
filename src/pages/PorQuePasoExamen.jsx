@@ -6,10 +6,10 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/porQuePaso'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-    hint: { es: 'Un hecho, 4 piezas', en: 'One event, 4 pieces', ca: 'Un fet, 4 peces' } },
+    hint: { es: 'Un hecho, 4 piezas y una intrusa', en: 'One event, 4 pieces and an intruder', ca: 'Un fet, 4 peces i una intrusa' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-    hint: { es: 'Un hecho, 6 piezas', en: 'One event, 6 pieces', ca: 'Un fet, 6 peces' } },
+    hint: { es: 'Un hecho, 6 piezas y 2 intrusas', en: 'One event, 6 pieces and 2 intruders', ca: 'Un fet, 6 peces i 2 intruses' } },
   { key: 'avanzado', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
     hint: { es: 'Dos hechos mezclados', en: 'Two events mixed', ca: 'Dos fets barrejats' } },

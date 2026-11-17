@@ -509,7 +509,7 @@ export const FICHAS_ES = {
     titulo: '¿Por Qué Pasó?',
     subtitulo: 'Juego de causas y consecuencias de la historia',
     emoji: '🗝️', gradient: 'from-amber-600 to-rose-800', path: '/juegos/por-que-paso',
-    intro: 'Un juego de historia para entender el porqué de los hechos. Sale un hecho, como la Revolución francesa o la Peste Negra, y unas piezas que hay que clasificar: ¿es una causa (algo que pasó antes y lo provocó) o una consecuencia (algo que vino después por su culpa)? En el nivel difícil se mezclan dos hechos de épocas muy distintas y hay que decir también de cuál es cada pieza. Son 25 hechos, de la revolución neolítica a la caída del muro de Berlín.',
+    intro: 'Un juego de historia para entender el porqué de los hechos. Sale un hecho, como la Revolución francesa o la Peste Negra, y unas piezas que hay que clasificar: ¿es una causa (algo que pasó antes y lo provocó), una consecuencia (algo que vino después por su culpa) o no tiene nada que ver, porque es de otra época? En el nivel difícil se mezclan dos hechos de épocas muy distintas y hay que decir también de cuál es cada pieza. Son 25 hechos, de la revolución neolítica a la caída del muro de Berlín.',
     beneficios: [
       { titulo: 'Lo que más cae en los exámenes', texto: 'Las preguntas de historia de la ESO piden una y otra vez causas y consecuencias. Practicarlas clasificando piezas obliga a pensar la relación entre los hechos, no solo a memorizar fechas.' },
       { titulo: 'Piezas concretas, sin trampa', texto: 'Cada pieza nombra algo concreto (el Tratado de Versalles, las 95 tesis de Lutero, el Maine) para que solo encaje en su hecho. En el nivel difícil los dos hechos están separados por siglos.' },
@@ -3484,7 +3484,7 @@ export const FICHAS_EN = {
     titulo: 'Why Did It Happen?',
     subtitulo: 'History causes and consequences game',
     emoji: '🗝️', gradient: 'from-amber-600 to-rose-800', path: '/juegos/por-que-paso',
-    intro: 'A history game for understanding why things happened. An event appears, such as the French Revolution or the Black Death, along with some pieces to sort: is each one a cause (something that happened before and brought it about) or a consequence (something that came after because of it)? On Hard, two events from very different times are mixed and you also say which one each piece belongs to. There are 25 events, from the Neolithic Revolution to the fall of the Berlin Wall.',
+    intro: 'A history game for understanding why things happened. An event appears, such as the French Revolution or the Black Death, along with some pieces to sort: is each one a cause (something that happened before and brought it about), a consequence (something that came after because of it), or not related at all because it belongs to another time? On Hard, two events from very different times are mixed and you also say which one each piece belongs to. There are 25 events, from the Neolithic Revolution to the fall of the Berlin Wall.',
     beneficios: [
       { titulo: 'What exams ask most', texto: 'Secondary-school history questions keep asking for causes and consequences. Sorting pieces makes students think about how events are connected, not just memorise dates.' },
       { titulo: 'Specific pieces, no tricks', texto: 'Each piece names something specific (the Treaty of Versailles, Luther’s 95 Theses, the Maine) so it only fits its own event. On Hard, the two events are centuries apart.' },
@@ -6128,7 +6128,7 @@ export const FICHAS_CA = {
     titulo: 'Per Què Va Passar?',
     subtitulo: 'Joc de causes i conseqüències de la història',
     emoji: '🗝️', gradient: 'from-amber-600 to-rose-800', path: '/juegos/por-que-paso',
-    intro: 'Un joc d’història per entendre el perquè dels fets. Surt un fet, com la Revolució francesa o la Pesta Negra, i unes peces que cal classificar: és una causa (una cosa que va passar abans i el va provocar) o una conseqüència (una cosa que va venir després per culpa seva)? Al nivell difícil es barregen dos fets d’èpoques molt diferents i cal dir també de quin és cada peça. Són 25 fets, de la revolució neolítica a la caiguda del mur de Berlín.',
+    intro: 'Un joc d’història per entendre el perquè dels fets. Surt un fet, com la Revolució francesa o la Pesta Negra, i unes peces que cal classificar: és una causa (una cosa que va passar abans i el va provocar), una conseqüència (una cosa que va venir després per culpa seva) o no hi té res a veure, perquè és d’una altra època? Al nivell difícil es barregen dos fets d’èpoques molt diferents i cal dir també de quin és cada peça. Són 25 fets, de la revolució neolítica a la caiguda del mur de Berlín.',
     beneficios: [
       { titulo: 'El que més surt als exàmens', texto: 'Les preguntes d’història de l’ESO demanen una vegada i una altra causes i conseqüències. Practicar-les classificant peces obliga a pensar la relació entre els fets, no només a memoritzar dates.' },
       { titulo: 'Peces concretes, sense parany', texto: 'Cada peça anomena una cosa concreta (el Tractat de Versalles, les 95 tesis de Luter, el Maine) perquè només encaixi en el seu fet. Al nivell difícil els dos fets estan separats per segles.' },

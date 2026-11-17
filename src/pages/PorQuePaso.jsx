@@ -19,11 +19,11 @@ const REVEAL_MS = 9000 // hay varias piezas que leer al corregir
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Un hecho y 4 piezas: ¿causa o consecuencia?', en: 'One event and 4 pieces: cause or consequence?', ca: 'Un fet i 4 peces: causa o conseqüència?' } },
+             desc: { es: 'Un hecho y 4 piezas: ¿causa, consecuencia… o no tiene que ver?', en: 'One event and 4 pieces: cause, consequence… or not related?', ca: 'Un fet i 4 peces: causa, conseqüència… o no hi té res a veure?' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Un hecho con sus 6 piezas', en: 'One event with all 6 pieces', ca: 'Un fet amb les seves 6 peces' } },
+             desc: { es: 'Un hecho, 6 piezas y 2 intrusas de otras épocas', en: 'One event, 6 pieces and 2 intruders from other times', ca: 'Un fet, 6 peces i 2 intruses d’altres èpoques' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Dos hechos mezclados: de cuál es cada pieza y si es causa o consecuencia', en: 'Two events mixed: which one each piece belongs to, and cause or consequence', ca: 'Dos fets barrejats: de quin és cada peça i si és causa o conseqüència' } },
+             desc: { es: 'Dos hechos mezclados y una intrusa: de cuál es cada pieza y si es causa o consecuencia', en: 'Two events mixed plus an intruder: which one each piece belongs to, and cause or consequence', ca: 'Dos fets barrejats i una intrusa: de quin és cada peça i si és causa o conseqüència' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[por-que-paso] los niveles de la pantalla no coinciden con NIVELES')
