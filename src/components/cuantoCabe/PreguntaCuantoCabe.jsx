@@ -34,8 +34,9 @@ function Cubitos({ a, b, c }) {
 
 function Ortoedro({ a, b, c }) {
   // Caja fija (no a escala) con sus tres medidas
-  const P = (x, y, z) => [160 + (x - y) * 0.866, 120 + (x + y) * 0.5 - z]
-  const A = 120, B = 80, C = 80
+  // Cabe entera en el marco (210 de alto) con las etiquetas de abajo incluidas
+  const P = (x, y, z) => [150 + (x - y) * 0.866, 92 + (x + y) * 0.5 - z]
+  const A = 100, B = 70, C = 70
   return (
     <g strokeLinejoin="round">
       <polygon points={pts([P(0, B, 0), P(A, B, 0), P(A, B, C), P(0, B, C)])} fill="#a78bfa" stroke="#0b1530" strokeWidth="2" />
@@ -43,7 +44,7 @@ function Ortoedro({ a, b, c }) {
       <polygon points={pts([P(0, 0, C), P(A, 0, C), P(A, B, C), P(0, B, C)])} fill="#c4b5fd" stroke="#0b1530" strokeWidth="2" />
       <text x={P(A / 2, B, 0)[0] - 6} y={P(A / 2, B, 0)[1] + 22} textAnchor="middle" {...LAB}>{a} cm</text>
       <text x={P(A, B / 2, 0)[0] + 30} y={P(A, B / 2, 0)[1] + 18} textAnchor="middle" {...LAB}>{b} cm</text>
-      <text x={P(A, B, C / 2)[0] + 34} y={P(A, B, C / 2)[1] + 4} textAnchor="middle" {...LAB}>{c} cm</text>
+      <text x={P(A, 0, C / 2)[0] + 34} y={P(A, 0, C / 2)[1] + 4} textAnchor="middle" {...LAB}>{c} cm</text>
     </g>
   )
 }
@@ -78,15 +79,18 @@ function Cono({ r, h, g }) {
 }
 
 function Piramide({ l, h }) {
-  const P = (x, y, z) => [160 + (x - y) * 0.866, 150 + (x + y) * 0.5 - z]
-  const L = 100, ap = P(L / 2, L / 2, 120)
+  // Base girada (no isométrica): así la altura (discontinua) no coincide con la
+  // arista delantera y se ve por dentro de la pirámide
+  const P = (x, y, z) => [130 + x - y * 0.62, 112 + x * 0.28 + y * 0.42 - z]
+  const L = 100, c = P(L / 2, L / 2, 0), ap = P(L / 2, L / 2, 120)
   return (
     <g strokeLinejoin="round">
+      <path d={`M${P(0, L, 0).join(' ')}L${P(0, 0, 0).join(' ')}L${P(L, 0, 0).join(' ')}M${P(0, 0, 0).join(' ')}L${ap.join(' ')}`} fill="none" stroke="#f9a8d4" strokeWidth="1.5" strokeDasharray="5 4" />
       <polygon points={pts([P(0, L, 0), P(L, L, 0), ap])} fill="#f472b6" stroke="#0b1530" strokeWidth="2" />
       <polygon points={pts([P(L, 0, 0), P(L, L, 0), ap])} fill="#db2777" stroke="#0b1530" strokeWidth="2" />
-      <path d={`M${P(L / 2, L / 2, 0).join(' ')}L${ap.join(' ')}`} stroke="#0b1530" strokeWidth="1.8" strokeDasharray="5 4" />
-      <text x={P(L / 2, L, 0)[0] - 6} y={P(L / 2, L, 0)[1] + 22} textAnchor="middle" {...LAB}>l = {l}</text>
-      <text x={ap[0] + 28} y={ap[1] + 70} textAnchor="middle" {...LAB}>h = {h}</text>
+      <path d={`M${c.join(' ')}L${ap.join(' ')}`} stroke="#0b1530" strokeWidth="2" strokeDasharray="5 4" />
+      <text x={(P(0, L, 0)[0] + P(L, L, 0)[0]) / 2 - 8} y={(P(0, L, 0)[1] + P(L, L, 0)[1]) / 2 + 24} textAnchor="middle" {...LAB}>l = {l}</text>
+      <text x={c[0] - 30} y={(c[1] + ap[1]) / 2 + 10} textAnchor="middle" {...LAB}>h = {h}</text>
     </g>
   )
 }
