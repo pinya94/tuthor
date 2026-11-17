@@ -235,6 +235,14 @@ export const GAMES = {
     // % de aciertos sobre 150 monedas máx
     coins: ({ correct, total }) => (total > 0 ? Math.round((correct / total) * 150) : 0),
   },
+  'mas-o-menos': {
+    label: { es: '¿Más o Menos?', en: 'More or Less?', ca: 'Més o Menys?' },
+    emoji: '🆚',
+    subject: 'geografia',
+    route: '/juegos/mas-o-menos',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'mas-lejos': {
     label: { es: '¿Más Lejos?', en: 'Further Away?', ca: 'Més Lluny?' },
     emoji: '✈️',

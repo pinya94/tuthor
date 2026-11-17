@@ -421,6 +421,21 @@ function TablaVerdad(p) {
   )
 }
 
+function MasOMenos(p) {
+  // Dos barras (una gris, otra ámbar) con sus flechas de más y menos
+  return (
+    <Lienzo {...p}>
+      <rect x="40" y="20" width="62" height="90" rx="8" fill="#94A3B8" />
+      <rect x="138" y="52" width="62" height="58" rx="8" fill="#FBBF24" />
+      <path d="M30 112H210" stroke="#E2E8F0" strokeWidth="3" strokeLinecap="round" />
+      <T x={120} y={46} s={22} c="#FFFFFF">?</T>
+      <path d="M169 22L159 36H179Z" fill="#34D399" />
+      <path d="M216 52L206 38H226Z" fill="#38BDF8" />
+      <T x={120} y={128} s={12} c="#E2E8F0">+ / −</T>
+    </Lienzo>
+  )
+}
+
 function MasLejos(p) {
   // Dos trayectos sobre un mapa: uno gris discontinuo y otro ámbar con avión
   return (
@@ -451,6 +466,7 @@ export const ARTE_HISTORIA_GEO = {
   'que-hora-es': QueHoraEs,
   'continentes-oceanos': ContinentesOceanos,
   'mas-lejos': MasLejos,
+  'mas-o-menos': MasOMenos,
   'rios-montanas': RiosMontanas,
   'quien-decide': QuienDecide,
   'quien-lo-penso': QuienLoPenso,

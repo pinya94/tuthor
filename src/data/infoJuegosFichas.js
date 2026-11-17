@@ -1081,6 +1081,33 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Economía', niveles: 'ESO, Bachillerato',
   },
+  'mas-o-menos': {
+    titulo: '¿Más o Menos?',
+    subtitulo: 'Juego de geografía: población, superficie, montañas y ríos',
+    emoji: '🆚', gradient: 'from-emerald-500 to-amber-600', path: '/juegos/mas-o-menos',
+    intro: 'Un juego de geografía para hacerse una idea de las magnitudes del mundo. Sale un dato conocido, por ejemplo Cataluña: 8,0 millones de habitantes, y otro lugar: ¿Portugal tiene más o menos? Al responder se ve su dato con una barra para comparar, y pasa a ser el que hay que superar. Cada pocas rondas cambia lo que se compara: población, superficie, altura de montañas o longitud de ríos, mezclando España y el mundo.',
+    beneficios: [
+      { titulo: 'España en el mundo', texto: 'Comparar comunidades con países ayuda a situarlas en el mundo: la Comunidad de Madrid tiene más habitantes que Irlanda o Noruega, y Andalucía tiene casi tantos como Suiza.' },
+      { titulo: 'Datos del temario', texto: 'Población, superficie, relieve y ríos son contenidos de Geografía de Primaria y ESO. Aquí se aprenden a base de comparar, que es como de verdad se recuerdan.' },
+      { titulo: 'Sin trampas en los datos', texto: 'Solo se comparan lugares con suficiente diferencia para que ninguna fuente le dé la vuelta, y se dejan fuera los casos discutidos (ciudades, países con territorios de ultramar, el Misisipi).' },
+    ],
+    ejemplo: 'Sale Cataluña: 8,0 millones de habitantes. Después, Portugal. El alumno pulsa «Más habitantes» y acierta: Portugal tiene 10,6 millones. Ahora Portugal es el que hay que superar.',
+    enPapel: {
+      titulo: 'Más o menos en clase',
+      pasos: [
+        'Escribe en tarjetas países, comunidades, montañas y ríos con su dato por detrás.',
+        'Saca una tarjeta y lee su dato; el siguiente alumno saca otra y dice si es más o menos antes de darle la vuelta.',
+        'Si acierta, su tarjeta pasa a ser la que hay que superar; si falla, empieza otro.',
+        'Al final, ordenad todas las tarjetas de cada tipo de mayor a menor.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de ¿Más o Menos?', desc: 'Diez comparaciones sin reloj y con nota.' },
+      { nombre: '¿Más Lejos?', desc: 'La misma racha con distancias en el mapa del mundo.' },
+      { nombre: 'Ríos y Montañas', desc: 'Sitúa en el mapa los ríos y las cordilleras de España.' },
+    ],
+    asignatura: 'Geografía', niveles: 'Primaria, ESO',
+  },
   'mas-lejos': {
     titulo: '¿Más Lejos?',
     subtitulo: 'Juego de distancias en el mapa del mundo',
@@ -3944,6 +3971,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Economics', niveles: 'Secondary, Sixth Form',
   },
+  'mas-o-menos': {
+    titulo: 'More or Less?',
+    subtitulo: 'Geography game: population, area, mountains and rivers',
+    emoji: '🆚', gradient: 'from-emerald-500 to-amber-600', path: '/juegos/mas-o-menos',
+    intro: 'A geography game for getting a feel for the size of things. A known figure appears, for example Catalonia: 8.0 million people, and then another place: does Portugal have more or fewer? When you answer you see its figure with a bar to compare, and it becomes the one to beat. Every few rounds the measure changes: population, area, mountain height or river length, mixing Spain and the world.',
+    beneficios: [
+      { titulo: 'Spain in the world', texto: 'Comparing Spanish regions with countries helps to place them in the world: the Madrid region has more people than Ireland or Norway, and Andalusia has almost as many as Switzerland.' },
+      { titulo: 'Curriculum facts', texto: 'Population, area, landscape and rivers are part of geography in primary and secondary school. Here they are learnt by comparing, which is how they really stick.' },
+      { titulo: 'No tricks in the data', texto: 'Only places with a clear enough difference are compared, so no source could flip the answer, and disputed cases are left out (cities, countries with overseas territories, the Mississippi).' },
+    ],
+    ejemplo: 'Catalonia: 8.0 million people appears. Then Portugal. The student taps «More people» and is right: Portugal has 10.6 million. Now Portugal is the one to beat.',
+    enPapel: {
+      titulo: 'More or less in class',
+      pasos: [
+        'Write countries, regions, mountains and rivers on cards with their figure on the back.',
+        'Draw a card and read its figure; the next student draws another and says more or less before turning it over.',
+        'If they are right, their card becomes the one to beat; if not, someone else starts.',
+        'At the end, put each type of card in order from largest to smallest.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The More or Less? exam', desc: 'Ten comparisons with no timer and a mark.' },
+      { nombre: 'Further Away?', desc: 'The same streak with distances on the world map.' },
+      { nombre: 'Rivers and Mountains', desc: 'Place Spain’s rivers and mountain ranges on the map.' },
+    ],
+    asignatura: 'Geography', niveles: 'Primary, Secondary',
+  },
   'mas-lejos': {
     titulo: 'Further Away?',
     subtitulo: 'World map distance game',
@@ -6591,6 +6645,33 @@ export const FICHAS_CA = {
       { nombre: 'El joc de la Borsa de taula', desc: 'Jocs de taula clàssics sobre invertir en empreses i gestionar una cartera ensenyen les mateixes idees de risc i diversificació sense pantalles.' },
     ],
     asignatura: 'Economia', niveles: 'ESO, Batxillerat',
+  },
+  'mas-o-menos': {
+    titulo: 'Més o Menys?',
+    subtitulo: 'Joc de geografia: població, superfície, muntanyes i rius',
+    emoji: '🆚', gradient: 'from-emerald-500 to-amber-600', path: '/juegos/mas-o-menos',
+    intro: 'Un joc de geografia per fer-se una idea de les magnituds del món. Surt una dada coneguda, per exemple Catalunya: 8,0 milions d’habitants, i un altre lloc: Portugal en té més o menys? En respondre es veu la seva dada amb una barra per comparar, i passa a ser el que cal superar. Cada poques rondes canvia el que es compara: població, superfície, altura de muntanyes o longitud de rius, barrejant Espanya i el món.',
+    beneficios: [
+      { titulo: 'Espanya al món', texto: 'Comparar comunitats amb països ajuda a situar-les al món: la Comunitat de Madrid té més habitants que Irlanda o Noruega, i Andalusia en té gairebé tants com Suïssa.' },
+      { titulo: 'Dades del temari', texto: 'Població, superfície, relleu i rius són continguts de Geografia de Primària i ESO. Aquí s’aprenen comparant, que és com de debò es recorden.' },
+      { titulo: 'Sense paranys a les dades', texto: 'Només es comparen llocs amb prou diferència perquè cap font no hi doni la volta, i es deixen fora els casos discutits (ciutats, països amb territoris d’ultramar, el Mississipí).' },
+    ],
+    ejemplo: 'Surt Catalunya: 8,0 milions d’habitants. Després, Portugal. L’alumne prem «Més habitants» i encerta: Portugal en té 10,6 milions. Ara Portugal és el que cal superar.',
+    enPapel: {
+      titulo: 'Més o menys a classe',
+      pasos: [
+        'Escriu en targetes països, comunitats, muntanyes i rius amb la dada al darrere.',
+        'Treu una targeta i llegeix-ne la dada; el següent alumne en treu una altra i diu si és més o menys abans de girar-la.',
+        'Si encerta, la seva targeta passa a ser la que cal superar; si falla, en comença un altre.',
+        'Al final, ordeneu totes les targetes de cada tipus de més gran a més petita.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Més o Menys?', desc: 'Deu comparacions sense rellotge i amb nota.' },
+      { nombre: 'Més Lluny?', desc: 'La mateixa ratxa amb distàncies al mapa del món.' },
+      { nombre: 'Rius i Muntanyes', desc: 'Situa al mapa els rius i les serralades d’Espanya.' },
+    ],
+    asignatura: 'Geografia', niveles: 'Primària, ESO',
   },
   'mas-lejos': {
     titulo: 'Més Lluny?',

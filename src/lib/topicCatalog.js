@@ -403,7 +403,7 @@ export const TOPIC_CATALOG = {
       eeuu: examTema({ mapa: 'geomapa-eeuu-examen' }, { niveles: ['primaria', 'eso'] }),
       // El único tema de geografía que no es una región: aquí no se señala
       // nada en el mapa, se pregunta por los conceptos (relieve, ríos, clima).
-      fisica: examTema({ teoria: 'geografia-fisica-test', climograma: 'climograma-test', rios: 'rios-montanas-test', riosMundo: 'rios-montanas-mundo-test', riosEeuu: 'rios-montanas-eeuu-test', riosEuropa: 'rios-montanas-europa-test', riosReinoUnido: 'rios-montanas-reino-unido-test' }, { niveles: ['primaria', 'eso'] }),
+      fisica: examTema({ teoria: 'geografia-fisica-test', masOMenos: 'mas-o-menos-test', climograma: 'climograma-test', rios: 'rios-montanas-test', riosMundo: 'rios-montanas-mundo-test', riosEeuu: 'rios-montanas-eeuu-test', riosEuropa: 'rios-montanas-europa-test', riosReinoUnido: 'rios-montanas-reino-unido-test' }, { niveles: ['primaria', 'eso'] }),
       humana: examTema({ teoria: 'geografia-humana-test', piramide: 'piramide-poblacion-test' }, { niveles: ['primaria', 'eso'] }),
       'union-europea': examTema({ teoria: 'geografia-ue-test', europa27: 'europa-27-test' }, { niveles: ['eso', 'bachillerato'] }),
       constitucion: examTema({ teoria: 'geografia-constitucion-test', quienDecide: 'quien-decide-test' }, { niveles: ['eso', 'bachillerato'] }),
@@ -431,6 +431,7 @@ export const TOPIC_CATALOG = {
       europa27: examFormato({ es: 'Europa a 27 (con el juego)', en: 'Europe of 27 (with the game)', ca: 'Europa a 27 (amb el joc)' }, '⭐'),
       quienDecide: examFormato({ es: '¿Quién Decide? (con el juego)', en: 'Who Decides? (with the game)', ca: 'Qui Decideix? (amb el joc)' }, '🗳️'),
       continentes: examFormato({ es: 'Continentes y Océanos (con el juego)', en: 'Continents and Oceans (with the game)', ca: 'Continents i Oceans (amb el joc)' }, '🌍'),
+      masOMenos: examFormato({ es: '¿Más o Menos? Población, superficie y relieve (con el juego)', en: 'More or Less? Population, area and landscape (with the game)', ca: 'Més o Menys? Població, superfície i relleu (amb el joc)' }, '🆚'),
       distancias: examFormato({ es: '¿Más Lejos? Distancias (con el juego)', en: 'Further Away? Distances (with the game)', ca: 'Més Lluny? Distàncies (amb el joc)' }, '✈️'),
       husos: examFormato({ es: '¿Qué Hora Es Allí? (con el juego)', en: 'What Time Is It There? (with the game)', ca: 'Quina Hora És Allà? (amb el joc)' }, '🕒'),
     },

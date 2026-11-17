@@ -1754,4 +1754,11 @@
   <url><loc>https://www.tuthor.es/estudiar/matematicas/cuerpos-geometricos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.tuthor.es/en/estudiar/matematicas/cuerpos-geometricos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/ca/estudiar/matematicas/cuerpos-geometricos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/mas-o-menos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/juegos/mas-o-menos</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/info/juegos/mas-o-menos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/en/info/juegos/mas-o-menos</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/ca/info/juegos/mas-o-menos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.tuthor.es/examen/mas-o-menos-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.tuthor.es/en/examen/mas-o-menos-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
 </urlset>

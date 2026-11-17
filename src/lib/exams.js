@@ -282,6 +282,11 @@ export const EXAMS = {
     emoji: '🎼', subject: 'musica',
     path: 'examen/musica', page: () => import('../pages/MusicaExamen'),
   },
+  'mas-o-menos-test': {
+    label: { es: 'Datos del mundo: ¿Más o Menos? (con el juego)', en: 'World facts: More or Less? (with the game)', ca: 'Dades del món: Més o Menys? (amb el joc)' },
+    emoji: '🆚', subject: 'geografia',
+    path: 'examen/mas-o-menos-test', page: () => import('../pages/MasOMenosExamen'),
+  },
   'mas-lejos-test': {
     label: { es: 'Distancias en el mapa: ¿Más Lejos? (con el juego)', en: 'Map distances: Further Away? (with the game)', ca: 'Distàncies al mapa: Més Lluny? (amb el joc)' },
     emoji: '✈️', subject: 'geografia',
