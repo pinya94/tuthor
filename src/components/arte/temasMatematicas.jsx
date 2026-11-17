@@ -359,6 +359,19 @@ function Sistemas(p) {
   )
 }
 
+function Cuerpos(p) {
+  // Un cubo, un cilindro y un cono
+  return (
+    <Lienzo {...p}>
+      <path d="M30 70L62 54L94 70V110L62 126L30 110Z" fill="#A78BFA" stroke="#0B1530" strokeWidth="2" />
+      <path d="M30 70L62 86L94 70M62 86V126" fill="none" stroke="#0B1530" strokeWidth="2" />
+      <path d="M110 46V106A26 8 0 0 0 162 106V46" fill="#34D399" stroke="#0B1530" strokeWidth="2" />
+      <ellipse cx="136" cy="46" rx="26" ry="8" fill="#6EE7B7" stroke="#0B1530" strokeWidth="2" />
+      <path d="M204 34L178 110A26 8 0 0 0 230 110Z" fill="#FB923C" stroke="#0B1530" strokeWidth="2" strokeLinejoin="round" />
+    </Lienzo>
+  )
+}
+
 function SegundoGrado(p) {
   // Parábola y = x² − 5x + 6 cortando el eje X en sus dos soluciones.
   return (
@@ -451,4 +464,5 @@ export const ARTE_TEMAS_MATEMATICAS = {
   'matematicas/numeros-decimales': Decimales,
   'matematicas/proporcionalidad': Proporcionalidad,
   'matematicas/ecuaciones-de-segundo-grado': SegundoGrado,
+  'matematicas/cuerpos-geometricos': Cuerpos,
 }

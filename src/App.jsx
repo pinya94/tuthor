@@ -141,6 +141,7 @@ const FuncionesGrafica       = lazy(() => import('./pages/FuncionesGrafica'))
 const BalanzaAlgebraica      = lazy(() => import('./pages/BalanzaAlgebraica'))
 const CruceRectas            = lazy(() => import('./pages/CruceRectas'))
 const CazaRaiz               = lazy(() => import('./pages/CazaRaiz'))
+const CuantoCabe             = lazy(() => import('./pages/CuantoCabe'))
 const AnalizaFrases          = lazy(() => import('./pages/AnalizaFrases'))
 const OrdenaFrase            = lazy(() => import('./pages/OrdenaFrase'))
 const QueVes                 = lazy(() => import('./pages/QueVes'))
@@ -265,6 +266,7 @@ function AppRoutes() {
       <Route path="estudiar/matematicas/teorema-de-pitagoras" element={<MatematicasTemaExtra slug="teorema-de-pitagoras" />} />
       <Route path="estudiar/matematicas/sistemas-de-ecuaciones" element={<MatematicasTemaExtra slug="sistemas-de-ecuaciones" />} />
       <Route path="estudiar/matematicas/numeros-decimales" element={<MatematicasTemaExtra slug="numeros-decimales" />} />
+      <Route path="estudiar/matematicas/cuerpos-geometricos" element={<MatematicasTemaExtra slug="cuerpos-geometricos" />} />
       <Route path="estudiar/matematicas/ecuaciones-de-segundo-grado" element={<MatematicasTemaExtra slug="ecuaciones-de-segundo-grado" />} />
       <Route path="estudiar/matematicas/proporcionalidad" element={<MatematicasTemaExtra slug="proporcionalidad" />} />
       <Route path="estudiar/matematicas/porcentajes" element={<PorcentajesTema />} />
@@ -425,6 +427,7 @@ function AppRoutes() {
       <Route path="juegos/balanza-algebraica" element={<BalanzaAlgebraica />} />
       <Route path="juegos/cruce-rectas" element={<CruceRectas />} />
       <Route path="juegos/caza-la-raiz" element={<CazaRaiz />} />
+      <Route path="juegos/cuanto-cabe" element={<CuantoCabe />} />
       <Route path="juegos/analiza-frases" element={<AnalizaFrases />} />
       <Route path="juegos/ordena-frase" element={<OrdenaFrase />} />
       <Route path="juegos/que-ves" element={<QueVes />} />

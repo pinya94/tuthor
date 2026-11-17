@@ -351,6 +351,27 @@ function BalanzaAlgebraica(p) {
   )
 }
 
+function CuantoCabe(p) {
+  // Una caja de cubitos en perspectiva
+  const P = (x, y, z) => [120 + (x - y) * 15.6, 62 + (x + y) * 9 - z * 18]
+  const pts = a => a.map(q => q.join(',')).join(' ')
+  const cubos = []
+  for (let x = 0; x < 4; x++) for (let y = 0; y < 3; y++) for (let z = 0; z < 2; z++) cubos.push([x, y, z])
+  cubos.sort((a, b) => a[0] + a[1] - (b[0] + b[1]) || a[2] - b[2])
+  return (
+    <Lienzo {...p}>
+      {cubos.map(([x, y, z]) => (
+        <g key={`${x}${y}${z}`} stroke="#0B1530" strokeWidth="1.2">
+          <polygon points={pts([P(x, y + 1, z), P(x + 1, y + 1, z), P(x + 1, y + 1, z + 1), P(x, y + 1, z + 1)])} fill="#38BDF8" />
+          <polygon points={pts([P(x + 1, y, z), P(x + 1, y + 1, z), P(x + 1, y + 1, z + 1), P(x + 1, y, z + 1)])} fill="#0EA5E9" />
+          <polygon points={pts([P(x, y, z + 1), P(x + 1, y, z + 1), P(x + 1, y + 1, z + 1), P(x, y + 1, z + 1)])} fill="#7DD3FC" />
+        </g>
+      ))}
+      <T x={200} y={122} s={14} c="#FBBF24">24 cm³</T>
+    </Lienzo>
+  )
+}
+
 function CazaRaiz(p) {
   // Parábola que corta el eje X en dos raíces marcadas
   return (
@@ -511,4 +532,5 @@ export const ARTE_MATES = {
   'balanza-algebraica': BalanzaAlgebraica,
   'cruce-rectas': CruceRectas,
   'caza-la-raiz': CazaRaiz,
+  'cuanto-cabe': CuantoCabe,
 }

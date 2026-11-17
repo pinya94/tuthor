@@ -506,6 +506,11 @@ export const EXAMS = {
     emoji: '✖️', subject: 'matematicas',
     path: 'examen/cruce-rectas-test', page: () => import('../pages/CruceRectasExamen'),
   },
+  'cuanto-cabe-test': {
+    label: { es: 'Áreas y volúmenes: ¿Cuánto Cabe? (con el juego)', en: 'Surface area and volume: How Much Fits? (with the game)', ca: 'Àrees i volums: Quant Hi Cap? (amb el joc)' },
+    emoji: '📦', subject: 'matematicas',
+    path: 'examen/cuanto-cabe-test', page: () => import('../pages/CuantoCabeExamen'),
+  },
   'caza-la-raiz-test': {
     label: { es: 'Ecuaciones de 2.º grado: Caza la Raíz (con el juego)', en: 'Quadratic equations: Root Hunt (with the game)', ca: 'Equacions de 2n grau: Caça l’Arrel (amb el joc)' },
     emoji: '🌱', subject: 'matematicas',

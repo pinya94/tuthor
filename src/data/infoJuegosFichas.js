@@ -310,6 +310,33 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'ESO, Bachillerato',
   },
+  'cuanto-cabe': {
+    titulo: '¿Cuánto Cabe?',
+    subtitulo: 'Juego de volumen y área de cuerpos geométricos',
+    emoji: '📦', gradient: 'from-violet-500 to-sky-700', path: '/juegos/cuanto-cabe',
+    intro: 'Un juego de matemáticas para calcular volúmenes y áreas de cuerpos geométricos. Sale el cuerpo dibujado con sus medidas y el alumno escribe el resultado con el teclado. Se empieza contando cubitos en una caja (el volumen es cuántos caben) y se sube a prismas, cilindros, pirámides y conos, y después a áreas totales y la esfera. Con π vale 3,14 o el de la calculadora.',
+    beneficios: [
+      { titulo: 'Qué es el volumen', texto: 'Contar los cubitos de una caja, capa a capa, hace ver por qué el volumen es largo × ancho × alto, antes de aprender ninguna fórmula.' },
+      { titulo: 'Pocas ideas, muchas fórmulas', texto: 'Prisma y cilindro: base por altura. Pirámide y cono: un tercio de eso. Con esas dos ideas salen casi todas las fórmulas del tema, y la explicación de cada pregunta lo repite.' },
+      { titulo: 'Área y volumen, sin confundirlos', texto: 'En el nivel difícil se piden áreas totales (cm²) y volúmenes (cm³) mezclados: el alumno tiene que pensar qué se mide antes de elegir la fórmula.' },
+    ],
+    ejemplo: 'Sale un cilindro de radio 4 cm y altura 10 cm, y se pide el volumen. El alumno calcula 3,14 · 16 · 10 ≈ 502 y lo escribe: correcto, 502 cm³ (unos 502 ml).',
+    enPapel: {
+      titulo: 'Cuerpos geométricos en clase',
+      pasos: [
+        'Traed objetos con forma de prisma, cilindro, cono y esfera (cajas, latas, cucuruchos, balones).',
+        'Medidlos con una regla y calculad su volumen con la fórmula.',
+        'Comprobad con agua: llenad la lata y medid los mililitros con una jarra (1 cm³ = 1 ml).',
+        'Llenad un cono de arena y vaciadlo en un cilindro de la misma base y altura: caben tres conos.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de ¿Cuánto Cabe?', desc: 'Diez cuerpos con la misma mecánica, sin reloj y con nota.' },
+      { nombre: 'Cuerpos geométricos (teoría)', desc: 'Todas las fórmulas de áreas y volúmenes con ejercicios resueltos.' },
+      { nombre: 'Ángulo Recto', desc: 'Pitágoras y trigonometría, que hacen falta para la generatriz del cono.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'Primaria, ESO',
+  },
   'caza-la-raiz': {
     titulo: 'Caza la Raíz',
     subtitulo: 'Juego de ecuaciones de segundo grado',
@@ -3246,6 +3273,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Mathematics', niveles: 'Secondary, Sixth Form',
   },
+  'cuanto-cabe': {
+    titulo: 'How Much Fits?',
+    subtitulo: 'Volume and surface area of solid shapes game',
+    emoji: '📦', gradient: 'from-violet-500 to-sky-700', path: '/juegos/cuanto-cabe',
+    intro: 'A maths game for working out the volume and surface area of solid shapes. A solid appears with its measurements and the student types the answer. It starts with counting cubes in a box (the volume is how many fit) and moves on to prisms, cylinders, pyramids and cones, then total surface areas and the sphere. For π, 3.14 or the calculator value both work.',
+    beneficios: [
+      { titulo: 'What volume means', texto: 'Counting the cubes in a box, layer by layer, shows why volume is length × width × height before learning any formula.' },
+      { titulo: 'Few ideas, many formulas', texto: 'Prism and cylinder: base times height. Pyramid and cone: one third of that. Those two ideas give almost every formula in the topic, and each explanation repeats them.' },
+      { titulo: 'Area and volume, not mixed up', texto: 'On Hard, surface areas (cm²) and volumes (cm³) are mixed, so students must think about what is being measured before choosing the formula.' },
+    ],
+    ejemplo: 'A cylinder with a 4 cm radius and a height of 10 cm appears, and the volume is asked for. The student works out 3.14 × 16 × 10 ≈ 502 and types it: correct, 502 cm³ (about 502 ml).',
+    enPapel: {
+      titulo: 'Solid shapes in class',
+      pasos: [
+        'Bring objects shaped like prisms, cylinders, cones and spheres (boxes, tins, cones, balls).',
+        'Measure them with a ruler and work out their volume with the formula.',
+        'Check with water: fill the tin and measure the millilitres with a jug (1 cm³ = 1 ml).',
+        'Fill a cone with sand and empty it into a cylinder with the same base and height: three cones fit.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The How Much Fits? exam', desc: 'Ten solids with the same mechanic, no timer and a mark.' },
+      { nombre: 'Solid shapes (theory)', desc: 'All the surface area and volume formulas with worked exercises.' },
+      { nombre: 'Right Angle', desc: 'Pythagoras and trigonometry, needed for the slant height of a cone.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Primary, Secondary',
+  },
   'caza-la-raiz': {
     titulo: 'Root Hunt',
     subtitulo: 'Quadratic equations game',
@@ -5788,6 +5842,33 @@ export const FICHAS_CA = {
       { nombre: 'Batalla naval amb coordenades', desc: 'Un clàssic per practicar el pla cartesià i localitzar punts (x, y) jugant.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'ESO, Batxillerat',
+  },
+  'cuanto-cabe': {
+    titulo: 'Quant Hi Cap?',
+    subtitulo: 'Joc de volum i àrea de cossos geomètrics',
+    emoji: '📦', gradient: 'from-violet-500 to-sky-700', path: '/juegos/cuanto-cabe',
+    intro: 'Un joc de matemàtiques per calcular volums i àrees de cossos geomètrics. Surt el cos dibuixat amb les mesures i l’alumne escriu el resultat amb el teclat. Es comença comptant cubets en una caixa (el volum és quants n’hi caben) i es puja a prismes, cilindres, piràmides i cons, i després a àrees totals i l’esfera. Amb π val 3,14 o el de la calculadora.',
+    beneficios: [
+      { titulo: 'Què és el volum', texto: 'Comptar els cubets d’una caixa, capa a capa, fa veure per què el volum és llarg × ample × alt, abans d’aprendre cap fórmula.' },
+      { titulo: 'Poques idees, moltes fórmules', texto: 'Prisma i cilindre: base per altura. Piràmide i con: un terç d’això. Amb aquestes dues idees surten gairebé totes les fórmules del tema, i l’explicació de cada pregunta ho repeteix.' },
+      { titulo: 'Àrea i volum, sense confondre’ls', texto: 'Al nivell difícil es demanen àrees totals (cm²) i volums (cm³) barrejats: l’alumne ha de pensar què es mesura abans de triar la fórmula.' },
+    ],
+    ejemplo: 'Surt un cilindre de radi 4 cm i altura 10 cm, i es demana el volum. L’alumne calcula 3,14 · 16 · 10 ≈ 502 i ho escriu: correcte, 502 cm³ (uns 502 ml).',
+    enPapel: {
+      titulo: 'Cossos geomètrics a classe',
+      pasos: [
+        'Porteu objectes amb forma de prisma, cilindre, con i esfera (capses, llaunes, cucurutxos, pilotes).',
+        'Mesureu-los amb un regle i calculeu-ne el volum amb la fórmula.',
+        'Comproveu-ho amb aigua: ompliu la llauna i mesureu els mil·lilitres amb una gerra (1 cm³ = 1 ml).',
+        'Ompliu un con de sorra i buideu-lo en un cilindre de la mateixa base i altura: hi caben tres cons.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Quant Hi Cap?', desc: 'Deu cossos amb la mateixa mecànica, sense rellotge i amb nota.' },
+      { nombre: 'Cossos geomètrics (teoria)', desc: 'Totes les fórmules d’àrees i volums amb exercicis resolts.' },
+      { nombre: 'Angle Recte', desc: 'Pitàgores i trigonometria, que calen per a la generatriu del con.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'Primària, ESO',
   },
   'caza-la-raiz': {
     titulo: 'Caça l’Arrel',

@@ -40,6 +40,14 @@ const TEMAS = {
       { to: '/juegos/balanza-algebraica', emoji: '⚖️', gradient: 'from-emerald-500 to-teal-700', titulo: T3('Balanza Algebraica (juego)', 'Algebra Balance (game)', 'Balança Algebraica (joc)'), desc: T3('Para afianzar el paso previo: despejar la x en ecuaciones de primer grado.', 'To secure the step before: solving linear equations for x.', 'Per consolidar el pas previ: aïllar la x en equacions de primer grau.') },
     ],
   },
+  'cuerpos-geometricos': {
+    emoji: '📦', nombre: T3('Cuerpos geométricos', 'Solid shapes', 'Cossos geomètrics'),
+    modos: [
+      { to: '/juegos/cuanto-cabe', emoji: '📦', gradient: 'from-violet-500 to-sky-700', titulo: T3('¿Cuánto Cabe? (juego)', 'How Much Fits? (game)', 'Quant Hi Cap? (joc)'), desc: T3('Del recuento de cubitos al cilindro, el cono y la esfera: escribe el volumen o el área.', 'From counting cubes to the cylinder, cone and sphere: type in the volume or area.', 'Del recompte de cubets al cilindre, el con i l’esfera: escriu el volum o l’àrea.') },
+      { to: '/examen/cuanto-cabe-test', emoji: '📝', gradient: 'from-indigo-500 to-violet-700', titulo: T3('Examen de áreas y volúmenes', 'Surface area and volume exam', 'Examen d’àrees i volums'), desc: T3('Diez cuerpos con la mecánica del juego, sin reloj y con nota.', 'Ten solids using the game mechanic, no timer and a mark.', 'Deu cossos amb la mecànica del joc, sense rellotge i amb nota.') },
+      { to: '/estudiar/matematicas/geometria', emoji: '📐', gradient: 'from-pink-500 to-rose-700', titulo: T3('Geometría plana', 'Plane geometry', 'Geometria plana'), desc: T3('Las áreas de las figuras planas, que son las bases de los cuerpos.', 'Areas of flat shapes, which are the bases of solids.', 'Les àrees de les figures planes, que són les bases dels cossos.') },
+    ],
+  },
   'ecuaciones-de-segundo-grado': {
     emoji: '🧮', nombre: T3('Ecuaciones de segundo grado', 'Quadratic equations', 'Equacions de segon grau'),
     modos: [

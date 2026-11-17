@@ -50,6 +50,7 @@ const MATH_CAT_LABELS = {
   'el-dinero': { es: 'El Dinero (euros)', en: 'Money (euros)', ca: 'Els Diners (euros)' },
   'numeros-romanos': { es: 'Números Romanos', en: 'Roman Numerals', ca: 'Números Romans' },
   'numeros-decimales': { es: 'Números decimales', en: 'Decimals', ca: 'Nombres decimals' },
+  'cuerpos-geometricos': { es: 'Cuerpos geométricos', en: 'Solid shapes', ca: 'Cossos geomètrics' },
   'conversion-unidades': { es: 'Conversión de Unidades', en: 'Unit Conversion', ca: 'Conversió d\'Unitats' },
   'redondeo': { es: 'Redondeo', en: 'Rounding', ca: 'Arrodoniment' },
   'tablas-multiplicar': { es: 'Tablas de Multiplicar', en: 'Times Tables', ca: 'Taules de Multiplicar' },

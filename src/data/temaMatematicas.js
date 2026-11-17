@@ -5,6 +5,7 @@
 import { aRomano } from '../lib/romanos.js'
 import { proporcionalidad } from './temaTanda3.js'
 import { segundoGrado } from './temaTanda12.js'
+import { cuerposGeometricos } from './temaCuerpos.js'
 
 const T = (es, en, ca) => ({ es, en, ca })
 const L = T
@@ -299,4 +300,5 @@ export const MATEMATICAS_TEMA = {
   'sistemas-de-ecuaciones': sistemas,
   'numeros-decimales': decimales,
   'ecuaciones-de-segundo-grado': segundoGrado,
+  'cuerpos-geometricos': cuerposGeometricos,
 }

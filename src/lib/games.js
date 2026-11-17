@@ -653,6 +653,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'cuanto-cabe': {
+    label: { es: '¿Cuánto Cabe?', en: 'How Much Fits?', ca: 'Quant Hi Cap?' },
+    emoji: '📦',
+    subject: 'matematicas',
+    route: '/juegos/cuanto-cabe',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'caza-la-raiz': {
     label: { es: 'Caza la Raíz', en: 'Root Hunt', ca: 'Caça l’Arrel' },
     emoji: '🌱',

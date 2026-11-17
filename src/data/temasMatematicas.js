@@ -75,6 +75,12 @@ export const TEMAS_MATEMATICAS_EXTRA = [
     tags: ['sistema', 'ecuaciones', 'sustitucion', 'igualacion', 'reduccion', 'simultaneous'],
   },
   {
+    id: 'cuerpos-geometricos',
+    titulo: 'Cuerpos geométricos', tituloEn: 'Solid shapes', tituloCa: 'Cossos geomètrics',
+    emoji: '📦', gradient: 'from-violet-500 to-sky-700',
+    tags: ['volumen', 'area', 'prisma', 'cilindro', 'cono', 'esfera', 'piramide', 'volume'],
+  },
+  {
     id: 'ecuaciones-de-segundo-grado',
     titulo: 'Ecuaciones de segundo grado', tituloEn: 'Quadratic equations', tituloCa: 'Equacions de segon grau',
     emoji: '🧮', gradient: 'from-orange-500 to-red-700',
