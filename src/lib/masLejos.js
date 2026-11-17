@@ -93,17 +93,22 @@ export function km(a, b) {
 // margen: cuánto más largo tiene que ser un trayecto que el otro (cociente
 // mínimo). En difícil se aprieta, pero solo entre ciudades y comunidades, que
 // son puntos exactos; con países por medio nunca baja de 1,3.
+// En medio y difícil los dos trayectos están en zonas distintas del mundo
+// (sep: km mínimos entre sus puntos medios) y el mapa se abre (verLon: grados
+// de longitud que se ven como mínimo; 360 = el mundo entero). Así no basta con
+// comparar las líneas a ojo: el mapa plano estira cerca de los polos.
+// maxKm evita que, al encadenar, los trayectos se vayan alargando hasta las
+// antípodas (donde además la línea del mapa engaña sin enseñar nada).
 export const NIVELES = {
-  facil: { margen: 1.8, maxMargen: Infinity, tipos: ['ciudad', 'pais', 'region'] },
-  medio: { margen: 1.3, maxMargen: 1.9, tipos: ['ciudad', 'pais', 'region'] },
-  dificil: { margen: 1.12, maxMargen: 1.35, tipos: ['ciudad', 'region'] },
+  facil: { margen: 1.8, maxMargen: Infinity, tipos: ['ciudad', 'pais', 'region'], minKm: 250, maxKm: Infinity, sep: 0, verLon: 10 },
+  medio: { margen: 1.3, maxMargen: 1.9, tipos: ['ciudad', 'pais', 'region'], minKm: 600, maxKm: 9000, sep: 2500, verLon: 150 },
+  dificil: { margen: 1.12, maxMargen: 1.35, tipos: ['ciudad', 'region'], minKm: 1200, maxKm: 9000, sep: 4000, verLon: 360 },
 }
-const MIN_KM = 250
 
 const elige = (rand, arr) => arr[Math.floor(rand() * arr.length)]
 
 // Un trayecto: dos lugares distintos que no sean el mismo punto
-function trayecto(rand, tipos, escala) {
+function trayecto(rand, tipos, escala, minKm = 250, maxKm = Infinity) {
   const pool = LUGARES.filter(p => tipos.includes(p.tipo))
   for (;;) {
     let a = elige(rand, pool), b = elige(rand, pool)
@@ -113,15 +118,25 @@ function trayecto(rand, tipos, escala) {
       a = elige(rand, esp); b = elige(rand, esp)
     }
     const d = km(a, b)
-    if (a.id !== b.id && d >= MIN_KM) return { a: a.id, b: b.id, km: d }
+    if (a.id !== b.id && d >= minKm && d <= maxKm) return { a: a.id, b: b.id, km: d }
   }
+}
+
+// Punto medio de un trayecto sobre la esfera
+export function puntoMedio({ a, b }) {
+  const rad = x => (x * Math.PI) / 180, deg = x => (x * 180) / Math.PI
+  const v = p => [Math.cos(rad(p.lat)) * Math.cos(rad(p.lon)), Math.cos(rad(p.lat)) * Math.sin(rad(p.lon)), Math.sin(rad(p.lat))]
+  const [x1, y1, z1] = v(POR_ID[a]), [x2, y2, z2] = v(POR_ID[b])
+  const x = x1 + x2, y = y1 + y2, z = z1 + z2
+  return { lat: deg(Math.atan2(z, Math.hypot(x, y))), lon: deg(Math.atan2(y, x)) }
 }
 
 export function genRonda(nivel = 'facil', { rand = Math.random, anterior = null } = {}) {
   const N = NIVELES[nivel]
-  const prev = anterior ?? trayecto(rand, N.tipos, rand() < 0.4 ? 'cerca' : 'lejos')
+  const prev = anterior ?? trayecto(rand, N.tipos, N.sep ? 'lejos' : rand() < 0.4 ? 'cerca' : 'lejos', N.minKm, N.maxKm)
   for (let i = 0; i < 4000; i++) {
-    const t = trayecto(rand, N.tipos, rand() < 0.4 ? 'cerca' : 'lejos')
+    const t = trayecto(rand, N.tipos, rand() < 0.4 ? 'cerca' : 'lejos', N.minKm, N.maxKm)
+    if (N.sep && km(puntoMedio(t), puntoMedio(prev)) < N.sep) continue
     if ([t.a, t.b].sort().join() === [prev.a, prev.b].sort().join()) continue
     const conPais = [t.a, t.b, prev.a, prev.b].some(id => POR_ID[id].tipo === 'pais')
     const min = conPais ? Math.max(N.margen, 1.3) : N.margen

@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { ComposableMap, Geographies, Geography, Line, Marker } from 'react-simple-maps'
 import { geoInterpolate } from 'd3-geo'
 import { useLang } from '../../context/LangContext'
-import { POR_ID, esCorrecta, explicacion, etiqueta, nombre, fmtKm } from '../../lib/masLejos'
+import { POR_ID, NIVELES, esCorrecta, explicacion, etiqueta, nombre, fmtKm } from '../../lib/masLejos'
 
 const GEO_110 = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 const GEO_50 = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json'
@@ -17,7 +17,7 @@ const coord = id => [POR_ID[id].lon, POR_ID[id].lat]
 
 // Encuadre: longitud media (circular) y extensión de los dos arcos, con
 // puntos intermedios para que quepa la curva de los trayectos largos.
-function encuadre(rutas) {
+function encuadre(rutas, verLon = 10) {
   const pts = rutas.flatMap(({ a, b }) => {
     const f = geoInterpolate(coord(a), coord(b))
     return Array.from({ length: 9 }, (_, i) => f(i / 8))
@@ -25,7 +25,7 @@ function encuadre(rutas) {
   const rad = x => (x * Math.PI) / 180
   const lon0 = (Math.atan2(pts.reduce((s, p) => s + Math.sin(rad(p[0])), 0), pts.reduce((s, p) => s + Math.cos(rad(p[0])), 0)) * 180) / Math.PI
   const rel = pts.map(p => ((p[0] - lon0 + 540) % 360) - 180)
-  const spanLon = Math.max(10, Math.max(...rel) - Math.min(...rel))
+  const spanLon = Math.max(verLon, Math.max(...rel) - Math.min(...rel))
   const lats = pts.map(p => p[1])
   const spanLat = Math.max(7, Math.max(...lats) - Math.min(...lats))
   const midLat = (Math.max(...lats) + Math.min(...lats)) / 2
@@ -61,7 +61,7 @@ export default function PreguntaDistancia({ ronda: r, revelado, onResponder }) {
   const { tr, lang } = useLang()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
   const { anterior: p, actual: t } = r
-  const enc = encuadre([p, t])
+  const enc = encuadre([p, t], NIVELES[r.nivel]?.verLon)
   const acierto = revelado && esCorrecta(r, elegida)
 
   return (

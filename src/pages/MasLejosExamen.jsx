@@ -9,10 +9,10 @@ const LEVELS = [
     hint: { es: 'Diferencias claras', en: 'Clear differences', ca: 'Diferències clares' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-    hint: { es: 'Más ajustado', en: 'Closer calls', ca: 'Més ajustat' } },
+    hint: { es: 'Más ajustado, en zonas distintas', en: 'Closer calls, far apart', ca: 'Més ajustat, en zones diferents' } },
   { key: 'avanzado', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-    hint: { es: 'Muy ajustado, entre ciudades', en: 'Very close, cities only', ca: 'Molt ajustat, entre ciutats' } },
+    hint: { es: 'Muy ajustado, en el mundo entero', en: 'Very close, whole world map', ca: 'Molt ajustat, al món sencer' } },
 ]
 
 export default function MasLejosExamen() {

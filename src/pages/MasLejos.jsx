@@ -22,9 +22,9 @@ const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
              desc: { es: 'Diferencias claras: uno es mucho más largo que el otro', en: 'Clear differences: one is much longer than the other', ca: 'Diferències clares: un és molt més llarg que l’altre' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Más ajustado: entre un 30 % y el doble de diferencia', en: 'Closer calls: between 30% and twice as far', ca: 'Més ajustat: entre un 30 % i el doble de diferència' } },
+             desc: { es: 'Más ajustado y en zonas distintas del mundo: no basta con mirar las líneas', en: 'Closer calls in different parts of the world: looking at the lines is not enough', ca: 'Més ajustat i en zones diferents del món: no n’hi ha prou de mirar les línies' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Muy ajustado, solo entre ciudades: hilar fino con el mapa', en: 'Very close calls, cities only: you need a sharp eye for the map', ca: 'Molt ajustat, només entre ciutats: cal afinar amb el mapa' } },
+             desc: { es: 'Muy ajustado, en el mapa del mundo entero y lejos uno del otro: el mapa engaña', en: 'Very close calls on the whole world map, far apart: the map can fool you', ca: 'Molt ajustat, al mapa del món sencer i lluny l’un de l’altre: el mapa enganya' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[mas-lejos] los niveles de la pantalla no coinciden con NIVELES')

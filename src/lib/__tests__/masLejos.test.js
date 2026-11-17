@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { LUGARES, POR_ID, NIVELES, km, genRonda, esCorrecta, explicacion, schemaQuestion, etiqueta, fmtKm } from '../masLejos'
+import { LUGARES, POR_ID, NIVELES, km, puntoMedio, genRonda, esCorrecta, explicacion, schemaQuestion, etiqueta, fmtKm } from '../masLejos'
 
 const d = (a, b) => km(POR_ID[a], POR_ID[b])
 
@@ -33,7 +33,10 @@ describe('¿Más Lejos?', () => {
         expect(c, r.id).toBeGreaterThanOrEqual(conPais ? Math.max(N.margen, 1.3) : N.margen)
         expect(c, r.id).toBeLessThanOrEqual(N.maxMargen)
         for (const id of [t.a, t.b]) expect(N.tipos).toContain(POR_ID[id].tipo)
-        expect(t.km).toBeGreaterThanOrEqual(250)
+        expect(t.km).toBeGreaterThanOrEqual(N.minKm)
+        expect(t.km).toBeLessThanOrEqual(N.maxKm)
+        // medio y difícil: los dos trayectos en zonas distintas del mundo
+        if (N.sep) expect(km(puntoMedio(t), puntoMedio(p)), r.id).toBeGreaterThanOrEqual(N.sep)
         expect(esCorrecta(r, t.km > p.km ? 'lejos' : 'cerca')).toBe(true)
         expect(esCorrecta(r, t.km > p.km ? 'cerca' : 'lejos')).toBe(false)
         for (const l of ['es', 'en', 'ca']) expect(explicacion(r, l)).toContain(fmtKm(t.km, l))
@@ -42,6 +45,11 @@ describe('¿Más Lejos?', () => {
         anterior = t // encadenadas, como en el juego
       }
     }
+  })
+
+  it('el punto medio de un trayecto cae entre sus extremos', () => {
+    const m = puntoMedio({ a: 'madrid', b: 'paris' })
+    expect(km(m, POR_ID.madrid)).toBeCloseTo(km(m, POR_ID.paris), 0)
   })
 
   it('en difícil no hay países: solo puntos exactos', () => {
