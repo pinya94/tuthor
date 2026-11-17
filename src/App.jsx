@@ -143,6 +143,7 @@ const CruceRectas            = lazy(() => import('./pages/CruceRectas'))
 const CazaRaiz               = lazy(() => import('./pages/CazaRaiz'))
 const AnalizaFrases          = lazy(() => import('./pages/AnalizaFrases'))
 const OrdenaFrase            = lazy(() => import('./pages/OrdenaFrase'))
+const QueVes                 = lazy(() => import('./pages/QueVes'))
 const Genetica               = lazy(() => import('./pages/Genetica'))
 const Orbita                 = lazy(() => import('./pages/Orbita'))
 const ElTiempo               = lazy(() => import('./pages/ElTiempo'))
@@ -426,6 +427,7 @@ function AppRoutes() {
       <Route path="juegos/caza-la-raiz" element={<CazaRaiz />} />
       <Route path="juegos/analiza-frases" element={<AnalizaFrases />} />
       <Route path="juegos/ordena-frase" element={<OrdenaFrase />} />
+      <Route path="juegos/que-ves" element={<QueVes />} />
       <Route path="juegos/genetica" element={<Genetica />} />
       <Route path="juegos/orbita" element={<Orbita />} />
       <Route path="juegos/el-tiempo" element={<ElTiempo />} />

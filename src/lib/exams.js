@@ -1293,6 +1293,11 @@ export const EXAMS = {
     emoji: '🔗', subject: 'ingles',
     path: 'examen/ingles-grammar-connectors-test', page: () => import('../pages/InglesGrammarConnectorsExamen'),
   },
+  'que-ves-test': {
+    label: { es: 'Look and Write: ¿Qué Ves? (con el juego)', en: 'Look and Write: What Can You See? (with the game)', ca: 'Look and Write: Què Hi Veus? (amb el joc)' },
+    emoji: '👀', subject: 'ingles',
+    path: 'examen/que-ves-test', page: () => import('../pages/QueVesExamen'),
+  },
   'ordena-frase-test': {
     label: { es: 'Ordena la Frase', en: 'Word Order', ca: 'Ordena la Frase' },
     emoji: '🔤', subject: 'ingles',

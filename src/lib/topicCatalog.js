@@ -626,6 +626,16 @@ export const TOPIC_CATALOG = {
         tracksTopic: true,
         temas: ['spelling'],
       },
+      // ¿Qué Ves?: un juego con dibujo para los cinco básicos de Primaria que
+      // solo tenían test. La página guarda category = tema al llegar con uno.
+      queVes: {
+        label: { es: '¿Qué Ves? (juego con dibujo)', en: 'What Can You See? (picture game)', ca: 'Què Hi Veus? (joc amb dibuix)' },
+        emoji: '👀',
+        game: 'que-ves',
+        usesLevel: false,
+        tracksTopic: true,
+        temas: ['there-is-there-are', 'have-got', 'present-continuous', 'can', 'possessives'],
+      },
       irregulares: {
         label: { es: 'Verbos Irregulares (juego)', en: 'Irregular Verbs (game)', ca: 'Verbs Irregulars (joc)' },
         emoji: '🔁',

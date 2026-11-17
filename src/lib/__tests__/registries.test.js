@@ -250,7 +250,9 @@ describe('catálogo por tema (topicCatalog.js): materia → tema → formato →
     }
     // analiza-frases-test es el examen del juego Analiza la Frase (mezcla
     // todas las categorías), no un tema concreto: va en la lista plana.
-    expect(sueltos).toEqual(['lengua/analiza-frases-test'])
+    // Igual que-ves-test: mezcla los cinco básicos de inglés de Primaria (el
+    // juego sí es formato de cada uno de esos temas y guarda el tema al jugarlo).
+    expect(sueltos.sort()).toEqual(['ingles/que-ves-test', 'lengua/analiza-frases-test'])
   })
 
   it('los temas de ciencias son los de TEMA_DISCIPLINA (src/data/ciencias.js)', async () => {

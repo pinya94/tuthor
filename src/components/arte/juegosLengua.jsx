@@ -230,6 +230,25 @@ function MideElVerso(p) {
   )
 }
 
+function QueVes(p) {
+  // Una escena del parque: cielo, pájaros, un niño corriendo, su perro y patos
+  return (
+    <Lienzo {...p}>
+      <rect x="14" y="10" width="212" height="116" rx="10" fill="#1F5130" />
+      <rect x="14" y="10" width="212" height="46" rx="10" fill="#1D3B63" />
+      <circle cx="204" cy="26" r="9" fill="#FCD34D" />
+      <path d="M40 32q6-6 12 0q6-6 12 0M78 26q6-6 12 0q6-6 12 0M116 34q6-6 12 0q6-6 12 0" fill="none" stroke="#E2E8F0" strokeWidth="2.5" strokeLinecap="round" />
+      <ellipse cx="178" cy="104" rx="38" ry="13" fill="#2563EB" />
+      <circle cx="166" cy="102" r="5" fill="#FDE68A" /><circle cx="186" cy="104" r="5" fill="#FDE68A" />
+      <circle cx="74" cy="66" r="9" fill="#FBCFA8" />
+      <path d="M74 75V96M74 82L62 90M74 82L88 76M74 96L64 112M74 96L86 110" stroke="#F472B6" strokeWidth="5" strokeLinecap="round" />
+      <ellipse cx="112" cy="104" rx="12" ry="8" fill="#C08457" /><circle cx="122" cy="96" r="6" fill="#C08457" />
+      <rect x="28" y="114" width="70" height="16" rx="5" fill="#FBBF24" />
+      <T x={63} y={126} s={11} c="#422006">is running</T>
+    </Lienzo>
+  )
+}
+
 function ElMensajero(p) {
   // Un bocadillo con la frase directa y un sobre que la lleva, ya cambiada.
   return (
@@ -279,6 +298,7 @@ export const ARTE_LENGUA = {
   'pieza-que-falta': PiezaQueFalta,
   'verbos-irregulares': VerbosIrregulares,
   'el-mensajero': ElMensajero,
+  'que-ves': QueVes,
   'pon-la-tilde': PonLaTilde,
   'fabrica-palabras': FabricaPalabras,
   'que-letra': QueLetra,

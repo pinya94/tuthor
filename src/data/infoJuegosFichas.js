@@ -142,6 +142,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Inglés', niveles: 'Primaria, ESO, Bachillerato',
   },
+  'que-ves': {
+    titulo: '¿Qué Ves?',
+    subtitulo: 'Juego de inglés para Primaria con dibujos',
+    emoji: '👀', gradient: 'from-emerald-500 to-sky-700',
+    path: '/juegos/que-ves',
+    intro: 'Un juego de inglés para Primaria y 1.º de ESO. Sale un parque dibujado con niños, sus mascotas, pájaros, patos, flores y mariposas, y una frase en inglés sobre el dibujo con huecos que se llenan con fichas. Para acertar hay que mirar el dibujo (cuántos pájaros hay, de quién es el conejo, qué hace cada niño) y elegir la forma correcta. Practica there is / there are, has got, can, el present continuous y los posesivos.',
+    beneficios: [
+      { titulo: 'Cinco temas del inglés básico', texto: 'There is / there are, has got / have got, can, el present continuous y los posesivos (his, her, its) son los cinco temas de inglés de Primaria que más se trabajan. Aquí salen mezclados, o uno solo si se entra desde su tema.' },
+      { titulo: 'Inglés con significado', texto: 'Las frases hablan de lo que se ve: There are three birds solo es verdad si hay tres. Eso obliga a entender la frase, no solo a rellenar la forma.' },
+      { titulo: 'Las trampas típicas', texto: 'Entre las fichas están los errores de siempre: is en vez de are, have en vez de has, cans, his en vez de her, it’s en vez de its. Elegir entre la buena y la trampa fija la regla.' },
+    ],
+    ejemplo: 'En el dibujo, Anna está leyendo y tiene un conejo al lado. Sale «___ ___ a rabbit.» y el alumno pone Anna y has got: Anna has got a rabbit.',
+    enPapel: {
+      titulo: 'Look and say en clase',
+      pasos: [
+        'Proyecta o dibuja una escena sencilla: un parque con niños, animales y cosas.',
+        'Por turnos, cada alumno dice una frase verdadera sobre el dibujo con there is / there are.',
+        'Después, con has got (quién tiene qué) y con -ing (qué está haciendo cada uno).',
+        'Terminad con preguntas: Is Tom swimming? — No, he isn’t. He is reading.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de ¿Qué Ves?', desc: 'Diez escenas con la misma mecánica, sin reloj y con nota.' },
+      { nombre: 'La Pieza que Falta', desc: 'El siguiente paso: tiempos verbales, condicionales y pasiva.' },
+      { nombre: 'Verbos Irregulares', desc: 'Pasado y participio de los verbos más comunes.' },
+    ],
+    asignatura: 'Inglés', niveles: 'Primaria, ESO',
+  },
   'ordena-frase': {
     titulo: 'Ordena la Frase',
     subtitulo: 'Juego de Word Order — el orden de las palabras en inglés',
@@ -3099,6 +3127,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'English', niveles: 'Primary, Secondary, Sixth Form',
   },
+  'que-ves': {
+    titulo: 'What Can You See?',
+    subtitulo: 'Picture-based English game for young learners',
+    emoji: '👀', gradient: 'from-emerald-500 to-sky-700', path: '/juegos/que-ves',
+    intro: 'An English game for young learners. A park appears with children, their pets, birds, ducks, flowers and butterflies, plus an English sentence about the picture with gaps to fill using tiles. To get it right, students have to look at the picture (how many birds there are, whose rabbit it is, what each child is doing) and choose the right form. It practises there is / there are, has got, can, the present continuous and possessives.',
+    beneficios: [
+      { titulo: 'Five basic English topics', texto: 'There is / there are, has got / have got, can, the present continuous and possessives (his, her, its) are the five topics young learners practise most. Here they come mixed, or just one if you start from its topic page.' },
+      { titulo: 'English with meaning', texto: 'The sentences describe what you can see: There are three birds is only true if there are three. That makes students understand the sentence, not just fill in the form.' },
+      { titulo: 'The usual traps', texto: 'The tiles include the classic mistakes: is instead of are, have instead of has, cans, his instead of her, it’s instead of its. Choosing between the right tile and the trap fixes the rule.' },
+    ],
+    ejemplo: 'In the picture, Anna is reading with a rabbit next to her. The sentence «___ ___ a rabbit.» appears and the student chooses Anna and has got: Anna has got a rabbit.',
+    enPapel: {
+      titulo: 'Look and say in class',
+      pasos: [
+        'Project or draw a simple scene: a park with children, animals and things.',
+        'Taking turns, each student says a true sentence about the picture with there is / there are.',
+        'Then with has got (who has what) and with -ing (what each person is doing).',
+        'Finish with questions: Is Tom swimming? — No, he isn’t. He is reading.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The What Can You See? exam', desc: 'Ten scenes with the same mechanic, no timer and a mark.' },
+      { nombre: 'Missing Piece', desc: 'The next step: tenses, conditionals and the passive.' },
+      { nombre: 'Irregular Verbs', desc: 'Past simple and past participle of the most common verbs.' },
+    ],
+    asignatura: 'English', niveles: 'Primary, Secondary',
+  },
   'ordena-frase': {
     titulo: 'Word Order',
     subtitulo: 'English Word Order Game',
@@ -5614,6 +5669,33 @@ export const FICHAS_CA = {
       { nombre: 'Passiva a la inversa', desc: 'Agafa titulars de diari en anglès (solen anar en passiva) i reescriu-los en activa. Es veu per a què serveix la passiva: quan no importa qui va fer l’acció.' },
     ],
     asignatura: 'Anglès', niveles: 'Primària, ESO, Batxillerat',
+  },
+  'que-ves': {
+    titulo: 'Què Hi Veus?',
+    subtitulo: 'Joc d’anglès per a Primària amb dibuixos',
+    emoji: '👀', gradient: 'from-emerald-500 to-sky-700', path: '/juegos/que-ves',
+    intro: 'Un joc d’anglès per a Primària i 1r d’ESO. Surt un parc dibuixat amb nens, les seves mascotes, ocells, ànecs, flors i papallones, i una frase en anglès sobre el dibuix amb buits que s’omplen amb fitxes. Per encertar cal mirar el dibuix (quants ocells hi ha, de qui és el conill, què fa cada nen) i triar la forma correcta. Practica there is / there are, has got, can, el present continuous i els possessius.',
+    beneficios: [
+      { titulo: 'Cinc temes de l’anglès bàsic', texto: 'There is / there are, has got / have got, can, el present continuous i els possessius (his, her, its) són els cinc temes d’anglès de Primària que més es treballen. Aquí surten barrejats, o un de sol si s’hi entra des del seu tema.' },
+      { titulo: 'Anglès amb significat', texto: 'Les frases parlen del que es veu: There are three birds només és veritat si n’hi ha tres. Això obliga a entendre la frase, no només a omplir la forma.' },
+      { titulo: 'Els paranys típics', texto: 'Entre les fitxes hi ha els errors de sempre: is en lloc d’are, have en lloc de has, cans, his en lloc de her, it’s en lloc d’its. Triar entre la bona i el parany fixa la regla.' },
+    ],
+    ejemplo: 'Al dibuix, l’Anna està llegint i té un conill al costat. Surt «___ ___ a rabbit.» i l’alumne posa Anna i has got: Anna has got a rabbit.',
+    enPapel: {
+      titulo: 'Look and say a classe',
+      pasos: [
+        'Projecta o dibuixa una escena senzilla: un parc amb nens, animals i coses.',
+        'Per torns, cada alumne diu una frase certa sobre el dibuix amb there is / there are.',
+        'Després, amb has got (qui té què) i amb -ing (què fa cadascú).',
+        'Acabeu amb preguntes: Is Tom swimming? — No, he isn’t. He is reading.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Què Hi Veus?', desc: 'Deu escenes amb la mateixa mecànica, sense rellotge i amb nota.' },
+      { nombre: 'La Peça que Falta', desc: 'El pas següent: temps verbals, condicionals i passiva.' },
+      { nombre: 'Verbs Irregulars', desc: 'Passat i participi dels verbs més comuns.' },
+    ],
+    asignatura: 'Anglès', niveles: 'Primària, ESO',
   },
   'ordena-frase': {
     titulo: 'Ordena la Frase',

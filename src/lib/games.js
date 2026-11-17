@@ -605,6 +605,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'que-ves': {
+    label: { es: '¿Qué Ves?', en: 'What Can You See?', ca: 'Què Hi Veus?' },
+    emoji: '👀',
+    subject: 'ingles',
+    route: '/juegos/que-ves',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'ordena-frase': {
     label: { es: 'Ordena la Frase', en: 'Word Order', ca: 'Ordena la Frase' },
     emoji: '🔤',
