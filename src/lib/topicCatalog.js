@@ -118,6 +118,16 @@ export const TOPIC_CATALOG = {
         tracksTopic: true,
         temas: ['primaria', 'gce', 'wwii', 'roma', 'usa', 'antigua', 'franquismo', 'prehistoria', 'edad-media', 'edad-moderna', 'revolucion-francesa', 'revolucion-industrial', 'primera-guerra-mundial', 'guerra-fria', 'entreguerras', 'espana-xix', 'ciencia'],
       },
+      // ¿Por Qué Pasó?: causas y consecuencias. La página guarda category = tema
+      // al llegar con uno (solo hechos de ese tema).
+      'por-que-paso': {
+        label: { es: '¿Por Qué Pasó? Causas y consecuencias (juego)', en: 'Why Did It Happen? Causes and consequences (game)', ca: 'Per Què Va Passar? Causes i conseqüències (joc)' },
+        emoji: '🗝️',
+        game: 'por-que-paso',
+        usesLevel: false,
+        tracksTopic: true,
+        temas: ['prehistoria', 'roma', 'edad-media', 'ciencia', 'edad-moderna', 'usa', 'revolucion-francesa', 'revolucion-industrial', 'espana-xix', 'primera-guerra-mundial', 'entreguerras', 'gce', 'wwii', 'guerra-fria', 'franquismo'],
+      },
       'quien-es-quien': {
         label: { es: '¿Quién es quién?', en: 'Who is who?', ca: 'Qui és qui?' },
         emoji: '🕵️',

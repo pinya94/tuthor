@@ -252,7 +252,9 @@ describe('catálogo por tema (topicCatalog.js): materia → tema → formato →
     // todas las categorías), no un tema concreto: va en la lista plana.
     // Igual que-ves-test: mezcla los cinco básicos de inglés de Primaria (el
     // juego sí es formato de cada uno de esos temas y guarda el tema al jugarlo).
-    expect(sueltos.sort()).toEqual(['ingles/que-ves-test', 'lengua/analiza-frases-test'])
+    // Y por-que-paso-test: mezcla hechos de todos los temas de historia (el
+    // juego sí es formato de cada tema y guarda el tema al jugarlo).
+    expect(sueltos.sort()).toEqual(['historia/por-que-paso-test', 'ingles/que-ves-test', 'lengua/analiza-frases-test'])
   })
 
   it('los temas de ciencias son los de TEMA_DISCIPLINA (src/data/ciencias.js)', async () => {

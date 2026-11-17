@@ -505,6 +505,33 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Historia', niveles: 'ESO, Bachillerato',
   },
+  'por-que-paso': {
+    titulo: '¿Por Qué Pasó?',
+    subtitulo: 'Juego de causas y consecuencias de la historia',
+    emoji: '🗝️', gradient: 'from-amber-600 to-rose-800', path: '/juegos/por-que-paso',
+    intro: 'Un juego de historia para entender el porqué de los hechos. Sale un hecho, como la Revolución francesa o la Peste Negra, y unas piezas que hay que clasificar: ¿es una causa (algo que pasó antes y lo provocó) o una consecuencia (algo que vino después por su culpa)? En el nivel difícil se mezclan dos hechos de épocas muy distintas y hay que decir también de cuál es cada pieza. Son 25 hechos, de la revolución neolítica a la caída del muro de Berlín.',
+    beneficios: [
+      { titulo: 'Lo que más cae en los exámenes', texto: 'Las preguntas de historia de la ESO piden una y otra vez causas y consecuencias. Practicarlas clasificando piezas obliga a pensar la relación entre los hechos, no solo a memorizar fechas.' },
+      { titulo: 'Piezas concretas, sin trampa', texto: 'Cada pieza nombra algo concreto (el Tratado de Versalles, las 95 tesis de Lutero, el Maine) para que solo encaje en su hecho. En el nivel difícil los dos hechos están separados por siglos.' },
+      { titulo: 'De la Prehistoria a hoy', texto: 'Revolución neolítica, caída de Roma, 711, Peste Negra, 1492, Reforma, Ilustración, revoluciones, el 98, las dos guerras mundiales, la Guerra Civil, la Guerra Fría y la Transición. Desde cada tema de historia salen solo sus hechos.' },
+    ],
+    ejemplo: 'Sale «La Peste Negra (1348)» con cuatro piezas. El alumno marca «Pulgas de las ratas que viajaban en los barcos» como causa y «Faltan campesinos y suben sus salarios» como consecuencia.',
+    enPapel: {
+      titulo: 'Causas y consecuencias en clase',
+      pasos: [
+        'Escribe en la pizarra un hecho y, desordenadas, seis frases sobre él.',
+        'En parejas, separad las frases en dos columnas: causas y consecuencias.',
+        'Para cada una, explicad con un «porque» o un «por eso» cómo se relaciona con el hecho.',
+        'Buscad en el libro una consecuencia que sea a la vez causa de otro hecho posterior.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'El examen de ¿Por Qué Pasó?', desc: 'Diez esquemas sin reloj y con nota.' },
+      { nombre: 'Línea Temporal', desc: 'Ordena los hechos en el tiempo.' },
+      { nombre: 'Portadas', desc: 'Detecta los titulares históricos con un error.' },
+    ],
+    asignatura: 'Historia', niveles: 'ESO, Bachillerato',
+  },
   'linea-temporal': {
     titulo: 'Línea Temporal',
     subtitulo: 'Juego de Ordenación Cronológica',
@@ -3453,6 +3480,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'History', niveles: 'Secondary, Sixth Form',
   },
+  'por-que-paso': {
+    titulo: 'Why Did It Happen?',
+    subtitulo: 'History causes and consequences game',
+    emoji: '🗝️', gradient: 'from-amber-600 to-rose-800', path: '/juegos/por-que-paso',
+    intro: 'A history game for understanding why things happened. An event appears, such as the French Revolution or the Black Death, along with some pieces to sort: is each one a cause (something that happened before and brought it about) or a consequence (something that came after because of it)? On Hard, two events from very different times are mixed and you also say which one each piece belongs to. There are 25 events, from the Neolithic Revolution to the fall of the Berlin Wall.',
+    beneficios: [
+      { titulo: 'What exams ask most', texto: 'Secondary-school history questions keep asking for causes and consequences. Sorting pieces makes students think about how events are connected, not just memorise dates.' },
+      { titulo: 'Specific pieces, no tricks', texto: 'Each piece names something specific (the Treaty of Versailles, Luther’s 95 Theses, the Maine) so it only fits its own event. On Hard, the two events are centuries apart.' },
+      { titulo: 'From prehistory to today', texto: 'The Neolithic Revolution, the fall of Rome, 711, the Black Death, 1492, the Reformation, the Enlightenment, the revolutions, 1898, both world wars, the Spanish Civil War, the Cold War and the Spanish transition to democracy. Each history topic shows only its own events.' },
+    ],
+    ejemplo: '«The Black Death (1348)» appears with four pieces. The student marks «Fleas on rats carried by trading ships» as a cause and «There are too few peasants and their wages rise» as a consequence.',
+    enPapel: {
+      titulo: 'Causes and consequences in class',
+      pasos: [
+        'Write an event on the board and, jumbled up, six sentences about it.',
+        'In pairs, split the sentences into two columns: causes and consequences.',
+        'For each one, explain with «because» or «so» how it relates to the event.',
+        'Find a consequence in the textbook that is also the cause of a later event.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'The Why Did It Happen? exam', desc: 'Ten puzzles with no timer and a mark.' },
+      { nombre: 'Timeline', desc: 'Put events in order in time.' },
+      { nombre: 'Headlines', desc: 'Spot historical headlines with a mistake.' },
+    ],
+    asignatura: 'History', niveles: 'Secondary',
+  },
   'linea-temporal': {
     titulo: 'Timeline', subtitulo: 'Chronological Ordering Game',
     emoji: '📜', gradient: 'from-emerald-600 to-teal-800', path: '/juegos/linea-temporal',
@@ -6067,6 +6121,33 @@ export const FICHAS_CA = {
       { nombre: "Endevina l'any en paper", desc: "Escriviu quinze esdeveniments en targetes amb l'any amagat. Un llegeix i els altres apunten el seu any; guanya qui més s'hi acosti." },
       { nombre: "Quiz de dates en grup", desc: "Perfecte per repassar la setmana abans d'un examen: en vint minuts es cobreixen més dates que en una hora d'estudi en solitari." },
       { nombre: "La dècada a cegues", desc: "En comptes de l'any exacte, demaneu només la dècada. Baixa l'exigència i puja la participació." },
+    ],
+    asignatura: 'Història', niveles: 'ESO, Batxillerat',
+  },
+  'por-que-paso': {
+    titulo: 'Per Què Va Passar?',
+    subtitulo: 'Joc de causes i conseqüències de la història',
+    emoji: '🗝️', gradient: 'from-amber-600 to-rose-800', path: '/juegos/por-que-paso',
+    intro: 'Un joc d’història per entendre el perquè dels fets. Surt un fet, com la Revolució francesa o la Pesta Negra, i unes peces que cal classificar: és una causa (una cosa que va passar abans i el va provocar) o una conseqüència (una cosa que va venir després per culpa seva)? Al nivell difícil es barregen dos fets d’èpoques molt diferents i cal dir també de quin és cada peça. Són 25 fets, de la revolució neolítica a la caiguda del mur de Berlín.',
+    beneficios: [
+      { titulo: 'El que més surt als exàmens', texto: 'Les preguntes d’història de l’ESO demanen una vegada i una altra causes i conseqüències. Practicar-les classificant peces obliga a pensar la relació entre els fets, no només a memoritzar dates.' },
+      { titulo: 'Peces concretes, sense parany', texto: 'Cada peça anomena una cosa concreta (el Tractat de Versalles, les 95 tesis de Luter, el Maine) perquè només encaixi en el seu fet. Al nivell difícil els dos fets estan separats per segles.' },
+      { titulo: 'De la Prehistòria a avui', texto: 'Revolució neolítica, caiguda de Roma, 711, Pesta Negra, 1492, Reforma, Il·lustració, revolucions, el 98, les dues guerres mundials, la Guerra Civil, la Guerra Freda i la Transició. Des de cada tema d’història només surten els seus fets.' },
+    ],
+    ejemplo: 'Surt «La Pesta Negra (1348)» amb quatre peces. L’alumne marca «Puces de les rates que viatjaven als vaixells de comerç» com a causa i «Falten pagesos i pugen els seus salaris» com a conseqüència.',
+    enPapel: {
+      titulo: 'Causes i conseqüències a classe',
+      pasos: [
+        'Escriu a la pissarra un fet i, desordenades, sis frases sobre ell.',
+        'En parelles, separeu les frases en dues columnes: causes i conseqüències.',
+        'Per a cadascuna, expliqueu amb un «perquè» o un «per això» com es relaciona amb el fet.',
+        'Busqueu al llibre una conseqüència que sigui alhora causa d’un fet posterior.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'L’examen de Per Què Va Passar?', desc: 'Deu esquemes sense rellotge i amb nota.' },
+      { nombre: 'Línia Temporal', desc: 'Ordena els fets en el temps.' },
+      { nombre: 'Portades', desc: 'Detecta els titulars històrics amb un error.' },
     ],
     asignatura: 'Història', niveles: 'ESO, Batxillerat',
   },

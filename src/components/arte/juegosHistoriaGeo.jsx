@@ -421,6 +421,21 @@ function TablaVerdad(p) {
   )
 }
 
+function PorQuePaso(p) {
+  // Causas → hecho → consecuencias: dos fichas a cada lado de un sello central
+  return (
+    <Lienzo {...p}>
+      <rect x="14" y="26" width="58" height="22" rx="6" fill="#FBBF24" /><rect x="14" y="62" width="58" height="22" rx="6" fill="#FBBF24" />
+      <rect x="168" y="26" width="58" height="22" rx="6" fill="#38BDF8" /><rect x="168" y="62" width="58" height="22" rx="6" fill="#38BDF8" />
+      <circle cx="120" cy="56" r="28" fill="#BE123C" stroke="#FDE68A" strokeWidth="3" />
+      <T x={120} y={63} s={20} c="#FDE68A">?</T>
+      <path d="M74 40L92 50M74 72L92 62M148 50L166 38M148 62L166 74" stroke="#E2E8F0" strokeWidth="3" strokeLinecap="round" />
+      <T x={43} y={108} s={11} c="#FBBF24">CAUSAS</T>
+      <T x={197} y={108} s={11} c="#38BDF8">CONSECUENCIAS</T>
+    </Lienzo>
+  )
+}
+
 function MasOMenos(p) {
   // Dos barras (una gris, otra ámbar) con sus flechas de más y menos
   return (
@@ -455,6 +470,7 @@ function MasLejos(p) {
 export const ARTE_HISTORIA_GEO = {
   'tuthor-time': TuthorTime,
   'linea-temporal': LineaTemporal,
+  'por-que-paso': PorQuePaso,
   'quien-es-quien': QuienEsQuien,
   portadas: Portadas,
   'epocas-historicas': EpocasHistoricas,

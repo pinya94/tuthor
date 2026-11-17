@@ -72,6 +72,7 @@ export const PUERTAS = [
 
 export const GAMES = [
   { title: 'Tuthor Time', subtitle: 'Viajero del tiempo', subtitleEn: 'Time traveller', subtitleCa: 'Viatger del temps', emoji: '🕰️', gradient: 'from-amber-500 to-orange-600', ready: true, path: '/juegos/tuthor-time' },
+  { title: '¿Por Qué Pasó?', titleEn: 'Why Did It Happen?', titleCa: 'Per Què Va Passar?', subtitle: 'Causas y consecuencias de la historia', subtitleEn: 'Causes and consequences in history', subtitleCa: 'Causes i conseqüències de la història', emoji: '🗝️', gradient: 'from-amber-600 to-rose-800', ready: true, path: '/juegos/por-que-paso' },
   { title: 'Línea Temporal', titleEn: 'Timeline', titleCa: 'Línia Temporal', subtitle: 'Ordena la historia', subtitleEn: 'Sort history', subtitleCa: 'Ordena la història', emoji: '📜', gradient: 'from-emerald-500 to-teal-700', ready: true, path: '/juegos/linea-temporal' },
   { title: '¿Quién es quién?', titleEn: 'Who is Who?', titleCa: 'Qui és qui?', subtitle: 'Adivina el personaje', subtitleEn: 'Guess the figure', subtitleCa: 'Endevina el personatge', emoji: '🕵️', gradient: 'from-violet-600 to-purple-800', ready: true, path: '/juegos/quien-es-quien' },
   { title: 'Portadas', titleEn: 'Headlines', titleCa: 'Portades', subtitle: 'Verdad o mentira histórica', subtitleEn: 'True or false headlines', subtitleCa: 'Veritat o mentida històrica', emoji: '📰', gradient: 'from-stone-500 to-neutral-700', ready: true, path: '/juegos/portadas' },

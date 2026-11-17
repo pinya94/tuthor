@@ -38,6 +38,14 @@ export const GAMES = {
     route: '/juegos/linea-temporal',
     coins: DEFAULT_COINS,
   },
+  'por-que-paso': {
+    label: { es: '¿Por Qué Pasó?', en: 'Why Did It Happen?', ca: 'Per Què Va Passar?' },
+    emoji: '🗝️',
+    subject: 'historia',
+    route: '/juegos/por-que-paso',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'quien-es-quien': {
     label: { es: '¿Quién es Quién?', en: 'Who is Who?', ca: 'Qui és qui?' },
     emoji: '🕵️',

@@ -33,6 +33,11 @@ export const EXAMS = {
     emoji: '⚽', subject: 'matematicas',
     route: '/examen/trayectoria',
   },
+  'por-que-paso-test': {
+    label: { es: 'Causas y consecuencias: ¿Por Qué Pasó? (con el juego)', en: 'Causes and consequences: Why Did It Happen? (with the game)', ca: 'Causes i conseqüències: Per Què Va Passar? (amb el joc)' },
+    emoji: '🗝️', subject: 'historia',
+    path: 'examen/por-que-paso-test', page: () => import('../pages/PorQuePasoExamen'),
+  },
   'portadas-examen': {
     label: { es: 'Portadas (examen)', en: 'Headlines (exam)', ca: 'Portades (examen)' },
     emoji: '📰', subject: 'historia',
