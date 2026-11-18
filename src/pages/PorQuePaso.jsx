@@ -11,19 +11,19 @@ import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
 
-// Leer las piezas y pensar cada una lleva su tiempo: 180 s y +20 s por acierto.
-const GAME_TIME = 180
+// Juego rápido: una pieza y un toque. 90 s y +5 s por acierto.
+const GAME_TIME = 90
 const WRONG_TIME = 5
-const CORRECT_TIME = 20
-const REVEAL_MS = 9000 // hay varias piezas que leer al corregir
+const CORRECT_TIME = 5
+const REVEAL_MS = 3000 // ver si acertaste y seguir
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-             desc: { es: 'Un hecho y 4 piezas: ¿causa, consecuencia… o no tiene que ver?', en: 'One event and 4 pieces: cause, consequence… or not related?', ca: 'Un fet i 4 peces: causa, conseqüència… o no hi té res a veure?' } },
+             desc: { es: 'Una pieza por ronda: ¿causa, consecuencia o no tiene que ver?', en: 'One piece per round: cause, consequence or not related?', ca: 'Una peça per ronda: causa, conseqüència o no hi té a veure?' } },
   medio:   { emoji: '💛', label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-             desc: { es: 'Un hecho, 6 piezas y 2 intrusas de otras épocas', en: 'One event, 6 pieces and 2 intruders from other times', ca: 'Un fet, 6 peces i 2 intruses d’altres èpoques' } },
+             desc: { es: 'Dos piezas por ronda', en: 'Two pieces per round', ca: 'Dues peces per ronda' } },
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-             desc: { es: 'Dos hechos mezclados y una intrusa: de cuál es cada pieza y si es causa o consecuencia', en: 'Two events mixed plus an intruder: which one each piece belongs to, and cause or consequence', ca: 'Dos fets barrejats i una intrusa: de quin és cada peça i si és causa o conseqüència' } },
+             desc: { es: 'Tres piezas por ronda', en: 'Three pieces per round', ca: 'Tres peces per ronda' } },
 }
 if (import.meta.env.DEV && Object.keys(DIFS).join() !== Object.keys(NIVELES).join()) {
   console.warn('[por-que-paso] los niveles de la pantalla no coinciden con NIVELES')
@@ -146,8 +146,8 @@ export default function PorQuePaso() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sale un hecho histórico (la Revolución francesa, la Peste Negra, la caída del muro de Berlín…) y unas piezas. Clasifica cada una: ¿es una causa, algo que pasó antes y lo provocó, o una consecuencia, algo que vino después por su culpa? En difícil se mezclan dos hechos de épocas muy distintas y además hay que decir de cuál es cada pieza.', en: 'A historical event appears (the French Revolution, the Black Death, the fall of the Berlin Wall…) along with some pieces. Sort each one: is it a cause, something that happened before and brought it about, or a consequence, something that came after because of it? On Hard, two events from very different times are mixed and you also say which one each piece belongs to.', ca: 'Surt un fet històric (la Revolució francesa, la Pesta Negra, la caiguda del mur de Berlín…) i unes peces. Classifica-les: és una causa, una cosa que va passar abans i el va provocar, o una conseqüència, una cosa que va venir després per culpa seva? En difícil es barregen dos fets d’èpoques molt diferents i a més cal dir de quin és cada peça.' })}</p>
-              <p>{tr({ es: 'Hay 25 hechos, de la revolución neolítica a la caída del muro. Si entras desde un tema de historia, solo salen hechos de ese tema.', en: 'There are 25 events, from the Neolithic Revolution to the fall of the Wall. If you start from a history topic, only events from that topic come up.', ca: 'Hi ha 25 fets, de la revolució neolítica a la caiguda del mur. Si hi entres des d’un tema d’història, només surten fets d’aquell tema.' })}</p>
+              <p>{tr({ es: 'Sale un hecho de la historia, como la Revolución francesa o la Peste Negra, y una frase. Toca si es una causa (pasó antes y lo provocó), una consecuencia (vino después por su culpa) o si no tiene que ver (es de otra época). En medio salen dos frases y en difícil, tres.', en: 'A historical event appears, such as the French Revolution or the Black Death, with a sentence. Tap whether it is a cause (it happened before and brought it about), a consequence (it came after because of it) or not related (it belongs to another time). Medium shows two sentences and Hard shows three.', ca: 'Surt un fet de la història, com la Revolució francesa o la Pesta Negra, i una frase. Toca si és una causa (va passar abans i el va provocar), una conseqüència (va venir després per culpa seva) o si no hi té a veure (és d’una altra època). En mitjà en surten dues i en difícil, tres.' })}</p>
+              <p>{tr({ es: 'Hay 25 hechos, de la revolución neolítica a la caída del muro de Berlín. Si entras desde un tema de historia, solo salen hechos de ese tema.', en: 'There are 25 events, from the Neolithic Revolution to the fall of the Berlin Wall. If you start from a history topic, only events from that topic come up.', ca: 'Hi ha 25 fets, de la revolució neolítica a la caiguda del mur de Berlín. Si hi entres des d’un tema d’història, només surten fets d’aquell tema.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>

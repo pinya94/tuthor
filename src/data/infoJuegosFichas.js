@@ -509,13 +509,13 @@ export const FICHAS_ES = {
     titulo: '¿Por Qué Pasó?',
     subtitulo: 'Juego de causas y consecuencias de la historia',
     emoji: '🗝️', gradient: 'from-amber-600 to-rose-800', path: '/juegos/por-que-paso',
-    intro: 'Un juego de historia para entender el porqué de los hechos. Sale un hecho, como la Revolución francesa o la Peste Negra, y unas piezas que hay que clasificar: ¿es una causa (algo que pasó antes y lo provocó), una consecuencia (algo que vino después por su culpa) o no tiene nada que ver, porque es de otra época? En el nivel difícil se mezclan dos hechos de épocas muy distintas y hay que decir también de cuál es cada pieza. Son 25 hechos, de la revolución neolítica a la caída del muro de Berlín.',
+    intro: 'Un juego de historia rápido para entender el porqué de los hechos. Sale un hecho, como la Revolución francesa o la Peste Negra, y una frase, y se toca si es una causa (pasó antes y lo provocó), una consecuencia (vino después por su culpa) o si no tiene que ver (es de otra época). En el nivel medio salen dos frases por ronda y en el difícil, tres. Son 25 hechos, de la revolución neolítica a la caída del muro de Berlín.',
     beneficios: [
       { titulo: 'Lo que más cae en los exámenes', texto: 'Las preguntas de historia de la ESO piden una y otra vez causas y consecuencias. Practicarlas clasificando piezas obliga a pensar la relación entre los hechos, no solo a memorizar fechas.' },
-      { titulo: 'Piezas concretas, sin trampa', texto: 'Cada pieza nombra algo concreto (el Tratado de Versalles, las 95 tesis de Lutero, el Maine) para que solo encaje en su hecho. En el nivel difícil los dos hechos están separados por siglos.' },
+      { titulo: 'Piezas concretas, sin trampa', texto: 'Cada frase nombra algo concreto (el Tratado de Versalles, las 95 tesis de Lutero, el Maine) para que solo encaje en su hecho, y las que no tienen que ver salen de hechos separados por siglos.' },
       { titulo: 'De la Prehistoria a hoy', texto: 'Revolución neolítica, caída de Roma, 711, Peste Negra, 1492, Reforma, Ilustración, revoluciones, el 98, las dos guerras mundiales, la Guerra Civil, la Guerra Fría y la Transición. Desde cada tema de historia salen solo sus hechos.' },
     ],
-    ejemplo: 'Sale «La Peste Negra (1348)» con cuatro piezas. El alumno marca «Pulgas de las ratas que viajaban en los barcos» como causa y «Faltan campesinos y suben sus salarios» como consecuencia.',
+    ejemplo: 'Sale «La Peste Negra (1348)» con la frase «Pulgas de las ratas que viajaban en los barcos de comercio». El alumno toca «Causa» y acierta; la siguiente ronda trae otro hecho.',
     enPapel: {
       titulo: 'Causas y consecuencias en clase',
       pasos: [
@@ -3484,13 +3484,13 @@ export const FICHAS_EN = {
     titulo: 'Why Did It Happen?',
     subtitulo: 'History causes and consequences game',
     emoji: '🗝️', gradient: 'from-amber-600 to-rose-800', path: '/juegos/por-que-paso',
-    intro: 'A history game for understanding why things happened. An event appears, such as the French Revolution or the Black Death, along with some pieces to sort: is each one a cause (something that happened before and brought it about), a consequence (something that came after because of it), or not related at all because it belongs to another time? On Hard, two events from very different times are mixed and you also say which one each piece belongs to. There are 25 events, from the Neolithic Revolution to the fall of the Berlin Wall.',
+    intro: 'A quick history game for understanding why things happened. An event appears, such as the French Revolution or the Black Death, with a sentence, and you tap whether it is a cause (it happened before and brought it about), a consequence (it came after because of it) or not related (it belongs to another time). Medium shows two sentences per round and Hard shows three. There are 25 events, from the Neolithic Revolution to the fall of the Berlin Wall.',
     beneficios: [
       { titulo: 'What exams ask most', texto: 'Secondary-school history questions keep asking for causes and consequences. Sorting pieces makes students think about how events are connected, not just memorise dates.' },
-      { titulo: 'Specific pieces, no tricks', texto: 'Each piece names something specific (the Treaty of Versailles, Luther’s 95 Theses, the Maine) so it only fits its own event. On Hard, the two events are centuries apart.' },
+      { titulo: 'Specific pieces, no tricks', texto: 'Each sentence names something specific (the Treaty of Versailles, Luther’s 95 Theses, the Maine) so it only fits its own event, and the unrelated ones come from events centuries apart.' },
       { titulo: 'From prehistory to today', texto: 'The Neolithic Revolution, the fall of Rome, 711, the Black Death, 1492, the Reformation, the Enlightenment, the revolutions, 1898, both world wars, the Spanish Civil War, the Cold War and the Spanish transition to democracy. Each history topic shows only its own events.' },
     ],
-    ejemplo: '«The Black Death (1348)» appears with four pieces. The student marks «Fleas on rats carried by trading ships» as a cause and «There are too few peasants and their wages rise» as a consequence.',
+    ejemplo: '«The Black Death (1348)» appears with the sentence «Fleas on rats carried by trading ships». The student taps «Cause» and is right; the next round brings another event.',
     enPapel: {
       titulo: 'Causes and consequences in class',
       pasos: [
@@ -6128,13 +6128,13 @@ export const FICHAS_CA = {
     titulo: 'Per Què Va Passar?',
     subtitulo: 'Joc de causes i conseqüències de la història',
     emoji: '🗝️', gradient: 'from-amber-600 to-rose-800', path: '/juegos/por-que-paso',
-    intro: 'Un joc d’història per entendre el perquè dels fets. Surt un fet, com la Revolució francesa o la Pesta Negra, i unes peces que cal classificar: és una causa (una cosa que va passar abans i el va provocar), una conseqüència (una cosa que va venir després per culpa seva) o no hi té res a veure, perquè és d’una altra època? Al nivell difícil es barregen dos fets d’èpoques molt diferents i cal dir també de quin és cada peça. Són 25 fets, de la revolució neolítica a la caiguda del mur de Berlín.',
+    intro: 'Un joc d’història ràpid per entendre el perquè dels fets. Surt un fet, com la Revolució francesa o la Pesta Negra, i una frase, i es toca si és una causa (va passar abans i el va provocar), una conseqüència (va venir després per culpa seva) o si no hi té a veure (és d’una altra època). Al nivell mitjà surten dues frases per ronda i al difícil, tres. Són 25 fets, de la revolució neolítica a la caiguda del mur de Berlín.',
     beneficios: [
       { titulo: 'El que més surt als exàmens', texto: 'Les preguntes d’història de l’ESO demanen una vegada i una altra causes i conseqüències. Practicar-les classificant peces obliga a pensar la relació entre els fets, no només a memoritzar dates.' },
-      { titulo: 'Peces concretes, sense parany', texto: 'Cada peça anomena una cosa concreta (el Tractat de Versalles, les 95 tesis de Luter, el Maine) perquè només encaixi en el seu fet. Al nivell difícil els dos fets estan separats per segles.' },
+      { titulo: 'Peces concretes, sense parany', texto: 'Cada frase anomena una cosa concreta (el Tractat de Versalles, les 95 tesis de Luter, el Maine) perquè només encaixi en el seu fet, i les que no hi tenen a veure surten de fets separats per segles.' },
       { titulo: 'De la Prehistòria a avui', texto: 'Revolució neolítica, caiguda de Roma, 711, Pesta Negra, 1492, Reforma, Il·lustració, revolucions, el 98, les dues guerres mundials, la Guerra Civil, la Guerra Freda i la Transició. Des de cada tema d’història només surten els seus fets.' },
     ],
-    ejemplo: 'Surt «La Pesta Negra (1348)» amb quatre peces. L’alumne marca «Puces de les rates que viatjaven als vaixells de comerç» com a causa i «Falten pagesos i pugen els seus salaris» com a conseqüència.',
+    ejemplo: 'Surt «La Pesta Negra (1348)» amb la frase «Puces de les rates que viatjaven als vaixells de comerç». L’alumne toca «Causa» i encerta; la ronda següent porta un altre fet.',
     enPapel: {
       titulo: 'Causes i conseqüències a classe',
       pasos: [

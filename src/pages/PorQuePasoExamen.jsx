@@ -6,13 +6,13 @@ import { genRound, esCorrecta, schemaQuestion } from '../lib/porQuePaso'
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
-    hint: { es: 'Un hecho, 4 piezas y una intrusa', en: 'One event, 4 pieces and an intruder', ca: 'Un fet, 4 peces i una intrusa' } },
+    hint: { es: 'Una pieza por pregunta', en: 'One piece per question', ca: 'Una peça per pregunta' } },
   { key: 'eso', emoji: '💛', difficulty: 'medio',
     label: { es: 'Medio', en: 'Medium', ca: 'Mitjà' },
-    hint: { es: 'Un hecho, 6 piezas y 2 intrusas', en: 'One event, 6 pieces and 2 intruders', ca: 'Un fet, 6 peces i 2 intruses' } },
+    hint: { es: 'Dos piezas por pregunta', en: 'Two pieces per question', ca: 'Dues peces per pregunta' } },
   { key: 'avanzado', emoji: '🔴', difficulty: 'dificil',
     label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
-    hint: { es: 'Dos hechos mezclados', en: 'Two events mixed', ca: 'Dos fets barrejats' } },
+    hint: { es: 'Tres piezas por pregunta', en: 'Three pieces per question', ca: 'Tres peces per pregunta' } },
 ]
 
 export default function PorQuePasoExamen() {
@@ -28,7 +28,7 @@ export default function PorQuePasoExamen() {
       metaPath="/examen/por-que-paso-test"
       subjectSchema="Historia"
       backGamePath="/juegos/por-que-paso"
-      playLabel={{ es: 'Modo arcade (con reloj)', en: 'Arcade mode (timed)', ca: 'Mode arcade (amb rellotge)' }}
+      playLabel={{ es: 'Modo arcade (90s)', en: 'Arcade mode (90s)', ca: 'Mode arcade (90s)' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}

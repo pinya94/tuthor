@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { HECHOS, TEMAS, NIVELES, SEPARACION, hecho, compatibles, genRonda, esCorrecta, casilla, explicacion, schemaQuestion } from '../porQuePaso'
+import { HECHOS, TEMAS, NIVELES, PIEZAS, hecho, compatibles, genRonda, esCorrecta, explicacion, schemaQuestion } from '../porQuePaso'
 import { TOPIC_CATALOG } from '../topicCatalog'
 
 describe('¿Por Qué Pasó?', () => {
@@ -27,49 +27,44 @@ describe('¿Por Qué Pasó?', () => {
     expect([...TOPIC_CATALOG.historia.formatos['por-que-paso'].temas].sort()).toEqual([...TEMAS].sort())
   })
 
-  it('cada hecho tiene pareja posible para el nivel difícil', () => {
+  it('cada hecho tiene de dónde sacar piezas que no tienen que ver', () => {
     for (const h of HECHOS) expect(HECHOS.some(x => compatibles(h, x)), h.id).toBe(true)
   })
 
-  it('las rondas tienen las piezas que tocan y se corrigen bien', () => {
-    for (const nivel of Object.keys(NIVELES)) for (let i = 0; i < 300; i++) {
-      const r = genRonda(nivel)
-      expect(r.piezas.length).toBe({ facil: 5, medio: 8, dificil: 9 }[nivel])
-      // intrusas: de otro tema y lejos en el tiempo de todos los hechos de la ronda
-      const intr = r.piezas.filter(p => p.tipo === 'x')
-      expect(intr.length, r.id).toBe({ facil: 1, medio: 2, dificil: 1 }[nivel])
-      for (const p of intr) for (const id of r.hechos) expect(compatibles(hecho(id), hecho(p.de)), `${r.id} intrusa de ${p.de}`).toBe(true)
-      expect(new Set(r.piezas.map(p => p.id)).size).toBe(r.piezas.length)
-      if (nivel === 'dificil') {
-        const [a, b] = r.hechos.map(hecho)
-        expect(Math.abs(a.año - b.año), r.id).toBeGreaterThanOrEqual(SEPARACION)
-        expect(a.tema).not.toBe(b.tema)
+  it('1 pieza en fácil, 2 en medio y 3 en difícil; como mucho una intrusa, siempre lejana', () => {
+    for (const nivel of Object.keys(NIVELES)) {
+      const tipos = new Set()
+      for (let i = 0; i < 400; i++) {
+        const r = genRonda(nivel)
+        expect(r.piezas.length).toBe(PIEZAS[nivel])
+        expect(new Set(r.piezas.map(p => p.id)).size).toBe(r.piezas.length)
+        const intr = r.piezas.filter(p => p.tipo === 'x')
+        expect(intr.length).toBeLessThanOrEqual(1)
+        if (PIEZAS[nivel] > 1) expect(intr.length).toBeLessThan(r.piezas.length)
+        for (const p of intr) expect(compatibles(hecho(r.hecho), hecho(p.de)), `${r.id}`).toBe(true)
+        for (const p of r.piezas) {
+          tipos.add(p.tipo)
+          if (p.tipo !== 'x') expect(p.hecho).toBe(r.hecho)
+        }
+        const buena = Object.fromEntries(r.piezas.map(p => [p.id, p.tipo]))
+        expect(esCorrecta(r, buena)).toBe(true)
+        const p0 = r.piezas[0]
+        expect(esCorrecta(r, { ...buena, [p0.id]: p0.tipo === 'c' ? 'q' : 'c' })).toBe(false)
+        for (const l of ['es', 'en', 'ca']) expect(explicacion(r, l).length).toBeGreaterThan(40)
+        const q = schemaQuestion(r, 'es')
+        expect(q.wrongAnswers).not.toContain(q.correctAnswer)
       }
-      const buena = Object.fromEntries(r.piezas.map(p => [p.id, casilla(r, p)]))
-      expect(esCorrecta(r, buena)).toBe(true)
-      const p0 = r.piezas[0]
-      const cambia = v => (v === 'x' ? 'A:c' : v.endsWith(':c') ? v.replace(':c', ':q') : v.replace(':q', ':c'))
-      const mala = { ...buena, [p0.id]: cambia(buena[p0.id]) }
-      expect(esCorrecta(r, mala)).toBe(false)
-      for (const l of ['es', 'en', 'ca']) expect(explicacion(r, l).length).toBeGreaterThan(50)
-      const q = schemaQuestion(r, 'es')
-      expect(q.wrongAnswers).not.toContain(q.correctAnswer)
+      expect([...tipos].sort()).toEqual(['c', 'q', 'x'])
     }
   })
 
   it('al repetirse un hecho salen piezas distintas', () => {
     const vistas = new Set()
-    for (let i = 0; i < 40; i++) {
-      const r = genRonda('facil', { tema: 'revolucion-francesa' })
-      r.piezas.filter(p => p.tipo !== 'x').forEach(p => vistas.add(p.id))
-    }
-    expect(vistas.size).toBeGreaterThan(6)
+    for (let i = 0; i < 40; i++) genRonda('dificil', { tema: 'revolucion-francesa' }).piezas.forEach(p => vistas.add(p.id))
+    expect(vistas.size).toBeGreaterThan(8)
   })
 
   it('con tema fijo solo salen hechos de ese tema', () => {
-    for (let i = 0; i < 50; i++) {
-      const r = genRonda('medio', { tema: 'edad-media' })
-      expect(hecho(r.hechos[0]).tema).toBe('edad-media')
-    }
+    for (let i = 0; i < 50; i++) expect(hecho(genRonda('medio', { tema: 'edad-media' }).hecho).tema).toBe('edad-media')
   })
 })
