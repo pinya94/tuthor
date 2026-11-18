@@ -2,7 +2,7 @@
 // lo usan los exámenes para enlazar a la guía del juego. Un test comprueba que
 // coincide con las claves de FICHAS_ES; si falla, añade aquí el slug nuevo.
 export const FICHAS_JUEGO_SLUGS = new Set([
-  'acercate', 'analiza-frases', 'angulo-recto', 'arbol-vida', 'brote', 'balanza', 'balanza-algebraica', 'cruce-rectas', 'caza-la-raiz', 'el-mensajero', 'ojo-y-oido', 'mas-lejos', 'que-ves', 'cuanto-cabe', 'mas-o-menos', 'por-que-paso',
+  'acercate', 'analiza-frases', 'angulo-recto', 'arbol-vida', 'brote', 'balanza', 'balanza-algebraica', 'cruce-rectas', 'caza-la-raiz', 'el-mensajero', 'el-gancho', 'ojo-y-oido', 'mas-lejos', 'que-ves', 'cuanto-cabe', 'mas-o-menos', 'por-que-paso',
   'balanza-ecuaciones', 'cadena-alimentaria', 'cadena-energia', 'cambio-estado',
   'circuito-cerrado', 'ciclo-rocas', 'clave-dicotomica', 'coordenadas', 'corrige-el-texto', 'el-cambio', 'el-laboratorio', 'escala-universo', 'el-tiempo', 'engranajes', 'flota-o-se-hunde', 'lee-la-etiqueta',
   'encuentra-elemento', 'epocas-historicas', 'escalera-unidades',

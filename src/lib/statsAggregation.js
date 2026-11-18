@@ -225,6 +225,8 @@ export const SUBJECT_DEFS = [
       'word-order':      { es: 'Word Order (orden de las palabras)', en: 'Word Order', ca: 'Word Order (ordre de les paraules)' },
       'irregular-verbs': { es: 'Irregular Verbs (verbos irregulares)', en: 'Irregular Verbs', ca: 'Irregular Verbs (verbs irregulars)' },
       'reported-speech': { es: 'Reported Speech (estilo indirecto)', en: 'Reported Speech', ca: 'Reported Speech (estil indirecte)' },
+      'question-tags': { es: 'Question Tags (coletillas)', en: 'Question Tags', ca: 'Question Tags (coletilles)' },
+      'relative-pronouns': { es: 'Relative Pronouns (relativos)', en: 'Relative Pronouns', ca: 'Relative Pronouns (relatius)' },
       spelling:          { es: 'Spelling (ortografía)',    en: 'Spelling',         ca: 'Spelling (ortografia)' },
     },
   },
