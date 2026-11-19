@@ -4,53 +4,13 @@
 // respuestas correctas por construcción (no hay anotación a mano → no hay erratas).
 //
 // unidad = { text, classes:[clase…], roles:[función…], gen?:'m'|'f', num?:'sg'|'pl' }
+import { NOMBRES, ADJETIVOS, ADVERBIOS, PREPS, TRANSITIVOS, DITRANSITIVOS, INTRANSITIVOS, COPULATIVOS, IDIOMA } from '../data/frasesLexico'
 
 export const rnd = (a, b, rand) => a + Math.floor(rand() * (b - a + 1))
 export const pick = (arr, rand) => arr[rnd(0, arr.length - 1, rand)]
 
 // Clave de forma para género+número: 'ms' | 'fs' | 'mp' | 'fp'
 export function gk(gen, num) { return gen + (num === 'sg' ? 's' : 'p') }
-
-// ── Grupo nominal con género (español / catalán) ──────────────────────────────
-// opts: { det:'def'|'ind'|'pos'|'dem'|null, adj:bool, num, gen, role:[…], nucleo:bool }
-export function npGen(P, rand, opts = {}) {
-  const s = pick(opts.pool || P.sustCosa, rand)
-  const gen = s.gen
-  const num = opts.num || (rand() < 0.5 ? 'sg' : 'pl')
-  const k = gk(gen, num)
-  const role = opts.role || []
-  const units = []
-  if (opts.det) {
-    const table = P.det[opts.det]
-    const isArt = opts.det === 'def' || opts.det === 'ind'
-    units.push({ text: table[k], classes: isArt ? ['determinante', 'articulo'] : ['determinante'], roles: role, gen, num })
-  }
-  units.push({ text: s.forms[num], classes: ['sustantivo'], roles: opts.nucleo ? [...role, 'nucleo-sujeto'] : role, gen, num })
-  if (opts.adj) {
-    const a = pick(opts.adjPool || P.adj, rand)
-    units.push({ text: a.forms[k], classes: ['adjetivo'], roles: role, gen, num })
-  }
-  return { units, gen, num }
-}
-
-// ── Grupo nominal inglés (sin género) ─────────────────────────────────────────
-export function npEn(P, rand, opts = {}) {
-  const s = pick(opts.pool || P.sustCosa, rand)
-  const num = opts.num || (rand() < 0.5 ? 'sg' : 'pl')
-  const role = opts.role || []
-  const units = []
-  if (opts.det) {
-    const table = P.det[opts.det]
-    const isArt = opts.det === 'def' || opts.det === 'ind'
-    units.push({ text: table[num] ?? table.sg, classes: isArt ? ['determinante', 'articulo'] : ['determinante'], roles: role, num })
-  }
-  if (opts.adj) {
-    const a = pick(opts.adjPool || P.adj, rand)
-    units.push({ text: a, classes: ['adjetivo'], roles: role, num })
-  }
-  units.push({ text: s.forms[num], classes: ['sustantivo'], roles: opts.nucleo ? [...role, 'nucleo-sujeto'] : role, num })
-  return { units, num }
-}
 
 // ── Contracciones preposición + artículo (a+el=al, de+el=del, per+el=pel…) ─────
 // Se hace a nivel de unidades ANTES de anotar, así los índices siguen cuadrando.
@@ -123,7 +83,8 @@ export function buildRound(templates, TASKS, levelRank, filter, rand, lang, fixe
     tokens, find, indices: ann[find], label: TASKS[find].label, explica: TASKS[find].explica,
   })
   let fallback = null
-  for (let attempt = 0; attempt < 60; attempt++) {
+  // Con filtro hacen falta más intentos: p. ej. solo una plantilla lleva adverbio
+  for (let attempt = 0; attempt < (filter ? 400 : 60); attempt++) {
     // ~30% de las veces una frase fija (compuesta), si hay alguna para el nivel.
     const useFix = eligFix.length && rand() < 0.3
     let units, id
@@ -154,79 +115,163 @@ export function sameSet(a, b) {
   return b.every(x => sa.has(x))
 }
 
-// ── Plantillas para lenguas con género (español, catalán) ─────────────────────
-// P = bolsas de palabras del idioma. Devuelve el array de plantillas.
-const cap = u => { u.text = u.text.charAt(0).toUpperCase() + u.text.slice(1); return u }
-const verbU = (v, num) => ({ text: v.forms[num], classes: ['verbo'], roles: ['predicado'] })
+// ── Plantillas a partir del léxico común (data/frasesLexico.js) ───────────────
+// Las mismas ocho plantillas para los tres idiomas. Cada hueco se rellena
+// SOLO con palabras que el léxico declara compatibles con lo ya elegido
+// (verbo → objeto, lugar → sujeto, adjetivo → sustantivo, verbo → adverbio),
+// así que no salen frases como «It reads the cars» o «el perro corre ayer».
+// Cada unidad lleva `lex` (id del concepto) para que el test pueda auditar
+// las combinaciones.
 
-export function makeGenderedTemplates(P) {
-  // Restricciones semánticas: los sujetos de verbos de acción son ANIMADOS
-  // (personas/animales) y los objetos y lugares son COSAS. Así no salen frases
-  // como "las flores leen los regalos" o "el cuadro ladra".
-  const cosa = P.sustCosa
-  const persona = P.sustPer
-  const animal = P.sustAnimal || []
-  const sujAnim = persona.concat(animal)   // sujeto de verbos intransitivos (animado)
-  const adjP = P.adjPer || P.adj            // adjetivos aptos para personas/animales (sin colores)
-  const adjC = P.adjCosa || P.adj           // adjetivos aptos para cosas (sin alto/rápido)
+// ¿El sustantivo n encaja con alguna de estas etiquetas (tipo o tag)?
+export const encaja = (n, etiquetas) => etiquetas.some(e => e === n.tipo || n.tags.includes(e))
+// Clave de sujeto de un sustantivo animado: persona | mascota | granja
+export const claseSujeto = n => (n.tipo === 'persona' ? 'persona' : n.tags.includes('granja') ? 'granja' : n.tags.includes('mascota') ? 'mascota' : null)
+
+const capU = u => ({ ...u, text: u.text.charAt(0).toUpperCase() + u.text.slice(1) })
+const VOCAL_EN = /^[aeiou]/i
+
+export function makeTemplates(lang) {
+  const L = IDIOMA[lang]
+  const gendered = lang !== 'en'
+  const nombres = NOMBRES.filter(n => n[lang])
+  const adjetivos = ADJETIVOS.filter(a => a[lang])
+  const forma = (n, num) => n[lang][num === 'sg' ? 0 : 1]
+  const genero = n => (gendered ? n[lang][2] : undefined)
+  const adjForma = (a, gen, num) => (gendered ? a[lang][['ms', 'fs', 'mp', 'fp'].indexOf(gk(gen, num))] : a[lang])
+  const verbo = (v, num) => ({ text: v[lang][num === 'sg' ? 0 : 1], classes: ['verbo'], roles: ['predicado'], lex: v.id })
+  const adjsPara = (n, clases) => adjetivos.filter(a => clases.includes(a.clase) && encaja(n, a.para))
+  const pool = pred => nombres.filter(pred)
+
+  // Grupo nominal: [det] N [adj] (es/ca) · [det] [adj] N (en)
+  function np(rand, n, { det = null, num, adj = false, role = [], nucleo = false } = {}) {
+    num = num || (rand() < 0.5 ? 'sg' : 'pl')
+    const gen = genero(n)
+    const nU = { text: forma(n, num), classes: ['sustantivo'], roles: nucleo ? [...role, 'nucleo-sujeto'] : role, gen, num, lex: n.id }
+    let aU = null
+    if (adj) {
+      const posibles = adjsPara(n, ['cualidad'])
+      if (posibles.length) {
+        const a = pick(posibles, rand)
+        aU = { text: adjForma(a, gen, num), classes: ['adjetivo'], roles: role, gen, num, lex: a.id }
+      }
+    }
+    const units = gendered ? [nU, ...(aU ? [aU] : [])] : [...(aU ? [aU] : []), nU]
+    if (det) {
+      let t = gendered ? L.det[det][gk(gen, num)] : L.det[det][num]
+      if (t === 'a' && VOCAL_EN.test(units[0].text)) t = 'an'
+      if (t) units.unshift({ text: t, classes: ['determinante', 'articulo'], roles: role, gen, num })
+    }
+    return { units, gen, num, n }
+  }
+  const detAlAzar = rand => pick(['def', 'ind'], rand)
+  const distinto = (a, b) => forma(a, 'sg') !== forma(b, 'sg')
+
+  const intr = INTRANSITIVOS.filter(v => v[lang])
+  const sujetosDe = v => pool(n => v.suj.some(e => e === claseSujeto(n) || n.tags.includes(e)))
+  // Complementos posibles de un verbo intransitivo para un sujeto concreto
+  function opcionesCC(v, s) {
+    const out = []
+    for (const c of v.cc) {
+      if (c.lugar) {
+        const sitios = pool(n => n.tags.includes('lugar') && encaja(n, c.lugar) && n.caben.includes(claseSujeto(s)))
+        if (sitios.length) out.push({ ...c, sitios })
+      } else if (c.comp) {
+        const comps = pool(n => c.comp.includes(claseSujeto(n)) && distinto(n, s))
+        if (comps.length) out.push({ ...c, comps })
+      }
+    }
+    return out
+  }
+  function prepU(prep, sitio) {
+    const t = lang === 'en' && prep === 'en' ? sitio.enEn : PREPS[prep][lang]
+    return { text: t, classes: ['preposicion'], roles: ['predicado', 'cc'], lex: prep }
+  }
+  const lugarCC = (rand, prep, sitio) => [prepU(prep, sitio), ...np(rand, sitio, { det: 'def', num: 'sg', role: ['predicado', 'cc'] }).units]
+  const objetosDe = v => pool(n => n.tipo === 'cosa' && encaja(n, v.obj))
+  const tr = TRANSITIVOS.filter(v => v[lang] && objetosDe(v).length)
+  const ditr = DITRANSITIVOS.filter(v => v[lang] && objetosDe(v).length)
+  const personas = pool(n => n.tipo === 'persona')
+  const cop = COPULATIVOS.filter(c => c[lang])
+  const conAdverbio = intr.filter(v => v.adv.some(id => ADVERBIOS.find(a => a.id === id)?.[lang]))
+
+  const sujeto = (rand, n, opts) => {
+    const s = np(rand, n, { ...opts, role: ['sujeto'], nucleo: true })
+    s.units[0] = capU(s.units[0])
+    return s
+  }
+
   return [
     // rank 0 (Primaria+)
     { id: 'g-svo', rank: 0, build(rand) {
-      const s = npGen(P, rand, { pool: persona, det: pick(['def', 'ind'], rand), adj: rand() < 0.4, adjPool: adjP, role: ['sujeto'], nucleo: true })
-      cap(s.units[0])
-      const cd = npGen(P, rand, { pool: cosa, det: pick(['def', 'ind'], rand), adj: rand() < 0.4, adjPool: adjC, role: ['predicado', 'cd'] })
-      return [...s.units, verbU(pick(P.verbTr, rand), s.num), ...cd.units]
+      const v = pick(tr, rand)
+      const s = sujeto(rand, pick(personas, rand), { det: detAlAzar(rand), adj: rand() < 0.4 })
+      const o = np(rand, pick(objetosDe(v), rand), { det: detAlAzar(rand), adj: rand() < 0.4, role: ['predicado', 'cd'] })
+      return [...s.units, verbo(v, s.num), ...o.units]
     } },
     { id: 'g-sv-adj', rank: 0, build(rand) {
-      const s = npGen(P, rand, { pool: sujAnim, det: 'def', adj: true, adjPool: adjP, role: ['sujeto'], nucleo: true })
-      cap(s.units[0])
-      return [...s.units, verbU(pick(P.verbIntr, rand), s.num)]
+      const v = pick(intr, rand)
+      const s = sujeto(rand, pick(sujetosDe(v), rand), { det: 'def', adj: true })
+      return [...s.units, verbo(v, s.num)]
     } },
     { id: 'g-sv-adv', rank: 0, build(rand) {
-      const s = npGen(P, rand, { pool: sujAnim, det: pick(['def', 'ind'], rand), role: ['sujeto'], nucleo: true })
-      cap(s.units[0])
-      const adv = { text: pick(P.adv, rand), classes: ['adverbio'], roles: ['predicado', 'cc'] }
-      return [...s.units, verbU(pick(P.verbIntr, rand), s.num), adv]
+      const v = pick(conAdverbio, rand)
+      const s = sujeto(rand, pick(sujetosDe(v), rand), { det: detAlAzar(rand) })
+      const a = pick(ADVERBIOS.filter(x => v.adv.includes(x.id) && x[lang]), rand)
+      return [...s.units, verbo(v, s.num), { text: a[lang], classes: ['adverbio'], roles: ['predicado', 'cc'], lex: a.id }]
     } },
     // rank 1 (ESO+)
     { id: 'g-sv-cc', rank: 1, build(rand) {
-      const s = npGen(P, rand, { pool: sujAnim, det: 'def', role: ['sujeto'], nucleo: true })
-      cap(s.units[0])
-      const prep = { text: pick(P.prepCC, rand), classes: ['preposicion'], roles: ['predicado', 'cc'] }
-      const place = npGen(P, rand, { pool: cosa, det: 'def', role: ['predicado', 'cc'] })
-      return [...s.units, verbU(pick(P.verbIntr, rand), s.num), prep, ...place.units]
+      for (;;) {
+        const v = pick(intr, rand)
+        const sN = pick(sujetosDe(v), rand)
+        const ops = opcionesCC(v, sN)
+        if (!ops.length) continue
+        const c = pick(ops, rand)
+        const s = sujeto(rand, sN, { det: 'def' })
+        const cc = c.sitios
+          ? lugarCC(rand, c.prep, pick(c.sitios, rand))
+          : [prepU(c.prep), ...np(rand, pick(c.comps, rand), { det: 'def', role: ['predicado', 'cc'] }).units]
+        return [...s.units, verbo(v, s.num), ...cc]
+      }
     } },
     { id: 'g-cop', rank: 1, build(rand) {
-      const anim = rand() < 0.5
-      const s = npGen(P, rand, { pool: anim ? sujAnim : cosa, det: 'def', role: ['sujeto'], nucleo: true })
-      cap(s.units[0])
-      const v = pick(P.verbCop, rand)
-      const a = pick(anim ? adjP : adjC, rand)
-      const attr = { text: a.forms[gk(s.gen, s.num)], classes: ['adjetivo'], roles: ['predicado', 'atributo'], gen: s.gen, num: s.num }
-      return [...s.units, { text: v.forms[s.num], classes: ['verbo'], roles: ['predicado'] }, attr]
+      for (;;) {
+        const c = pick(cop, rand)
+        const [sg, pl, admite] = c[lang]
+        const clases = admite === 'ambos' ? ['cualidad', 'estado'] : [admite]
+        const sN = pick(nombres, rand)
+        const adjs = adjsPara(sN, clases)
+        if (!adjs.length) continue
+        const s = sujeto(rand, sN, { det: 'def' })
+        const a = pick(adjs, rand)
+        const attr = { text: adjForma(a, s.gen, s.num), classes: ['adjetivo'], roles: ['predicado', 'atributo'], gen: s.gen, num: s.num, lex: a.id }
+        return [...s.units, { text: s.num === 'sg' ? sg : pl, classes: ['verbo'], roles: ['predicado'], lex: c.id }, attr]
+      }
     } },
     { id: 'g-ditr', rank: 1, build(rand) {
-      const s = npGen(P, rand, { pool: persona, det: 'def', role: ['sujeto'], nucleo: true })
-      cap(s.units[0])
-      const cd = npGen(P, rand, { pool: cosa, det: 'ind', role: ['predicado', 'cd'] })
-      const aU = { text: 'a', classes: ['preposicion'], roles: ['predicado', 'ci'] }
-      const ci = npGen(P, rand, { pool: persona, det: 'def', num: 'sg', role: ['predicado', 'ci'] })
-      return [...s.units, verbU(pick(P.verbDitr, rand), s.num), ...cd.units, aU, ...ci.units]
+      const v = pick(ditr, rand)
+      const sN = pick(personas, rand)
+      const s = sujeto(rand, sN, { det: 'def' })
+      const o = np(rand, pick(objetosDe(v), rand), { det: 'ind', num: lang === 'en' ? 'sg' : undefined, role: ['predicado', 'cd'] })
+      const ci = np(rand, pick(personas.filter(p => distinto(p, sN)), rand), { det: 'def', num: 'sg', role: ['predicado', 'ci'] })
+      const aU = { text: PREPS.ci[lang], classes: ['preposicion'], roles: ['predicado', 'ci'] }
+      return [...s.units, verbo(v, s.num), ...o.units, aU, ...ci.units]
     } },
     { id: 'g-pron-svo', rank: 1, build(rand) {
-      const pr = pick(P.pronSuj, rand)
+      const pr = pick(L.pron, rand)
+      const v = pick(tr, rand)
       const pron = { text: pr.t, classes: ['pronombre'], roles: ['sujeto', 'nucleo-sujeto'], gen: pr.gen, num: pr.num }
-      const cd = npGen(P, rand, { pool: cosa, det: pick(['def', 'ind'], rand), adj: rand() < 0.3, adjPool: adjC, role: ['predicado', 'cd'] })
-      return [pron, verbU(pick(P.verbTr, rand), pr.num), ...cd.units]
+      const o = np(rand, pick(objetosDe(v), rand), { det: detAlAzar(rand), adj: rand() < 0.3, role: ['predicado', 'cd'] })
+      return [pron, verbo(v, pr.num), ...o.units]
     } },
-    // rank 2 (Bachillerato) — frase larga
+    // rank 2 (Bachillerato) — frase larga: sujeto + verbo + CD + lugar
     { id: 'g-svo-cc', rank: 2, build(rand) {
-      const s = npGen(P, rand, { pool: persona, det: 'def', adj: true, adjPool: adjP, role: ['sujeto'], nucleo: true })
-      cap(s.units[0])
-      const cd = npGen(P, rand, { pool: cosa, det: 'ind', adj: rand() < 0.5, adjPool: adjC, role: ['predicado', 'cd'] })
-      const prep = { text: pick(P.prepCC, rand), classes: ['preposicion'], roles: ['predicado', 'cc'] }
-      const place = npGen(P, rand, { pool: cosa, det: 'def', role: ['predicado', 'cc'] })
-      return [...s.units, verbU(pick(P.verbTr, rand), s.num), ...cd.units, prep, ...place.units]
+      const v = pick(tr.filter(x => x.enLugar), rand)
+      const s = sujeto(rand, pick(personas, rand), { det: 'def', adj: true })
+      const o = np(rand, pick(objetosDe(v), rand), { det: 'ind', num: lang === 'en' ? 'sg' : undefined, adj: rand() < 0.5, role: ['predicado', 'cd'] })
+      const sitio = pick(pool(n => n.tags.includes('lugar') && n.caben.includes('persona')), rand)
+      return [...s.units, verbo(v, s.num), ...o.units, ...lugarCC(rand, 'en', sitio)]
     } },
   ]
 }
