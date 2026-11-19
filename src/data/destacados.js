@@ -4,17 +4,32 @@
 // ordenados por usuarios × tiempo de interacción (el tiempo topado a 10 min
 // para que una sola clase muy larga no lo decida todo).
 //
-// CÓMO ACTUALIZARLO (una vez al mes): mirar ese informe, poner aquí el
-// primero como DESTACADO (si no repite del mes anterior, mejor el segundo)
-// y reordenar MAS_JUGADOS. Son slugs de ruta (/juegos/<slug>); un test
-// comprueba que todos existen en el catálogo.
+// EL DESTACADO TIENE QUE PODER JUGARLO CUALQUIERA (decisión del usuario,
+// 20-nov-2026): es lo primero que ve alguien que no sabe nada de Tuthor, así
+// que no vale un juego de nivel avanzado (formulación química, dinámica…)
+// aunque sea el más jugado. Se elige el más jugado de PARA_TODOS: juegos que
+// se entienden sin saber del tema, con reglas que caben en una frase.
+//
+// CÓMO ACTUALIZARLO (una vez al mes): mirar ese informe, poner como DESTACADO
+// el primero que esté en PARA_TODOS (si repite del mes anterior, mejor el
+// siguiente) y reordenar MAS_JUGADOS. Son slugs de ruta (/juegos/<slug>); un
+// test comprueba que existen y que el destacado está en PARA_TODOS.
+
+export const PARA_TODOS = [
+  'clave-dicotomica', // miras el ser vivo y contestas sí/no hasta su grupo
+  'escalera-unidades', // km, m, cm: subir o bajar escalones
+  'corrige-el-texto', // caza las faltas
+  'senal-a-senal', // señales de tráfico
+  'europa-27', 'coordenadas', 'geomapa', 'numpath', 'que-estilo', 'epocas-historicas',
+]
 
 // Foto del 22-oct al 18-nov 2026: Nombra el Compuesto 29 jugadores y 6 min
-// de media, Fuerza Neta 18 y 8,4 min, Clave Dicotómica 11 y 7,3 min…
+// de media, Fuerza Neta 18 y 8,4 min, Clave Dicotómica 11 y 7,3 min… El
+// primero de PARA_TODOS es Clave Dicotómica.
 export const DESTACADO = {
   mes: '2026-11',
-  slug: 'nombra-compuesto',
-  motivo: { es: 'El más jugado este mes', en: 'Most played this month', ca: 'El més jugat aquest mes' },
+  slug: 'clave-dicotomica',
+  motivo: { es: 'Para todos · de los más jugados', en: 'For everyone · among the most played', ca: 'Per a tothom · dels més jugats' },
 }
 
 export const MAS_JUGADOS = [

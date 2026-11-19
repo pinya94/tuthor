@@ -1,6 +1,6 @@
 // Portada (nov-2026): una plataforma de juegos educativos, al estilo de las
 // webs de minijuegos. Entras y lo principal son los juegos: el destacado del
-// mes en grande, el juego del día y la cuadrícula de todos, primero los más
+// mes en grande (uno que pueda jugar cualquiera) y la cuadrícula de todos, primero los más
 // jugados. Estudiar, la zona de profes, los códigos de clase y el perfil van
 // en la barra lateral (SideNav) y en el menú, no aquí.
 //
@@ -12,7 +12,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import JuegoDestacado from '../components/JuegoDestacado'
-import JuegoDelDia from '../components/JuegoDelDia'
 import CatalogoJuegos from '../components/CatalogoJuegos'
 import SEOHead from '../components/SEOHead'
 import AdSlot from '../components/AdSlot'
@@ -67,11 +66,9 @@ export default function Home() {
 
         {user && <Saludo user={user} />}
 
-        <div className="grid lg:grid-cols-[1fr_300px] gap-3 sm:gap-4 mt-3">
-          <JuegoDestacado />
-          <JuegoDelDia variante="grande" className="hidden lg:block" />
-        </div>
-        <JuegoDelDia className="mt-3 lg:hidden" />
+        {/* Solo el destacado: con el juego del día al lado eran dos «juega a
+            esto» compitiendo (lo quitó el usuario el 20-nov) */}
+        <JuegoDestacado className="mt-3" />
 
         <CatalogoJuegos excluir={DESTACADO.slug} className="mt-6" />
 
