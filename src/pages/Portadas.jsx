@@ -10,6 +10,7 @@ import { computeCoins } from '../lib/games'
 import SEOHead from '../components/SEOHead'
 import { IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { ArteJuego } from '../components/arte'
+import { useArranqueDirecto } from '../lib/arranqueDirecto'
 
 const DIFS = {
   facil:   { label: 'Fácil', labelEn: 'Easy', labelCa: 'Fàcil',     emoji: '💚', tiempoInicio: 60, suma: 10, resta: 10, basePts: 100 },
@@ -236,6 +237,9 @@ export default function Portadas() {
   }
 
   // ── INTRO ─────────────────────────────────────────────────────────────────
+  // Desde la cuadrícula de juegos se entra jugando, en fácil (ver lib/arranqueDirecto)
+  useArranqueDirecto(() => iniciar('facil'))
+
   if (fase === 'intro') {
     const d = DIFS[difId]
     return (

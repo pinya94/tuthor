@@ -16,6 +16,7 @@
 // test comprueba que existen y que el destacado está en PARA_TODOS.
 
 export const PARA_TODOS = [
+  'portadas', // titular de periódico: ¿pasó de verdad o es falso?
   'clave-dicotomica', // miras el ser vivo y contestas sí/no hasta su grupo
   'escalera-unidades', // km, m, cm: subir o bajar escalones
   'corrige-el-texto', // caza las faltas
@@ -26,10 +27,12 @@ export const PARA_TODOS = [
 // Foto del 22-oct al 18-nov 2026: Nombra el Compuesto 29 jugadores y 6 min
 // de media, Fuerza Neta 18 y 8,4 min, Clave Dicotómica 11 y 7,3 min… El
 // primero de PARA_TODOS es Clave Dicotómica.
+// 20-nov: el usuario eligió Portadas («me parece un super juego»), por encima
+// de los datos: es para todos y se entiende al momento.
 export const DESTACADO = {
   mes: '2026-11',
-  slug: 'clave-dicotomica',
-  motivo: { es: 'Para todos · de los más jugados', en: 'For everyone · among the most played', ca: 'Per a tothom · dels més jugats' },
+  slug: 'portadas',
+  motivo: { es: 'Para todos', en: 'For everyone', ca: 'Per a tothom' },
 }
 
 export const MAS_JUGADOS = [
