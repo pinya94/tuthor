@@ -10,6 +10,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
+import { useArranqueDirecto } from '../lib/arranqueDirecto'
 
 // Cada ronda se construye (cajas, teclear, ordenar): 120 s y +8 s por acierto.
 const GAME_TIME = 120
@@ -115,6 +116,9 @@ export default function CuentasClaras() {
     path: '/juegos/cuentas-claras',
   }
   const head = <SEOHead title={seo.title} description={seo.desc} path={seo.path} />
+
+  // Desde la cuadrícula de juegos se entra jugando (ver lib/arranqueDirecto)
+  useArranqueDirecto(startGame)
 
   if (screen === 'intro') {
     return (

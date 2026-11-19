@@ -5,6 +5,7 @@ import { juegosDelCatalogo } from './CatalogoJuegos'
 import { DESTACADO } from '../data/destacados'
 import { useLang } from '../context/LangContext'
 import { trackEvent } from '../lib/analytics'
+import { ESTADO_JUGAR } from '../lib/arranqueDirecto'
 
 export default function JuegoDestacado({ className = '' }) {
   const { lang, lt, tr, localPath } = useLang()
@@ -14,7 +15,7 @@ export default function JuegoDestacado({ className = '' }) {
   if (!g) return null
   const elDelMes = g.slug === DESTACADO.slug
   return (
-    <Link to={localPath(g.path)} onClick={() => trackEvent('destacado_click', { item_id: g.slug })}
+    <Link to={localPath(g.path)} state={ESTADO_JUGAR} onClick={() => trackEvent('destacado_click', { item_id: g.slug })}
       className={`group block rounded-2xl overflow-hidden border border-amber-400/30 bg-[#141b2e] hover:border-amber-300/60 transition-colors ${className}`}>
       <div className="grid sm:grid-cols-[1.25fr_1fr] h-full">
         <div className="relative aspect-video sm:aspect-auto sm:min-h-[220px] bg-black/20">

@@ -10,6 +10,7 @@ import SupportBlock from '../components/SupportBlock'
 import ForceDiagram from '../components/ForceDiagram'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
+import { useArranqueDirecto } from '../lib/arranqueDirecto'
 
 // ── Copys ────────────────────────────────────────────────────────────────────
 const C = {
@@ -203,6 +204,9 @@ export default function FuerzaNeta() {
     en: { title: 'Net Force — Which way does it move?', desc: 'Add up the forces acting on an object and guess which way it moves, or if it is balanced. Free physics game to practise forces and Newton’s laws.', path: '/en/juegos/fuerza-neta' },
     ca: { title: 'Força Neta — Cap on es mou?', desc: 'Suma les forces que actuen sobre un objecte i encerta cap on es mou, o si està en equilibri. Joc de física gratis per practicar forces i les lleis de Newton.', path: '/ca/juegos/fuerza-neta' },
   }[l]
+
+  // Desde la cuadrícula de juegos se entra jugando (ver lib/arranqueDirecto)
+  useArranqueDirecto(() => startGame('facil'))
 
   if (screen === 'difficulty') {
     return (<><SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} /><DifficultyScreen onSelect={startGame} l={l} /></>)

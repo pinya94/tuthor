@@ -10,6 +10,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
+import { useArranqueDirecto } from '../lib/arranqueDirecto'
 
 // Estas ecuaciones se resuelven en papel: medio minuto una incompleta, uno
 // entero una completa sin ordenar. El reloj da para pensar, no para correr
@@ -120,6 +121,9 @@ export default function CazaRaiz() {
     path: '/juegos/caza-la-raiz',
   }
   const head = <SEOHead title={seo.title} description={seo.desc} path={seo.path} />
+
+  // Desde la cuadrícula de juegos se entra jugando (ver lib/arranqueDirecto)
+  useArranqueDirecto(startGame)
 
   if (screen === 'intro') {
     return (

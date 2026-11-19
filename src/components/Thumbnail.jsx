@@ -6,12 +6,13 @@ import { ARTE_JUEGOS, ArteJuego } from './arte'
 // Sin arte (un juego aún sin dibujo), cae al degradado + emoji de siempre.
 // Con `to` es un enlace de verdad: el catálogo es de las páginas con más
 // autoridad y, siendo botones, el buscador no llegaba desde ahí a ningún juego.
-export default function Thumbnail({ title, subtitle, emoji, gradient, slug, onClick, to, comingSoon = false }) {
+// `state`: el de la navegación (la cuadrícula de juegos manda { jugar: true }).
+export default function Thumbnail({ title, subtitle, emoji, gradient, slug, onClick, to, state, comingSoon = false }) {
   const conArte = Boolean(slug && ARTE_JUEGOS[slug])
   const Contenedor = to ? Link : 'button'
   return (
     <Contenedor
-      {...(to ? { to } : { onClick, type: 'button' })}
+      {...(to ? { to, state } : { onClick, type: 'button' })}
       className="group relative block w-full rounded-xl overflow-hidden text-left bg-[#141b2e] border border-white/[0.08] hover:border-white/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/40 shadow-md shadow-black/20 cursor-pointer"
     >
       <div className={`w-full aspect-video flex items-center justify-center relative ${conArte ? '' : `bg-gradient-to-br ${gradient}`}`}>

@@ -10,6 +10,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
+import { useArranqueDirecto } from '../lib/arranqueDirecto'
 
 const GAME_TIME = 60
 const WRONG_TIME = 5
@@ -133,6 +134,9 @@ export default function MedidorPh() {
     path: '/juegos/medidor-ph',
   }
   const head = <SEOHead title={seo.title} description={seo.desc} path={seo.path} />
+
+  // Desde la cuadrícula de juegos se entra jugando (ver lib/arranqueDirecto)
+  useArranqueDirecto(startGame)
 
   if (screen === 'intro') {
     return (

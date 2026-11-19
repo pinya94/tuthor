@@ -10,6 +10,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
+import { useArranqueDirecto } from '../lib/arranqueDirecto'
 
 // Se viste al chaval, se mueve la lluvia o se toca el mapa: 90 s y +6 s por acierto.
 const GAME_TIME = 90
@@ -122,6 +123,9 @@ export default function ElTiempo() {
     path: '/juegos/el-tiempo',
   }
   const head = <SEOHead title={seo.title} description={seo.desc} path={seo.path} />
+
+  // Desde la cuadrícula de juegos se entra jugando (ver lib/arranqueDirecto)
+  useArranqueDirecto(startGame)
 
   if (screen === 'intro') {
     return (

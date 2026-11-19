@@ -10,6 +10,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
 import { Racha } from '../components/Iconos'
+import { useArranqueDirecto } from '../lib/arranqueDirecto'
 
 // Cada comparación se decide en segundos: 90 s y +5 s por acierto. Las
 // rondas se encadenan: el lugar nuevo pasa a ser el que hay que superar.
@@ -117,6 +118,9 @@ export default function MasOMenos() {
     path: '/juegos/mas-o-menos',
   }
   const head = <SEOHead title={seo.title} description={seo.desc} path={seo.path} />
+
+  // Desde la cuadrícula de juegos se entra jugando (ver lib/arranqueDirecto)
+  useArranqueDirecto(startGame)
 
   if (screen === 'intro') {
     return (

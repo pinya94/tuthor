@@ -14,6 +14,7 @@ import SelectorIdioma from '../components/SelectorIdioma'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, ComoSeJuega } from '../components/IntroJuego'
+import { useArranqueDirecto } from '../lib/arranqueDirecto'
 
 // Corrige el Texto: tres textos, todos los fallos marcados y el reloj como
 // única nota. Lo que hace que se pueda puntuar solo por tiempo es que fallar
@@ -194,6 +195,9 @@ export default function CorrigeElTexto() {
     en: { title: 'Spot the Mistakes — spelling game', desc: 'Three short texts with hidden spelling mistakes, in English, Spanish or Catalan: double letters, silent letters, their and there, and more. Mark every misspelled word against the clock. The mistakes move every game.', path: '/en/juegos/corrige-el-texto' },
     ca: { title: "Corregeix el Text — joc d'ortografia", desc: 'Tres textos amb faltes amagades, en català, castellà o anglès: accents, ela geminada, h muda, b/v i homòfons. Marca totes les paraules mal escrites contrarellotge. Els errors canvien a cada partida.', path: '/ca/juegos/corrige-el-texto' },
   }[l]
+
+  // Desde la cuadrícula de juegos se entra jugando (ver lib/arranqueDirecto)
+  useArranqueDirecto(() => empezar(nivel, idioma))
 
   if (screen === 'intro') {
     return (<><SEOHead title={seo.title} description={seo.desc} path={seo.path} lang={l} /><IntroScreen onStart={empezar} l={l} idiomaInicial={idiomaInicial} /></>)

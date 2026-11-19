@@ -10,6 +10,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import SupportBlock from '../components/SupportBlock'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, IconoIntro, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
+import { useArranqueDirecto } from '../lib/arranqueDirecto'
 
 const GAME_TIME = 50
 const STEP = 3
@@ -109,6 +110,9 @@ export default function EscaleraUnidades() {
   }[l]
 
   // ── INTRO ──────────────────────────────────────────────────────────────────
+  // Desde la cuadrícula de juegos se entra jugando (ver lib/arranqueDirecto)
+  useArranqueDirecto(() => empezar('facil'))
+
   if (screen === 'difficulty') {
     return (
       <>

@@ -10,6 +10,7 @@ import { SUBJECT_DEFS } from '../lib/statsAggregation'
 import { MAS_JUGADOS } from '../data/destacados'
 import { useLang } from '../context/LangContext'
 import { trackEvent } from '../lib/analytics'
+import { ESTADO_JUGAR } from '../lib/arranqueDirecto'
 
 // Materia de cada juego del catálogo, por su ruta (el registro manda)
 const MATERIA_POR_RUTA = {}
@@ -48,7 +49,7 @@ export default function CatalogoJuegos({ excluir = null, className = '' }) {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mt-3">
         {visibles.map(g => (
           <Thumbnail key={g.path} title={lt(g)} subtitle={lt(g, 'subtitle')} emoji={g.emoji} gradient={g.gradient}
-            slug={g.slug} to={localPath(g.path)} />
+            slug={g.slug} to={localPath(g.path)} state={ESTADO_JUGAR} />
         ))}
       </div>
     </section>
