@@ -208,7 +208,7 @@ export const TOPIC_CATALOG = {
         sistemas: 'sistemas-ecuaciones-test',
         'cruce-rectas': 'cruce-rectas-test',
       }, { niveles: ['eso', 'bachillerato'] }),
-      geometria: examTema({ teoria: 'geometria', 'figuras-compuestas': 'figuras-compuestas' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
+      geometria: examTema({ teoria: 'geometria', 'figuras-compuestas': 'figuras-compuestas', 'construye-figura': 'construye-figura-test' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
       // Cuerpos geométricos: áreas y volúmenes, con su juego.
       'cuerpos-geometricos': examTema({ 'cuanto-cabe': 'cuanto-cabe-test' }, { niveles: ['primaria', 'eso'] }),
       fracciones: examTema({ teoria: 'fracciones', 'reparte-pastel': 'reparte-pastel-test', 'menor-a-mayor': 'menor-a-mayor-test' }, { niveles: ['primaria', 'eso'] }),
@@ -248,6 +248,7 @@ export const TOPIC_CATALOG = {
       portero: examFormato({ es: 'El Portero (con el juego)', en: 'The Goalkeeper (with the game)', ca: 'El Porter (amb el joc)' }, '🥅'),
       'balanza-algebraica': examFormato({ es: 'Balanza Algebraica (con el juego)', en: 'Algebra Balance (with the game)', ca: 'Balança Algebraica (amb el joc)' }, '⚖️'),
       'segundo-grado': examFormato({ es: 'Ecuaciones de 2º grado', en: 'Quadratic equations', ca: 'Equacions de 2n grau' }, '🧮'),
+      'construye-figura': examFormato({ es: 'Construye la Figura: área y perímetro (con el juego)', en: 'Build the Shape: area and perimeter (with the game)', ca: 'Construeix la Figura: àrea i perímetre (amb el joc)' }, '🔲'),
       'cuanto-cabe': examFormato({ es: '¿Cuánto Cabe? Áreas y volúmenes (con el juego)', en: 'How Much Fits? Surface area and volume (with the game)', ca: 'Quant Hi Cap? Àrees i volums (amb el joc)' }, '📦'),
       'caza-la-raiz': examFormato({ es: 'Caza la Raíz: ecuaciones de 2.º grado (con el juego)', en: 'Root Hunt: quadratic equations (with the game)', ca: 'Caça l’Arrel: equacions de 2n grau (amb el joc)' }, '🌱'),
       'cruce-rectas': examFormato({ es: 'Cruce de Rectas: método gráfico (con el juego)', en: 'Line Crossing: graphical method (with the game)', ca: 'Encreuament de Rectes: mètode gràfic (amb el joc)' }, '✖️'),

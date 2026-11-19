@@ -54,7 +54,7 @@ describe('Retos · exámenes que se pueden mandar', () => {
       else expect(s, id).toContain(RETOS_TEST.includes(id) ? '<ExamenMC' : '<MechanicExam')
       expect(s.match(/gameId="([^"]+)"/)?.[1], id).toBe(id)
     }
-  })
+  }, 30000) // lee todas las páginas de examen: con la suite entera a veces pasa de 5 s
 
   it('las preguntas viajan como JSON sin perder nada', async () => {
     // Cada página se monta con MechanicExam sustituido por un espía: así se

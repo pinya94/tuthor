@@ -531,6 +531,11 @@ export const EXAMS = {
     emoji: '📦', subject: 'matematicas',
     path: 'examen/cuanto-cabe-test', page: () => import('../pages/CuantoCabeExamen'),
   },
+  'construye-figura-test': {
+    label: { es: 'Área y perímetro: Construye la Figura (con el juego)', en: 'Area and perimeter: Build the Shape (with the game)', ca: 'Àrea i perímetre: Construeix la Figura (amb el joc)' },
+    emoji: '🔲', subject: 'matematicas',
+    path: 'examen/construye-figura-test', page: () => import('../pages/ConstruyeFiguraExamen'),
+  },
   'caza-la-raiz-test': {
     label: { es: 'Ecuaciones de 2.º grado: Caza la Raíz (con el juego)', en: 'Quadratic equations: Root Hunt (with the game)', ca: 'Equacions de 2n grau: Caça l’Arrel (amb el joc)' },
     emoji: '🌱', subject: 'matematicas',

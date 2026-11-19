@@ -26,6 +26,40 @@ export default function GeometriaTema() {
 
   const opciones = [
     {
+      id: 'construye-figura',
+      titulo: ca ? 'Construeix la Figura (joc)' : en ? 'Build the Shape (game)' : 'Construye la Figura (juego)',
+      descripcion: ca
+        ? 'Pinta caselles en una quadrícula fins a formar la figura amb l’àrea i el perímetre que es demanen.'
+        : en
+        ? 'Paint squares on a grid until the shape has the area and perimeter you are asked for.'
+        : 'Pinta casillas en una cuadrícula hasta formar la figura con el área y el perímetro que se piden.',
+      emoji: '🔲',
+      gradient: 'from-amber-500 to-orange-700',
+      detalles: [
+        ca ? 'Joc' : en ? 'Game' : 'Juego',
+        ca ? '3 nivells' : en ? '3 levels' : '3 niveles',
+        ca ? 'Àrea i perímetre' : en ? 'Area and perimeter' : 'Área y perímetro',
+      ],
+      to: localPath('/juegos/construye-figura'),
+    },
+    {
+      id: 'construye-figura-test',
+      titulo: ca ? 'Examen d’àrea i perímetre' : en ? 'Area and perimeter exam' : 'Examen de área y perímetro',
+      descripcion: ca
+        ? 'Deu figures amb la mecànica del joc, sense rellotge i amb nota.'
+        : en
+        ? 'Ten shapes using the game mechanic, no timer and a mark.'
+        : 'Diez figuras con la mecánica del juego, sin reloj y con nota.',
+      emoji: '📝',
+      gradient: 'from-orange-500 to-red-700',
+      detalles: [
+        ca ? '10 preguntes' : en ? '10 questions' : '10 preguntas',
+        ca ? 'Primària i ESO' : en ? 'Primary & Secondary' : 'Primaria y ESO',
+        ca ? 'Nota final' : en ? 'Final grade' : 'Nota final',
+      ],
+      to: localPath('/examen/construye-figura-test'),
+    },
+    {
       id: 'figuras-compuestas',
       titulo: ca ? 'Figures Compostes' : en ? 'Composite Shapes' : 'Figuras Compuestas',
       descripcion: ca

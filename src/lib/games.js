@@ -677,6 +677,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'construye-figura': {
+    label: { es: 'Construye la Figura', en: 'Build the Shape', ca: 'Construeix la Figura' },
+    emoji: '🔲',
+    subject: 'matematicas',
+    route: '/juegos/construye-figura',
+    // aciertos × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'caza-la-raiz': {
     label: { es: 'Caza la Raíz', en: 'Root Hunt', ca: 'Caça l’Arrel' },
     emoji: '🌱',

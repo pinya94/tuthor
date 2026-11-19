@@ -144,6 +144,7 @@ const BalanzaAlgebraica      = lazy(() => import('./pages/BalanzaAlgebraica'))
 const CruceRectas            = lazy(() => import('./pages/CruceRectas'))
 const CazaRaiz               = lazy(() => import('./pages/CazaRaiz'))
 const CuantoCabe             = lazy(() => import('./pages/CuantoCabe'))
+const ConstruyeFigura        = lazy(() => import('./pages/ConstruyeFigura'))
 const AnalizaFrases          = lazy(() => import('./pages/AnalizaFrases'))
 const OrdenaFrase            = lazy(() => import('./pages/OrdenaFrase'))
 const QueVes                 = lazy(() => import('./pages/QueVes'))
@@ -433,6 +434,7 @@ function AppRoutes() {
       <Route path="juegos/cruce-rectas" element={<CruceRectas />} />
       <Route path="juegos/caza-la-raiz" element={<CazaRaiz />} />
       <Route path="juegos/cuanto-cabe" element={<CuantoCabe />} />
+      <Route path="juegos/construye-figura" element={<ConstruyeFigura />} />
       <Route path="juegos/analiza-frases" element={<AnalizaFrases />} />
       <Route path="juegos/ordena-frase" element={<OrdenaFrase />} />
       <Route path="juegos/que-ves" element={<QueVes />} />

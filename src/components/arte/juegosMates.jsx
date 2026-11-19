@@ -372,6 +372,26 @@ function CuantoCabe(p) {
   )
 }
 
+function ConstruyeFigura(p) {
+  // Cuadrícula con una figura en L pintada y su contorno contado
+  const L = 22, x0 = 16, y0 = 14
+  const pint = ['0,1', '1,1', '2,1', '3,1', '3,2', '3,3', '2,3']
+  const celdas = []
+  for (let f = 0; f < 5; f++) for (let c = 0; c < 6; c++) celdas.push([f, c])
+  return (
+    <Lienzo {...p}>
+      {celdas.map(([f, c]) => (
+        <rect key={`${f}${c}`} x={x0 + c * L + 1} y={y0 + f * L + 1} width={L - 2} height={L - 2} rx="3"
+          fill={pint.includes(`${f},${c}`) ? '#F59E0B' : '#FFFFFF'} fillOpacity={pint.includes(`${f},${c}`) ? 1 : 0.08} />
+      ))}
+      <path d={`M${x0 + L} ${y0}H${x0 + 2 * L}V${y0 + 3 * L}H${x0 + 3 * L}V${y0 + 2 * L}H${x0 + 4 * L}V${y0 + 4 * L}H${x0 + L}Z`}
+        fill="none" stroke="#FFFFFF" strokeWidth="3" strokeLinejoin="round" />
+      <T x={196} y={50} s={13} c="#FBBF24">A = 7</T>
+      <T x={196} y={76} s={13} c="#FFFFFF">P = 16</T>
+    </Lienzo>
+  )
+}
+
 function CazaRaiz(p) {
   // Parábola que corta el eje X en dos raíces marcadas
   return (
@@ -533,4 +553,5 @@ export const ARTE_MATES = {
   'cruce-rectas': CruceRectas,
   'caza-la-raiz': CazaRaiz,
   'cuanto-cabe': CuantoCabe,
+  'construye-figura': ConstruyeFigura,
 }

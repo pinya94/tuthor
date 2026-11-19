@@ -310,6 +310,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Matemáticas', niveles: 'ESO, Bachillerato',
   },
+  'construye-figura': {
+    titulo: 'Construye la Figura',
+    subtitulo: 'Juego de área y perímetro en cuadrícula',
+    emoji: '🔲', gradient: 'from-amber-500 to-orange-700',
+    path: '/juegos/construye-figura',
+    intro: 'Un juego de matemáticas para entender el área y el perímetro construyendo figuras. Sale un encargo («área 8 y perímetro 12», «un rectángulo de perímetro 10») y el alumno pinta casillas en una cuadrícula hasta que su figura lo cumple. Se corrige calculando la figura que ha hecho, así que vale cualquier solución correcta, y al corregir se dibuja el contorno que cuenta como perímetro.',
+    beneficios: [
+      { titulo: 'Área y perímetro, por fin distintos', texto: 'Confundir área y perímetro es el error clásico. Aquí se ve la diferencia con las manos: el área son los cuadraditos pintados y el perímetro, los lados del borde. Dos figuras con la misma área pueden tener perímetros muy distintos.' },
+      { titulo: 'Muchas respuestas buenas', texto: 'Casi todos los encargos tienen varias soluciones: una L, una T o un palo pueden tener área 4 y perímetro 10. El alumno elige la suya y el juego la comprueba; si falla, ve además una figura que sí valía.' },
+      { titulo: 'El reto de los extremos', texto: 'El nivel difícil pide el mayor y el menor perímetro posible para un área: la figura más estirada frente a la más parecida a un cuadrado. Es la idea que hay detrás de por qué las cajas y las parcelas tienden a ser cuadradas.' },
+    ],
+    ejemplo: 'Sale «Área 6 y perímetro 12». El alumno prueba un rectángulo de 3 × 2, que tiene perímetro 10: le sobra poco. Lo cambia por una L de 6 casillas y el juego cuenta 12 lados en el borde: ¡figura correcta!',
+    enPapel: {
+      titulo: 'Construye la Figura en papel',
+      pasos: [
+        'Reparte papel cuadriculado y escribe en la pizarra un encargo: «área 10 y perímetro 14».',
+        'Cada alumno colorea su figura; luego cuenta los cuadraditos y repasa el borde contando lados.',
+        'Comparad figuras: ¿cuántas formas distintas ha encontrado la clase para el mismo encargo?',
+        'Terminad con el reto: con 12 cuadraditos, ¿cuál es el mayor perímetro posible? ¿Y el menor?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Examen de área y perímetro', desc: 'Diez figuras con la misma mecánica, sin reloj y con nota.' },
+      { nombre: 'Figuras Compuestas', desc: 'Parte una figura en L en dos rectángulos para calcular su área.' },
+      { nombre: '¿Cuánto Cabe?', desc: 'El paso siguiente: volumen y área de los cuerpos geométricos.' },
+    ],
+    asignatura: 'Matemáticas', niveles: 'Primaria y ESO',
+  },
   'cuanto-cabe': {
     titulo: '¿Cuánto Cabe?',
     subtitulo: 'Juego de volumen y área de cuerpos geométricos',
@@ -3327,6 +3355,33 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Mathematics', niveles: 'Secondary, Sixth Form',
   },
+  'construye-figura': {
+    titulo: 'Build the Shape',
+    subtitulo: 'Area and perimeter game on a grid',
+    emoji: '🔲', gradient: 'from-amber-500 to-orange-700', path: '/juegos/construye-figura',
+    intro: 'A maths game for understanding area and perimeter by building shapes. A task appears (“area 8 and perimeter 12”, “a rectangle with a perimeter of 10”) and students paint squares on a grid until their shape fits. The game checks by measuring the shape they made, so any correct solution counts, and the outline that counts as the perimeter is drawn when it’s checked.',
+    beneficios: [
+      { titulo: 'Area and perimeter, finally apart', texto: 'Mixing up area and perimeter is the classic mistake. Here the difference is hands-on: the area is the painted squares and the perimeter is the edges around the outside. Two shapes with the same area can have very different perimeters.' },
+      { titulo: 'Lots of right answers', texto: 'Almost every task has several solutions: an L, a T or a straight bar can all have an area of 4 and a perimeter of 10. Students choose their own and the game checks it; if it’s wrong, they also see a shape that works.' },
+      { titulo: 'The extremes challenge', texto: 'The Hard level asks for the longest and shortest possible perimeter for a given area: the most stretched-out shape versus the most square-like. It’s the idea behind why boxes and plots of land tend to be square.' },
+    ],
+    ejemplo: '“Area 6 and perimeter 12” appears. The student tries a 3 × 2 rectangle, which has a perimeter of 10: not quite. They change it to an L of 6 squares and the game counts 12 edges on the outline: correct shape!',
+    enPapel: {
+      titulo: 'Build the Shape on paper',
+      pasos: [
+        'Hand out squared paper and write a task on the board: “area 10 and perimeter 14”.',
+        'Each student colours in a shape, then counts the squares and traces the outline counting edges.',
+        'Compare shapes: how many different ones has the class found for the same task?',
+        'Finish with the challenge: with 12 squares, what is the longest possible perimeter? And the shortest?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Area and perimeter exam', desc: 'Ten shapes with the same mechanic, no timer and a mark.' },
+      { nombre: 'Composite Shapes', desc: 'Split an L-shaped figure into two rectangles to work out its area.' },
+      { nombre: 'How Much Fits?', desc: 'The next step: volume and surface area of solid shapes.' },
+    ],
+    asignatura: 'Mathematics', niveles: 'Primary and Secondary',
+  },
   'cuanto-cabe': {
     titulo: 'How Much Fits?',
     subtitulo: 'Volume and surface area of solid shapes game',
@@ -5950,6 +6005,33 @@ export const FICHAS_CA = {
       { nombre: 'Batalla naval amb coordenades', desc: 'Un clàssic per practicar el pla cartesià i localitzar punts (x, y) jugant.' },
     ],
     asignatura: 'Matemàtiques', niveles: 'ESO, Batxillerat',
+  },
+  'construye-figura': {
+    titulo: 'Construeix la Figura',
+    subtitulo: 'Joc d’àrea i perímetre en quadrícula',
+    emoji: '🔲', gradient: 'from-amber-500 to-orange-700', path: '/juegos/construye-figura',
+    intro: 'Un joc de matemàtiques per entendre l’àrea i el perímetre construint figures. Surt un encàrrec («àrea 8 i perímetre 12», «un rectangle de perímetre 10») i l’alumne pinta caselles en una quadrícula fins que la seva figura el compleix. Es corregeix calculant la figura que ha fet, així que val qualsevol solució correcta, i en corregir es dibuixa el contorn que compta com a perímetre.',
+    beneficios: [
+      { titulo: 'Àrea i perímetre, per fi diferents', texto: 'Confondre àrea i perímetre és l’error clàssic. Aquí es veu la diferència amb les mans: l’àrea són els quadradets pintats i el perímetre, els costats de la vora. Dues figures amb la mateixa àrea poden tenir perímetres molt diferents.' },
+      { titulo: 'Moltes respostes bones', texto: 'Gairebé tots els encàrrecs tenen diverses solucions: una L, una T o un pal poden tenir àrea 4 i perímetre 10. L’alumne tria la seva i el joc la comprova; si falla, també veu una figura que sí que valia.' },
+      { titulo: 'El repte dels extrems', texto: 'El nivell difícil demana el perímetre més gran i el més petit possible per a una àrea: la figura més estirada davant la més semblant a un quadrat. És la idea que explica per què les caixes i les parcel·les tendeixen a ser quadrades.' },
+    ],
+    ejemplo: 'Surt «Àrea 6 i perímetre 12». L’alumne prova un rectangle de 3 × 2, que té perímetre 10: no arriba. El canvia per una L de 6 caselles i el joc compta 12 costats a la vora: figura correcta!',
+    enPapel: {
+      titulo: 'Construeix la Figura en paper',
+      pasos: [
+        'Reparteix paper quadriculat i escriu a la pissarra un encàrrec: «àrea 10 i perímetre 14».',
+        'Cada alumne pinta la seva figura; després compta els quadradets i repassa la vora comptant costats.',
+        'Compareu figures: quantes formes diferents ha trobat la classe per al mateix encàrrec?',
+        'Acabeu amb el repte: amb 12 quadradets, quin és el perímetre més gran possible? I el més petit?',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Examen d’àrea i perímetre', desc: 'Deu figures amb la mateixa mecànica, sense rellotge i amb nota.' },
+      { nombre: 'Figures Compostes', desc: 'Parteix una figura en L en dos rectangles per calcular-ne l’àrea.' },
+      { nombre: 'Quant Hi Cap?', desc: 'El pas següent: volum i àrea dels cossos geomètrics.' },
+    ],
+    asignatura: 'Matemàtiques', niveles: 'Primària i ESO',
   },
   'cuanto-cabe': {
     titulo: 'Quant Hi Cap?',
