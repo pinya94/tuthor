@@ -25,7 +25,7 @@ export default function ElGanchoTagsExamen() {
       badge={{ es: 'Examen · Inglés', en: 'Exam · English', ca: 'Examen · Anglès' }}
       title={{ es: "Question tags", en: "Question Tags", ca: "Question tags" }}
       sub={{ es: "Pon la coletilla: isn’t she?, didn’t they?, aren’t I?…", en: "Add the tag: isn’t she?, didn’t they?, aren’t I?…", ca: "Posa la coletilla: isn’t she?, didn’t they?, aren’t I?…" }}
-      metaTitle={{ es: "Examen de question tags en inglés (con el juego El Gancho)", en: "Question tags exam (with The Hook game)", ca: "Examen de question tags en anglès (amb el joc El Ganxo)" }}
+      metaTitle={{ es: "Examen de question tags en inglés", en: "Question tags exam", ca: "Examen de question tags en anglès" }}
       metaDesc={{ es: "Examen de question tags: elige la coletilla correcta con be, do, did, can, will, I’m, let’s, nobody o there is. 10 preguntas en tres niveles, con la regla de cada fallo.", en: "Question tags exam: choose the right tag with be, do, did, can, will, I’m, let’s, nobody or there is. 10 questions on three levels, with the rule for every mistake.", ca: "Examen de question tags: tria la coletilla correcta amb be, do, did, can, will, I’m, let’s, nobody o there is. 10 preguntes en tres nivells, amb la regla de cada error." }}
       metaPath="/examen/el-gancho-tags-test"
       subjectSchema="Inglés"

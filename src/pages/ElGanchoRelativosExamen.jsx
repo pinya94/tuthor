@@ -25,7 +25,7 @@ export default function ElGanchoRelativosExamen() {
       badge={{ es: 'Examen · Inglés', en: 'Exam · English', ca: 'Examen · Anglès' }}
       title={{ es: "Relative pronouns", en: "Relative Pronouns", ca: "Relative pronouns" }}
       sub={{ es: "who, which, where, whose, when… y nunca that entre comas", en: "who, which, where, whose, when… and never that between commas", ca: "who, which, where, whose, when… i mai that entre comes" }}
-      metaTitle={{ es: "Examen de relative pronouns en inglés (con el juego El Gancho)", en: "Relative pronouns exam (with The Hook game)", ca: "Examen de relative pronouns en anglès (amb el joc El Ganxo)" }}
+      metaTitle={{ es: "Examen de relative pronouns en inglés", en: "Relative pronouns exam", ca: "Examen de relative pronouns en anglès" }}
       metaDesc={{ es: "Examen de relative pronouns: who, which, where, whose, when y what, con oraciones entre comas. 10 preguntas en tres niveles, con la regla de cada fallo.", en: "Relative pronouns exam: who, which, where, whose, when and what, including non-defining clauses. 10 questions on three levels, with the rule for every mistake.", ca: "Examen de relative pronouns: who, which, where, whose, when i what, amb oracions entre comes. 10 preguntes en tres nivells, amb la regla de cada error." }}
       metaPath="/examen/el-gancho-relativos-test"
       subjectSchema="Inglés"
