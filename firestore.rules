@@ -523,15 +523,17 @@ service cloud.firestore {
     }
 
     // ── Ranking general «Top de hoy / del mes» (src/lib/ranking.js) ──
-    // Un doc por jugador y periodo (d-AAAA-MM-DD o m-AAAA-MM). Público (sale
-    // con APODO automático, nunca nombre ni foto: muchos son menores). Cada
+    // Un doc por jugador y periodo (d-AAAA-MM-DD o m-AAAA-MM). Público: las
+    // cuentas salen con su nombre; los invitados (sesión anónima), con su
+    // APODO automático. Cada
     // escritura suma 0-500 puntos (el tope de monedas de una partida), con
     // updatedAt de servidor y mínimo 15 s entre escrituras del mismo doc.
     match /rankings/{periodo}/entries/{uid} {
       function validRanking() {
         let d = request.resource.data;
         return periodo.matches('^(d-[0-9]{4}-[0-9]{2}-[0-9]{2}|m-[0-9]{4}-[0-9]{2})$')
-          && d.keys().hasOnly(['apodo', 'puntos', 'updatedAt'])
+          && d.keys().hasOnly(['apodo', 'puntos', 'updatedAt', 'nombre'])
+          && (!('nombre' in d) || (d.nombre is string && d.nombre.size() >= 1 && d.nombre.size() <= 60))
           && d.apodo is string && d.apodo.matches('^[0-9]{1,2}-[0-9]{1,2}-[0-9]{2}$')
           && d.puntos is number && d.updatedAt == request.time;
       }

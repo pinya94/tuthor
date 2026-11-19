@@ -3,17 +3,20 @@
 // (computeCoins, que ya iguala los juegos entre sí), nunca el tiempo jugado:
 // decisión del usuario, para no premiar estar enganchado.
 //
-// Privacidad: muchos jugadores son menores, así que aquí NO se publica el
-// nombre ni la foto de la cuenta. Cada uno sale con un APODO AUTOMÁTICO fijo,
-// sacado de su uid («Erizo Veloz 42»), sin texto libre que moderar. En
-// Firestore se guarda solo la clave del apodo («3-7-42»); el texto se pinta en
-// el idioma de quien mira.
+// Nombre: quien tiene cuenta sale con su NOMBRE registrado (decisión del
+// usuario, 20-nov-2026, igual que en los récords de cada juego). Quien juega
+// sin cuenta sale con un APODO AUTOMÁTICO fijo («Erizo Veloz 42»), sacado del
+// uid de una sesión anónima de Firebase que solo existe para esto
+// (sumarComoInvitado; AuthContext la sigue tratando como «sin cuenta»).
+// Todos guardan la clave del apodo («3-7-42»), que se pinta en el idioma de
+// quien mira; `nombre` solo lo llevan las cuentas.
 //
-// Firestore: rankings/{periodo}/entries/{uid} = { apodo, puntos, updatedAt }
+// Firestore: rankings/{periodo}/entries/{uid} = { apodo, puntos, updatedAt, nombre? }
 // con periodo 'd-AAAA-MM-DD' (día) o 'm-AAAA-MM' (mes), en hora de España.
 // Las rules solo dejan sumar 0-500 por escritura y una cada 15 s.
 import { doc, setDoc, getDocs, getDoc, collection, query, orderBy, limit, where, getCountFromServer, increment, serverTimestamp } from 'firebase/firestore'
-import { db } from './firebase'
+import { signInAnonymously } from 'firebase/auth'
+import { db, auth } from './firebase'
 
 // Animales en masculino en los tres idiomas (para que el adjetivo concuerde)
 // y emojis de Unicode ≤ 11 (Windows 10, ver emoji-support.test.js).
@@ -88,12 +91,36 @@ const entradas = periodo => collection(db, 'rankings', periodo, 'entries')
 
 // Suma los puntos de una partida al día y al mes. No crítico: si falla
 // (sin red, demasiado seguido), la partida ya está guardada igual.
-export async function sumarAlRanking(uid, puntos) {
+export async function sumarAlRanking(uid, puntos, nombre = null) {
   const p = Math.min(Math.max(0, Math.round(puntos || 0)), 500)
   if (!uid || p <= 0) return
   const { hoy, mes } = periodos()
   const datos = { apodo: apodoDe(uid), puntos: increment(p), updatedAt: serverTimestamp() }
+  if (typeof nombre === 'string' && nombre.trim()) datos.nombre = nombre.trim().slice(0, 40)
   await Promise.all([hoy, mes].map(per => setDoc(entrada(per, uid), datos, { merge: true }).catch(() => {})))
+}
+
+// Invitado: abre (o reutiliza) la sesión anónima y suma con apodo. Si el
+// acceso anónimo no está activado en Firebase, falla en silencio y devuelve
+// null: el invitado ve el ranking pero no sale en él.
+let invitando = null
+export async function sumarComoInvitado(puntos) {
+  try {
+    if (!auth.currentUser) {
+      invitando ??= signInAnonymously(auth).finally(() => { invitando = null })
+      await invitando
+    }
+    const u = auth.currentUser
+    if (!u?.isAnonymous) return null
+    await sumarAlRanking(u.uid, puntos)
+    return u.uid
+  } catch { return null }
+}
+
+// Lo que se pinta de cada fila: el nombre de la cuenta o el apodo del invitado
+export function nombreEnRanking(e, lang = 'es') {
+  const a = apodoTexto(e.apodo, lang)
+  return e.nombre ? { emoji: '👤', texto: e.nombre, cuenta: true } : { ...a, cuenta: false }
 }
 
 export async function getTop(periodo, n = 20) {

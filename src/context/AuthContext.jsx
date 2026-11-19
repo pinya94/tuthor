@@ -26,9 +26,15 @@ export function AuthProvider({ children }) {
   // inventarse: firestore.rules lee ese mismo claim.
   const [childMode, setChildMode] = useState(false)
   const lastUpsertedUid = useRef(null)
+  // Sesión ANÓNIMA de Firebase: solo existe para que un invitado salga en el
+  // ranking general con su apodo (lib/ranking.js → sumarComoInvitado). Para
+  // el resto de la web sigue siendo «sin cuenta»: user = null.
+  const [invitadoUid, setInvitadoUid] = useState(null)
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
+      if (u?.isAnonymous) { setInvitadoUid(u.uid); setUser(null); setChildMode(false); return }
+      setInvitadoUid(null)
       setUser(u)
 
       let isChild = false
@@ -99,7 +105,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={{
-      user, childMode, logout,
+      user, childMode, logout, invitadoUid,
       loginWithGoogle, loginWithChildCode,
     }}>
       {children}

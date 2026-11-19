@@ -1,4 +1,4 @@
-import { db } from './firebase'
+import { db, auth } from './firebase'
 import { idiomaDeRuta } from './idiomaUsuario'
 import {
   doc, collection, addDoc, setDoc, getDoc, updateDoc,
@@ -161,7 +161,7 @@ export async function saveActivity(uid, data) {
   incrementGlobalStats(data.game, today).catch(() => {})
   // Ranking general de hoy y del mes (lib/ranking.js), con apodo. GameEndScreen
   // escucha el evento para enseñar el puesto con los puntos ya sumados.
-  sumarAlRanking(uid, coinsEarned)
+  sumarAlRanking(uid, coinsEarned, data.userName || (auth.currentUser?.isAnonymous ? null : auth.currentUser?.displayName))
     .then(() => window.dispatchEvent(new CustomEvent('tuthor:ranking-actualizado')))
     .catch(() => {})
   recordAssignmentCompletion(uid, data.game, data.category, { score: data.score, passed: data.passed, timeSpent: data.timeSpent })
