@@ -47,6 +47,7 @@ const TablasMultiplicar  = lazy(() => import('./pages/TablasMultiplicar'))
 const ExamenTema         = lazy(() => import('./pages/ExamenTema'))
 const CicloOrdenExamen   = lazy(() => import('./pages/CicloOrdenExamen'))
 const Perfil             = lazy(() => import('./pages/Perfil'))
+const Top                = lazy(() => import('./pages/Top'))
 const Tienda             = lazy(() => import('./pages/Tienda'))
 const MiPlan             = lazy(() => import('./pages/MiPlan'))
 const QuienEsQuien       = lazy(() => import('./pages/QuienEsQuien'))
@@ -486,6 +487,7 @@ function AppRoutes() {
       {/* ── OTRAS ── */}
       <Route path="diaria" element={<PreguntaDiaria />} />
       <Route path="perfil" element={<Perfil />} />
+      <Route path="top" element={<Top />} />
       <Route path="tienda" element={<Tienda />} />
       <Route path="mi-plan" element={<MiPlan />} />
       <Route path="privacidad" element={<Privacidad />} />

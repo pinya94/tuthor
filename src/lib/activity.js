@@ -8,6 +8,7 @@ import {
 import { isKnownGame } from './games'
 import { rachaVigente } from './statsAggregation'
 import { recordAssignmentCompletion } from './assignments'
+import { sumarAlRanking } from './ranking'
 
 // ── Aviso "tarea completada" para GameEndScreen ──────────────────────────────
 // recordAssignmentCompletion corre fire-and-forget desde saveActivity, así
@@ -158,6 +159,11 @@ export async function saveActivity(uid, data) {
 
   const today = todayStr()
   incrementGlobalStats(data.game, today).catch(() => {})
+  // Ranking general de hoy y del mes (lib/ranking.js), con apodo. GameEndScreen
+  // escucha el evento para enseñar el puesto con los puntos ya sumados.
+  sumarAlRanking(uid, coinsEarned)
+    .then(() => window.dispatchEvent(new CustomEvent('tuthor:ranking-actualizado')))
+    .catch(() => {})
   recordAssignmentCompletion(uid, data.game, data.category, { score: data.score, passed: data.passed, timeSpent: data.timeSpent })
     .then(announceCompletedAssignments)
     .catch(() => {})

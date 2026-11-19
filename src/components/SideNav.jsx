@@ -16,7 +16,7 @@ const sinIdioma = p => p.replace(/^\/(en|ca)(?=\/|$)/, '') || '/'
 // ¿Lleva barra lateral esta ruta?
 export function conBarraLateral(pathname) {
   const p = sinIdioma(pathname).replace(/\/$/, '') || '/'
-  if (p === '/' || p === '/juegos' || p === '/temario' || p === '/profesores' || p === '/perfil' || p === '/tienda') return true
+  if (p === '/' || p === '/juegos' || p === '/top' || p === '/temario' || p === '/profesores' || p === '/perfil' || p === '/tienda') return true
   const m = p.match(/^\/juegos\/([^/]+)/)
   if (m) return CURSOS.includes(m[1]) // /juegos/eso, /juegos/eso/lengua… sí; un juego, no
   return /^\/(estudiar|recursos|info)(\/|$)/.test(p)
@@ -43,6 +43,7 @@ export default function SideNav() {
   const items = [
     { to: '/', icono: '🎮', label: { es: 'Juegos', en: 'Games', ca: 'Jocs' }, activo: p === '/' || p.startsWith('/juegos') },
     { to: '/estudiar', icono: '📚', label: { es: 'Estudiar', en: 'Study', ca: 'Estudiar' }, activo: p.startsWith('/estudiar') || p === '/temario' },
+    { to: '/top', icono: '🏆', label: { es: 'Ranking', en: 'Leaderboard', ca: 'Rànquing' }, activo: p === '/top' },
     { to: '/recursos', icono: '🧰', label: { es: 'Recursos', en: 'Resources', ca: 'Recursos' }, activo: p.startsWith('/recursos') },
     null,
     esProfe

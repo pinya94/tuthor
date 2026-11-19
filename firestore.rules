@@ -522,6 +522,30 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // ── Ranking general «Top de hoy / del mes» (src/lib/ranking.js) ──
+    // Un doc por jugador y periodo (d-AAAA-MM-DD o m-AAAA-MM). Público (sale
+    // con APODO automático, nunca nombre ni foto: muchos son menores). Cada
+    // escritura suma 0-500 puntos (el tope de monedas de una partida), con
+    // updatedAt de servidor y mínimo 15 s entre escrituras del mismo doc.
+    match /rankings/{periodo}/entries/{uid} {
+      function validRanking() {
+        let d = request.resource.data;
+        return periodo.matches('^(d-[0-9]{4}-[0-9]{2}-[0-9]{2}|m-[0-9]{4}-[0-9]{2})$')
+          && d.keys().hasOnly(['apodo', 'puntos', 'updatedAt'])
+          && d.apodo is string && d.apodo.matches('^[0-9]{1,2}-[0-9]{1,2}-[0-9]{2}$')
+          && d.puntos is number && d.updatedAt == request.time;
+      }
+      allow read: if true;
+      allow create: if isOwner(uid) && validRanking()
+        && request.resource.data.puntos > 0 && request.resource.data.puntos <= 500;
+      allow update: if isOwner(uid) && validRanking()
+        && request.resource.data.apodo == resource.data.apodo
+        && request.resource.data.puntos > resource.data.puntos
+        && request.resource.data.puntos - resource.data.puntos <= 500
+        && request.time > resource.data.updatedAt + duration.value(15, 's');
+      allow delete: if false;
+    }
+
     // ── Leaderboards legacy (_stats/leaderboard_*): solo lectura ──────────────
     // Congelados como fallback de lectura hasta que la subcolección se llene.
     match /_stats/{leaderboardId} {

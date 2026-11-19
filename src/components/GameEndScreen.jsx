@@ -12,6 +12,7 @@ import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from './arte'
 import { Acierto, IconoDeEmoji } from './Iconos'
 import PieJuego from './PieJuego'
 import SiguienteJuego from './SiguienteJuego'
+import PuestoRanking from './PuestoRanking'
 
 // Slug del arte del juego: por su ruta en el registro, o el propio id.
 function slugDeArte(game) {
@@ -97,6 +98,7 @@ export default function GameEndScreen({
             <p className="text-6xl font-black text-white tabular-nums tracking-tight leading-none">{(score ?? 0).toLocaleString()}</p>
             <p className="text-white/50 text-base mt-1.5">{sLabel}</p>
             <CoinsEarnedBadge coins={coins} lang={lang} />
+            <PuestoRanking user={user} coins={coins} />
             {completedTasks?.map((t, i) => (
               <p key={i} className="flex items-center justify-center gap-1.5 text-green-400 font-bold text-sm mt-3">
                 <Acierto className="w-4 h-4" />

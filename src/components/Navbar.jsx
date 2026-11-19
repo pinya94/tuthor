@@ -287,6 +287,10 @@ export default function Navbar() {
                 ${location.pathname === localPath('/recursos') || location.pathname.startsWith(localPath('/recursos') + '/') ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
               {tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}
             </Link>
+            <Link to={localPath('/top')} onClick={() => { setMenuOpen(false) }}
+              className="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all text-white/70 hover:text-white hover:bg-white/10">
+              🏆 {tr({ es: 'Ranking', en: 'Leaderboard', ca: 'Rànquing' })}
+            </Link>
             {/* Igual que en la barra lateral: la puerta de los profes, para quien aún no lo es */}
             {!isTeacher && (
               <Link to={localPath('/profesores')} onClick={() => { setMenuOpen(false) }}
