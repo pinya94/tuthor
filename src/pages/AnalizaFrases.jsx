@@ -191,8 +191,16 @@ export default function AnalizaFrases() {
 
   // Entrada directa desde una ficha de estudio (p. ej. /info/estudiar/complemento-directo):
   // state = { filter, level, topicId } salta el menú y arranca ya filtrado.
+  // Desde las páginas de un tema de gramática llega además { label, idioma }:
+  // un filtro suelto (solo los sustantivos…) que no es ninguno de TOPICS, y el
+  // idioma de las frases (los pronombres ingleses se analizan en inglés
+  // aunque la web esté en castellano). Se guarda como un tema más para que
+  // «jugar de nuevo» siga practicando lo mismo.
   const incoming = location.state?.filter ? location.state : null
-  const incomingTopic = incoming ? TOPICS.find(t => t.id === incoming.topicId) ?? null : null
+  const incomingTopic = !incoming ? null
+    : TOPICS.find(t => t.id === incoming.topicId)
+      ?? (incoming.label ? { id: 'tema', filter: incoming.filter, label: incoming.label } : null)
+  const idiomaInicial = ['es', 'en', 'ca'].includes(incoming?.idioma) ? incoming.idioma : l
 
   const [screen, setScreen] = useState(incoming ? 'playing' : 'difficulty')
   const [difficulty, setDifficulty] = useState(incoming?.level ?? 'primaria')
@@ -200,7 +208,7 @@ export default function AnalizaFrases() {
   const [score, setScore] = useState(0)
   const [correct, setCorrect] = useState(0)
   const [streak, setStreak] = useState(0)
-  const [round, setRound] = useState(() => incoming ? genRound({ lang: l, level: incoming.level ?? 'eso', filter: incoming.filter }) : null)
+  const [round, setRound] = useState(() => incoming ? genRound({ lang: idiomaInicial, level: incoming.level ?? 'eso', filter: incoming.filter }) : null)
   const [phase, setPhase] = useState('choose')  // choose | result
   const [selected, setSelected] = useState([])
   const [won, setWon] = useState(false)
@@ -210,7 +218,7 @@ export default function AnalizaFrases() {
   // siéndolo: un alumno con Tuthor en castellano puede querer analizar
   // sintaxis inglesa, y uno con la web en catalán necesita la de castellano,
   // que es la que le preguntan en clase.
-  const [idioma, setIdioma] = useState(l)
+  const [idioma, setIdioma] = useState(idiomaInicial)
 
   const timerRef = useRef(null)
   const scoreRef = useRef(0)
@@ -223,7 +231,7 @@ export default function AnalizaFrases() {
   // El idioma se lee de una ref y no del estado: `next` la llama el reloj y
   // el botón de siguiente, y con el estado en las dependencias se quedaba
   // atada a una versión vieja al cambiar de idioma a mitad de partida.
-  const idiomaRef = useRef(l)
+  const idiomaRef = useRef(idiomaInicial)
   const next = useCallback((diff) => {
     setRound(genRound({ lang: idiomaRef.current, level: diff, filter: filterRef.current }))
     setPhase('choose')
