@@ -118,6 +118,10 @@ function SolicitudesProfe() {
   const [fichaDe, setFichaDe] = useState(null) // uid con la ficha abierta
   const [notaDe, setNotaDe] = useState(null) // uid con el cuadro de «Pedir datos» abierto
   const [nota, setNota] = useState('')
+  // Las resueltas en esta visita siguen a la vista aunque ya no estén «por
+  // revisar»: si no, al validar desaparecía la fila y con ella el botón del
+  // correo, y no se sabía si el aviso al profe había salido (no sale solo).
+  const [recien, setRecien] = useState([])
   // Con el idioma de cada uno (users/{uid}.idioma), para escribirle en su lengua
   const carga = () => listarSolicitudes()
     .then(fs => Promise.all(fs.map(f => getDoc(doc(db, 'users', f.id)).then(u => ({ ...f, idioma: u.data()?.idioma ?? '' })).catch(() => f))))
@@ -125,7 +129,7 @@ function SolicitudesProfe() {
   useEffect(() => { carga() }, [])
   const resuelve = async (uid, accion, texto = '') => {
     setOcupado(uid)
-    try { await resolverSolicitud(uid, accion, texto); setNotaDe(null); setNota(''); await carga() } catch (e) { alert('No se ha podido: ' + e.message) }
+    try { await resolverSolicitud(uid, accion, texto); setRecien(r => [...r, uid]); setNotaDe(null); setNota(''); await carga() } catch (e) { alert('No se ha podido: ' + e.message) }
     setOcupado('')
   }
   const correo = (f, asunto, cuerpo) => `mailto:${f.email}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`
@@ -178,7 +182,7 @@ Puedes hacerlo desde tu panel (${panel}), en el aviso de arriba. Mientras tanto 
 
 ¡Gracias!`)
   }
-  const visibles = (filas ?? []).filter(f => verTodas || f.estado === 'pendiente')
+  const visibles = (filas ?? []).filter(f => verTodas || f.estado === 'pendiente' || recien.includes(f.id))
   const pendientes = (filas ?? []).filter(f => f.estado === 'pendiente').length
   const color = { aprobada: 'text-green-300', rechazada: 'text-red-300', rectificar: 'text-orange-300', pendiente: 'text-amber-300' }
   const nombreEstado = { aprobada: 'validada', rechazada: 'rechazada', rectificar: 'esperando datos', pendiente: 'por revisar' }
@@ -208,6 +212,7 @@ Puedes hacerlo desde tu panel (${panel}), en el aviso de arriba. Mientras tanto 
                 {f.estado !== 'rechazada' && <button disabled={ocupado === f.id} onClick={() => { setNotaDe(n => (n === f.id ? null : f.id)); setNota('') }} className={`${boton} bg-orange-500/80 hover:bg-orange-500 text-white`}>✏️ Pedir datos</button>}
                 {f.estado !== 'rechazada' && <button disabled={ocupado === f.id} onClick={() => { if (confirm(`¿Rechazar a ${f.nombre}? Pierde el acceso de profe.`)) resuelve(f.id, 'rechazar') }} className={`${boton} bg-white/10 hover:bg-white/20 text-white/80`}>✕ Rechazar</button>}
                 <button onClick={() => setFichaDe(x => (x === f.id ? null : f.id))} className={`${boton} bg-sky-600/80 hover:bg-sky-500 text-white`}>{fichaDe === f.id ? '▲ Ocultar ficha' : '🗂️ Ver ficha'}</button>
+                {recien.includes(f.id) && f.estado !== 'pendiente' && f.estado !== 'rechazada' && <p className="w-full text-amber-200 text-xs font-bold">⚠️ Guardado. El profe aún no ha recibido ningún correo: pulsa el botón morado y envíalo desde tu correo.</p>}
                 {f.estado === 'aprobada' && <a href={avisoValidada(f)} className={`${boton} bg-violet-600 hover:bg-violet-500 text-white`}>✉️ Avisarle de que está validada</a>}
                 {f.estado === 'rectificar' && <a href={avisoRectificar(f)} className={`${boton} bg-violet-600 hover:bg-violet-500 text-white`}>✉️ Escribirle lo que falta</a>}
               </div>
