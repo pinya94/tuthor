@@ -1,22 +1,12 @@
-import { Link, useNavigate } from 'react-router-dom'
-import Thumbnail from '../components/Thumbnail'
-import { slugDeRuta } from '../components/arte'
-import { GAMES } from '../data/constants'
-import { disponibleEn } from '../lib/games'
+import { Link } from 'react-router-dom'
+import CatalogoJuegos from '../components/CatalogoJuegos'
 import { useLang } from '../context/LangContext'
 import SEOHead from '../components/SEOHead'
 import { CURSOS_LANDING } from '../data/landingsCurso'
 import { ARTE_CURSOS } from '../components/arte/cursos'
 
 export default function Juegos() {
-  const navigate = useNavigate()
-  const { lt, localPath, t, lang, tr } = useLang()
-
-  function handleClick(game) {
-    if (!game.ready) return
-    if (game.path) navigate(localPath(game.path))
-    else if (game.url) window.open(game.url, '_blank')
-  }
+  const { localPath, t, lang, tr } = useLang()
 
   const seoData = {
     es: { title: 'Juegos educativos', desc: 'Historia, geografía, matemáticas y lengua con juegos interactivos. Repasa el temario de Primaria, ESO y Bachillerato jugando.', path: '/juegos' },
@@ -49,23 +39,8 @@ export default function Juegos() {
           )
         })}
       </div>
-      <div className="flex-1 overflow-y-auto">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-5xl mx-auto w-full pb-4">
-          {[...GAMES].filter(g => disponibleEn(slugDeRuta(g.path), lang)).sort((a, b) => (b.ready ? 1 : 0) - (a.ready ? 1 : 0)).map(game => (
-            <Thumbnail
-              key={game.title}
-              title={lt(game)}
-              subtitle={lt(game, 'subtitle')}
-              emoji={game.emoji}
-              gradient={game.gradient}
-              slug={slugDeRuta(game.path)}
-              comingSoon={!game.ready}
-              to={game.ready && game.path ? localPath(game.path) : undefined}
-              onClick={() => handleClick(game)}
-            />
-          ))}
-        </div>
-      </div>
+      {/* La misma cuadrícula que la portada: chips por materia, los más jugados primero */}
+      <CatalogoJuegos className="max-w-5xl mx-auto w-full pb-4" />
     </div>
   )
 }

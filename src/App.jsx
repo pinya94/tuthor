@@ -6,6 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 import Particles from './components/Particles'
 import { useFondo } from './lib/fondo'
 import Navbar from './components/Navbar'
+import SideNav, { useConBarraLateral } from './components/SideNav'
 import SideRails from './components/SideRails'
 import AccessGate from './components/AccessGate'
 import CookieBanner, { useCookieConsent } from './components/CookieBanner'
@@ -557,6 +558,11 @@ function useIsChromeless() {
   return CHROMELESS_PATHS.has(neutral.replace(/\/$/, '') || '/')
 }
 
+// Deja sitio a la barra lateral (SideNav) en las páginas que la llevan
+function ConBarraLateral({ children }) {
+  return <div className={useConBarraLateral() ? 'lg:pl-52' : ''}>{children}</div>
+}
+
 function Layout({ onConsent }) {
   const chromeless = useIsChromeless()
   const fondo = useFondo()
@@ -622,7 +628,8 @@ function Layout({ onConsent }) {
           )}
           <div className="relative z-10">
             <Navbar />
-            {routes}
+            <SideNav />
+            <ConBarraLateral>{routes}</ConBarraLateral>
             <SideRails />
           </div>
         </div>

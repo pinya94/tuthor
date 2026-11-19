@@ -1,612 +1,105 @@
+// Portada (nov-2026): una plataforma de juegos educativos, al estilo de las
+// webs de minijuegos. Entras y lo principal son los juegos: el destacado del
+// mes en grande, el juego del día y la cuadrícula de todos, primero los más
+// jugados. Estudiar, la zona de profes, los códigos de clase y el perfil van
+// en la barra lateral (SideNav) y en el menú, no aquí.
+//
+// Por qué: GA4 (22-oct → 18-nov) daba 30 s de media en la portada antigua,
+// que explicaba todo lo que se puede hacer (titular, buscador, puertas,
+// materias, recompensas, invitaciones…), mientras que quien entra a un juego
+// se queda 5-10 min. El texto de abajo sigue ahí para Google/AdSense: toda
+// página necesita contenido propio en el HTML prerenderizado.
 import { useEffect, useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import HeroCard from '../components/HeroCard'
+import { Link } from 'react-router-dom'
+import JuegoDestacado from '../components/JuegoDestacado'
 import JuegoDelDia from '../components/JuegoDelDia'
-import BuscadorTuthor from '../components/BuscadorTuthor'
-import { MATERIAS_ESTUDIO } from '../data/materiasEstudio'
+import CatalogoJuegos from '../components/CatalogoJuegos'
+import SEOHead from '../components/SEOHead'
+import AdSlot from '../components/AdSlot'
 import { cifrasTuthor } from '../lib/descubre'
-import { PUERTAS } from '../data/constants'
+import { DESTACADO } from '../data/destacados'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getStats, formatTime } from '../lib/activity'
-import { getStudentClasses } from '../lib/classes'
-import { getStudentAssignments } from '../lib/assignments'
-import { aggregateStudentStats, rachaVigente } from '../lib/statsAggregation'
-import { FRAMES } from '../data/cosmetics'
-import SEOHead from '../components/SEOHead'
-import AuthModal from '../components/AuthModal'
-import AdSlot from '../components/AdSlot'
-import ProUpsell from '../components/ProUpsell'
-import ReferralCard from '../components/ReferralCard'
-import NivelPicker from '../components/NivelPicker'
-import EresProfesor from '../components/EresProfesor'
-import { useDebePreguntarNivel, sincronizarNivel } from '../lib/nivel'
-import { ARTE_MATERIAS } from '../components/arte/materias'
-import AvatarDibujo from '../components/avatares/AvatarDibujo'
-import { Racha, Reloj, Acierto, Fallo, Mando, Moneda, Tienda, Pizarra, Familia, Bicho, Megafono, Sobre } from '../components/Iconos'
+import { getStats } from '../lib/activity'
+import { rachaVigente } from '../lib/statsAggregation'
 
-// Las cifras de la promesa de la home, de los registros.
 const cifras = cifrasTuthor()
 
-// Marco + avatar de muestra para el escaparate de recompensas.
-const PREVIEW_FRAMES = ['gold', 'rainbow', 'galaxy', 'fire']
-const PREVIEW_AVATARS = ['🦊', '🐲', '🦖', '🚀']
-
-
-function RewardsSection({ localPath }) {
-  const { tr } = useLang()
-  const previewFrames = FRAMES.filter(f => PREVIEW_FRAMES.includes(f.id)).slice(0, 4)
-
-  return (
-    <section className="mb-8">
-      <div className={`${TARJETA} overflow-hidden`}>
-        <div className="px-5 py-4 flex items-center gap-4">
-          <span className="shrink-0 w-12 h-12 rounded-xl bg-amber-500/12 grid place-items-center">
-            <Moneda className="w-7 h-7" />
-          </span>
-          <div className="flex-1 min-w-0">
-            <p className="text-amber-300/80 text-[11px] font-bold uppercase tracking-widest mb-0.5">
-              {tr({ es: 'Recompensas', en: 'Rewards', ca: 'Recompenses' })}
-            </p>
-            <p className="text-white font-black text-base leading-tight">
-              {tr({ es: 'Juega y gana monedas', en: 'Play and earn coins', ca: 'Juga i guanya monedes' })}
-            </p>
-            <p className="text-white/50 text-xs mt-0.5">
-              {tr({ es: 'Marcos · Banners · Avatares', en: 'Frames · Banners · Avatars', ca: 'Marcs · Banners · Avatars' })}
-            </p>
-          </div>
-          {/* Los marcos son cosméticos del usuario: se enseñan tal cual. */}
-          <div className="hidden sm:flex gap-1.5 shrink-0">
-            {previewFrames.map((frame, i) => (
-              <div key={frame.id} className={frame.animated ? 'frame-animated' : ''} style={{ ...frame.style, padding: 2, borderRadius: '50%', width: 36, height: 36 }}>
-                <div style={{ width: 32, height: 32, borderRadius: '50%', overflow: 'hidden' }}>
-                  <AvatarDibujo emoji={PREVIEW_AVATARS[i]} />
-                </div>
-              </div>
-            ))}
-            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', border: '2px dashed rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'rgba(255,255,255,0.3)' }}>+</div>
-          </div>
-        </div>
-
-        <div className="px-5 pb-4">
-          <Link to={localPath('/tienda')}
-            className="text-center w-full flex items-center justify-center gap-2 py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-black rounded-xl transition-all text-sm">
-            <Tienda className="w-4 h-4" />
-            {tr({ es: 'Ir a la tienda', en: 'Go to shop', ca: 'Anar a la botiga' })}
-          </Link>
-        </div>
-      </div>
-    </section>
-  )
+// Igual que STATIC_META['/'] en lib/staticMeta.js (la que ve el prerender).
+const SEO = {
+  es: { title: 'Juegos educativos gratis: aprende jugando', desc: 'Más de 100 juegos educativos gratis para Primaria, ESO y Bachillerato: matemáticas, lengua, inglés, ciencias, historia y más. Entra y juega, sin registrarte.' },
+  en: { title: 'Free educational games: learn by playing', desc: 'Over 100 free educational games for primary and secondary school: maths, English, science, history and more. Just open one and play, no sign-up.' },
+  ca: { title: 'Jocs educatius gratis: aprèn jugant', desc: 'Més de 100 jocs educatius gratis per a Primària, ESO i Batxillerat: matemàtiques, llengua, anglès, ciències, història i més. Entra i juga, sense registrar-te.' },
 }
 
-// La ruta del hub de "/estudiar" coincide con subj.id salvo estas dos: lengua
-// e inglés cuelgan de /estudiar/idiomas/* (ver App.jsx), el resto es directo.
-const SUBJECT_HUB_PATH = { lengua: '/estudiar/idiomas/espanol', ingles: '/estudiar/idiomas/ingles' }
-
-// Solo se muestra si hay alguna materia con actividad — mismo dato que ya
-// calcula Perfil.jsx (aggregateStudentStats), aquí en versión compacta y
-// sin acordeón: cada tarjeta lleva directo al hub de la materia.
-// En "Por materia" la lengua se llama `lengua` (statsAggregation) y su dibujo
-// es el de Español en /estudiar.
-const ARTE_DE_MATERIA = { lengua: 'espanol' }
-
-// Misma superficie plana que las puertas de arriba (HeroCard): #141b2e.
-const TARJETA = 'rounded-2xl bg-[#141b2e] border border-white/[0.08]'
-
-function SubjectsGrid({ subjectEntries, localPath, lang }) {
-  const { tr } = useLang()
+function Saludo({ user }) {
+  const { tr, localPath } = useLang()
+  const [stats, setStats] = useState(null)
+  useEffect(() => { getStats(user.uid).then(setStats).catch(() => {}) }, [user])
+  const racha = stats ? rachaVigente(stats) : 0
   return (
-    <section className="mb-8">
-      <div className="flex items-baseline gap-2 mb-3 px-0.5">
-        <h2 className="text-white font-black text-lg">{tr({ es: 'Por materia', en: 'By subject', ca: 'Per matèria' })}</h2>
-        <span className="text-white/40 text-xs font-semibold ml-auto">
-          {subjectEntries.length} {tr({ es: 'materias', en: 'subjects', ca: 'matèries' })}
-        </span>
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        {subjectEntries.map(subj => {
-          const label = subj.label[lang] || subj.label.es
-          const failed = subj.totalExamPlays - subj.totalPassed
-          const path = SUBJECT_HUB_PATH[subj.id] || `/estudiar/${subj.id}`
-          const Arte = ARTE_MATERIAS[ARTE_DE_MATERIA[subj.id] || subj.id]
-          const acierto = subj.totalExamPlays > 0 ? subj.totalPassed / subj.totalExamPlays : null
-          return (
-            <Link key={subj.id} to={localPath(path)}
-              className={`inline-block group text-left overflow-hidden ${TARJETA} hover:border-white/20 hover:-translate-y-0.5 transition-all duration-300`}>
-              <div className="relative aspect-[16/7] border-b border-white/[0.06] overflow-hidden">
-                {Arte
-                  ? <Arte className="absolute inset-0 w-full h-full p-1.5 transition-transform duration-500 ease-out group-hover:scale-[1.05]" />
-                  : <span className="absolute inset-0 grid place-items-center text-3xl">{subj.emoji}</span>}
-              </div>
-              <div className="px-3.5 pt-2.5 pb-3">
-                <p className="text-white font-black text-sm truncate">{label}</p>
-                <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-xs mt-1">
-                  <span className="text-white/45 tabular-nums whitespace-nowrap">
-                    {subj.totalPlays} {tr({ es: 'actividades', en: 'activities', ca: 'activitats' })}
-                  </span>
-                  {subj.totalExamPlays > 0 && (
-                    <span className="flex items-center gap-1 text-green-300 font-bold tabular-nums"><Acierto className="w-3.5 h-3.5" />{subj.totalPassed}</span>
-                  )}
-                  {failed > 0 && (
-                    <span className="flex items-center gap-1 text-rose-300 font-bold tabular-nums"><Fallo className="w-3.5 h-3.5" />{failed}</span>
-                  )}
-                </div>
-                {/* Cuánto de lo examinado está aprobado: se ve de un vistazo
-                    dónde flojea, sin tener que restar. */}
-                {acierto !== null && (
-                  <div className="mt-2.5 h-1.5 rounded-full bg-rose-400/25 overflow-hidden">
-                    <div className="h-full rounded-full bg-green-400" style={{ width: `${Math.round(acierto * 100)}%` }} />
-                  </div>
-                )}
-              </div>
-            </Link>
-          )
-        })}
-      </div>
-    </section>
-  )
-}
-
-// Solo se muestra si el alumno está en al menos una clase — nada que ofrecer
-// aquí a quien no lo está (no es un profesor vendiendo el panel, es una
-// cuenta ya de pago; "únete a una clase" no pinta nada en su navegación).
-function MisClasesCard({ classes, pendingTasks, localPath, lang }) {
-  const en = lang === 'en', ca = lang === 'ca'
-  const clase = classes[0]
-  return (
-    <section className="mb-8">
-      <Link to={localPath('/clase')}
-        className={`w-full text-left ${TARJETA} hover:border-teal-400/40 p-5 flex items-center justify-between gap-4 transition-all`}>
-        <div className="flex items-center gap-3">
-          <span className="shrink-0 w-11 h-11 rounded-xl bg-teal-500/12 grid place-items-center">
-            <Pizarra className="w-6 h-6" />
-          </span>
-          <div>
-            <p className="text-white font-bold text-sm">
-              {classes.length > 1
-                ? (ca ? `Les teves classes (${classes.length})` : en ? `Your classes (${classes.length})` : `Tus clases (${classes.length})`)
-                : clase.name}
-            </p>
-            <p className="text-white/40 text-xs mt-0.5">
-              {pendingTasks > 0
-                ? (ca ? `${pendingTasks} tasca${pendingTasks === 1 ? '' : 's'} pendent${pendingTasks === 1 ? '' : 's'}` : en ? `${pendingTasks} pending task${pendingTasks === 1 ? '' : 's'}` : `${pendingTasks} tarea${pendingTasks === 1 ? '' : 's'} pendiente${pendingTasks === 1 ? '' : 's'}`)
-                : (ca ? 'Sense tasques pendents' : en ? 'No pending tasks' : 'Sin tareas pendientes')}
-            </p>
-          </div>
-        </div>
-        {pendingTasks > 0 && (
-          <span className="shrink-0 text-xs font-bold bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded-full">{pendingTasks}</span>
-        )}
-      </Link>
-    </section>
-  )
-}
-
-// Las cuatro cifras del progreso, cada una con su icono (Iconos.jsx) sobre
-// una pastilla de su color — el mismo lenguaje que las puertas de arriba.
-function StatsWidget({ stats, name, onVerMas }) {
-  const { tr } = useLang()
-  const streak = rachaVigente(stats)
-  const items = [
-    { Icono: Racha, fondo: 'bg-orange-500/12', value: streak, unidad: tr(streak === 1 ? { es: 'día', en: 'day', ca: 'dia' } : { es: 'días', en: 'days', ca: 'dies' }), label: tr({ es: 'Racha', en: 'Streak', ca: 'Ratxa' }) },
-    { Icono: Reloj, fondo: 'bg-sky-500/12', value: formatTime(stats.totalTime), label: tr({ es: 'Tiempo total', en: 'Total time', ca: 'Temps total' }) },
-    { Icono: Acierto, fondo: 'bg-green-500/12', value: stats.examsPassed ?? 0, label: tr({ es: 'Aprobados', en: 'Passed', ca: 'Aprovats' }) },
-    { Icono: Mando, fondo: 'bg-violet-500/12', value: stats.gamesPlayed ?? 0, label: tr({ es: 'Actividades', en: 'Activities', ca: 'Activitats' }) },
-  ]
-  return (
-    <section className={`${TARJETA} shadow-xl shadow-black/30`}>
-      <div className="flex items-center justify-between gap-3 px-5 pt-4 pb-3">
-        <h2 className="text-white font-black text-lg leading-tight">
-          {tr({ es: `Tu progreso, ${name}`, en: `Your progress, ${name}`, ca: `El teu progrés, ${name}` })}
-        </h2>
-        <button onClick={onVerMas}
-          className="shrink-0 text-xs font-bold text-violet-300 hover:text-violet-200 bg-violet-500/10 hover:bg-violet-500/20 px-3 py-1.5 rounded-full transition-colors">
-          {tr({ es: 'Ver más →', en: 'See more →', ca: 'Veure més →' })}
-        </button>
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 px-4 pb-4">
-        {items.map(({ Icono, fondo, value, unidad, label }) => (
-          <div key={label} className="flex items-center gap-2.5 sm:gap-3 rounded-xl bg-white/[0.03] border border-white/[0.06] px-2.5 sm:px-3 py-3">
-            <span className={`shrink-0 w-9 h-9 sm:w-11 sm:h-11 rounded-xl ${fondo} grid place-items-center`}>
-              <Icono className="w-5 h-5 sm:w-6 sm:h-6" />
-            </span>
-            <div className="min-w-0">
-              <p className="text-white font-black text-base sm:text-xl leading-none tabular-nums whitespace-nowrap">
-                {value}{unidad && <span className="text-white/50 text-xs font-bold ml-1">{unidad}</span>}
-              </p>
-              <p className="text-white/45 text-xs mt-1 truncate">{label}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
-
-function EmptyStatsWidget({ onVerMas }) {
-  const { tr } = useLang()
-  return (
-    <section className={`${TARJETA} flex items-center gap-4 px-5 py-4`}>
-      <span className="shrink-0 w-11 h-11 rounded-xl bg-violet-500/12 grid place-items-center">
-        <Mando className="w-6 h-6" />
+    <Link to={localPath('/perfil')} className="flex items-center justify-between gap-3 rounded-xl bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] px-4 py-2.5 text-sm">
+      <span className="text-white/80 font-semibold truncate">
+        {tr({ es: 'Hola', en: 'Hi', ca: 'Hola' })}, {user.displayName?.split(' ')[0] || ''}
       </span>
-      <div className="flex-1 min-w-0">
-        <p className="font-black text-white">{tr({ es: 'Tu progreso', en: 'Your progress', ca: 'El teu progrés' })}</p>
-        <p className="text-white/45 text-xs mt-0.5">{tr({ es: 'Completa tu primera actividad y aquí verás tu racha, tu tiempo y tus aprobados.', en: 'Finish your first activity and your streak, time and passes will show up here.', ca: 'Completa la teva primera activitat i aquí veuràs la ratxa, el temps i els aprovats.' })}</p>
-      </div>
-      <button onClick={onVerMas}
-        className="shrink-0 text-xs font-bold text-violet-300 hover:text-violet-200 bg-violet-500/10 hover:bg-violet-500/20 px-3 py-1.5 rounded-full transition-colors">
-        {tr({ es: 'Ver perfil →', en: 'See profile →', ca: 'Veure perfil →' })}
-      </button>
-    </section>
-  )
-}
-
-// Mismo spinner que AccessGate.jsx (Checking): solo mientras se resuelve si
-// hay sesión. Sin sesión ya NO se espera nada — la página se pinta igual.
-function Loader() {
-  return (
-    <div className="relative z-10 flex min-h-[calc(100vh-4rem)] items-center justify-center">
-      <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-[#EDAE49]" />
-    </div>
-  )
-}
-
-// Ocupa el sitio del panel de progreso cuando no hay cuenta. Va aquí y no en
-// una pantalla de bloqueo porque el usuario acaba de llegar de la landing a
-// mirar: se le enseña qué se lleva si se registra, no se le corta el paso.
-// Un icono por ventaja de la cuenta: progreso y rachas, monedas, clase.
-const PERK_ICONOS = [[Racha, 'bg-orange-500/12'], [Moneda, 'bg-amber-500/12'], [Pizarra, 'bg-teal-500/12']]
-
-function SignupPrompt({ onSignup }) {
-  const { tr } = useLang()
-  const perks = tr({
-    es: ['Guarda tu progreso y tus rachas', 'Gana monedas y compite en el ranking', 'Tu profesor puede mandarte tareas y ver cómo vas'],
-    en: ['Save your progress and streaks', 'Earn coins and climb the leaderboard', 'Your teacher can set you tasks and see how you are doing'],
-    ca: ['Desa el teu progrés i les teves ratxes', 'Guanya monedes i competeix al rànquing', 'El teu professor et pot enviar tasques i veure com vas'],
-  })
-
-  return (
-    <section className={`${TARJETA} shadow-xl shadow-black/30 p-5`}>
-      <p className="text-white font-black text-lg leading-tight mb-1.5">
-        {tr({ es: 'Puedes jugar sin cuenta, pero no se guarda nada', en: 'You can play without an account, but nothing is saved', ca: 'Pots jugar sense compte, però no es desa res' })}
-      </p>
-      <p className="text-white/55 text-sm leading-relaxed mb-4">
-        {tr({
-          es: 'Crear la cuenta es gratis y tarda diez segundos con Google.',
-          en: 'Creating an account is free and takes ten seconds with Google.',
-          ca: 'Crear el compte és gratis i triga deu segons amb Google.',
-        })}
-      </p>
-      <ul className="flex flex-col gap-2 mb-5">
-        {perks.map((p, i) => (
-          <li key={p} className="flex items-center gap-3 text-white/75 text-sm">
-            <span className={`shrink-0 w-9 h-9 rounded-xl ${PERK_ICONOS[i][1]} grid place-items-center`}>
-              {(() => { const Icono = PERK_ICONOS[i][0]; return <Icono className="w-5 h-5" /> })()}
-            </span>
-            {p}
-          </li>
-        ))}
-      </ul>
-      <button onClick={onSignup}
-        className="w-full sm:w-auto rounded-xl bg-violet-600 hover:bg-violet-500 px-6 py-3 text-white text-sm font-black shadow-lg shadow-violet-500/20 transition-colors">
-        {tr({ es: 'Crear cuenta gratis →', en: 'Create a free account →', ca: 'Crear compte gratis →' })}
-      </button>
-    </section>
+      <span className="flex items-center gap-3 text-white/70 shrink-0">
+        {racha > 0 && <span className="text-orange-300 font-bold">🔥 {racha}</span>}
+        {stats?.coins != null && <span className="text-amber-300 font-bold">💰 {stats.coins}</span>}
+        <span className="text-white/45">{tr({ es: 'Mi perfil', en: 'My profile', ca: 'El meu perfil' })} →</span>
+      </span>
+    </Link>
   )
 }
 
 export default function Home() {
-  const navigate = useNavigate()
-  const { t, localPath, lang, tr } = useLang()
+  const { lang, tr, localPath } = useLang()
   const { user } = useAuth()
-  const debePreguntarNivel = useDebePreguntarNivel()
-  const [stats, setStats] = useState(null)
-  const [classes, setClasses] = useState(null) // null = aún sin comprobar
-  const [pendingTasks, setPendingTasks] = useState(0)
-
-  // /app es el panel de quien ya tiene cuenta — la venta ocurre en "/"
-  // (Landing.jsx), no aquí. Nadie debería llegar sin sesión salvo por un
-  // enlace viejo o el propio prerender (que tampoco tiene sesión nunca:
-  // ver IS_PRERENDER en AccessGate.jsx para el motivo). En ambos casos la
-  // respuesta correcta es la misma: mandar a la página que sí vende.
-  const [showAuth, setShowAuth] = useState(false)
-
-  // Antes esto echaba a la landing a quien llegara sin sesión. Ya no: /app es
-  // el destino del botón "Empezar gratis" de la landing TAMBIÉN para quien no
-  // tiene cuenta — es el sitio desde el que se va libremente a Estudiar,
-  // Juegos o la Pregunta Diaria. Con la redirección puesta, ese botón hacía
-  // un bucle (landing → /app → landing).
-  //
-  // Lo que sí cambia sin sesión es qué se pinta: las tarjetas de navegación y
-  // los anuncios salen igual, y el bloque de progreso se sustituye por la
-  // invitación a registrarse (no hay progreso que enseñar de quien no tiene
-  // cuenta). Sigue con noindex: es un panel, no una página de captación.
-
-  // Sin reseteo para !user, mismo motivo que el efecto de clases de abajo:
-  // el componente vuelve <Loader/> mientras no hay usuario, así que nada lee
-  // `stats` en ese estado.
-  useEffect(() => {
-    if (user) getStats(user.uid).then(setStats)
-  }, [user])
-
-  // El curso vive en localStorage para que las rejillas ya salgan filtradas
-  // en el primer pintado, pero la cuenta es la verdad entre dispositivos: al
-  // haber sesión se reconcilian (ver sincronizarNivel en lib/nivel.js). Si el
-  // doc no lo tiene y este navegador sí, se sube — así quien eligió curso sin
-  // cuenta y luego se registra no pierde la respuesta.
-  useEffect(() => {
-    if (user) sincronizarNivel(user.uid)
-  }, [user])
-
-  // Mismo patrón que Navbar.jsx para el aviso de tareas pendientes: se cuenta
-  // una vez por sesión, no en tiempo real. Sin reseteo explícito para !user:
-  // mientras no hay usuario el componente ya no llega a renderizar nada que
-  // lea `classes` (vuelve <Loader/> más abajo), así que no hace falta —y
-  // resetear aquí sería un setState síncrono en el cuerpo del efecto.
-  useEffect(() => {
-    if (!user) return
-    getStudentClasses(user.uid).then(setClasses).catch(() => setClasses([]))
-    getStudentAssignments(user.uid)
-      .then(tasks => setPendingTasks(tasks.filter(t => !t.completions?.[user.uid]?.done).length))
-      .catch(() => {})
-  }, [user])
-
-  // Igual que STATIC_META['/app'] en scripts/seoMeta.mjs (esa es la que ve un
-  // crawler, vía el prerender; esta es la que aplica Helmet en cuanto carga
-  // el JS en un navegador real). Si divergen, Helmet pisa la meta correcta
-  // del prerender con esta en cuanto hidrata — ya pasó una vez.
-  const seo = {
-    es: { title: 'Aprende jugando: el mismo concepto desde varios ángulos', desc: 'Plataforma educativa para Primaria, ESO y Bachillerato. Juegos y exámenes en 11 materias, gratis y sin registro. Cada concepto, explicado de varias formas distintas.' },
-    en: { title: 'Learn by playing: one concept, several angles', desc: 'Educational platform for primary and secondary school. Games and exams across 11 subjects, free and with no sign-up. Every concept, explained in several different ways.' },
-    ca: { title: 'Aprèn jugant: el mateix concepte des de diversos angles', desc: 'Plataforma educativa per a Primària, ESO i Batxillerat. Jocs i exàmens en 11 matèries, gratis i sense registre. Cada concepte, explicat de diverses maneres.' },
-  }[lang] || {}
-
-  // Solo undefined (la sesión aún se resuelve) espera. `null` ya NO: sin
-  // cuenta la página se pinta igual, con la invitación a registrarse en el
-  // sitio del progreso.
-  if (user === undefined) return <Loader />
-
-  const subjectEntries = stats ? aggregateStudentStats(stats, lang).subjectEntries : []
+  const seo = SEO[lang] || SEO.es
 
   return (
-    <div className="relative z-10 px-4 sm:px-8">
-      {/* La raíz del sitio: el producto. Indexable (la meta del prerender vive
-          en staticMeta['/']). */}
+    <div className="relative z-10 px-4 sm:px-6 lg:px-8">
       <SEOHead title={seo.title} description={seo.desc} path="/" lang={lang} />
+      <div className="max-w-6xl mx-auto pt-4 sm:pt-6 pb-16">
+        <h1 className="text-white/90 font-black text-lg sm:text-xl mb-3">
+          🎮 {tr({ es: 'Juegos educativos gratis', en: 'Free educational games', ca: 'Jocs educatius gratis' })}
+          <span className="text-white/45 font-semibold text-sm sm:text-base"> · {tr({ es: 'aprende jugando, sin registrarte', en: 'learn by playing, no sign-up', ca: 'aprèn jugant, sense registrar-te' })}</span>
+        </h1>
 
-      {/* Un único contenedor de ancho fijo para TODO, tarjetas incluidas: antes
-          las tarjetas vivían fuera de max-w-4xl y se estiraban a lo ancho de
-          toda la ventana en pantallas grandes mientras el resto del contenido
-          quedaba centrado y estrecho — el "descuadre" que se ve en pantallas
-          anchas. HeroCard no tiene proporción propia (w-full h-full, ocupa
-          lo que le des), así que un contenedor demasiado ancho también las
-          dejaba planas y "enanas" en vez de cuadradas. aspect-square en el
-          envoltorio de cada tarjeta les da una proporción fija en vez de una
-          altura arbitraria en píxeles. */}
-      <div className="max-w-4xl mx-auto pb-16">
-        {/* LA PROMESA — qué es Tuthor en una frase, con las cifras reales (de
-            los registros, no escritas a mano) y el buscador: quien entra por
-            primera vez, sobre todo desde el móvil, entiende de un vistazo que
-            aquí está todo lo que tiene que estudiar. */}
-        <div className="pt-6 sm:pt-10 pb-6 text-center">
-          {user && (
-            <p className="text-white/40 text-sm mb-2">
-              {tr({ es: `Hola, ${user.displayName?.split(' ')[0] || ''}`, en: `Hi, ${user.displayName?.split(' ')[0] || ''}`, ca: `Hola, ${user.displayName?.split(' ')[0] || ''}` })}
-            </p>
-          )}
-          <h1 className="text-[30px] leading-[1.08] sm:text-5xl font-black text-white tracking-tight">
-            {tr({ es: 'Todo lo que tienes que estudiar,', en: 'Everything you need to study,', ca: 'Tot el que has d’estudiar,' })}{' '}
-            <span className="text-[#EDAE49]">{tr({ es: 'en un solo sitio', en: 'in one place', ca: 'en un sol lloc' })}</span>
-          </h1>
-          <p className="text-white/60 text-[15px] sm:text-lg mt-3 max-w-xl mx-auto leading-snug">
-            {tr({
-              es: `De Primaria a Bachillerato: ${cifras.juegos} juegos y ${cifras.examenes} exámenes con explicación en ${cifras.materias} materias.`,
-              en: `From primary to sixth form: ${cifras.juegos} games and ${cifras.examenes} explained quizzes across ${cifras.materias} subjects.`,
-              ca: `De Primària a Batxillerat: ${cifras.juegos} jocs i ${cifras.examenes} exàmens amb explicació en ${cifras.materias} matèries.`,
-            })}
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 mt-3">
-            {[
-              { es: '✓ Gratis', en: '✓ Free', ca: '✓ Gratis' },
-              { es: '✓ Sin registrarte', en: '✓ No sign-up', ca: '✓ Sense registrar-te' },
-              { es: '✓ En el móvil o el ordenador', en: '✓ On phone or computer', ca: '✓ Al mòbil o a l’ordinador' },
-            ].map(c => <span key={c.es} className="text-[12px] font-semibold text-emerald-300/90 bg-emerald-400/10 rounded-full px-2.5 py-1">{tr(c)}</span>)}
-          </div>
-          <BuscadorTuthor className="mt-5 max-w-xl mx-auto" />
+        {user && <Saludo user={user} />}
+
+        <div className="grid lg:grid-cols-[1fr_300px] gap-3 sm:gap-4 mt-3">
+          <JuegoDestacado />
+          <JuegoDelDia variante="grande" className="hidden lg:block" />
         </div>
+        <JuegoDelDia className="mt-3 lg:hidden" />
 
-        <p className="text-white/40 text-xs font-bold uppercase tracking-widest text-center mb-3">
-          {tr({ es: 'O elige por dónde empezar', en: 'Or pick where to start', ca: 'O tria per on començar' })}
-        </p>
+        <CatalogoJuegos excluir={DESTACADO.slug} className="mt-6" />
 
-        {/* Las dos puertas (aprender jugando / preparar el examen) van
-            directas a la página real, no a una ficha informativa. Con dos,
-            4/3 en vez del 4/5 de cuando eran tres: a la mitad del ancho, 4/5
-            las dejaba como torres. */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-          {PUERTAS.map(card => (
-            <div key={card.id} className="sm:aspect-[4/3]">
-              <HeroCard card={card} onClick={() => navigate(localPath(card.path))} />
-            </div>
-          ))}
-        </div>
+        <AdSlot placement="inArticle" className="mt-8" />
 
-        {/* El reto diario, en pequeño: un juego del catálogo cada día para
-            quien no sabe cuál elegir. Antes era la primera puerta («Tengo 5
-            minutos»); ver PUERTAS en data/constants.js. */}
-        <JuegoDelDia className="mt-3" racha={stats ? rachaVigente(stats) : 0} />
-
-        {/* Novedad para profes: los retos de clase (en directo o de deberes),
-            explicados con su vídeo en /profesores#retos */}
-        <Link to={localPath('/profesores') + '#retos'} className="mt-3 flex items-center gap-3 rounded-2xl border border-amber-400/25 bg-amber-400/[0.06] hover:bg-amber-400/[0.1] px-4 py-3 transition-colors">
-          <span className="text-2xl" aria-hidden="true">🏆</span>
-          <span className="min-w-0 flex-1">
-            <span className="block text-white font-black text-sm">
-              <span className="text-[10px] font-black uppercase tracking-widest text-black bg-amber-400 rounded-full px-2 py-0.5 mr-2 align-middle">{tr({ es: 'Nuevo', en: 'New', ca: 'Nou' })}</span>
-              {tr({ es: '¿Eres profe? Retos de clase en directo', en: 'Teacher? Live class challenges', ca: 'Ets profe? Reptes de classe en directe' })}
-            </span>
-            <span className="block text-white/55 text-xs mt-0.5">{tr({ es: 'Proyectas el juego y cada alumno responde en su móvil, sin cuentas. Mira cómo en 45 segundos →', en: 'You project the game and every student answers on their phone, no accounts. See how in 45 seconds →', ca: 'Projectes el joc i cada alumne respon al mòbil, sense comptes. Mira com en 45 segons →' })}</span>
-          </span>
-        </Link>
-
-        {/* EL CURSO — la única pregunta que hace Tuthor, y una sola vez.
-            Va justo debajo de las tres puertas porque es lo que decide qué
-            se ve al cruzarlas: sin curso, Estudiar enseña los 91 temas del
-            catálogo por sus tres niveles. No es un modal y no bloquea nada —
-            se puede ignorar y seguir, y quien la cierra no la vuelve a ver
-            (marcarPreguntado en lib/nivel.js). */}
-        {/* TODAS LAS MATERIAS — para quien ya sabe qué asignatura busca: una
-            fila deslizable en el móvil, una rejilla en el ordenador. */}
-        <section className="mt-6">
-          <p className="text-white/40 text-xs font-bold uppercase tracking-widest text-center mb-3">
-            {tr({ es: 'O ve directo a tu materia', en: 'Or go straight to your subject', ca: 'O ves directe a la teva matèria' })}
-          </p>
-          <div className="flex sm:grid sm:grid-cols-4 lg:grid-cols-7 gap-2.5 overflow-x-auto sm:overflow-visible snap-x pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
-            {MATERIAS_ESTUDIO.map(m => {
-              const Arte = ARTE_MATERIAS[m.id]
-              return (
-                <Link key={m.id} to={localPath(m.path)}
-                  className={`snap-start shrink-0 w-[30%] sm:w-auto ${TARJETA} hover:border-white/25 overflow-hidden transition-colors`}>
-                  <span className="block aspect-[16/10] border-b border-white/[0.06]">{Arte && <Arte className="w-full h-full p-1" />}</span>
-                  <span className="px-2 py-1.5 text-white text-[12px] font-bold leading-tight text-center min-h-[2.6em] flex items-center justify-center">{tr(m.titulo)}</span>
-                </Link>
-              )
-            })}
-          </div>
-        </section>
-
-        {debePreguntarNivel && <NivelPicker variant="card" className="mt-6" />}
-
-        {/* PROGRESO — o la invitación a tener uno, si no hay cuenta */}
-        <div className="mt-6 mb-8">
-          {!user ? (
-            <>
-              <SignupPrompt onSignup={() => setShowAuth(true)} />
-              <EresProfesor className="mt-6" />
-            </>
-          ) : stats ? (
-            <StatsWidget stats={stats} name={user.displayName?.split(' ')[0]} onVerMas={() => navigate(localPath('/perfil'))} />
-          ) : (
-            <EmptyStatsWidget onVerMas={() => navigate(localPath('/perfil'))} />
-          )}
-        </div>
-
-        {/* Pro arriba y iGraal más abajo, separados a propósito: apilados uno
-            debajo de otro leían como un bloque de anuncios. Repartidos, cada
-            uno aparece en su momento del recorrido. Los dos se ocultan solos
-            si la cuenta es Pro, y también por encima de 1400px, donde el
-            trabajo lo hacen los raíles laterales. */}
-        <ProUpsell variant="inline" className="mb-8" />
-
-        {/* POR MATERIA — solo materias con actividad registrada */}
-        {subjectEntries.length > 0 && (
-          <SubjectsGrid subjectEntries={subjectEntries} localPath={localPath} lang={lang} />
-        )}
-
-        {/* MIS CLASES — solo si el alumno está en alguna */}
-        {classes && classes.length > 0 && (
-          <MisClasesCard classes={classes} pendingTasks={pendingTasks} localPath={localPath} lang={lang} />
-        )}
-
-        {/* RECOMPENSAS */}
-        <RewardsSection localPath={localPath} />
-
-        {/* iGraal y la invitación, ya avanzada la página: quien ha bajado
-            hasta aquí está navegando, no de paso. */}
-        <AdSlot placement="inArticle" className="mb-4" />
-        <ReferralCard variant="compact" className="mb-8" />
-
-        {/* COMUNIDAD */}
-        <section className="mb-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-
-            {/* Para familias y profes: la home es el producto; quien quiere
-                entender qué es Tuthor, qué es gratis y cómo seguir a su hijo va
-                a la página de familias (antes era la raíz). */}
-            <Link to={localPath('/para-familias')}
-              className={`group ${TARJETA} hover:border-amber-400/50 p-6 flex flex-col gap-3 transition-all`}>
-              <div className="w-11 h-11 rounded-xl bg-amber-500/12 grid place-items-center"><Familia className="w-6 h-6" /></div>
-              <div className="flex-1">
-                <h3 className="text-white font-bold text-sm">
-                  {lang === 'en' ? 'For families & teachers' : lang === 'ca' ? 'Per a famílies i profes' : 'Para familias y profes'}
-                </h3>
-                <p className="text-white/50 text-xs mt-1 leading-relaxed">
-                  {lang === 'en' ? 'What Tuthor is, what is free and how to follow your child. We explain it.'
-                    : lang === 'ca' ? 'Què és Tuthor, què és gratis i com seguir el teu fill. T\'ho expliquem.'
-                    : 'Qué es Tuthor, qué es gratis y cómo seguir a tu hijo. Te lo contamos.'}
-                </p>
-              </div>
-              <span className="text-xs font-bold text-amber-400 group-hover:text-amber-300 flex items-center gap-1">
-                {lang === 'en' ? 'How it works' : lang === 'ca' ? 'Com funciona' : 'Cómo funciona'}
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-              </span>
-            </Link>
-
-            {/* Bug report */}
-            <Link to={localPath('/reportar-bug')}
-              className={`group ${TARJETA} hover:border-violet-400/50 p-6 flex flex-col gap-3 transition-all`}>
-              <div className="w-11 h-11 rounded-xl bg-violet-500/12 grid place-items-center"><Bicho className="w-6 h-6" /></div>
-              <div className="flex-1">
-                <h3 className="text-white font-bold text-sm">
-                  {lang === 'en' ? 'Report a bug' : lang === 'ca' ? 'Reportar un error' : 'Reportar un bug'}
-                </h3>
-                <p className="text-white/50 text-xs mt-1 leading-relaxed">
-                  {lang === 'en' ? "Something not working? Let us know and we'll fix it."
-                    : lang === 'ca' ? "Alguna cosa no funciona? Explica'ns-ho i ho arreglem."
-                    : 'Algo no funciona bien? Cuéntanoslo y lo arreglamos.'}
-                </p>
-              </div>
-              <span className="text-xs font-bold text-violet-400 group-hover:text-violet-300 flex items-center gap-1">
-                {lang === 'en' ? 'Open form' : lang === 'ca' ? 'Obrir formulari' : 'Abrir formulario'}
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-              </span>
-            </Link>
-
-            {/* Colaborar */}
-            <Link to={localPath('/colaborar')}
-              className={`group ${TARJETA} hover:border-emerald-400/50 p-6 flex flex-col gap-3 transition-all`}>
-              <div className="w-11 h-11 rounded-xl bg-emerald-500/12 grid place-items-center"><Megafono className="w-6 h-6" /></div>
-              <div className="flex-1">
-                <h3 className="text-white font-bold text-sm">
-                  {lang === 'en' ? 'Collaborate or advertise' : lang === 'ca' ? "Col·laborar o anunciar-se" : 'Colaborar o anunciarse'}
-                </h3>
-                <p className="text-white/50 text-xs mt-1 leading-relaxed">
-                  {lang === 'en' ? "School, publisher or ed-tech project? Let's talk about working together."
-                    : lang === 'ca' ? 'Acadèmia, editorial o projecte educatiu? Parlem de com treballar junts.'
-                    : '¿Academia, editorial o proyecto educativo? Hablemos de cómo trabajar juntos.'}
-                </p>
-              </div>
-              <span className="text-xs font-bold text-emerald-400 group-hover:text-emerald-300 flex items-center gap-1">
-                {lang === 'en' ? 'Write to us' : lang === 'ca' ? "Escriu-nos" : 'Escribirnos'}
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-              </span>
-            </Link>
-
-          </div>
-        </section>
-
-        {/* CONTACTO */}
-        <section className={`${TARJETA} p-6 sm:p-8 text-center`}>
-          <span className="mx-auto mb-3 w-12 h-12 rounded-xl bg-violet-500/12 grid place-items-center">
-            <Sobre className="w-7 h-7" />
-          </span>
-          <h2 className="text-2xl font-black text-white mb-2">{t('home.seo.contacto.titulo')}</h2>
-          <p className="text-white/55 mb-5 max-w-md mx-auto">{t('home.seo.contacto.texto')}</p>
-          <Link to={localPath('/contacto')}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white font-bold text-sm rounded-xl transition-all hover:scale-[1.02]">
-            {tr({ es: 'Escríbenos', en: 'Write to us', ca: 'Escriu-nos' })}
-          </Link>
+        {/* Texto propio para buscadores (y para quien quiera saber qué es esto) */}
+        <section className="mt-10 max-w-3xl text-white/60 text-[15px] leading-relaxed space-y-3">
+          <h2 className="text-white font-black text-lg">{tr({ es: 'Juegos para aprender de verdad', en: 'Games to really learn', ca: 'Jocs per aprendre de debò' })}</h2>
+          <p>{tr({
+            es: `Tuthor es una plataforma de juegos educativos gratis: ${cifras.juegos} juegos y ${cifras.examenes} exámenes con solución de ${cifras.materias} materias, de Primaria a Bachillerato. Cada juego trabaja un tema del temario —formular compuestos, ajustar fuerzas, conjugar verbos, leer un climograma— y se juega en el móvil o en el ordenador, sin instalar nada y sin cuenta.`,
+            en: `Tuthor is a free educational games platform: ${cifras.juegos} games and ${cifras.examenes} quizzes with answers across ${cifras.materias} subjects, from primary to sixth form. Each game practises one topic of the curriculum and works on a phone or a computer, with nothing to install and no account needed.`,
+            ca: `Tuthor és una plataforma de jocs educatius gratis: ${cifras.juegos} jocs i ${cifras.examenes} exàmens amb solució de ${cifras.materias} matèries, de Primària a Batxillerat. Cada joc treballa un tema del temari i es juga al mòbil o a l’ordinador, sense instal·lar res i sense compte.`,
+          })}</p>
+          <p>{tr({
+            es: 'Si lo que quieres es estudiar un tema concreto, en Estudiar tienes el resumen, los ejemplos y los ejercicios de cada uno, con su juego y su examen. Y si eres profe, puedes lanzar un juego en directo a tu clase o ponerlo de deberes: los alumnos entran con un código, sin cuentas.',
+            en: 'If you want to study a specific topic, Study has the summary, examples and exercises for each one, with its game and its quiz. And if you are a teacher, you can run a game live with your class or set it as homework: students join with a code, no accounts.',
+            ca: 'Si el que vols és estudiar un tema concret, a Estudiar tens el resum, els exemples i els exercicis de cadascun, amb el seu joc i el seu examen. I si ets profe, pots llançar un joc en directe a la teva classe o posar-lo de deures: els alumnes entren amb un codi, sense comptes.',
+          })}</p>
+          <nav className="flex flex-wrap gap-x-4 gap-y-1 text-sm pt-2">
+            <Link to={localPath('/estudiar')} className="text-sky-300 hover:underline">📚 {tr({ es: 'Estudiar por temas', en: 'Study by topic', ca: 'Estudiar per temes' })}</Link>
+            <Link to={localPath('/profesores')} className="text-sky-300 hover:underline">🍎 {tr({ es: 'Para profes', en: 'For teachers', ca: 'Per a profes' })}</Link>
+            <Link to={localPath('/para-familias')} className="text-sky-300 hover:underline">👪 {tr({ es: 'Para familias', en: 'For families', ca: 'Per a famílies' })}</Link>
+            <Link to={localPath('/reportar-bug')} className="text-white/45 hover:underline">{tr({ es: 'Reportar un fallo', en: 'Report a bug', ca: 'Reportar un error' })}</Link>
+            <Link to={localPath('/colaborar')} className="text-white/45 hover:underline">{tr({ es: 'Colaborar', en: 'Collaborate', ca: 'Col·laborar' })}</Link>
+            <Link to={localPath('/contacto')} className="text-white/45 hover:underline">{tr({ es: 'Contacto', en: 'Contact', ca: 'Contacte' })}</Link>
+          </nav>
         </section>
       </div>
-
-      {showAuth && (
-        <AuthModal
-          onClose={() => setShowAuth(false)}
-          onSuccess={() => setShowAuth(false)}
-        />
-      )}
     </div>
   )
 }

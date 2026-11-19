@@ -5,6 +5,7 @@ import { useLang } from '../context/LangContext'
 import { useAccessStatus, PLANS } from '../lib/access'
 import AuthModal from './AuthModal'
 import { IgraalBanner, ProBanner } from './PromoBanner'
+import { useConBarraLateral } from './SideNav'
 
 // Los márgenes muertos a los lados en pantallas anchas — el usuario los
 // marcó a mano en una captura de /app: el contenido va en una columna
@@ -83,6 +84,7 @@ export default function SideRails() {
   const navigate = useNavigate()
   const access = useAccessStatus()
   const [showAuth, setShowAuth] = useState(false)
+  const conBarra = useConBarraLateral()
 
   if (access === null) return null // aún no se sabe si es Pro
   if (access.allowed) return null  // ya es Pro: nada que venderle aquí
@@ -103,7 +105,8 @@ export default function SideRails() {
           dónde cayera. El aria-label lleva la oferta entera y no solo
           "Patrocinado": aria-label sustituye al nombre accesible, no se suma,
           y un lector de pantalla anunciaba "Patrocinado, enlace" sin más. */}
-      <div className={`${railWrap} left-2`}>
+      {/* Donde está la barra lateral (SideNav) el raíl izquierdo la pisaría */}
+      {!conBarra && <div className={`${railWrap} left-2`}>
         <a
           href={IGRAAL_URL}
           target="_blank"
@@ -113,7 +116,7 @@ export default function SideRails() {
         >
           <IgraalBanner orientation="vertical" />
         </a>
-      </div>
+      </div>}
 
       <div className={`${railWrap} right-2`}>
         <button

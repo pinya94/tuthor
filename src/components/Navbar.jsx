@@ -7,6 +7,7 @@ import { getTeacherProfile, hasTeacherAccess } from '../lib/classes'
 import { getStudentAssignments } from '../lib/assignments'
 import { useFondo, setFondo } from '../lib/fondo'
 import AuthModal from './AuthModal'
+import { useConBarraLateral } from './SideNav'
 
 // Cambia el fondo de la app entre liso (por defecto) y el bosque. El icono
 // enseña a qué se cambia: un árbol si ahora es liso, un plano si es bosque.
@@ -96,6 +97,8 @@ export default function Navbar() {
   const [pendingTasks, setPendingTasks] = useState(0)
 
   const authLoading = user === undefined
+  // Con barra lateral (≥1024 px) las secciones ya están ahí: no se repiten arriba
+  const conBarra = useConBarraLateral()
 
   // Aviso de tareas pendientes: se cuentan las asignadas (de cualquier
   // clase/profesor) que este alumno aún no ha completado. Se calcula una
@@ -156,12 +159,15 @@ export default function Navbar() {
               para quien no nos conoce todavía: quien ya está navegando por
               dentro y pulsa el logo quiere volver a la home del producto, no
               que le vuelvan a vender el producto que está usando. */}
-          <Link to={localPath('/')} onClick={() => { setMenuOpen(false) }} className="inline-block text-center hover:opacity-80 transition-opacity">
-            <img src="/logo.svg" alt="Tuthor" className="h-7 w-auto" />
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link to={localPath('/')} onClick={() => { setMenuOpen(false) }} className="inline-block text-center hover:opacity-80 transition-opacity">
+              <img src="/logo.svg" alt="Tuthor" className="h-7 w-auto" />
+            </Link>
+            <span className="hidden md:inline text-white/45 text-sm font-semibold">{tr({ es: 'Aprende jugando', en: 'Learn by playing', ca: 'Aprèn jugant' })}</span>
+          </div>
 
           {/* Nav escritorio */}
-          <div className="hidden sm:flex items-center gap-1">
+          <div className={`hidden sm:flex items-center gap-1 ${conBarra ? 'lg:hidden' : ''}`}>
             {MAIN_CARDS.map(c => {
               const dest = localPath(c.path)
               const isActive = location.pathname === dest || location.pathname.startsWith(dest + '/')
@@ -281,6 +287,13 @@ export default function Navbar() {
                 ${location.pathname === localPath('/recursos') || location.pathname.startsWith(localPath('/recursos') + '/') ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
               {tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}
             </Link>
+            {/* Igual que en la barra lateral: la puerta de los profes, para quien aún no lo es */}
+            {!isTeacher && (
+              <Link to={localPath('/profesores')} onClick={() => { setMenuOpen(false) }}
+                className="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all text-white/70 hover:text-white hover:bg-white/10">
+                🍎 {tr({ es: 'Soy profe', en: 'I’m a teacher', ca: 'Soc profe' })}
+              </Link>
+            )}
             <Link to={localPath(aula.path)} onClick={() => { setMenuOpen(false) }}
               className={`block w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all
                 ${enAula ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>

@@ -19,8 +19,9 @@ export const STATIC_META = {
   // /app ya no es una página: redirige a "/". La venta a familias (con precios)
   // vive en /para-familias.
   '/': {
-    es: { title: 'Aprende jugando: el mismo concepto desde varios ángulos', desc: 'Plataforma educativa para Primaria, ESO y Bachillerato. Juegos y exámenes en 11 materias, gratis y sin registro. Cada concepto, explicado de varias formas distintas.' },
-    en: { title: 'Learn by playing: one concept, several angles', desc: 'Educational platform for primary and secondary school. Games and exams across 11 subjects, free and with no sign-up. Every concept, explained in several different ways.' },
+    es: { title: 'Juegos educativos gratis: aprende jugando', desc: 'Más de 100 juegos educativos gratis para Primaria, ESO y Bachillerato: matemáticas, lengua, inglés, ciencias, historia y más. Entra y juega, sin registrarte.' },
+    en: { title: 'Free educational games: learn by playing', desc: 'Over 100 free educational games for primary and secondary school: maths, English, science, history and more. Just open one and play, no sign-up.' },
+    ca: { title: 'Jocs educatius gratis: aprèn jugant', desc: 'Més de 100 jocs educatius gratis per a Primària, ESO i Batxillerat: matemàtiques, llengua, anglès, ciències, història i més. Entra i juga, sense registrar-te.' },
   },
   '/para-familias': {
     es: { title: 'Tuthor para familias: cómo funciona y planes', desc: 'Cómo Tuthor ayuda a tu hijo cuando en clase van rápido o se aburre: la misma clase explicada de varias formas, con juegos y exámenes. Qué es gratis y qué incluye el plan.' },
