@@ -1049,6 +1049,11 @@ export const EXAMS = {
     emoji: '🖋️', subject: 'lengua',
     path: 'examen/coma-a-coma-test', page: () => import('../pages/ComaAComaExamen'),
   },
+  'monta-el-verbo-test': {
+    label: { es: 'Conjugación verbal: Monta el Verbo (con el juego)', en: 'Spanish conjugation: Monta el Verbo (with the game)', ca: 'Conjugació verbal: Monta el Verbo (amb el joc)' },
+    emoji: '🛠️', subject: 'lengua',
+    path: 'examen/monta-el-verbo-test', page: () => import('../pages/MontaVerboExamen'),
+  },
   'fabrica-palabras-test': {
     label: { es: 'La Fábrica de Palabras (con el juego)', en: 'The Word Factory (with the game)', ca: 'La Fàbrica de Paraules (amb el joc)' },
     emoji: '🏭', subject: 'lengua',

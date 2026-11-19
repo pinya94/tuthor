@@ -1779,4 +1779,7 @@
   <url><loc>https://www.tuthor.es/ca/info/juegos/construye-figura</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/examen/construye-figura-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/examen/construye-figura-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.tuthor.es/juegos/monta-el-verbo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/info/juegos/monta-el-verbo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.tuthor.es/examen/monta-el-verbo-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
 </urlset>

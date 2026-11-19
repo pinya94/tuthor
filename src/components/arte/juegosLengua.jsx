@@ -265,6 +265,28 @@ function ElMensajero(p) {
   )
 }
 
+function MontaVerbo(p) {
+  // La tabla de un tiempo: raíz fija y la ficha de la terminación entrando
+  const filas = [['yo', 'cant', 'aba'], ['tú', 'cant', 'abas'], ['nosotros', 'cant', '']]
+  return (
+    <Lienzo {...p}>
+      {filas.map(([per, raiz, fin], i) => (
+        <g key={per}>
+          <T x={52} y={36 + i * 34} s={11} c="#94A3B8" w={600}>{per}</T>
+          <T x={104} y={36 + i * 34} s={15} c="#FFFFFF">{raiz}</T>
+          {fin
+            ? <><rect x="124" y={20 + i * 34} width="52" height="24" rx="6" fill="#22C55E" /><T x={150} y={36 + i * 34} s={13} c="#052E16">{fin}</T></>
+            : <rect x="124.75" y={20.75 + i * 34} width="62.5" height="22.5" rx="6" stroke="#FBBF24" strokeWidth="1.5" strokeDasharray="4 3" />}
+        </g>
+      ))}
+      <g transform="rotate(-8 196 118)">
+        <rect x="160" y="104" width="68" height="28" rx="7" fill="#FBBF24" />
+        <T x={194} y={123} s={14} c="#422006">ábamos</T>
+      </g>
+    </Lienzo>
+  )
+}
+
 function VerbosIrregulares(p) {
   // Tres casillas de un verbo: el infinitivo, el pasado ya puesto y la ficha
   // del participio cayendo en su hueco.
@@ -298,6 +320,7 @@ export const ARTE_LENGUA = {
   'pieza-que-falta': PiezaQueFalta,
   'verbos-irregulares': VerbosIrregulares,
   'el-mensajero': ElMensajero,
+  'monta-el-verbo': MontaVerbo,
   'que-ves': QueVes,
   'pon-la-tilde': PonLaTilde,
   'fabrica-palabras': FabricaPalabras,

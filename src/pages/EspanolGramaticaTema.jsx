@@ -27,6 +27,18 @@ const TEMAS = {
     titulo: { es: 'Verbos', en: 'Verbs', ca: 'Verbs' }, emoji: '🏃',
     modos: [
       {
+        id: 'monta-el-verbo', to: '/juegos/monta-el-verbo', soloEs: true, emoji: '🛠️', gradient: 'from-orange-500 to-red-700',
+        titulo: { es: 'Monta el Verbo (juego)', en: 'Monta el Verbo (game)', ca: 'Monta el Verbo (joc)' },
+        desc: { es: 'Completa la tabla de cada tiempo verbal colocando las terminaciones con fichas, con trampas incluidas.', en: '', ca: '' },
+        detalles: { es: ['Juego', '3 niveles', 'Conjugación'], en: [], ca: [] },
+      },
+      {
+        id: 'monta-el-verbo-test', soloEs: true, emoji: '📝', gradient: 'from-amber-500 to-orange-700',
+        titulo: { es: 'Examen de conjugación', en: 'Conjugation exam', ca: 'Examen de conjugació' },
+        desc: { es: 'Diez tablas con la mecánica del juego, sin reloj y con nota.', en: '', ca: '' },
+        detalles: { es: ['10 tablas', 'Con el juego', 'Nota final'], en: [], ca: [] },
+      },
+      {
         id: 'espanol-gramatica-verbos-test', emoji: '📝', gradient: 'from-orange-500 to-amber-600',
         titulo: { es: 'Examen tipo test', en: 'Multiple-choice exam', ca: 'Examen tipus test' },
         desc: { es: 'Preguntas de opción múltiple sobre los verbos y su conjugación.', en: 'Multiple-choice questions about verbs and conjugation.', ca: 'Preguntes d\'opció múltiple sobre els verbs i la conjugació.' },
@@ -172,10 +184,10 @@ export default function EspanolGramaticaTema() {
           {ca ? 'Formes d\'estudiar' : en ? 'Ways to study' : 'Formas de estudiar'}
         </p>
 
-        {data.modos.map(modo => (
+        {data.modos.filter(modo => !modo.soloEs || lang === 'es').map(modo => (
           <Link
             key={modo.id}
-            to={localPath(`/examen/${modo.id}`)} state={{ backPath: `${gramaticaPath}/${tema}` }}
+            to={localPath(modo.to ?? `/examen/${modo.id}`)} state={{ backPath: `${gramaticaPath}/${tema}` }}
             className="block w-full group relative rounded-2xl overflow-hidden text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/40"
           >
             <div className={`bg-gradient-to-br ${modo.gradient} p-6`}>

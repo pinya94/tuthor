@@ -877,6 +877,15 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'monta-el-verbo': {
+    label: { es: 'Monta el Verbo', en: 'Monta el Verbo', ca: 'Monta el Verbo' },
+    emoji: '🛠️',
+    subject: 'lengua',
+    route: '/juegos/monta-el-verbo',
+    idiomas: ['es'], // conjugación castellana: ver disponibleEn
+    // tablas × 10 puntos → hasta 200 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
+  },
   'fabrica-palabras': {
     label: { es: 'La Fábrica de Palabras', en: 'The Word Factory', ca: 'La Fàbrica de Paraules' },
     emoji: '🏭',

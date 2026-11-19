@@ -315,7 +315,7 @@ export const TOPIC_CATALOG = {
   lengua: {
     temas: {
       sustantivos: examTema({ senalar: 'frases-sustantivos-test', test: 'espanol-gramatica-sustantivos-test' }, { niveles: ['primaria', 'eso'] }),
-      verbos: examTema({ senalar: 'frases-verbos-test', test: 'espanol-gramatica-verbos-test' }, { niveles: ['primaria', 'eso'] }),
+      verbos: examTema({ senalar: 'frases-verbos-test', test: 'espanol-gramatica-verbos-test', montaVerbo: 'monta-el-verbo-test' }, { niveles: ['primaria', 'eso'] }),
       adjetivos: examTema({ senalar: 'frases-adjetivos-test', test: 'espanol-gramatica-adjetivos-test' }, { niveles: ['primaria', 'eso'] }),
       determinantes: examTema({ senalar: 'frases-determinantes-test', test: 'espanol-gramatica-determinantes-test' }, { niveles: ['primaria', 'eso'] }),
       pronombres: examTema({ senalar: 'frases-pronombres-test', test: 'espanol-gramatica-pronombres-test' }, { niveles: ['primaria', 'eso'] }),
@@ -381,6 +381,7 @@ export const TOPIC_CATALOG = {
       },
       medir: examFormato({ es: 'Mide el verso (con el juego)', en: 'Measure the Verse (with the game)', ca: 'Mesura el vers (amb el joc)' }, '✒️'),
       coma: examFormato({ es: 'Coma a Coma (con el juego)', en: 'Coma a Coma (with the game)', ca: 'Coma a Coma (amb el joc)' }, '🖋️'),
+      montaVerbo: examFormato({ es: 'Monta el Verbo: conjugación (con el juego)', en: 'Monta el Verbo: conjugation (with the game)', ca: 'Monta el Verbo: conjugació (amb el joc)' }, '🛠️'),
       cazar: examFormato({ es: 'Cazafiguras (con el juego)', en: 'Cazafiguras (with the game)', ca: 'Cazafiguras (amb el joc)' }, '🎭'),
       letra: examFormato({ es: '¿Qué Letra Va? (con el juego)', en: 'Which Letter? (with the game)', ca: 'Quina Lletra Va? (amb el joc)' }, '🔠'),
       detective: examFormato({ es: 'Detective de Textos (con el juego)', en: 'Detective de Textos (with the game)', ca: 'Detective de Textos (amb el joc)' }, '📑'),

@@ -2316,6 +2316,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Lengua', niveles: 'ESO, Bachillerato',
   },
+  'monta-el-verbo': {
+    titulo: 'Monta el Verbo',
+    subtitulo: 'Juego de conjugación de verbos en español',
+    emoji: '🛠️', gradient: 'from-orange-500 to-red-700',
+    path: '/juegos/monta-el-verbo',
+    intro: 'Un juego para aprender a conjugar completando tablas. Sale un verbo y un tiempo («comer · Pretérito imperfecto») con las seis personas y la raíz ya puesta, y el alumno coloca las terminaciones con fichas, de yo a ellos: comía, comías, comía, comíamos… Entre las fichas sobran algunas: las trampas típicas de otro tiempo, de otra conjugación o del irregular «regularizado».',
+    beneficios: [
+      { titulo: 'La tabla entera, no una forma suelta', texto: 'Conjugar es ver el patrón: qué parte se queda fija y qué cambia con la persona. Rellenar la tabla completa ayuda a memorizar el tiempo como un bloque, que es como se estudia en clase.' },
+      { titulo: 'Las trampas que de verdad se cometen', texto: 'Las fichas que sobran son errores reales: cantía en lugar de cantaba, la terminación del subjuntivo en el indicativo, o hació, pedió y dijieron en los irregulares. Tener que descartarlas obliga a pensar la regla.' },
+      { titulo: 'De lo básico al subjuntivo', texto: 'Fácil: presente, pretérito perfecto simple y futuro de verbos regulares. Medio: imperfecto, condicional y los tiempos compuestos, donde se coloca el verbo haber. Difícil: el subjuntivo y los irregulares más usados (ser, ir, tener, hacer, decir, pedir, dormir…).' },
+    ],
+    ejemplo: 'Sale «vivir · Presente de indicativo» con viv·__ seis veces. Entre las fichas están o, es, e, imos, ís, en y dos trampas: emos y as. El alumno coloca o, es, e, imos, ís, en: vivo, vives, vive, vivimos, vivís, viven. La trampa emos es la del presente de la 2.ª conjugación (comemos).',
+    enPapel: {
+      titulo: 'Monta el Verbo en clase',
+      pasos: [
+        'Escribe en tarjetas las raíces de varios verbos (cant-, com-, viv-) y en otras las terminaciones de un tiempo, más alguna trampa.',
+        'Por parejas, montad la tabla completa de cada verbo en la mesa, de yo a ellos.',
+        'Comprobad con el libro y explicad por qué las tarjetas que sobran no valen.',
+        'Repetid con otro tiempo usando las mismas raíces: así se ve qué cambia y qué no.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Examen de conjugación', desc: 'Diez tablas con la mecánica del juego, sin reloj y con nota.' },
+      { nombre: 'Analiza la Frase', desc: 'Encuentra los verbos dentro de una frase y su función.' },
+      { nombre: 'Verbos Irregulares (inglés)', desc: 'Las tres formas de los verbos irregulares en inglés.' },
+    ],
+    asignatura: 'Lengua', niveles: 'Primaria y ESO',
+  },
   'coma-a-coma': {
     titulo: 'Coma a Coma',
     subtitulo: 'Juego de puntuación: coma, punto y coma, dos puntos y signos de interrogación',
