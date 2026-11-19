@@ -1,6 +1,7 @@
 import { CONTENIDO_TEMA } from '../data/estudioTemaContenido'
 import PracticaArriba from './PracticaArriba'
 import ProfeComparte from './ProfeComparte'
+import TemaSchema from './TemaSchema'
 
 const norm = lang => (lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es')
 
@@ -25,7 +26,9 @@ const celda = (x, L) => (typeof x === 'string' ? x : x[L] ?? x.es)
 // Opcionales: `secciones` [{ titulo, texto?, tabla?: { columnas, filas }, lista? }]
 // y `preguntas` [{ p, r }] — para los temas que la gente busca en Google y
 // necesitan algo más que un resumen (tablas, ejemplos, dudas frecuentes).
-export default function ContenidoTema({ tema, lang = 'es', className = '' }) {
+// `practica`: un ejercicio jugable (p. ej. <PracticaFrase>) que se pinta tras
+// los puntos clave; si lo hay, sustituye a la tarjeta de PracticaArriba.
+export default function ContenidoTema({ tema, lang = 'es', className = '', practica = null }) {
   const c = CONTENIDO_TEMA[tema]
   if (!c) return null
   const L = norm(lang)
@@ -35,8 +38,9 @@ export default function ContenidoTema({ tema, lang = 'es', className = '' }) {
 
   return (
     <>
+    <TemaSchema c={c} lang={L} />
     {/* Lo que se puede jugar del tema, adelantado (ver PracticaArriba) */}
-    <PracticaArriba />
+    {!practica && <PracticaArriba />}
     <article className={`max-w-2xl mx-auto w-full mb-8 rounded-2xl border border-white/10 bg-black/20 p-5 sm:p-7 ${className}`}>
       <h2 className="text-white font-black text-lg sm:text-xl mb-3">{tResumen}</h2>
       <div className="space-y-3">
@@ -53,6 +57,7 @@ export default function ContenidoTema({ tema, lang = 'es', className = '' }) {
           </li>
         ))}
       </ul>
+      {practica}
       {c.secciones?.map((sec, i) => (
         <section key={i}>
           <h2 className="text-white font-black text-lg sm:text-xl mt-7 mb-3">{pick(sec.titulo)}</h2>

@@ -2,6 +2,7 @@ import { Navigate, useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
+import PracticaFrase from '../components/PracticaFrase'
 
 // Página de estudio de un tema de gramática inglesa
 // (/estudiar/idiomas/ingles/grammar/<slug>): reglas, tablas y ejercicios
@@ -48,6 +49,7 @@ export default function InglesGrammarTema() {
   const tema = TEMAS[slug]
   if (!tema) return <Navigate to={localPath(base)} replace />
   const meta = contenidoMeta(slug, lang)
+  const juego = tema.modos.find(m => m.to === '/juegos/analiza-frases')
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] px-4 sm:px-8 py-6">
@@ -66,7 +68,7 @@ export default function InglesGrammarTema() {
         </div>
       </div>
 
-      <ContenidoTema tema={slug} lang={lang} />
+      <ContenidoTema tema={slug} lang={lang} practica={juego && <PracticaFrase tema={slug} filter={juego.state.filter} label={juego.state.label} idioma={juego.state.idioma} />} />
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">{tr({ es: 'Practica', en: 'Practise', ca: 'Practica' })}</p>
@@ -84,6 +86,17 @@ export default function InglesGrammarTema() {
           </Link>
         ))}
       </div>
+      {/* Los demás temas de gramática inglesa: enlaces entre hermanas */}
+      <nav className="max-w-2xl mx-auto w-full mt-8" aria-label={tr({ es: 'Otros temas de gramática inglesa', en: 'Other English grammar topics', ca: 'Altres temes de gramàtica anglesa' })}>
+        <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-3">{tr({ es: 'Otros temas de gramática inglesa', en: 'Other English grammar topics', ca: 'Altres temes de gramàtica anglesa' })}</p>
+        <div className="flex flex-wrap gap-2">
+          {Object.entries(TEMAS).filter(([id]) => id !== slug).map(([id, t]) => (
+            <Link key={id} to={localPath(`${base}/${id}`)}className="px-3 py-1.5 rounded-full bg-white/[0.06] border border-white/10 text-white/80 text-sm hover:bg-white/[0.12]">
+              {t.emoji} {t.titulo}
+            </Link>
+          ))}
+        </div>
+      </nav>
     </div>
   )
 }

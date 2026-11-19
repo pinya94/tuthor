@@ -30,8 +30,28 @@ function temario(lang) {
 }
 const tx = (o, lang) => (o && (o[lang] ?? o.es)) || ''
 
+// Páginas de estudio de lengua, inglés y matemáticas (comprobadas contra el
+// sitemap en descubre.test.js). Hasta nov-2026 paginaDelTema no las conocía y
+// los exámenes y juegos de esos temas no enlazaban a su teoría: «pronombres»,
+// la página con más impresiones de Google, solo la enlazaban 4 páginas.
+const GRAM = '/estudiar/idiomas/espanol/gramatica/', ORTO = '/estudiar/idiomas/espanol/ortografia/', LIT = '/estudiar/idiomas/espanol/literatura/'
+const LENGUA = {
+  sustantivos: GRAM + 'sustantivos', verbos: GRAM + 'verbos', adjetivos: GRAM + 'adjetivos', determinantes: GRAM + 'determinantes',
+  pronombres: GRAM + 'pronombres', adverbios: GRAM + 'adverbios', nexos: GRAM + 'nexos', morfologia: GRAM + 'morfologia',
+  sintaxis: GRAM + 'sintaxis', complementos: GRAM + 'sintaxis', vocabulario: GRAM + 'prefijos-sufijos',
+  acentuacion: ORTO + 'acentuacion', bv: ORTO + 'b-y-v', gj: ORTO + 'g-y-j', letras: ORTO + 'h-ll-y-c-z', puntuacion: ORTO + 'puntuacion',
+  literatura: LIT + 'generos-literarios', textos: LIT + 'tipos-de-texto', figuras: LIT + 'figuras-literarias',
+}
+const INGLES = new Set(['adjectives', 'can', 'conditionals', 'have-got', 'irregular-verbs', 'modals', 'passive', 'past-simple', 'possessives',
+  'present-continuous', 'present-perfect', 'present-simple', 'pronouns', 'question-tags', 'relative-pronouns', 'reported-speech', 'there-is-there-are'])
+const MATES = new Set(['algebra', 'cuerpos-geometricos', 'divisibilidad', 'enteros-racionales', 'estadistica', 'fracciones', 'funciones', 'geometria',
+  'numeros-decimales', 'numeros-romanos', 'porcentajes', 'potencias', 'sucesiones', 'trigonometria'])
+
 // La página de estudio del tema (resumen y puntos clave), si la tiene.
 export function paginaDelTema(materia, tema) {
+  if (materia === 'lengua') return LENGUA[tema] ?? null
+  if (materia === 'ingles') return INGLES.has(tema) ? `/estudiar/idiomas/ingles/grammar/${tema}` : null
+  if (materia === 'matematicas') return MATES.has(tema) ? `/estudiar/matematicas/${tema}` : null
   if (materia === 'historia') return `/estudiar/historia/${tema}`
   if (materia === 'geografia' && GEO_TEMAS.has(tema)) return `/estudiar/geografia/${tema}`
   if (CIENCIAS.has(materia) && TEMA_DISCIPLINA[tema] === materia) return `/estudiar/${materia}/${tema}`

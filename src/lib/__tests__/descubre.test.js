@@ -45,3 +45,22 @@ describe('relacionados y buscador', () => {
     expect(buscarEnTuthor('celula', 'es').length).toBeGreaterThan(0)
   })
 })
+
+describe('paginaDelTema', () => {
+  it('toda página de estudio que se enlaza existe en el sitemap', async () => {
+    const fs = await import('node:fs')
+    const sitemap = fs.readFileSync('public/sitemap.xml', 'utf8')
+    const { TOPIC_CATALOG } = await import('../topicCatalog')
+    const { paginaDelTema } = await import('../descubre')
+    const rotas = []
+    let n = 0
+    for (const [m, d] of Object.entries(TOPIC_CATALOG)) for (const t of Object.keys(d.temas)) {
+      const p = paginaDelTema(m, t)
+      if (!p) continue
+      n++
+      if (!sitemap.includes(`<loc>https://www.tuthor.es${p}</loc>`)) rotas.push(`${m}/${t} → ${p}`)
+    }
+    expect(rotas).toEqual([])
+    expect(n).toBeGreaterThan(60)
+  })
+})

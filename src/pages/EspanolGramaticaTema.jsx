@@ -2,6 +2,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import PageMeta from '../components/PageMeta'
 import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
+import PracticaFrase from '../components/PracticaFrase'
 
 // Cada tema de gramática ofrece varias formas de estudiar el mismo contenido:
 // el examen tipo test de siempre y la mecánica de "Analiza la Frase" enfocada.
@@ -175,6 +176,8 @@ export default function EspanolGramaticaTema() {
   if (!data) { navigate(localPath(gramaticaPath)); return null }
 
   const cMeta = contenidoMeta(tema, lang)
+  // El juego del tema, también como ejercicio dentro de la página
+  const juego = data.modos.find(m => m.to === '/juegos/analiza-frases')
   const pageMeta = (
     <PageMeta
       title={cMeta?.title || `${l(data.titulo)} en español — teoría y ejercicios`}
@@ -209,7 +212,7 @@ export default function EspanolGramaticaTema() {
         </div>
       </div>
 
-      <ContenidoTema tema={tema} lang={lang} />
+      <ContenidoTema tema={tema} lang={lang} practica={juego && <PracticaFrase tema={tema} filter={juego.state.filter} label={juego.state.label} />} />
 
       <div className="max-w-2xl mx-auto w-full space-y-4">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">
@@ -248,6 +251,18 @@ export default function EspanolGramaticaTema() {
           </Link>
         ))}
       </div>
+      {/* Los demás temas de gramática: enlaces entre hermanas (SEO interno y
+          para seguir estudiando sin volver al índice) */}
+      <nav className="max-w-2xl mx-auto w-full mt-8" aria-label={ca ? 'Altres temes de gramàtica' : en ? 'Other grammar topics' : 'Otros temas de gramática'}>
+        <p className="text-white/30 text-xs uppercase tracking-widest font-semibold mb-3">{ca ? 'Altres temes de gramàtica' : en ? 'Other grammar topics' : 'Otros temas de gramática'}</p>
+        <div className="flex flex-wrap gap-2">
+          {Object.entries(TEMAS).filter(([id]) => id !== tema).map(([id, t]) => (
+            <Link key={id} to={localPath(`${gramaticaPath}/${id}`)}className="px-3 py-1.5 rounded-full bg-white/[0.06] border border-white/10 text-white/80 text-sm hover:bg-white/[0.12]">
+              {t.emoji} {l(t.titulo)}
+            </Link>
+          ))}
+        </div>
+      </nav>
     </div>
   )
 }

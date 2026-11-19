@@ -116,7 +116,7 @@ export function sameSet(a, b) {
 }
 
 // ── Plantillas a partir del léxico común (data/frasesLexico.js) ───────────────
-// Las mismas ocho plantillas para los tres idiomas. Cada hueco se rellena
+// Las mismas nueve plantillas para los tres idiomas. Cada hueco se rellena
 // SOLO con palabras que el léxico declara compatibles con lo ya elegido
 // (verbo → objeto, lugar → sujeto, adjetivo → sustantivo, verbo → adverbio),
 // así que no salen frases como «It reads the cars» o «el perro corre ayer».
@@ -264,6 +264,23 @@ export function makeTemplates(lang) {
       const pron = { text: pr.t, classes: ['pronombre'], roles: ['sujeto', 'nucleo-sujeto'], gen: pr.gen, num: pr.num }
       const o = np(rand, pick(objetosDe(v), rand), { det: detAlAzar(rand), adj: rand() < 0.3, role: ['predicado', 'cd'] })
       return [pron, verbo(v, pr.num), ...o.units]
+    } },
+    // Pronombre de CD: «La niña lo lee», «La nena el llegeix / l'escriu»,
+    // «The girl reads it». El pronombre concuerda con un objeto que ese verbo
+    // admite (lo come = algo de comer, en masculino singular).
+    { id: 'g-pron-cd', rank: 1, build(rand) {
+      const v = pick(tr, rand)
+      const s = sujeto(rand, pick(personas, rand), { det: 'def' })
+      const obj = pick(objetosDe(v), rand)
+      const num = rand() < 0.5 ? 'sg' : 'pl'
+      const gen = genero(obj)
+      const vU = verbo(v, s.num)
+      let t
+      if (lang === 'en') t = num === 'sg' ? 'it' : 'them'
+      else if (lang === 'es') t = { ms: 'lo', fs: 'la', mp: 'los', fp: 'las' }[gk(gen, num)]
+      else t = num === 'pl' ? (gen === 'f' ? 'les' : 'els') : (/^[aeiouhàèéíòóú]/i.test(vU.text) ? "l'" : gen === 'f' ? 'la' : 'el')
+      const pron = { text: t, classes: ['pronombre'], roles: ['predicado', 'cd'], gen, num }
+      return lang === 'en' ? [...s.units, vU, pron] : [...s.units, pron, vU]
     } },
     // rank 2 (Bachillerato) — frase larga: sujeto + verbo + CD + lugar
     { id: 'g-svo-cc', rank: 2, build(rand) {
