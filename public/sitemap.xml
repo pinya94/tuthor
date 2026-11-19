@@ -1768,11 +1768,6 @@
   <url><loc>https://www.tuthor.es/ca/info/juegos/por-que-paso</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/examen/por-que-paso-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/examen/por-que-paso-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://www.tuthor.es/juegos/el-gancho</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.tuthor.es/en/juegos/el-gancho</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://www.tuthor.es/info/juegos/el-gancho</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.tuthor.es/en/info/juegos/el-gancho</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://www.tuthor.es/ca/info/juegos/el-gancho</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.tuthor.es/examen/el-gancho-tags-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://www.tuthor.es/en/examen/el-gancho-tags-test</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
   <url><loc>https://www.tuthor.es/examen/el-gancho-relativos-test</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>

@@ -328,12 +328,12 @@ export const EXAMS = {
     path: 'examen/el-mensajero-test', page: () => import('../pages/ElMensajeroExamen'),
   },
   'el-gancho-tags-test': {
-    label: { es: 'Question tags: El Gancho (con el juego)', en: 'Question tags: The Hook (with the game)', ca: 'Question tags: El Ganxo (amb el joc)' },
+    label: { es: 'Question tags: elige la coletilla', en: 'Question tags: pick the tag', ca: 'Question tags: tria la coletilla' },
     emoji: '❓', subject: 'ingles',
     path: 'examen/el-gancho-tags-test', page: () => import('../pages/ElGanchoTagsExamen'),
   },
   'el-gancho-relativos-test': {
-    label: { es: 'Relative pronouns: El Gancho (con el juego)', en: 'Relative pronouns: The Hook (with the game)', ca: 'Relative pronouns: El Ganxo (amb el joc)' },
+    label: { es: 'Relative pronouns: who, which, where, whose', en: 'Relative pronouns: who, which, where, whose', ca: 'Relative pronouns: who, which, where, whose' },
     emoji: '🔗', subject: 'ingles',
     path: 'examen/el-gancho-relativos-test', page: () => import('../pages/ElGanchoRelativosExamen'),
   },

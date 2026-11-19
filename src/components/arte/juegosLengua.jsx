@@ -265,23 +265,6 @@ function ElMensajero(p) {
   )
 }
 
-function ElGancho(p) {
-  // Una caña cuelga la palabra que falta sobre el hueco de la frase.
-  return (
-    <Lienzo {...p}>
-      <path d="M18 18L150 18" stroke="#A16207" strokeWidth="5" strokeLinecap="round" />
-      <path d="M150 18V58" stroke="#E2E8F0" strokeWidth="1.5" />
-      <path d="M150 58V66a7 7 0 0 1-14 0" fill="none" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" />
-      <rect x="112" y="68" width="76" height="28" rx="7" fill="#FBBF24" />
-      <T x={150} y={87} s={14} c="#422006">who</T>
-      <rect x="14" y="108" width="212" height="28" rx="7" fill="#0D9488" />
-      <T x={58} y={127} s={12} c="#FFFFFF">The girl</T>
-      <rect x="99.75" y="113.75" width="54.5" height="16.5" rx="4" stroke="#FDE68A" strokeWidth="1.5" strokeDasharray="4 3" />
-      <T x={190} y={127} s={12} c="#FFFFFF">sings…</T>
-    </Lienzo>
-  )
-}
-
 function VerbosIrregulares(p) {
   // Tres casillas de un verbo: el infinitivo, el pasado ya puesto y la ficha
   // del participio cayendo en su hueco.
@@ -315,7 +298,6 @@ export const ARTE_LENGUA = {
   'pieza-que-falta': PiezaQueFalta,
   'verbos-irregulares': VerbosIrregulares,
   'el-mensajero': ElMensajero,
-  'el-gancho': ElGancho,
   'que-ves': QueVes,
   'pon-la-tilde': PonLaTilde,
   'fabrica-palabras': FabricaPalabras,

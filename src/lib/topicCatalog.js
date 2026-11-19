@@ -607,8 +607,8 @@ export const TOPIC_CATALOG = {
       'irregular-verbs': examTema({ irregularesExamen: 'verbos-irregulares-test' }, { niveles: ['primaria', 'eso', 'bachillerato'] }),
       // Estilo indirecto: tema propio de 3.º-4.º de ESO, con su juego y su examen.
       'reported-speech': examTema({ mensajeroExamen: 'el-mensajero-test' }, { niveles: ['eso', 'bachillerato'] }),
-      // Coletillas y relativos: temas de 3.º-4.º de ESO, cada uno con su
-      // examen de El Gancho (el juego los mezcla; el examen va de uno solo).
+      // Coletillas y relativos: temas de 3.º-4.º de ESO, cada uno con su examen
+      // de un toque por frase (es un test, así que no se ofrece como juego).
       'question-tags': examTema({ ganchoExamen: 'el-gancho-tags-test' }, { niveles: ['eso', 'bachillerato'] }),
       'relative-pronouns': examTema({ ganchoExamen: 'el-gancho-relativos-test' }, { niveles: ['eso', 'bachillerato'] }),
     },
@@ -670,15 +670,7 @@ export const TOPIC_CATALOG = {
         tracksTopic: true,
         temas: ['reported-speech'],
       },
-      gancho: {
-        label: { es: 'El Gancho (juego)', en: 'The Hook (game)', ca: 'El Ganxo (joc)' },
-        emoji: '🎣',
-        game: 'el-gancho',
-        usesLevel: false,
-        tracksTopic: true,
-        temas: ['question-tags', 'relative-pronouns'],
-      },
-      ganchoExamen: examFormato({ es: 'Un toque por frase (examen)', en: 'One tap per sentence (exam)', ca: 'Un toc per frase (examen)' }, '🎣'),
+      ganchoExamen: examFormato({ es: 'Elige la palabra (examen)', en: 'Pick the word (exam)', ca: 'Tria la paraula (examen)' }, '📝'),
       mensajeroExamen: examFormato({ es: 'Reported speech (examen)', en: 'Reported speech (exam)', ca: 'Reported speech (examen)' }, '📨'),
       irregularesExamen: examFormato({ es: 'Verbos irregulares (examen)', en: 'Irregular verbs (exam)', ca: 'Verbs irregulars (examen)' }, '🔁'),
       corregirExamen: examFormato({ es: 'Corregir el texto (examen)', en: 'Proofread the text (exam)', ca: 'Corregir el text (examen)' }, '🔍'),

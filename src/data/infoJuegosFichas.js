@@ -86,34 +86,6 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Inglés', niveles: 'ESO',
   },
-  'el-gancho': {
-    titulo: 'El Gancho',
-    subtitulo: 'Juego de question tags y relative pronouns en inglés',
-    emoji: '🎣', gradient: 'from-teal-500 to-cyan-700',
-    path: '/juegos/el-gancho',
-    intro: 'Un juego de inglés rápido, de un toque por frase. Sale una frase con un hueco y hay que elegir la palabrita que la engancha: el relativo que une las dos partes (The girl ___ sings → who) o la coletilla de pregunta del final (She’s late, ___ → isn’t she?). Si aciertas, sale la siguiente al momento; si fallas, ves la regla en una sola línea.',
-    beneficios: [
-      { titulo: 'Rápido de verdad', texto: 'Cada frase se responde con un toque, así que en un minuto salen quince o veinte. Repetir mucho y deprisa es lo que hace que who, which o doesn’t she? salgan solos al hablar.' },
-      { titulo: 'Las trampas típicas del hispanohablante', texto: 'Los botones falsos son los errores de siempre: which para personas, where con visit, who’s en lugar de whose, that entre comas, isn’t she? para un presente con does o el inexistente amn’t I?. Y nunca sale como trampa algo que un libro aceptaría.' },
-      { titulo: 'Dos temas de 3.º y 4.º de ESO', texto: 'El nivel fácil empieza con who, which, where y coletillas con be; el medio añade whose, when y los auxiliares; el difícil, las excepciones: I’m → aren’t I?, Let’s → shall we?, nobody, never y there is.' },
-    ],
-    ejemplo: 'Sale «Your sister lives in London, ___» con tres botones: isn’t she?, doesn’t she? y don’t she?. Es un presente simple sin auxiliar, así que la coletilla usa does en negativo: doesn’t she?.',
-    enPapel: {
-      titulo: 'El Gancho en clase',
-      pasos: [
-        'Escribe en tarjetas medias frases: «The boy ___ won the race», «She plays the piano, ___».',
-        'En otras tarjetas, las palabras que faltan: who, which, where, whose, doesn’t she?, aren’t I?…',
-        'Por equipos, cada uno tiene que emparejar su frase con su tarjeta lo antes posible.',
-        'El que se equivoca tiene que decir la regla en voz alta antes de volver a intentarlo.',
-      ],
-    },
-    alternativas: [
-      { nombre: 'Examen de question tags', desc: 'Diez coletillas con la mecánica del juego, sin reloj y con nota.' },
-      { nombre: 'Examen de relative pronouns', desc: 'Diez relativos, con las oraciones entre comas en el nivel difícil.' },
-      { nombre: 'El Mensajero', desc: 'Otro tema de 4.º de ESO: el reported speech con fichas.' },
-    ],
-    asignatura: 'Inglés', niveles: 'ESO',
-  },
   'verbos-irregulares': {
     titulo: 'Verbos Irregulares',
     subtitulo: 'Juego de verbos irregulares en inglés: pasado y participio',
@@ -3182,33 +3154,6 @@ export const FICHAS_EN = {
     ],
     asignatura: 'English', niveles: 'Secondary',
   },
-  'el-gancho': {
-    titulo: 'The Hook',
-    subtitulo: 'Question tags and relative pronouns game',
-    emoji: '🎣', gradient: 'from-teal-500 to-cyan-700', path: '/juegos/el-gancho',
-    intro: 'A fast English game with one tap per sentence. A sentence appears with a gap and you choose the little word that hooks it together: the relative pronoun joining the two parts (The girl ___ sings → who) or the question tag at the end (She’s late, ___ → isn’t she?). Get it right and the next one appears straight away; get it wrong and you see the rule in a single line.',
-    beneficios: [
-      { titulo: 'Genuinely quick', texto: 'Each sentence takes one tap, so a minute covers fifteen or twenty of them. Lots of fast repetition is what makes who, which or doesn’t she? come out naturally when speaking.' },
-      { titulo: 'The classic traps', texto: 'The wrong buttons are the usual mistakes: which for people, where with visit, who’s instead of whose, that between commas, isn’t she? for a present simple with does, or the non-existent amn’t I?. Nothing a textbook would accept is ever used as a trap.' },
-      { titulo: 'Two upper-secondary topics', texto: 'Easy starts with who, which, where and tags with be; Medium adds whose, when and auxiliaries; Hard covers the exceptions: I’m → aren’t I?, Let’s → shall we?, nobody, never and there is.' },
-    ],
-    ejemplo: '«Your sister lives in London, ___» appears with three buttons: isn’t she?, doesn’t she? and don’t she?. It’s a present simple with no auxiliary, so the tag uses does in the negative: doesn’t she?.',
-    enPapel: {
-      titulo: 'The Hook in class',
-      pasos: [
-        'Write half-sentences on cards: «The boy ___ won the race», «She plays the piano, ___».',
-        'On other cards, write the missing words: who, which, where, whose, doesn’t she?, aren’t I?…',
-        'In teams, everyone has to match their sentence with its card as fast as possible.',
-        'Anyone who gets it wrong has to say the rule out loud before trying again.',
-      ],
-    },
-    alternativas: [
-      { nombre: 'Question tags exam', desc: 'Ten tags with the game mechanic, no timer and a mark.' },
-      { nombre: 'Relative pronouns exam', desc: 'Ten relative pronouns, with non-defining clauses on the Hard level.' },
-      { nombre: 'The Messenger', desc: 'Another upper-secondary topic: reported speech with tiles.' },
-    ],
-    asignatura: 'English', niveles: 'Secondary',
-  },
   'verbos-irregulares': {
     titulo: 'Irregular Verbs',
     subtitulo: 'Irregular verbs game: past simple and past participle',
@@ -5830,33 +5775,6 @@ export const FICHAS_CA = {
       { nombre: 'L’examen d’El Missatger', desc: 'Deu frases amb la mateixa mecànica, sense rellotge i amb nota.' },
       { nombre: 'Reported speech (teoria)', desc: 'La taula de canvis de temps i de paraules de temps i lloc, amb exercicis resolts.' },
       { nombre: 'Verbs Irregulars', desc: 'Per al past perfect cal el participi: had seen, had gone.' },
-    ],
-    asignatura: 'Anglès', niveles: 'ESO',
-  },
-  'el-gancho': {
-    titulo: 'El Ganxo',
-    subtitulo: 'Joc de question tags i relative pronouns en anglès',
-    emoji: '🎣', gradient: 'from-teal-500 to-cyan-700', path: '/juegos/el-gancho',
-    intro: 'Un joc d’anglès ràpid, d’un toc per frase. Surt una frase amb un buit i cal triar la paraula petita que l’enganxa: el relatiu que uneix les dues parts (The girl ___ sings → who) o la coletilla de pregunta del final (She’s late, ___ → isn’t she?). Si l’encertes, surt la següent de seguida; si falles, veus la regla en una sola línia.',
-    beneficios: [
-      { titulo: 'Ràpid de veritat', texto: 'Cada frase es respon amb un toc, així que en un minut en surten quinze o vint. Repetir molt i de pressa és el que fa que who, which o doesn’t she? surtin sols en parlar.' },
-      { titulo: 'Els paranys típics', texto: 'Els botons falsos són els errors de sempre: which per a persones, where amb visit, who’s en lloc de whose, that entre comes, isn’t she? per a un present amb does o l’inexistent amn’t I?. I mai no surt com a parany res que un llibre acceptaria.' },
-      { titulo: 'Dos temes de 3r i 4t d’ESO', texto: 'El nivell fàcil comença amb who, which, where i coletilles amb be; el mitjà hi afegeix whose, when i els auxiliars; el difícil, les excepcions: I’m → aren’t I?, Let’s → shall we?, nobody, never i there is.' },
-    ],
-    ejemplo: 'Surt «Your sister lives in London, ___» amb tres botons: isn’t she?, doesn’t she? i don’t she?. És un present simple sense auxiliar, així que la coletilla fa servir does en negatiu: doesn’t she?.',
-    enPapel: {
-      titulo: 'El Ganxo a classe',
-      pasos: [
-        'Escriu en targetes mitges frases: «The boy ___ won the race», «She plays the piano, ___».',
-        'En altres targetes, les paraules que falten: who, which, where, whose, doesn’t she?, aren’t I?…',
-        'Per equips, cadascú ha d’aparellar la seva frase amb la seva targeta com més aviat millor.',
-        'Qui s’equivoca ha de dir la regla en veu alta abans de tornar-ho a provar.',
-      ],
-    },
-    alternativas: [
-      { nombre: 'Examen de question tags', desc: 'Deu coletilles amb la mecànica del joc, sense rellotge i amb nota.' },
-      { nombre: 'Examen de relative pronouns', desc: 'Deu relatius, amb les oracions entre comes al nivell difícil.' },
-      { nombre: 'El Missatger', desc: 'Un altre tema de 4t d’ESO: el reported speech amb fitxes.' },
     ],
     asignatura: 'Anglès', niveles: 'ESO',
   },

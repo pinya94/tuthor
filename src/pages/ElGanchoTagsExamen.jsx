@@ -2,7 +2,7 @@ import MechanicExam from '../components/MechanicExam'
 import PreguntaGancho from '../components/elGancho/PreguntaGancho'
 import { genRonda, esCorrecta, schemaQuestion } from '../lib/elGancho'
 
-// Examen con la mecánica de El Gancho, solo con frases de question-tags.
+// Examen de un toque por frase (antes «El Gancho»: era un test, no un juego), solo con frases de question-tags.
 const LEVELS = [
   { key: 'primaria', emoji: '💚', difficulty: 'facil',
     label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
@@ -29,8 +29,9 @@ export default function ElGanchoTagsExamen() {
       metaDesc={{ es: "Examen de question tags: elige la coletilla correcta con be, do, did, can, will, I’m, let’s, nobody o there is. 10 preguntas en tres niveles, con la regla de cada fallo.", en: "Question tags exam: choose the right tag with be, do, did, can, will, I’m, let’s, nobody or there is. 10 questions on three levels, with the rule for every mistake.", ca: "Examen de question tags: tria la coletilla correcta amb be, do, did, can, will, I’m, let’s, nobody o there is. 10 preguntes en tres nivells, amb la regla de cada error." }}
       metaPath="/examen/el-gancho-tags-test"
       subjectSchema="Inglés"
-      backGamePath="/juegos/el-gancho"
-      playLabel={{ es: 'Modo arcade (60s)', en: 'Arcade mode (60s)', ca: 'Mode arcade (60s)' }}
+      backGamePath="/estudiar/idiomas/ingles/grammar/question-tags"
+      backLabel={{ es: '← Teoría de question tags', en: '← question tags theory', ca: '← Teoria de question tags' }}
+      playLabel={{ es: '📖 Repasar la teoría', en: '📖 Review the theory', ca: '📖 Repassar la teoria' }}
       levels={LEVELS}
       genRound={genRound}
       isCorrect={esCorrecta}

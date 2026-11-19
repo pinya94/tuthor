@@ -64,8 +64,8 @@ describe('El Gancho', () => {
     expect(new Set(vistas).size).toBe(20)
   })
 
-  it('los dos temas están en el catálogo de inglés con el juego', () => {
+  it('los dos temas están en el catálogo de inglés, cada uno con su examen', () => {
     for (const t of TEMAS) expect(TOPIC_CATALOG.ingles.temas[t], t).toBeTruthy()
-    expect([...TOPIC_CATALOG.ingles.formatos.gancho.temas].sort()).toEqual([...TEMAS].sort())
+    expect(TOPIC_CATALOG.ingles.formatos.gancho).toBeUndefined()
   })
 })

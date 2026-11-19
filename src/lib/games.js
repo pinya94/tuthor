@@ -653,14 +653,6 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
-  'el-gancho': {
-    label: { es: 'El Gancho', en: 'The Hook', ca: 'El Ganxo' },
-    emoji: '🎣',
-    subject: 'ingles',
-    route: '/juegos/el-gancho',
-    // aciertos × 10 puntos → hasta 200 monedas
-    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
-  },
   'verbos-irregulares': {
     label: { es: 'Verbos Irregulares', en: 'Irregular Verbs', ca: 'Verbs Irregulars' },
     emoji: '🔁',
