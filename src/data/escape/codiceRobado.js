@@ -6,9 +6,13 @@
 // Las trampas son de verdad trampas (la imprenta SÍ existía en 1492; «alma»
 // empieza por al- y es latina).
 //
-// Sospechosos: cada sala da una pista que descarta exactamente a UNO (cada
-// sospechoso falla un único rasgo y el culpable los cumple todos), así que las
-// salas se pueden jugar en cualquier orden. El test lo comprueba.
+// Sospechosos: dibujos del usuario (public/escape/sospechoso-<id>.webp, todos
+// con hábito marrón). Las pistas hablan de lo que SE VE en el dibujo (gafas,
+// barba, canas, pelo rizado, coronilla rapada o calva). El culpable las cumple
+// todas, cada inocente falla al menos una y cada pista descarta al menos a
+// uno, así que las salas se pueden jugar en cualquier orden. El test lo
+// comprueba. Íñigo tiene barba de unos días: la pista dice «sin barba» y
+// aclara que «como mucho, de unos días», para que nadie lo discuta.
 
 export const GUIA = 'Fray Anselmo'
 export const MINUTOS = 45
@@ -16,40 +20,32 @@ export const PENALIZACION = 30 // segundos por comprobar mal
 export const PENALIZACION_ACUSAR = 120
 
 // Expresiones del guía: public/escape/monje-<cara>.webp
-export const CARAS = ['habla', 'feliz', 'preocupado', 'senala']
+export const CARAS = ['habla', 'feliz', 'preocupado', 'senala', 'piensa', 'explica', 'duda', 'susurra', 'enfadado', 'alto']
+export const imgSospechoso = id => `/escape/sospechoso-${id}.webp`
 
-const HABITO_NEGRO = '#1F2937', HABITO_MARRON = '#8A5A2B'
-
-// rasgos → los dibuja quienEsQuien/Retrato. `tit`: Fray / Hermano.
 export const SOSPECHOSOS = [
-  { id: 'damian', tit: 'Hermano', nombre: 'Damián', oficio: 'El hortelano. Siempre huele a cebolla.',
-    rasgos: { piel: 1, pelo: 'tonsura', cpelo: 'castano', gafas: 'redondas', ropa: 'habito', cropa: HABITO_MARRON },
-    hechos: { habito: 'marron', gafas: true, barba: false, canas: false, hermano: true } },
-  { id: 'lucas', tit: 'Hermano', nombre: 'Lucas', oficio: 'El novicio más joven. Llega tarde a todo.',
-    rasgos: { piel: 2, pelo: 'flequillo', cpelo: 'negro', ropa: 'habito', cropa: HABITO_NEGRO },
-    hechos: { habito: 'negro', gafas: false, barba: false, canas: false, hermano: true } },
-  { id: 'bruno', tit: 'Hermano', nombre: 'Bruno', oficio: 'El campanero. Ronca en el coro.',
-    rasgos: { piel: 0, pelo: 'tonsura', cpelo: 'castano', barba: 'larga', gafas: 'redondas', ropa: 'habito', cropa: HABITO_NEGRO },
-    hechos: { habito: 'negro', gafas: true, barba: true, canas: false, hermano: true } },
-  { id: 'gil', tit: 'Hermano', nombre: 'Gil', oficio: 'El portero. Lleva cuarenta años abriendo la puerta.',
-    rasgos: { piel: 0, pelo: 'tonsura', cpelo: 'canoso', gafas: 'redondas', ropa: 'habito', cropa: HABITO_NEGRO },
-    hechos: { habito: 'negro', gafas: true, barba: false, canas: true, hermano: true } },
-  { id: 'tomas', tit: 'Fray', nombre: 'Tomás', oficio: 'El bibliotecario. No deja tocar ni un libro.',
-    rasgos: { piel: 1, pelo: 'raya', cpelo: 'negro', gafas: 'redondas', ropa: 'habito', cropa: HABITO_NEGRO },
-    hechos: { habito: 'negro', gafas: true, barba: false, canas: false, hermano: false } },
+  { id: 'gil', tit: 'Fray', nombre: 'Gil', oficio: 'El portero. Lleva cuarenta años abriendo la puerta.',
+    hechos: { gafas: true, barba: false, canas: true, rizado: false, coronilla: true } },
   { id: 'inigo', tit: 'Hermano', nombre: 'Íñigo', oficio: 'El ayudante del archivo. Muy aplicado… demasiado.',
-    rasgos: { piel: 0, pelo: 'alborotado', cpelo: 'castano', gafas: 'redondas', ropa: 'habito', cropa: HABITO_NEGRO },
-    hechos: { habito: 'negro', gafas: true, barba: false, canas: false, hermano: true } },
+    hechos: { gafas: false, barba: false, canas: false, rizado: false, coronilla: true } },
+  { id: 'bruno', tit: 'Hermano', nombre: 'Bruno', oficio: 'El campanero. Ronca en el coro.',
+    hechos: { gafas: false, barba: true, canas: false, rizado: false, coronilla: false } },
+  { id: 'lucas', tit: 'Hermano', nombre: 'Lucas', oficio: 'El novicio más joven. Llega tarde a todo.',
+    hechos: { gafas: false, barba: false, canas: false, rizado: true, coronilla: false } },
+  { id: 'damian', tit: 'Fray', nombre: 'Damián', oficio: 'El hortelano. Siempre huele a cebolla.',
+    hechos: { gafas: false, barba: true, canas: true, rizado: true, coronilla: false } },
+  { id: 'tomas', tit: 'Fray', nombre: 'Tomás', oficio: 'El bibliotecario, el más anciano. No deja tocar ni un libro.',
+    hechos: { gafas: false, barba: true, canas: true, rizado: false, coronilla: true } },
 ]
 export const CULPABLE = 'inigo'
 
 // Lo que dice cada pista sobre el ladrón (lo comprueba el test)
 export const PISTAS_LADRON = {
-  cripta: { texto: 'Lleva hábito negro: había un hilo negro enganchado en la roca.', cumple: h => h.habito === 'negro' },
-  mapas: { texto: 'Lleva gafas: junto al mapa había un cristal de gafas roto.', cumple: h => h.gafas },
-  palabras: { texto: 'No tiene barba: el cocinero lo vio de lejos y dice que iba bien afeitado.', cumple: h => !h.barba },
-  scriptorium: { texto: 'No tiene canas: en el lacre de la carta quedó pegado un pelo oscuro.', cumple: h => !h.canas },
-  galeria: { texto: 'Es «hermano», no «fray»: firmó la nota del cuadro como «Hermano…».', cumple: h => h.hermano },
+  cripta: { texto: 'Tiene el pelo liso: en la roca quedó enganchado un pelo, y no tiene ni un rizo.', cumple: h => !h.rizado },
+  mapas: { texto: 'No lleva gafas: para leer el mapa usó la lupa, y se la dejó olvidada encima.', cumple: h => !h.gafas },
+  palabras: { texto: 'No tiene canas: el pelo que quedó en la tapa del arcón es oscuro.', cumple: h => !h.canas },
+  scriptorium: { texto: 'No tiene barba (como mucho, de unos días): el cocinero lo vio de lejos.', cumple: h => !h.barba },
+  galeria: { texto: 'Lleva la coronilla rapada o es calvo: al pasar bajo la lámpara, le brilló la cabeza.', cumple: h => h.coronilla },
   torre: { texto: 'Desde la torre se le ve correr hacia el establo con un fardo. ¡Es ahora o nunca!', cumple: () => true },
 }
 
@@ -59,9 +55,9 @@ export const INTRO = [
   ['preocupado', `Soy ${GUIA}, el archivero del monasterio. Y tengo un problema enorme.`],
   ['senala', 'Esta noche alguien ha robado las seis páginas de la Gran Crónica de Hispania.'],
   ['preocupado', 'Y sin ellas pasa algo terrible: la historia de España se está borrando. Mirad la línea del tiempo de arriba: ¡se ha quedado en gris!'],
-  ['habla', 'El ladrón ha escondido cada página en una sala del monasterio, y en cada sala ha dejado una prueba que solo resuelve quien sabe historia.'],
+  ['explica', 'El ladrón ha escondido cada página en una sala del monasterio, y en cada sala ha dejado una prueba que solo resuelve quien sabe historia.'],
   ['senala', 'Cada página que recuperéis trae una cifra del cofre donde ha guardado el Códice… y una pista sobre quién es.'],
-  ['habla', 'Los sospechosos son seis hermanos del monasterio. Están en el Cuaderno, arriba a la derecha: id tachando a los que queden descartados.'],
+  ['susurra', 'Los sospechosos son seis hermanos del monasterio… Están en el Cuaderno, arriba a la derecha: id tachando a los que queden descartados.'],
   ['preocupado', `Tenéis ${MINUTOS} minutos antes de que toquen a vísperas y el ladrón saque el Códice del monasterio. Si os atascáis, pedid una pista: cada sala tiene tres.`],
   ['feliz', 'Que alguien maneje el ordenador y que el resto piense en voz alta. Aquí tenéis el plano del monasterio: ¡empezad por la sala que queráis!'],
 ]
@@ -80,7 +76,7 @@ export const SALAS = [
     ],
     despues: [
       ['feliz', '¡La pared se ha abierto! Y detrás estaba la primera página.'],
-      ['senala', 'Mirad: un hilo negro enganchado en la roca. El ladrón lleva hábito negro. ¡Al Cuaderno!'],
+      ['susurra', 'Psst… mirad: un pelo enganchado en la roca. Liso, ni un rizo. ¡Apuntadlo en el Cuaderno!'],
     ],
   },
   {
@@ -96,13 +92,13 @@ export const SALAS = [
     ],
     despues: [
       ['feliz', '¡LUCERNA! Una lucerna es una lámpara de aceite romana… ¡y la página estaba debajo!'],
-      ['senala', 'Y junto al mapa, un cristal de gafas roto. El ladrón lleva gafas.'],
+      ['piensa', 'Y encima del mapa, mi lupa… Si el ladrón la necesitó para leer, es que no lleva gafas.'],
     ],
   },
   {
     id: 'palabras', epoca: 'Al-Ándalus', nombre: 'El arcón de las palabras', emoji: '📦', orden: 3,
     antes: [
-      ['habla', 'Durante casi ocho siglos se habló árabe en al-Ándalus, y el castellano se quedó con miles de palabras suyas.'],
+      ['explica', 'Durante casi ocho siglos se habló árabe en al-Ándalus, y el castellano se quedó con miles de palabras suyas.'],
       ['senala', 'Este arcón solo se abre si tocáis las palabras que vienen del árabe, y ninguna más. Cuidado: no basta con que empiecen por «al-».'],
     ],
     pistas: [
@@ -112,7 +108,7 @@ export const SALAS = [
     ],
     despues: [
       ['feliz', '¡Clac! El arcón se ha abierto. Tercera página.'],
-      ['habla', 'Y el hermano cocinero dice que vio al ladrón de lejos: iba bien afeitado. No tiene barba.'],
+      ['susurra', 'En la tapa del arcón ha quedado un pelo oscuro. El ladrón no tiene canas.'],
     ],
   },
   {
@@ -128,13 +124,13 @@ export const SALAS = [
     ],
     despues: [
       ['feliz', '¡Bien visto! Detrás del sello estaba la cuarta página.'],
-      ['senala', 'Y en el lacre se quedó pegado un pelo oscuro. El ladrón no tiene canas.'],
+      ['explica', 'Y el hermano cocinero lo vio de lejos salir de aquí: no tenía barba. Como mucho, de unos días.'],
     ],
   },
   {
     id: 'galeria', epoca: 'Austrias y Borbones', nombre: 'La galería de retratos', emoji: '🖼️', orden: 5,
     antes: [
-      ['habla', 'En el claustro tenemos los retratos de los reyes, de los Austrias al primer Borbón. El ladrón los ha cambiado de sitio y les ha quitado los nombres.'],
+      ['explica', 'En el claustro tenemos los retratos de los reyes, de los Austrias al primer Borbón. El ladrón los ha cambiado de sitio y les ha quitado los nombres.'],
       ['senala', 'Ordenadlos del más antiguo al más moderno, de izquierda a derecha. Tocad dos cuadros para cambiarlos de sitio.'],
     ],
     pistas: [
@@ -143,8 +139,8 @@ export const SALAS = [
       'El orden: Carlos I, Felipe II, Felipe III, Felipe IV, Carlos II y Felipe V.',
     ],
     despues: [
-      ['feliz', '¡Los reyes están en su sitio! Detrás del último cuadro había una página… y una nota.'],
-      ['senala', 'La nota está firmada «Hermano…». El ladrón es hermano, no fray.'],
+      ['feliz', '¡Los reyes están en su sitio! Detrás del último cuadro había una página… y una nota del hermano sacristán.'],
+      ['susurra', 'La nota dice: «Al pasar bajo la lámpara, le brilló la cabeza». Lleva la coronilla rapada… o es calvo.'],
     ],
   },
   {
@@ -166,21 +162,21 @@ export const SALAS = [
 ]
 
 export const FINAL_ACUSAR = [
-  ['senala', '¡Ya tenéis las seis páginas! Mirad el Cuaderno: ¿quién es el ladrón? Decididlo entre todos, que acusar a un inocente cuesta dos minutos.'],
+  ['piensa', '¡Ya tenéis las seis páginas! Mirad el Cuaderno: ¿quién es el ladrón? Decididlo entre todos, que acusar a un inocente cuesta dos minutos.'],
 ]
-export const ACUSACION_MAL = ['preocupado', '¡Ese hermano es inocente! Volved a mirar las pistas del Cuaderno.']
+export const ACUSACION_MAL = ['alto', '¡Ese hermano es inocente! Volved a mirar las pistas del Cuaderno.']
 export const FINAL_COFRE = [
   ['feliz', '¡HERMANO ÍÑIGO! ¡Mi propio ayudante! Y yo que le dejaba las llaves del archivo…'],
   ['senala', 'Ha confesado: el Códice está en un cofre del establo. Se abre con las seis cifras de las páginas…'],
   ['habla', '…ordenadas de la época más antigua a la más moderna. Las tenéis en el Cuaderno.'],
 ]
-export const COFRE_MAL = ['preocupado', 'El cofre no se abre. ¿Están las cifras en orden, de la Prehistoria al siglo XX?']
+export const COFRE_MAL = ['duda', 'El cofre no se abre. ¿Están las cifras en orden, de la Prehistoria al siglo XX?']
 export const FINAL = [
   ['feliz', '¡El Códice! Con todas sus páginas. Mirad arriba: la historia de España vuelve a tener color.'],
-  ['habla', 'Íñigo dice que solo quería leerlo entero de una sentada. Le he puesto a copiarlo a mano. Entero. Dos veces.'],
+  ['duda', 'Íñigo dice que solo quería leerlo entero de una sentada. Le he puesto a copiarlo a mano. Entero. Dos veces.'],
   ['feliz', '¡Gracias, archiveros! Sois la mejor clase que ha pasado por este monasterio.'],
 ]
-export const SIN_TIEMPO = ['preocupado', '¡Han tocado a vísperas! El ladrón se nos escapa… Pero no os rindáis: podéis seguir sin reloj y recuperar el Códice igualmente.']
+export const SIN_TIEMPO = ['enfadado', '¡Han tocado a vísperas! El ladrón se nos escapa… Pero no os rindáis: podéis seguir sin reloj y recuperar el Códice igualmente.']
 
 // ── Datos de cada sala ──────────────────────────────────────────────────────
 

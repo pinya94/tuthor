@@ -3,7 +3,7 @@
 // Cuaderno de sospechosos y el botón de pistas. Pensado para PROYECTOR:
 // letra grande, mucho contraste y todo se maneja con el ratón o el teclado.
 import { useEffect, useState } from 'react'
-import Retrato from '../quienEsQuien/Retrato'
+import { imgSospechoso } from '../../data/escape/codiceRobado'
 
 export const PERGAMINO = 'bg-[#f1e2bd] text-[#3b2a1a]'
 export const BOTON = 'inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-black px-5 py-3 text-base sm:text-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed'
@@ -121,8 +121,8 @@ export function Sospechosos({ sospechosos, tachados = [], onElige, grande = fals
         return (
           <button key={s.id} type="button" onClick={() => onElige(s.id)}
             className={`relative flex flex-col justify-start rounded-xl border-2 p-1.5 text-center transition-all ${fuera ? 'border-[#3b2a1a]/20 opacity-45' : 'border-[#3b2a1a]/40 hover:border-[#3b2a1a] bg-white/40'}`}>
-            <div className="aspect-[66/86] rounded-lg overflow-hidden bg-[#d9c79a]">
-              <Retrato p={{ id: s.id }} rasgos={s.rasgos} busto className="w-full h-full" />
+            <div className="aspect-square rounded-lg overflow-hidden bg-[#d9c79a] flex items-end justify-center">
+              <img src={imgSospechoso(s.id)} alt={`${s.tit} ${s.nombre}`} className="w-full h-full object-contain object-bottom" draggable="false" />
             </div>
             <p className="font-black text-xs sm:text-sm mt-1 leading-tight">{s.tit} {s.nombre}</p>
             {grande && <p className="text-[11px] sm:text-xs leading-tight opacity-75 mt-0.5">{s.oficio}</p>}

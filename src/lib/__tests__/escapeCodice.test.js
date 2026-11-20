@@ -8,13 +8,18 @@ import {
 } from '../../data/escape/codiceRobado'
 
 describe('El Códice Robado', () => {
-  it('el culpable cumple todas las pistas y cada inocente falla exactamente una', () => {
+  it('el culpable cumple todas las pistas, cada inocente falla alguna y cada pista descarta a alguien', () => {
     const culpable = SOSPECHOSOS.find(s => s.id === CULPABLE)
     for (const [sala, p] of Object.entries(PISTAS_LADRON)) expect(p.cumple(culpable.hechos), sala).toBe(true)
     for (const s of SOSPECHOSOS.filter(x => x.id !== CULPABLE)) {
       const falla = Object.values(PISTAS_LADRON).filter(p => !p.cumple(s.hechos)).length
-      expect(falla, s.id).toBe(1)
+      expect(falla, s.id).toBeGreaterThan(0)
     }
+    for (const [sala, p] of Object.entries(PISTAS_LADRON)) {
+      if (sala === 'torre') continue
+      expect(SOSPECHOSOS.some(s => !p.cumple(s.hechos)), sala).toBe(true)
+    }
+    for (const s of SOSPECHOSOS) expect(fs.existsSync(`public/escape/sospechoso-${s.id}.webp`), s.id).toBe(true)
   })
   it('cada sala tiene pista del ladrón, tres pistas y diálogos', () => {
     expect(SALAS.map(s => s.orden).sort()).toEqual([1, 2, 3, 4, 5, 6])

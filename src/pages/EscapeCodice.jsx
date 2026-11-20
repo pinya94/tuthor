@@ -17,7 +17,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import { Dialogo, Barra, Cuaderno, Sospechosos, Pistas, Aviso, PERGAMINO, BOTON, BOTON_SEC, mmss, caraUrl } from '../components/escape/Comun'
 import { SALA_COMPONENTE } from '../components/escape/SalasCodice'
 import {
-  GUIA, MINUTOS, PENALIZACION, PENALIZACION_ACUSAR, CARAS, SOSPECHOSOS, CULPABLE, PISTAS_LADRON,
+  imgSospechoso, GUIA, MINUTOS, PENALIZACION, PENALIZACION_ACUSAR, CARAS, SOSPECHOSOS, CULPABLE, PISTAS_LADRON,
   INTRO, SALAS, FINAL_ACUSAR, ACUSACION_MAL, FINAL_COFRE, COFRE_MAL, FINAL, SIN_TIEMPO,
 } from '../data/escape/codiceRobado'
 
@@ -46,7 +46,10 @@ export default function EscapeCodice() {
   const [solucionario, setSolucionario] = useState(false)
 
   // Precarga las caras del guía para que no parpadeen al cambiar de expresión
-  useEffect(() => { CARAS.forEach(c => { const i = new Image(); i.src = caraUrl(c) }) }, [])
+  useEffect(() => {
+    CARAS.forEach(c => { const i = new Image(); i.src = caraUrl(c) })
+    SOSPECHOSOS.forEach(s => { const i = new Image(); i.src = imgSospechoso(s.id) })
+  }, [])
   useEffect(() => { if (e) guardar(e) }, [e])
   useEffect(() => {
     if (!e || e.fin) return
@@ -143,7 +146,7 @@ export default function EscapeCodice() {
           {solucionario && (
             <ol className="mt-3 space-y-2 text-sm sm:text-base list-decimal pl-5">
               {SALAS.map(s => <li key={s.id}><b>{s.nombre} ({s.epoca}):</b> {s.pistas[s.pistas.length - 1]}</li>)}
-              <li><b>El ladrón:</b> el Hermano Íñigo (cada sala descarta a uno de los otros cinco).</li>
+              <li><b>El ladrón:</b> el Hermano Íñigo, el único que cumple las cinco pistas: pelo liso, sin gafas, sin canas, sin barba y coronilla rapada.</li>
               <li><b>El cofre:</b> las seis cifras de las páginas (cambian en cada partida) ordenadas de la Prehistoria al siglo XX.</li>
             </ol>
           )}
