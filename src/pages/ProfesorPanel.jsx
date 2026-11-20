@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getTeacherProfile, getTeacherClasses, createClass, hasTeacherAccess } from '../lib/classes'
@@ -33,10 +33,12 @@ export default function ProfesorPanel() {
   const [copiedCode, setCopiedCode] = useState('')
   const [waitingPayment, setWaitingPayment] = useState(false)
   const [examenPedido] = useState(() => new URLSearchParams(window.location.search).get('examen'))
-  const [tab, setTab] = useState(() => {
-    const t = new URLSearchParams(window.location.search).get('tab')
-    return PESTANAS.some(p => p.id === t) ? t : 'clases'
-  })
+  // La pestaña vive en la URL (?tab=): así la barra lateral (SideNav) puede
+  // llevar directo a «Jugar con la clase» o «Mis exámenes», también estando
+  // ya dentro del panel.
+  const [params, setParams] = useSearchParams()
+  const tab = PESTANAS.some(p => p.id === params.get('tab')) ? params.get('tab') : 'clases'
+  const setTab = id => setParams(prev => { const n = new URLSearchParams(prev); n.set('tab', id); return n }, { replace: true })
 
   useEffect(() => {
     if (user === undefined) return

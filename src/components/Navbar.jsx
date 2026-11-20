@@ -303,6 +303,16 @@ export default function Navbar() {
                 ${enAula ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
               {aula.label}
             </Link>
+            {/* Como en la barra lateral: el profe va directo a jugar con la clase o a sus exámenes */}
+            {isTeacher && [
+              { tab: 'retos', label: `📺 ${tr({ es: 'Jugar con la clase', en: 'Play with the class', ca: 'Jugar amb la classe' })}` },
+              { tab: 'examenes', label: `📝 ${tr({ es: 'Mis exámenes', en: 'My exams', ca: 'Els meus exàmens' })}` },
+            ].map(x => (
+              <Link key={x.tab} to={localPath(`/profesor?tab=${x.tab}`)} onClick={() => { setMenuOpen(false) }}
+                className="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all text-white/70 hover:text-white hover:bg-white/10">
+                {x.label}
+              </Link>
+            ))}
             <div className="border-t border-white/10 pt-2 mt-1">
               <LangSelector lang={lang} switchLang={switchLang} onPick={() => setMenuOpen(false)} />
               <FondoToggle conTexto onPick={() => setMenuOpen(false)} />

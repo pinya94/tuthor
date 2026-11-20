@@ -1,13 +1,21 @@
 // Barra lateral (escritorio, ≥1024 px) de la plataforma de juegos: lo de
 // siempre a un clic, sin explicaciones en la portada. Solo en las páginas
-// «de navegar» (portada, catálogos, estudiar, recursos, perfil…): dentro de un
-// juego o un examen el ancho es para el juego. En el móvil hace de menú la
-// hamburguesa de la Navbar.
+// «de navegar» (portada, catálogos, estudiar, recursos, perfil, paneles de
+// clase…): dentro de un juego, un examen o la pantalla de un reto que se
+// proyecta, el ancho es para eso. En el móvil hace de menú la hamburguesa de
+// la Navbar.
+//
+// El bloque «Mi clase» cambia según quién eres (cada uno ve solo lo suyo):
+//   profe            → Mis clases · Jugar con la clase · Mis exámenes
+//   alumno con cuenta → Mi clase (con aviso de tareas pendientes)
+//   sin cuenta       → Tengo un código
+//   quien no es profe → Soy profe (la página que lo explica)
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getTeacherProfile, hasTeacherAccess } from '../lib/classes'
+import { getStudentAssignments } from '../lib/assignments'
 import { CURSOS_LANDING } from '../data/landingsCurso'
 
 const CURSOS = Object.keys(CURSOS_LANDING)
@@ -16,59 +24,91 @@ const sinIdioma = p => p.replace(/^\/(en|ca)(?=\/|$)/, '') || '/'
 // ¿Lleva barra lateral esta ruta?
 export function conBarraLateral(pathname) {
   const p = sinIdioma(pathname).replace(/\/$/, '') || '/'
-  if (p === '/' || p === '/juegos' || p === '/top' || p === '/temario' || p === '/profesores' || p === '/perfil' || p === '/tienda') return true
+  if (['/', '/juegos', '/top', '/temario', '/profesores', '/perfil', '/tienda', '/profesor', '/clase'].includes(p)) return true
   const m = p.match(/^\/juegos\/([^/]+)/)
   if (m) return CURSOS.includes(m[1]) // /juegos/eso, /juegos/eso/lengua… sí; un juego, no
+  // El aula de una clase sí; el editor de exámenes y el reto proyectado, no
+  if (/^\/profesor\/clase\//.test(p)) return true
   return /^\/(estudiar|recursos|info)(\/|$)/.test(p)
 }
 export function useConBarraLateral() {
   return conBarraLateral(useLocation().pathname)
 }
 
-export default function SideNav() {
-  const { pathname } = useLocation()
-  const { user, childMode } = useAuth()
+function Enlace({ it }) {
   const { tr, localPath } = useLang()
+  return (
+    <Link to={localPath(it.to)}
+      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${it.activo ? 'bg-white/15 text-white' : 'text-white/65 hover:text-white hover:bg-white/[0.08]'}`}>
+      <span className="text-lg w-6 text-center" aria-hidden="true">{it.icono}</span>
+      <span className="flex-1">{tr(it.label)}</span>
+      {it.aviso > 0 && <span className="bg-red-500 text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1 grid place-items-center">{it.aviso}</span>}
+    </Link>
+  )
+}
+
+export default function SideNav() {
+  const { pathname, search } = useLocation()
+  const { user, childMode } = useAuth()
+  const { tr } = useLang()
   const [profe, setProfe] = useState(false)
+  const [pendientes, setPendientes] = useState(0)
   useEffect(() => {
     if (!user || childMode) return
     let vivo = true
     getTeacherProfile(user.uid).then(p => { if (vivo) setProfe(hasTeacherAccess(p)) }).catch(() => {})
     return () => { vivo = false }
   }, [user, childMode])
+  // Tareas sin hacer del alumno (como el aviso de la Navbar), una vez por sesión
+  useEffect(() => {
+    if (!user) return
+    let vivo = true
+    getStudentAssignments(user.uid)
+      .then(ts => { if (vivo) setPendientes(ts.filter(t => !t.completions?.[user.uid]?.done).length) })
+      .catch(() => {})
+    return () => { vivo = false }
+  }, [user])
   if (!conBarraLateral(pathname)) return null
   const esProfe = Boolean(user) && !childMode && profe
 
   const p = sinIdioma(pathname)
-  const items = [
+  const tab = new URLSearchParams(search).get('tab') || 'clases'
+  const enPanel = p === '/profesor' || p.startsWith('/profesor/')
+  const principal = [
     { to: '/', icono: '🎮', label: { es: 'Juegos', en: 'Games', ca: 'Jocs' }, activo: p === '/' || p.startsWith('/juegos') },
     { to: '/estudiar', icono: '📚', label: { es: 'Estudiar', en: 'Study', ca: 'Estudiar' }, activo: p.startsWith('/estudiar') || p === '/temario' },
     { to: '/top', icono: '🏆', label: { es: 'Ranking', en: 'Leaderboard', ca: 'Rànquing' }, activo: p === '/top' },
     { to: '/recursos', icono: '🧰', label: { es: 'Recursos', en: 'Resources', ca: 'Recursos' }, activo: p.startsWith('/recursos') },
-    null,
-    esProfe
-      ? { to: '/profesor', icono: '🍎', label: { es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' } }
-      : { to: '/profesores', icono: '🍎', label: { es: 'Soy profe', en: 'I’m a teacher', ca: 'Soc profe' }, activo: p === '/profesores' },
-    user
-      ? { to: '/clase', icono: '🎒', label: { es: 'Mi clase', en: 'My class', ca: 'La meva classe' } }
-      : { to: '/reto', icono: '🔑', label: { es: 'Tengo un código', en: 'I have a code', ca: 'Tinc un codi' } },
-    user && { to: '/perfil', icono: '👤', label: { es: 'Mi perfil', en: 'My profile', ca: 'El meu perfil' }, activo: p === '/perfil' },
-    user && { to: '/tienda', icono: '🛍', label: { es: 'Tienda', en: 'Shop', ca: 'Botiga' }, activo: p === '/tienda' },
   ]
+  const clase = esProfe
+    ? [
+      { to: '/profesor?tab=clases', icono: '🎓', label: { es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' }, activo: enPanel && (tab === 'clases' || p.startsWith('/profesor/clase/')) },
+      { to: '/profesor?tab=retos', icono: '📺', label: { es: 'Jugar con la clase', en: 'Play with the class', ca: 'Jugar amb la classe' }, activo: p === '/profesor' && tab === 'retos' },
+      { to: '/profesor?tab=examenes', icono: '📝', label: { es: 'Mis exámenes', en: 'My exams', ca: 'Els meus exàmens' }, activo: p === '/profesor' && tab === 'examenes' },
+    ]
+    : [
+      user
+        ? { to: '/clase', icono: '🎒', label: { es: 'Mi clase', en: 'My class', ca: 'La meva classe' }, activo: p === '/clase', aviso: pendientes }
+        : { to: '/reto', icono: '🔑', label: { es: 'Tengo un código', en: 'I have a code', ca: 'Tinc un codi' } },
+      { to: '/profesores', icono: '🍎', label: { es: 'Soy profe', en: 'I’m a teacher', ca: 'Soc profe' }, activo: p === '/profesores' },
+    ]
+  const cuenta = user ? [
+    { to: '/perfil', icono: '👤', label: { es: 'Mi perfil', en: 'My profile', ca: 'El meu perfil' }, activo: p === '/perfil' },
+    { to: '/tienda', icono: '🛍', label: { es: 'Tienda', en: 'Shop', ca: 'Botiga' }, activo: p === '/tienda' },
+  ] : []
 
+  const titulo = t => <p className="px-3 pt-1 pb-1 text-white/35 text-[11px] font-bold uppercase tracking-widest">{tr(t)}</p>
   return (
     <aside className="hidden lg:block fixed left-0 top-16 bottom-0 w-52 z-30 border-r border-white/10 bg-black/25 backdrop-blur-md overflow-y-auto">
       <nav className="p-3 flex flex-col gap-1">
-        {items.map((it, i) => it === null
-          ? <hr key={i} className="my-2 border-white/10" />
-          : it && (
-            <Link key={it.to} to={localPath(it.to)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${it.activo ? 'bg-white/15 text-white' : 'text-white/65 hover:text-white hover:bg-white/[0.08]'}`}>
-              <span className="text-lg w-6 text-center" aria-hidden="true">{it.icono}</span>{tr(it.label)}
-            </Link>
-          ))}
+        {principal.map(it => <Enlace key={it.to} it={it} />)}
+        <hr className="my-2 border-white/10" />
+        {titulo({ es: 'Mi clase', en: 'My class', ca: 'La meva classe' })}
+        {clase.map(it => <Enlace key={it.to} it={it} />)}
+        {cuenta.length > 0 && <hr className="my-2 border-white/10" />}
+        {cuenta.map(it => <Enlace key={it.to} it={it} />)}
       </nav>
-      <p className="px-6 pt-2 text-white/35 text-xs leading-relaxed">
+      <p className="px-6 pt-2 pb-4 text-white/35 text-xs leading-relaxed">
         {tr({ es: 'Aprende jugando. Gratis y sin registrarte.', en: 'Learn by playing. Free, no sign-up.', ca: 'Aprèn jugant. Gratis i sense registrar-te.' })}
       </p>
     </aside>
