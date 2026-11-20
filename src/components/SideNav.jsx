@@ -14,6 +14,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { useAvisosClase } from '../context/AvisosClaseContext'
+import { hayNovedadesSinVer } from '../data/novedades'
 import { CURSOS_LANDING } from '../data/landingsCurso'
 
 const CURSOS = Object.keys(CURSOS_LANDING)
@@ -22,7 +23,7 @@ const sinIdioma = p => p.replace(/^\/(en|ca)(?=\/|$)/, '') || '/'
 // ¿Lleva barra lateral esta ruta?
 export function conBarraLateral(pathname) {
   const p = sinIdioma(pathname).replace(/\/$/, '') || '/'
-  if (['/', '/juegos', '/top', '/temario', '/profesores', '/perfil', '/tienda', '/profesor', '/clase'].includes(p)) return true
+  if (['/', '/juegos', '/top', '/novedades', '/temario', '/profesores', '/perfil', '/tienda', '/profesor', '/clase'].includes(p)) return true
   const m = p.match(/^\/juegos\/([^/]+)/)
   if (m) return CURSOS.includes(m[1]) // /juegos/eso, /juegos/eso/lengua… sí; un juego, no
   // El aula de una clase sí; el editor de exámenes y el reto proyectado, no
@@ -40,6 +41,7 @@ function Enlace({ it }) {
       className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${it.activo ? 'bg-white/15 text-white' : 'text-white/65 hover:text-white hover:bg-white/[0.08]'}`}>
       <span className="text-lg w-6 text-center" aria-hidden="true">{it.icono}</span>
       <span className="flex-1">{tr(it.label)}</span>
+      {it.punto && <span className="w-2 h-2 rounded-full bg-amber-400" aria-label="nuevo" />}
       {it.aviso > 0 && <span title={it.avisoTitulo ? `${it.aviso} ${tr(it.avisoTitulo)}` : undefined} className="bg-red-500 text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1 grid place-items-center">{it.aviso}</span>}
     </Link>
   )
@@ -62,6 +64,7 @@ export default function SideNav() {
     { to: '/estudiar', icono: '📚', label: { es: 'Estudiar', en: 'Study', ca: 'Estudiar' }, activo: p.startsWith('/estudiar') || p === '/temario' },
     { to: '/top', icono: '🏆', label: { es: 'Ranking', en: 'Leaderboard', ca: 'Rànquing' }, activo: p === '/top' },
     { to: '/recursos', icono: '🧰', label: { es: 'Recursos', en: 'Resources', ca: 'Recursos' }, activo: p.startsWith('/recursos') },
+    { to: '/novedades', icono: '✨', label: { es: 'Novedades', en: 'What’s new', ca: 'Novetats' }, activo: p === '/novedades', punto: p !== '/novedades' && hayNovedadesSinVer() },
   ]
   const clase = esProfe
     ? [

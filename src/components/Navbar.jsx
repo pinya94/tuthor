@@ -257,6 +257,10 @@ export default function Navbar() {
                 ${location.pathname === localPath('/recursos') || location.pathname.startsWith(localPath('/recursos') + '/') ? 'bg-violet-600 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
               {tr({ es: 'Recursos', en: 'Resources', ca: 'Recursos' })}
             </Link>
+            <Link to={localPath('/novedades')} onClick={() => { setMenuOpen(false) }}
+              className="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all text-white/70 hover:text-white hover:bg-white/10">
+              ✨ {tr({ es: 'Novedades', en: 'What’s new', ca: 'Novetats' })}
+            </Link>
             <Link to={localPath('/top')} onClick={() => { setMenuOpen(false) }}
               className="block w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all text-white/70 hover:text-white hover:bg-white/10">
               🏆 {tr({ es: 'Ranking', en: 'Leaderboard', ca: 'Rànquing' })}

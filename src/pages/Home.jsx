@@ -17,6 +17,7 @@ import SEOHead from '../components/SEOHead'
 import AdSlot from '../components/AdSlot'
 import { cifrasTuthor } from '../lib/descubre'
 import { DESTACADO } from '../data/destacados'
+import { NOVEDADES } from '../data/novedades'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { getStats } from '../lib/activity'
@@ -65,6 +66,18 @@ export default function Home() {
         </h1>
 
         {user && <Saludo user={user} />}
+
+        {/* Lo último (data/novedades.js): una línea, que se vea que esto se mueve */}
+        {(() => {
+          const n = NOVEDADES.find(x => !x.juego && x.para === 'todos' && x.enPortada !== false)
+          return n && (
+            <Link to={localPath('/novedades')} className="mt-2 flex items-center gap-2 text-sm text-white/65 hover:text-white">
+              <span className="shrink-0 text-[10px] font-black uppercase tracking-widest text-black bg-amber-400 rounded-full px-2 py-0.5">{tr({ es: 'Nuevo', en: 'New', ca: 'Nou' })}</span>
+              <span className="truncate">{n.emoji} {tr(n.titulo)}</span>
+              <span className="shrink-0 text-white/40">· {tr({ es: 'ver novedades', en: 'see what’s new', ca: 'veure novetats' })} →</span>
+            </Link>
+          )
+        })()}
 
         {/* Solo el destacado: con el juego del día al lado eran dos «juega a
             esto» compitiendo (lo quitó el usuario el 20-nov) */}
