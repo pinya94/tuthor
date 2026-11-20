@@ -46,6 +46,7 @@ describe('El Códice Robado', () => {
     expect(PALABRAS.filter(p => p.arabe)).toHaveLength(6)
     expect(CARTA.frases.filter(f => f.mal).every(f => f.por)).toBe(true)
     expect(new Set(REYES.map(r => r.id)).size).toBe(6)
+    for (const r of REYES) expect(fs.existsSync(`public/escape/reyes/${r.id}.webp`), r.id).toBe(true)
     expect(SUCESOS.map(s => s.anio)).toEqual([...SUCESOS.map(s => s.anio)].sort((a, b) => a - b))
   })
 })

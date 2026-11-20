@@ -4,10 +4,9 @@
 // La corrección nunca dice QUÉ está mal, solo cuánto (es un escape room).
 import { useState } from 'react'
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps'
-import Retrato from '../quienEsQuien/Retrato'
 import { PERGAMINO, BOTON } from './Comun'
 import {
-  ETAPAS_CRIPTA, OBJETOS_CRIPTA, CIUDADES, VIAJE, PALABRA_MAPA, PALABRAS, CARTA, REYES, SUCESOS,
+  imgRey, ETAPAS_CRIPTA, OBJETOS_CRIPTA, CIUDADES, VIAJE, PALABRA_MAPA, PALABRAS, CARTA, REYES, SUCESOS,
 } from '../../data/escape/codiceRobado'
 
 const barajar = (arr, distinto = true) => {
@@ -216,13 +215,15 @@ export function Galeria({ onResuelta, onFallo }) {
         {orden.map((r, i) => (
           <button key={r.id} type="button" onClick={() => toca(i)}
             className={`flex flex-col justify-start rounded-xl p-2 border-[6px] border-[#8a6424] bg-[#2a1f16] text-left transition-all ${sel === i ? 'ring-4 ring-amber-300 scale-105' : 'hover:brightness-110'}`}>
-            <div className="aspect-[66/86] rounded overflow-hidden bg-[#3d5266]"><Retrato p={{ id: r.id }} rasgos={r.rasgos} busto className="w-full h-full" /></div>
+            <div className="aspect-[4/5] rounded overflow-hidden bg-black"><img src={imgRey(r.id)} alt={resuelta ? `${r.nombre}, por ${r.autor}` : 'Retrato de un rey'} className="w-full h-full object-cover" draggable="false" /></div>
             <p className={`mt-1.5 text-center font-black text-sm ${resuelta ? 'text-amber-300' : 'text-white/30'}`}>{resuelta ? r.nombre : `Cuadro ${i + 1}`}</p>
+            {resuelta && <p className="text-center text-white/50 text-[11px] leading-tight">{r.autor} · {r.museo}</p>}
             <p className="text-[#f6ecd2] text-xs sm:text-sm leading-snug mt-1">{r.hecho}</p>
           </button>
         ))}
       </div>
       <div className="mt-4 text-center"><button type="button" className={BOTON} disabled={resuelta} onClick={comprobar}>🖼️ Comprobar el orden</button></div>
+      <p className="mt-2 text-center text-white/30 text-xs">Retratos de época, de dominio público (Wikimedia Commons).</p>
     </div>
   )
 }

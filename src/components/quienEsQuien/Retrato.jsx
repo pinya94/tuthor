@@ -287,8 +287,8 @@ function Ropa({ ropa, c, mujer }) {
   }
 }
 
-export default function Retrato({ p, rasgos = null, busto = false, className = '' }) {
-  const r = rasgos ?? RASGOS[p.id] ?? {}
+export default function Retrato({ p, className = '' }) {
+  const r = RASGOS[p.id] ?? {}
   const mujer = p.atributos?.genero === 'mujer'
   const piel = PIEL[r.piel ?? 0]
   const pelo = r.pelo ?? (mujer ? 'melena' : 'corto')
@@ -297,7 +297,7 @@ export default function Retrato({ p, rasgos = null, busto = false, className = '
   // El casco y los tocados tapan también los lados: debajo no asoma el pelo
   const tapaPelo = ['casco', 'tocado', 'toca', 'toca_fr'].includes(r.som)
   return (
-    <svg viewBox={busto ? '17 8 66 86' : '17 8 66 70'} preserveAspectRatio="xMidYMin slice" className={className} style={{ '--piel': piel }} aria-hidden="true">
+    <svg viewBox="17 8 66 70" preserveAspectRatio="xMidYMin slice" className={className} style={{ '--piel': piel }} aria-hidden="true">
       <Ropa ropa={r.ropa ?? (mujer ? 'vestido' : 'camisa')} c={r.cropa} mujer={mujer} />
       {r.som !== 'toca' && <PeloDetras pelo={pelo} c={cPelo} />}
       {r.som === 'toca' && <Sombrero som="toca" />}

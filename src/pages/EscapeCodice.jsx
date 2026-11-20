@@ -145,7 +145,7 @@ export default function EscapeCodice() {
           <button type="button" onClick={() => setSolucionario(v => !v)} className="mt-6 text-sm font-bold underline opacity-70">{solucionario ? 'Ocultar' : 'Ver'} el solucionario (para el profe)</button>
           {solucionario && (
             <ol className="mt-3 space-y-2 text-sm sm:text-base list-decimal pl-5">
-              {SALAS.map(s => <li key={s.id}><b>{s.nombre} ({s.epoca}):</b> {s.pistas[s.pistas.length - 1]}</li>)}
+              {SALAS.map(s => <li key={s.id}><b>{s.nombre} ({s.epoca}):</b> {s.solucion ?? s.pistas[s.pistas.length - 1]}</li>)}
               <li><b>El ladrón:</b> el Hermano Íñigo, el único que cumple las cinco pistas: pelo liso, sin gafas, sin canas, sin barba y coronilla rapada.</li>
               <li><b>El cofre:</b> las seis cifras de las páginas (cambian en cada partida) ordenadas de la Prehistoria al siglo XX.</li>
             </ol>

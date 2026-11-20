@@ -129,14 +129,15 @@ export const SALAS = [
   },
   {
     id: 'galeria', epoca: 'Austrias y Borbones', nombre: 'La galería de retratos', emoji: '🖼️', orden: 5,
+    solucion: 'Carlos I, Felipe II, Felipe III, Felipe IV, Carlos II y Felipe V.', // para el solucionario (en pantalla no hay nombres)
     antes: [
       ['explica', 'En el claustro tenemos los retratos de los reyes, de los Austrias al primer Borbón. El ladrón los ha cambiado de sitio y les ha quitado los nombres.'],
       ['senala', 'Ordenadlos del más antiguo al más moderno, de izquierda a derecha. Tocad dos cuadros para cambiarlos de sitio.'],
     ],
     pistas: [
-      'El primero heredó un imperio enorme; el último de los Austrias murió sin hijos, y después llegó el primer Borbón.',
-      'La Armada Invencible es de 1588, la expulsión de los moriscos de 1609 y Las Meninas de 1656.',
-      'El orden: Carlos I, Felipe II, Felipe III, Felipe IV, Carlos II y Felipe V.',
+      'El primero de la fila heredó un imperio enorme en Europa y América. El último es el primer rey de una familia nueva, que llegó después de una guerra.',
+      'Fechas: la Armada Invencible es de 1588, la expulsión de los moriscos de 1609 y Portugal se separó en 1640. El que murió sin hijos va justo antes del primer Borbón.',
+      'De izquierda a derecha: «no se ponía el sol» → la Armada Invencible → la expulsión de los moriscos → Velázquez y Portugal → murió sin hijos → el primer Borbón.',
     ],
     despues: [
       ['feliz', '¡Los reyes están en su sitio! Detrás del último cuadro había una página… y una nota del hermano sacristán.'],
@@ -235,20 +236,23 @@ export const CARTA = {
   firma: 'Isabel, reina de Castilla',
 }
 
+// Retratos reales, de dominio público (Wikimedia Commons), recortados a 4:5 en
+// public/escape/reyes/<id>.webp. El nombre y el cuadro solo se enseñan al resolver.
 export const REYES = [
   { id: 'carlos1', nombre: 'Carlos I', hecho: 'Rey de España y emperador del Sacro Imperio: en sus dominios «no se ponía el sol».',
-    rasgos: { pelo: 'corto', cpelo: 'castano', barba: 'corta', ropa: 'armadura', cropa: '#B91C1C' } },
+    cuadro: 'Carlos V en Mühlberg', autor: 'Tiziano', museo: 'Museo del Prado' },
   { id: 'felipe2', nombre: 'Felipe II', hecho: 'Llevó la corte a Madrid y perdió la Armada Invencible contra Inglaterra.',
-    rasgos: { pelo: 'corto', cpelo: 'rubio', barba: 'puntiaguda', som: 'gorro', ropa: 'gorguera', cropa: '#111827' } },
+    cuadro: 'Felipe II', autor: 'Sofonisba Anguissola', museo: 'Museo del Prado' },
   { id: 'felipe3', nombre: 'Felipe III', hecho: 'Ordenó la expulsión de los moriscos de sus reinos (1609).',
-    rasgos: { pelo: 'raya', cpelo: 'rubio', bigote: 'fino', barba: 'perilla', ropa: 'gorguera', cropa: '#1E3A8A' } },
+    cuadro: 'Felipe III de príncipe', autor: 'Juan Pantoja de la Cruz', museo: 'Kunsthistorisches Museum, Viena' },
   { id: 'felipe4', nombre: 'Felipe IV', hecho: 'Su pintor, Velázquez, pintó Las Meninas, y en su reinado Portugal se separó (1640).',
-    rasgos: { pelo: 'largo_h', cpelo: 'rubio', bigote: 'poblado', ropa: 'traje', cropa: '#111827' } },
+    cuadro: 'Felipe IV de castaño y plata', autor: 'Velázquez', museo: 'National Gallery, Londres' },
   { id: 'carlos2', nombre: 'Carlos II', hecho: 'El último de los Austrias: murió sin hijos y su muerte desató una guerra.',
-    rasgos: { pelo: 'melena', cpelo: 'rubio', ropa: 'traje', cropa: '#3F3F46' } },
+    cuadro: 'Carlos II', autor: 'Juan Carreño de Miranda', museo: 'Museo del Prado' },
   { id: 'felipe5', nombre: 'Felipe V', hecho: 'El primer Borbón: ganó la Guerra de Sucesión.',
-    rasgos: { pelo: 'peluca_larga', cpelo: 'blanco', ropa: 'casaca', cropa: '#1E3A8A' } },
+    cuadro: 'Felipe V', autor: 'Jean Ranc', museo: 'Museo del Prado' },
 ]
+export const imgRey = id => `/escape/reyes/${id}.webp`
 
 export const SUCESOS = [
   { anio: 1808, t: 'Empieza la Guerra de la Independencia contra Napoleón' },
