@@ -18,6 +18,7 @@ import { MAS_JUGADOS } from '../../data/destacados'
 import { GAMES } from '../../data/constants'
 import { ARTE_JUEGOS, ArteJuego } from '../arte'
 import { trackEvent } from '../../lib/analytics'
+import ChipsPlegables from '../ChipsPlegables'
 
 const NIVELES = [
   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' } },
@@ -153,9 +154,10 @@ export default function JugarConClase({ uid, classId: claseFija, nombreClase: no
       <input value={busca} onChange={e => setBusca(e.target.value)}
         placeholder={tr({ es: '🔍 Busca un juego o un tema', en: '🔍 Search a game or topic', ca: '🔍 Busca un joc o un tema' })}
         className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-white/35 outline-none focus:border-teal-500" />
-      <div className="flex gap-1.5 overflow-x-auto py-2">
-        <button type="button" onClick={() => setMateria('')} className={`shrink-0 ${chip(!materia)}`}>🔥 {tr({ es: 'Todos', en: 'All', ca: 'Tots' })}</button>
-        {materias.map(m => <button key={m.id} type="button" onClick={() => setMateria(m.id)} className={`shrink-0 ${chip(materia === m.id)}`}>{m.emoji} {tr(m.label)}</button>)}
+      <div className="py-2">
+        <ChipsPlegables activo={materia || 'todos'} claseChip={chip}
+          items={[{ id: 'todos', label: `🔥 ${tr({ es: 'Todos', en: 'All', ca: 'Tots' })}` }, ...materias.map(m => ({ id: m.id, label: `${m.emoji} ${tr(m.label)}` }))]}
+          onElige={id => setMateria(id === 'todos' ? '' : id)} />
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mt-1">
         {listaJuegos.map(x => (

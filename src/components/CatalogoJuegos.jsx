@@ -11,6 +11,7 @@ import { MAS_JUGADOS } from '../data/destacados'
 import { useLang } from '../context/LangContext'
 import { trackEvent } from '../lib/analytics'
 import { ESTADO_JUGAR } from '../lib/arranqueDirecto'
+import ChipsPlegables from './ChipsPlegables'
 
 // Materia de cada juego del catálogo, por su ruta (el registro manda)
 const MATERIA_POR_RUTA = {}
@@ -35,17 +36,10 @@ export default function CatalogoJuegos({ excluir = null, className = '' }) {
 
   return (
     <section className={className}>
-      <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap" role="tablist">
-        <button type="button" className={chip(materia === 'todas')} onClick={() => setMateria('todas')}>
-          🔥 {tr({ es: 'Los más jugados', en: 'Most played', ca: 'Els més jugats' })}
-        </button>
-        {conJuegos.map(s => (
-          <button key={s.id} type="button" className={chip(materia === s.id)}
-            onClick={() => { setMateria(s.id); trackEvent('catalogo_materia', { item_id: s.id }) }}>
-            {s.emoji} {s.label[lang] ?? s.label.es}
-          </button>
-        ))}
-      </div>
+      <ChipsPlegables activo={materia} claseChip={chip}
+        items={[{ id: 'todas', label: `🔥 ${tr({ es: 'Los más jugados', en: 'Most played', ca: 'Els més jugats' })}` },
+          ...conJuegos.map(s => ({ id: s.id, label: `${s.emoji} ${s.label[lang] ?? s.label.es}` }))]}
+        onElige={id => { setMateria(id); if (id !== 'todas') trackEvent('catalogo_materia', { item_id: id }) }} />
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mt-3">
         {visibles.map(g => (
           <Thumbnail key={g.path} title={lt(g)} subtitle={lt(g, 'subtitle')} emoji={g.emoji} gradient={g.gradient}

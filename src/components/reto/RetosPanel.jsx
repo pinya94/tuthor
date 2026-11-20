@@ -252,11 +252,13 @@ export default function RetosPanel({ uid, classId, nombreClase, examenInicial })
       <JugarConClase uid={uid} classId={classId} nombreClase={nombreClase} examenInicial={examenInicial} />
     </section>
     <section className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4 mb-4">
-      <h2 className="text-white font-black mb-3">{classId ? tr({ es: 'Retos de esta clase', en: 'This class’s challenges', ca: 'Reptes d’aquesta classe' }) : tr({ es: 'Tus retos', en: 'Your challenges', ca: 'Els teus reptes' })}</h2>
+      <h2 className="text-white font-black mb-1">{classId ? tr({ es: 'Retos de esta clase', en: 'This class’s challenges', ca: 'Reptes d’aquesta classe' }) : tr({ es: 'Tus retos', en: 'Your challenges', ca: 'Els teus reptes' })}</h2>
+      <p className="text-white/45 text-xs mb-3">{tr({ es: 'Los que ya has lanzado. «📺 Pizarra» vuelve a abrir uno en directo; «Resultados» enseña quién jugó, sus puntos y la nota para pasarla.', en: 'The ones you have already started. «📺 Board» reopens a live one; «Results» shows who played, their points and the mark to copy.', ca: 'Els que ja has llançat. «📺 Pissarra» torna a obrir-ne un en directe; «Resultats» mostra qui hi va jugar, els punts i la nota per passar-la.' })}</p>
       <ListaRetos uid={uid} classId={classId} />
     </section>
     <details className="mb-4 rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
-      <summary className="cursor-pointer text-white/70 font-bold">⚙️ {tr({ es: 'Más opciones: ranking libre de la semana, nota para los alumnos, nombre…', en: 'More options: weekly open ranking, note for students, name…', ca: 'Més opcions: rànquing lliure de la setmana, nota per als alumnes, nom…' })}</summary>
+      <summary className="cursor-pointer text-white/70 font-bold">⚙️ {tr({ es: 'Más opciones', en: 'More options', ca: 'Més opcions' })}</summary>
+      <p className="text-white/45 text-xs mt-2">{tr({ es: 'Para lo que no es una partida corriente: un ranking libre que dura toda la semana (sus récords en cualquier juego suben solos), una nota para los alumnos o ponerle nombre al reto.', en: 'For anything beyond a normal game: an open ranking that lasts all week (their best scores in any game go up on their own), a note for students or a name for the challenge.', ca: 'Per al que no és una partida normal: un rànquing lliure que dura tota la setmana (els rècords a qualsevol joc pugen sols), una nota per als alumnes o posar nom al repte.' })}</p>
       <div className="mt-4"><CrearReto uid={uid} classId={classId} nombreClase={nombreClase} /></div>
     </details>
     <details className="mb-8 rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
