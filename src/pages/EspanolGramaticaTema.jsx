@@ -1,5 +1,6 @@
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import BotonPractica from '../components/BotonPractica'
 import PageMeta from '../components/PageMeta'
 import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
 import PracticaFrase from '../components/PracticaFrase'
@@ -207,14 +208,14 @@ export default function EspanolGramaticaTema() {
             {/* Con contenido propio, el H1 dice lo que se busca («Los pronombres:
                 qué son, tipos y ejemplos»), no solo el nombre del tema */}
             <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{cMeta ? cMeta.title.replace(/\s*\((con tabla|with table|amb taula)\)$/, '') : l(data.titulo)}</h1>
-            <p className="text-white/40 text-sm mt-0.5">{ca ? 'Tria com vols estudiar-ho' : en ? 'Choose how to study it' : 'Elige cómo estudiarlo'}</p>
           </div>
         </div>
+        <BotonPractica ejercicio={!!juego} />
       </div>
 
       <ContenidoTema tema={tema} lang={lang} practica={juego && <PracticaFrase tema={tema} filter={juego.state.filter} label={juego.state.label} />} />
 
-      <div className="max-w-2xl mx-auto w-full space-y-4">
+      <div id="formas" className="max-w-2xl mx-auto w-full space-y-4 scroll-mt-20">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">
           {ca ? 'Formes d\'estudiar' : en ? 'Ways to study' : 'Formas de estudiar'}
         </p>

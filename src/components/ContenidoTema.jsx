@@ -57,7 +57,7 @@ export default function ContenidoTema({ tema, lang = 'es', className = '', pract
           </li>
         ))}
       </ul>
-      {practica}
+      {practica && <div id="practica" className="scroll-mt-20">{practica}</div>}
       {c.secciones?.map((sec, i) => (
         <section key={i}>
           <h2 className="text-white font-black text-lg sm:text-xl mt-7 mb-3">{pick(sec.titulo)}</h2>

@@ -29,6 +29,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { idiomasDe } from '../src/lib/idiomasPagina.js'
 import { imagenOg } from '../src/lib/imagenOg.js'
+import { tituloSeo } from '../src/lib/tituloSeo.js'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -337,7 +338,7 @@ function shellWithMeta(urlPath) {
   const canonical = abs(urlPath.replace(/\/$/, '') || '/')
   const esUrl = abs(neutral)
   const urlDe = l => (l === 'es' ? esUrl : abs(neutral === '/' ? `/${l}` : `/${l}${neutral}`))
-  const title = `Tuthor · ${meta.title}`
+  const title = tituloSeo(meta.title)
 
   const tags = [
     `<meta name="description" content="${esc(meta.desc)}">`,

@@ -1,5 +1,6 @@
 import { Navigate, useParams, Link } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
+import BotonPractica from '../components/BotonPractica'
 import PageMeta from '../components/PageMeta'
 import ContenidoTema, { contenidoMeta } from '../components/ContenidoTema'
 import PracticaFrase from '../components/PracticaFrase'
@@ -66,11 +67,12 @@ export default function InglesGrammarTema() {
           <span className="text-5xl">{tema.emoji}</span>
           <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{meta?.title ?? tema.titulo}</h1>
         </div>
+        <BotonPractica ejercicio={!!juego} />
       </div>
 
       <ContenidoTema tema={slug} lang={lang} practica={juego && <PracticaFrase tema={slug} filter={juego.state.filter} label={juego.state.label} idioma={juego.state.idioma} />} />
 
-      <div className="max-w-2xl mx-auto w-full space-y-4">
+      <div id="formas" className="max-w-2xl mx-auto w-full space-y-4 scroll-mt-20">
         <p className="text-white/30 text-xs uppercase tracking-widest font-semibold">{tr({ es: 'Practica', en: 'Practise', ca: 'Practica' })}</p>
         {tema.modos.map(m => (
           <Link key={m.key} to={localPath(m.to)} state={{ backPath: `${base}/${slug}`, ...m.state }}
