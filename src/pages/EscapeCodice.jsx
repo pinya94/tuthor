@@ -10,6 +10,10 @@ import { Link } from 'react-router-dom'
 import SEOHead from '../components/SEOHead'
 import { useLang } from '../context/LangContext'
 import { trackEvent } from '../lib/analytics'
+import { useAuth } from '../context/AuthContext'
+import { saveActivity } from '../lib/activity'
+import { computeCoins } from '../lib/games'
+import GameEndScreen from '../components/GameEndScreen'
 import { Dialogo, Barra, Cuaderno, Sospechosos, Pistas, Aviso, PERGAMINO, BOTON, BOTON_SEC, mmss, caraUrl } from '../components/escape/Comun'
 import { SALA_COMPONENTE } from '../components/escape/SalasCodice'
 import {
@@ -33,6 +37,7 @@ function nuevaPartida() {
 
 export default function EscapeCodice() {
   const { localPath } = useLang()
+  const { user } = useAuth()
   const [e, setE] = useState(null)          // la partida (null = portada)
   const [guardada, setGuardada] = useState(leer)
   const [ahora, setAhora] = useState(() => Date.now())
@@ -93,8 +98,18 @@ export default function EscapeCodice() {
   const codigo = useMemo(() => (e ? [...SALAS].sort((a, b) => a.orden - b.orden).map(s => e.cifras[s.id]).join('') : ''), [e])
   const abreCofre = intento => {
     if (intento === codigo) {
-      setE(p => ({ ...p, fin: Date.now(), fase: 'final', cola: { lineas: FINAL, luego: 'resumen' } }))
+      // Puntos: 600 por recuperarlo + los segundos que sobran del reloj
+      const fin = Date.now()
+      const segundos = Math.floor((fin - e.inicio) / 1000)
+      const puntos = 600 + (e.sinReloj ? 0 : Math.max(0, MINUTOS * 60 - segundos - e.penal))
+      setE(p => ({ ...p, fin, puntos, fase: 'final', cola: { lineas: FINAL, luego: 'resumen' } }))
       trackEvent('escape_fin', { item_id: 'codice-robado' })
+      if (user) {
+        saveActivity(user.uid, {
+          type: 'juego', game: 'codice-robado', category: 'historia-espana', score: puntos, timeSpent: segundos,
+          coinsEarned: computeCoins('codice-robado', { score: puntos }), userName: user.displayName, userPhoto: user.photoURL,
+        }).catch(() => {})
+      }
     } else setE(p => ({ ...p, fallos: p.fallos + 1, penal: p.penal + (p.sinReloj ? 0 : PENALIZACION), cola: { lineas: [COFRE_MAL], luego: null } }))
   }
   const reiniciar = () => { guardar(null); setGuardada(null); setE(null) }
@@ -104,7 +119,7 @@ export default function EscapeCodice() {
   const paginas = e ? e.resueltas.map(id => ({ id, cifra: e.cifras[id], epoca: SALAS.find(s => s.id === id).epoca })) : []
   const pistasLadron = e ? e.resueltas.map(id => PISTAS_LADRON[id].texto) : []
   const meta = (
-    <SEOHead noindex path="/escape/codice-robado"
+    <SEOHead path="/juegos/codice-robado"
       title="Escape room de Historia de España: El Códice Robado"
       description="Escape room de Historia de España para jugar con la clase en el proyector: seis salas, de la Prehistoria a la Transición, y un ladrón que descubrir." />
   )
@@ -207,7 +222,18 @@ export default function EscapeCodice() {
 
         {e.fase === 'cofre' && <Cofre paginas={paginas} onAbre={abreCofre} />}
 
-        {(e.fase === 'final' || e.fase === 'resumen') && (
+        {e.fase === 'resumen' && (
+          <GameEndScreen game="codice-robado" emoji="📖" title="¡Códice recuperado!" score={e.puntos ?? 600}
+            message="El ladrón era el Hermano Íñigo. ¡La historia de España vuelve a tener color!"
+            stats={[
+              { label: 'tiempo', value: mmss(Math.floor((e.fin - e.inicio) / 1000)), emoji: '⏱️' },
+              { label: 'pistas', value: Object.values(e.pistas).reduce((a, b) => a + b, 0), emoji: '💡' },
+              { label: 'fallos', value: e.fallos, emoji: '❌' },
+            ]}
+            shareText="¡Hemos recuperado El Códice Robado! Escape room de Historia de España en Tuthor."
+            user={user} lang="es" onPlayAgain={reiniciar} playAgainLabel="Jugar otra vez" />
+        )}
+        {e.fase === 'final' && (
           <div className={`${PERGAMINO} max-w-2xl mx-auto rounded-3xl p-6 sm:p-10 mt-4 text-center shadow-2xl`}>
             <p className="text-6xl mb-2">📖</p>
             <h2 className="text-3xl sm:text-5xl font-black font-serif mb-3">¡Códice recuperado!</h2>

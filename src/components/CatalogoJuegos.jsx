@@ -24,11 +24,12 @@ const MATERIA_POR_RUTA = {}
 for (const g of Object.values(REGISTRO)) if (g.route && !MATERIA_POR_RUTA[g.route]) MATERIA_POR_RUTA[g.route] = g.subject
 
 export function juegosDelCatalogo(lang) {
-  const rango = slug => { const i = MAS_JUGADOS.indexOf(slug); return i < 0 ? 999 : i }
+  // Los escape rooms van delante (son pocos y nuevos); luego, los más jugados
+  const rango = g => { if (g.escape) return -1; const i = MAS_JUGADOS.indexOf(g.slug); return i < 0 ? 999 : i }
   return CATALOGO
     .filter(g => g.ready && g.path && disponibleEn(slugDeRuta(g.path), lang))
     .map(g => ({ ...g, slug: slugDeRuta(g.path), materia: MATERIA_POR_RUTA[g.path] ?? 'otros' }))
-    .sort((a, b) => rango(a.slug) - rango(b.slug))
+    .sort((a, b) => rango(a) - rango(b))
 }
 
 export default function CatalogoJuegos({ excluir = null, className = '' }) {
@@ -74,7 +75,8 @@ export default function CatalogoJuegos({ excluir = null, className = '' }) {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mt-3">
         {visibles.map(g => (
           <Thumbnail key={g.path} title={lt(g)} subtitle={lt(g, 'subtitle')} emoji={g.emoji} gradient={g.gradient}
-            slug={g.slug} to={localPath(g.path)} state={ESTADO_JUGAR} />
+            slug={g.slug} to={localPath(g.path)} state={g.escape ? undefined : ESTADO_JUGAR}
+            etiqueta={g.escape ? `🔐 ${tr({ es: 'Escape room', en: 'Escape room', ca: 'Escape room' })}` : null} />
         ))}
       </div>
     </section>

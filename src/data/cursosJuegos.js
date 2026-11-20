@@ -29,6 +29,7 @@ export const ETAPAS_JUEGO = {
   'circuito-cerrado': 'pe',
   'clave-dicotomica': 'pe',
   'climograma': 'peb',
+  'codice-robado': 'eb',
   'coma-a-coma': 'pe',
   'compas-completo': 'pe',
   'construye-atomo': 'eb',

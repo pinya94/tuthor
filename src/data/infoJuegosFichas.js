@@ -2344,6 +2344,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Lengua', niveles: 'Primaria y ESO',
   },
+  'codice-robado': {
+    titulo: 'El Códice Robado',
+    subtitulo: 'Escape room de Historia de España para jugar en clase',
+    emoji: '📖', gradient: 'from-amber-700 to-stone-800',
+    path: '/juegos/codice-robado',
+    intro: 'Un escape room de Historia de España pensado para jugar con toda la clase en el proyector, en unos 45 minutos. Alguien ha robado las seis páginas de la Gran Crónica de Hispania y Fray Anselmo, el archivero del monasterio, pide ayuda a la clase para recuperarlas. Cada página está escondida en una sala y cada sala es una prueba distinta que solo se abre sabiendo historia: colocar objetos en su etapa de la Prehistoria, seguir un viaje por la Hispania romana con los nombres latinos de las ciudades, reconocer las palabras que el castellano tomó del árabe, cazar los anacronismos de una carta falsa de Isabel la Católica, ordenar a los reyes de los Austrias al primer Borbón y poner en su año los acontecimientos de los siglos XIX y XX. Cada página da una cifra del cofre final y una pista sobre el ladrón, que hay que descubrir entre seis sospechosos.',
+    beneficios: [
+      { titulo: 'Sin preparar nada', texto: 'No hay que imprimir, recortar ni esconder sobres: se abre en el ordenador de clase, se proyecta y empieza. El juego corrige solo, lleva el reloj, guarda la partida si se recarga la página y tiene un solucionario para el profe en la portada.' },
+      { titulo: 'La llave es saber historia', texto: 'Ninguna prueba es una pregunta de cuatro opciones con decorado: cada sala tiene su mecánica (clasificar, trazar un viaje en el mapa, marcar frases imposibles, ordenar retratos, completar una línea del tiempo) y solo se abre con lo que se estudia en la ESO. Al resolver la carta falsa se explica por qué cada frase era imposible en 1492.' },
+      { titulo: 'Toda la clase a la vez', texto: 'Uno maneja el ordenador y el resto piensa en voz alta. El misterio del ladrón se resuelve por descarte en el Cuaderno, y como cada sala descarta a un sospechoso, las salas se pueden jugar en el orden que la clase quiera. Si se atascan, cada sala tiene tres pistas y la última da la solución.' },
+    ],
+    ejemplo: 'En el scriptorium aparece una carta «de la reina Isabel» fechada en Granada el 2 de enero de 1492. Dice que Boabdil acaba de entregar las llaves de la ciudad, que Colón pide barcos para llegar a las Indias… y que para celebrarlo han cenado tortilla de patatas. Esa frase es imposible: la patata vino de América, que aún no se conocía. La clase tiene que encontrar las cuatro frases imposibles sin marcar ninguna de las que sí podían pasar, como la gramática de Nebrija o la imprenta, que ya existía.',
+    enPapel: {
+      titulo: 'Tu propia carta con anacronismos',
+      pasos: [
+        'Elige un personaje y un año de la historia de España: Felipe II en 1588, por ejemplo.',
+        'Escribe una carta suya de diez frases. Mete tres cosas que en ese año aún no existían o no habían pasado.',
+        'Pásasela a un compañero: tiene que encontrar las tres y explicar por qué son imposibles.',
+        'Comprobad juntos las fechas en el libro de texto.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Línea del Tiempo', desc: 'Ordena acontecimientos de la historia de España antes o después de otros.' },
+      { nombre: 'Portadas', desc: 'Titulares de periódico de cada época: ¿verdad o mentira histórica?' },
+      { nombre: '¿Quién es Quién?', desc: 'Descubre al personaje histórico haciendo preguntas, como en el juego de mesa.' },
+    ],
+    asignatura: 'Historia', niveles: 'ESO y Bachillerato',
+  },
   'coma-a-coma': {
     titulo: 'Coma a Coma',
     subtitulo: 'Juego de puntuación: coma, punto y coma, dos puntos y signos de interrogación',

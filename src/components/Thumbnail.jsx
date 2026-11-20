@@ -7,7 +7,8 @@ import { ARTE_JUEGOS, ArteJuego } from './arte'
 // Con `to` es un enlace de verdad: el catálogo es de las páginas con más
 // autoridad y, siendo botones, el buscador no llegaba desde ahí a ningún juego.
 // `state`: el de la navegación (la cuadrícula de juegos manda { jugar: true }).
-export default function Thumbnail({ title, subtitle, emoji, gradient, slug, onClick, to, state, comingSoon = false }) {
+// `etiqueta`: un sello arriba a la izquierda (p. ej. «🔐 Escape room»).
+export default function Thumbnail({ title, subtitle, emoji, gradient, slug, onClick, to, state, etiqueta = null, comingSoon = false }) {
   const conArte = Boolean(slug && ARTE_JUEGOS[slug])
   const Contenedor = to ? Link : 'button'
   return (
@@ -19,6 +20,9 @@ export default function Thumbnail({ title, subtitle, emoji, gradient, slug, onCl
         {conArte
           ? <ArteJuego slug={slug} className="absolute inset-0 w-full h-full p-1.5 transition-transform duration-500 ease-out group-hover:scale-[1.05]" />
           : <span className="text-5xl drop-shadow-lg transform group-hover:scale-110 transition-transform duration-300">{emoji}</span>}
+        {etiqueta && (
+          <span className="absolute top-1.5 left-1.5 z-10 rounded-md bg-amber-400 text-slate-900 text-[10px] sm:text-[11px] font-black uppercase tracking-wide px-1.5 py-0.5 shadow">{etiqueta}</span>
+        )}
         {comingSoon && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
             <span className="bg-black/60 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">

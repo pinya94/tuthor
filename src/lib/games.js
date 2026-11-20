@@ -868,6 +868,16 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'codice-robado': {
+    label: { es: 'El Códice Robado', en: 'El Códice Robado', ca: 'El Códice Robado' },
+    emoji: '📖',
+    subject: 'historia',
+    route: '/juegos/codice-robado',
+    idiomas: ['es'], // escape room de Historia de España con guion en castellano
+    escape: true,    // es un escape room: etiqueta propia en el catálogo
+    // 600 por resolverlo + los segundos que sobran del reloj → hasta 150 monedas
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 22), 150),
+  },
   'coma-a-coma': {
     label: { es: 'Coma a Coma', en: 'Coma a Coma', ca: 'Coma a Coma' },
     emoji: '🖋️',

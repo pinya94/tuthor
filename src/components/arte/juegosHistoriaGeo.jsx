@@ -85,6 +85,28 @@ function QuienEsQuien(p) {
   )
 }
 
+// Escape room: el códice abierto con una página arrancada, la llave y el cofre con candado
+function CodiceRobado(p) {
+  return (
+    <Lienzo {...p}>
+      <path d="M58 30Q88 22 118 32L118 112Q88 102 58 110Z" fill="#F1E2BD" />
+      <path d="M182 30Q152 22 122 32L122 112Q152 102 182 110Z" fill="#E6D3A3" />
+      <path d="M118 32L122 32L122 112L118 112Z" fill="#8A6424" />
+      <path d="M54 34L58 30L58 110L54 114Q88 106 120 116Q152 106 186 114L182 110L182 30L186 34L186 118Q152 110 120 120Q88 110 54 118Z" fill="#7C4A23" />
+      {[44, 54, 64, 74, 84].map(y => <path key={y} d={`M68 ${y - 2}Q88 ${y - 6} 108 ${y}`} stroke="#B9A57A" strokeWidth="3" strokeLinecap="round" />)}
+      <path d="M134 40L142 48L132 58L144 68L134 80L146 92L136 104" stroke="#B45309" strokeWidth="2.5" strokeDasharray="3 4" strokeLinecap="round" />
+      <text x="158" y="80" fontSize="34" fontWeight="900" fill="#B45309" fillOpacity=".55" textAnchor="middle" fontFamily="serif">?</text>
+      <circle cx="30" cy="96" r="9" stroke="#F59E0B" strokeWidth="5" />
+      <path d="M38 92L54 84M48 87L51 93M52 85L55 91" stroke="#F59E0B" strokeWidth="5" strokeLinecap="round" />
+      <rect x="194" y="84" width="36" height="28" rx="4" fill="#7C4A23" />
+      <rect x="194" y="80" width="36" height="10" rx="4" fill="#92582C" />
+      <path d="M205 80V72A7 7 0 0 1 219 72V80" stroke="#9CA3AF" strokeWidth="4" />
+      <rect x="203" y="86" width="18" height="14" rx="3" fill="#FACC15" />
+      <circle cx="212" cy="93" r="2.6" fill="#78350F" />
+    </Lienzo>
+  )
+}
+
 function Portadas(p) {
   return (
     <Lienzo {...p}>
@@ -469,6 +491,7 @@ function MasLejos(p) {
 
 export const ARTE_HISTORIA_GEO = {
   'tuthor-time': TuthorTime,
+  'codice-robado': CodiceRobado,
   'linea-temporal': LineaTemporal,
   'por-que-paso': PorQuePaso,
   'quien-es-quien': QuienEsQuien,

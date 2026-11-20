@@ -464,7 +464,8 @@ function AppRoutes() {
       <Route path="juegos/piramide-poblacion" element={<PiramidePoblacion />} />
       <Route path="juegos/europa-27" element={<Europa27 />} />
       <Route path="juegos/rios-montanas" element={<RiosMontanas />} />
-      <Route path="escape/codice-robado" element={<EscapeCodice />} />
+      <Route path="juegos/codice-robado" element={<EscapeCodice />} />
+      <Route path="escape/codice-robado" element={<Navigate to="/juegos/codice-robado" replace />} />
       <Route path="juegos/quien-decide" element={<QuienDecide />} />
       <Route path="juegos/quien-lo-penso" element={<QuienLoPenso />} />
       <Route path="juegos/tabla-verdad" element={<TablaVerdad />} />
