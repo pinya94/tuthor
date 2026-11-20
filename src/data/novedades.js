@@ -10,11 +10,17 @@
 // Solo lo que nota quien usa Tuthor (nada de SEO, admin ni cambios internos).
 // El test novedades.test.js comprueba fechas, idiomas y que los juegos existen.
 export const NOVEDADES = [
+  { fecha: '2026-11-20', para: 'profes', emoji: '📺', enlace: '/profesor?tab=retos',
+    titulo: { es: 'Jugar con la clase en dos toques', en: 'Play with your class in two taps', ca: 'Jugar amb la classe en dos tocs' },
+    texto: { es: 'Eliges el juego y pulsas «Empezar en directo»: se abre la pizarra con el código. Clase, nivel y tiempo ya vienen puestos.', en: 'Pick the game and press «Start live»: the board opens with the code. Class, level and timing are already set.', ca: 'Tries el joc i prems «Començar en directe»: s’obre la pissarra amb el codi. Classe, nivell i temps ja vénen posats.' } },
+  { fecha: '2026-11-20', para: 'todos', emoji: '🔗',
+    titulo: { es: 'Enlaces más bonitos al compartir', en: 'Nicer links when you share', ca: 'Enllaços més bonics en compartir' },
+    texto: { es: 'Al pasar un juego por WhatsApp o redes sale su dibujo en grande con el logo de Tuthor.', en: 'Share a game on WhatsApp or social media and its picture shows up big with the Tuthor logo.', ca: 'En passar un joc per WhatsApp o xarxes surt el seu dibuix en gran amb el logo de Tuthor.' } },
   { fecha: '2026-11-20', para: 'todos', emoji: '🔴', enlace: '/clase', enPortada: false,
     titulo: { es: 'Avisos de tu clase al momento', en: 'Class alerts in real time', ca: 'Avisos de la teva classe al moment' },
     texto: { es: 'Si tu profe abre un reto en directo, te sale un aviso en cualquier página para entrar. Y las tareas nuevas aparecen sin recargar.', en: 'If your teacher starts a live challenge, you get an alert on any page to join. New tasks show up without reloading.', ca: 'Si el teu profe obre un repte en directe, et surt un avís a qualsevol pàgina per entrar-hi. I les tasques noves apareixen sense recarregar.' } },
-  { fecha: '2026-11-20', para: 'profes', emoji: '📺', enlace: '/profesor?tab=retos',
-    titulo: { es: '«Jugar con la clase» a un clic', en: '«Play with the class» in one click', ca: '«Jugar amb la classe» a un clic' },
+  { fecha: '2026-11-20', para: 'profes', emoji: '🎓', enlace: '/profesor?tab=clases',
+    titulo: { es: 'Tu clase en la barra lateral', en: 'Your class in the side bar', ca: 'La teva classe a la barra lateral' },
     texto: { es: 'En la barra lateral: Mis clases, Jugar con la clase (retos en directo y deberes) y Mis exámenes. Y un número con las entregas nuevas de tus alumnos.', en: 'In the side bar: My classes, Play with the class (live challenges and homework) and My exams, plus a counter of new submissions.', ca: 'A la barra lateral: Les meves classes, Jugar amb la classe (reptes en directe i deures) i Els meus exàmens, amb un número de lliuraments nous.' } },
   { fecha: '2026-11-20', para: 'todos', emoji: '🏆', enlace: '/top',
     titulo: { es: 'Ranking de hoy y del mes', en: 'Today’s and this month’s leaderboard', ca: 'Rànquing d’avui i del mes' },

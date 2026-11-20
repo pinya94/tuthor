@@ -1,9 +1,9 @@
 import { Helmet } from 'react-helmet-async'
 import { useLang } from '../context/LangContext'
 import { idiomasDe } from '../lib/idiomasPagina'
+import { imagenOg } from '../lib/imagenOg'
 
 const BASE_URL = 'https://www.tuthor.es'
-const DEFAULT_IMAGE = `${BASE_URL}/og-image.png`
 
 
 const langPrefix = l => (l === 'es' ? '' : `/${l}`)
@@ -22,7 +22,7 @@ export default function SEOHead({
   title,
   description,
   path = '',
-  image = DEFAULT_IMAGE,
+  image,
   lang: langProp,
   type = 'website',
   noindex = false,
@@ -45,6 +45,8 @@ export default function SEOHead({
   // en castellano) no es una página de verdad: que Google no la indexe.
   const sinTraducir = lang !== 'es' && !idiomasDe(cleanPath).includes(lang)
   const ogLocale = lang === 'ca' ? 'ca_ES' : lang === 'en' ? 'en_GB' : 'es_ES'
+  // Al compartir: el dibujo del juego si es la página de un juego, si no la general
+  const imagen = image || imagenOg(cleanPath)
 
   return (
     <Helmet>
@@ -65,7 +67,10 @@ export default function SEOHead({
       {description && <meta property="og:description" content={description} />}
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:type" content={type} />
-      <meta property="og:image" content={image} />
+      <meta property="og:image" content={imagen} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={fullTitle} />
       <meta property="og:locale" content={ogLocale} />
       <meta property="og:site_name" content="Tuthor" />
 
@@ -73,7 +78,7 @@ export default function SEOHead({
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       {description && <meta name="twitter:description" content={description} />}
-      <meta name="twitter:image" content={image} />
+      <meta name="twitter:image" content={imagen} />
     </Helmet>
   )
 }

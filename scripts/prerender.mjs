@@ -28,6 +28,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { idiomasDe } from '../src/lib/idiomasPagina.js'
+import { imagenOg } from '../src/lib/imagenOg.js'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -344,7 +345,9 @@ function shellWithMeta(urlPath) {
     `<meta property="og:description" content="${esc(meta.desc)}">`,
     `<meta property="og:url" content="${esc(canonical)}">`,
     `<meta property="og:type" content="website">`,
-    `<meta property="og:image" content="${esc(BASE_URL)}/og-image.png">`,
+    `<meta property="og:image" content="${esc(imagenOg(neutral))}">`,
+    `<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">`,
+    `<meta name="twitter:card" content="summary_large_image">`,
     `<link rel="canonical" href="${esc(canonical)}">`,
     ...idiomasDe(neutral).map(l => `<link rel="alternate" hreflang="${l}" href="${esc(urlDe(l))}">`),
     `<link rel="alternate" hreflang="x-default" href="${esc(esUrl)}">`,

@@ -15,6 +15,7 @@ import { crearReto, misRankings } from '../../lib/rankingClase'
 import { getTeacherClasses } from '../../lib/classes'
 import { SUBJECT_DEFS } from '../../lib/statsAggregation'
 import VideoRetos from '../VideoRetos'
+import JugarConClase from './JugarConClase'
 
 const MODOS = [
   { id: 'directo', emoji: '📺', label: { es: 'En directo', en: 'Live', ca: 'En directe' },
@@ -238,27 +239,30 @@ export function FilaReto({ r, conClase = false }) {
   )
 }
 
+// La pestaña «Jugar con la clase»: arriba, elegir juego y empezar en dos
+// toques (JugarConClase); debajo, los retos ya creados; y plegados, el
+// formulario completo (ranking libre, nota, nombre…) y el vídeo de cómo va.
 export default function RetosPanel({ uid, classId, nombreClase, examenInicial }) {
   const { tr } = useLang()
   return (
     <>
-    <details className="mb-4 rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4 group">
-      <summary className="cursor-pointer list-none text-white font-black flex items-center gap-2">
-        <span className="text-amber-300">▶</span> {tr({ es: '¿Cómo funciona? Míralo en 45 segundos', en: 'How does it work? See it in 45 seconds', ca: 'Com funciona? Mira-ho en 45 segons' })}
-      </summary>
+    <section className="mb-6">
+      <h2 className="text-white font-black text-xl mb-1">📺 {tr({ es: '¿A qué jugáis?', en: 'What are you playing?', ca: 'A què jugueu?' })}</h2>
+      <p className="text-white/45 text-sm mb-3">{tr({ es: 'Elige un juego y empieza: tus alumnos entran con el código desde el móvil, sin cuenta.', en: 'Pick a game and start: students join with the code from their phones, no account.', ca: 'Tria un joc i comença: els alumnes entren amb el codi des del mòbil, sense compte.' })}</p>
+      <JugarConClase uid={uid} classId={classId} nombreClase={nombreClase} examenInicial={examenInicial} />
+    </section>
+    <section className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4 mb-4">
+      <h2 className="text-white font-black mb-3">{classId ? tr({ es: 'Retos de esta clase', en: 'This class’s challenges', ca: 'Reptes d’aquesta classe' }) : tr({ es: 'Tus retos', en: 'Your challenges', ca: 'Els teus reptes' })}</h2>
+      <ListaRetos uid={uid} classId={classId} />
+    </section>
+    <details className="mb-4 rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
+      <summary className="cursor-pointer text-white/70 font-bold">⚙️ {tr({ es: 'Más opciones: ranking libre de la semana, nota para los alumnos, nombre…', en: 'More options: weekly open ranking, note for students, name…', ca: 'Més opcions: rànquing lliure de la setmana, nota per als alumnes, nom…' })}</summary>
+      <div className="mt-4"><CrearReto uid={uid} classId={classId} nombreClase={nombreClase} /></div>
+    </details>
+    <details className="mb-8 rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
+      <summary className="cursor-pointer text-white/70 font-bold">▶ {tr({ es: '¿Cómo funciona? Míralo en 45 segundos', en: 'How does it work? See it in 45 seconds', ca: 'Com funciona? Mira-ho en 45 segons' })}</summary>
       <div className="mt-4 max-w-3xl mx-auto"><VideoRetos /></div>
     </details>
-    <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] mb-8">
-      <div className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
-        <h2 className="text-white font-black mb-1">{tr({ es: 'Nuevo reto', en: 'New challenge', ca: 'Nou repte' })}</h2>
-        <p className="text-white/45 text-xs mb-4">{tr({ es: 'Tus alumnos entran con un código y un apodo, sin crear cuenta.', en: 'Your students join with a code and a nickname, no account needed.', ca: 'Els teus alumnes entren amb un codi i un sobrenom, sense crear compte.' })}</p>
-        <CrearReto uid={uid} classId={classId} nombreClase={nombreClase} examenInicial={examenInicial} />
-      </div>
-      <div className="rounded-2xl bg-[#141b2e] border border-white/[0.08] p-4">
-        <h2 className="text-white font-black mb-3">{classId ? tr({ es: 'Retos de esta clase', en: 'This class’s challenges', ca: 'Reptes d’aquesta classe' }) : tr({ es: 'Tus retos', en: 'Your challenges', ca: 'Els teus reptes' })}</h2>
-        <ListaRetos uid={uid} classId={classId} />
-      </div>
-    </section>
     </>
   )
 }

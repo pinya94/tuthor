@@ -14,7 +14,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
 import { useAvisosClase } from '../context/AvisosClaseContext'
-import { hayNovedadesSinVer } from '../data/novedades'
 import { CURSOS_LANDING } from '../data/landingsCurso'
 
 const CURSOS = Object.keys(CURSOS_LANDING)
@@ -41,7 +40,6 @@ function Enlace({ it }) {
       className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${it.activo ? 'bg-white/15 text-white' : 'text-white/65 hover:text-white hover:bg-white/[0.08]'}`}>
       <span className="text-lg w-6 text-center" aria-hidden="true">{it.icono}</span>
       <span className="flex-1">{tr(it.label)}</span>
-      {it.punto && <span className="w-2 h-2 rounded-full bg-amber-400" aria-label="nuevo" />}
       {it.aviso > 0 && <span title={it.avisoTitulo ? `${it.aviso} ${tr(it.avisoTitulo)}` : undefined} className="bg-red-500 text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1 grid place-items-center">{it.aviso}</span>}
     </Link>
   )
@@ -50,7 +48,7 @@ function Enlace({ it }) {
 export default function SideNav() {
   const { pathname, search } = useLocation()
   const { user } = useAuth()
-  const { tr } = useLang()
+  const { tr, localPath } = useLang()
   // En vivo (AvisosClaseContext): tareas pendientes, si está en alguna clase
   // y, para el profe, entregas nuevas desde la última vez que miró
   const { esProfe, enClase, pendientes, entregasNuevas } = useAvisosClase()
@@ -64,7 +62,6 @@ export default function SideNav() {
     { to: '/estudiar', icono: '📚', label: { es: 'Estudiar', en: 'Study', ca: 'Estudiar' }, activo: p.startsWith('/estudiar') || p === '/temario' },
     { to: '/top', icono: '🏆', label: { es: 'Ranking', en: 'Leaderboard', ca: 'Rànquing' }, activo: p === '/top' },
     { to: '/recursos', icono: '🧰', label: { es: 'Recursos', en: 'Resources', ca: 'Recursos' }, activo: p.startsWith('/recursos') },
-    { to: '/novedades', icono: '✨', label: { es: 'Novedades', en: 'What’s new', ca: 'Novetats' }, activo: p === '/novedades', punto: p !== '/novedades' && hayNovedadesSinVer() },
   ]
   const clase = esProfe
     ? [
@@ -96,8 +93,12 @@ export default function SideNav() {
         {cuenta.length > 0 && <hr className="my-2 border-white/10" />}
         {cuenta.map(it => <Enlace key={it.to} it={it} />)}
       </nav>
-      <p className="px-6 pt-2 pb-4 text-white/35 text-xs leading-relaxed">
+      <p className="px-6 pt-2 text-white/35 text-xs leading-relaxed">
         {tr({ es: 'Aprende jugando. Gratis y sin registrarte.', en: 'Learn by playing. Free, no sign-up.', ca: 'Aprèn jugant. Gratis i sense registrar-te.' })}
+      </p>
+      {/* Novedades: discreto, al pie (es para curiosos, no un destino del menú) */}
+      <p className="px-6 pt-2 pb-4 text-xs">
+        <Link to={localPath('/novedades')} className="text-white/35 hover:text-white/70 underline-offset-2 hover:underline">✨ {tr({ es: 'Novedades', en: 'What’s new', ca: 'Novetats' })}</Link>
       </p>
     </aside>
   )
