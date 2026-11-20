@@ -122,6 +122,9 @@ function SolicitudesProfe() {
   // revisar»: si no, al validar desaparecía la fila y con ella el botón del
   // correo, y no se sabía si el aviso al profe había salido (no sale solo).
   const [recien, setRecien] = useState([])
+  // Qué pasó con el correo automático de cada una resuelta ahora
+  // (api/aprobar-profe.js): 'enviado' | 'sin_configurar' | 'error' | 'no_aplica'
+  const [correoDe, setCorreoDe] = useState({})
   // Con el idioma de cada uno (users/{uid}.idioma), para escribirle en su lengua
   const carga = () => listarSolicitudes()
     .then(fs => Promise.all(fs.map(f => getDoc(doc(db, 'users', f.id)).then(u => ({ ...f, idioma: u.data()?.idioma ?? '' })).catch(() => f))))
@@ -129,7 +132,7 @@ function SolicitudesProfe() {
   useEffect(() => { carga() }, [])
   const resuelve = async (uid, accion, texto = '') => {
     setOcupado(uid)
-    try { await resolverSolicitud(uid, accion, texto); setRecien(r => [...r, uid]); setNotaDe(null); setNota(''); await carga() } catch (e) { alert('No se ha podido: ' + e.message) }
+    try { const j = await resolverSolicitud(uid, accion, texto); setCorreoDe(c => ({ ...c, [uid]: j.correo })); setRecien(r => [...r, uid]); setNotaDe(null); setNota(''); await carga() } catch (e) { alert('No se ha podido: ' + e.message) }
     setOcupado('')
   }
   const correo = (f, asunto, cuerpo) => `mailto:${f.email}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`
@@ -212,8 +215,11 @@ Puedes hacerlo desde tu panel (${panel}), en el aviso de arriba. Mientras tanto 
                 {f.estado !== 'rechazada' && <button disabled={ocupado === f.id} onClick={() => { setNotaDe(n => (n === f.id ? null : f.id)); setNota('') }} className={`${boton} bg-orange-500/80 hover:bg-orange-500 text-white`}>✏️ Pedir datos</button>}
                 {f.estado !== 'rechazada' && <button disabled={ocupado === f.id} onClick={() => { if (confirm(`¿Rechazar a ${f.nombre}? Pierde el acceso de profe.`)) resuelve(f.id, 'rechazar') }} className={`${boton} bg-white/10 hover:bg-white/20 text-white/80`}>✕ Rechazar</button>}
                 <button onClick={() => setFichaDe(x => (x === f.id ? null : f.id))} className={`${boton} bg-sky-600/80 hover:bg-sky-500 text-white`}>{fichaDe === f.id ? '▲ Ocultar ficha' : '🗂️ Ver ficha'}</button>
-                {recien.includes(f.id) && f.estado !== 'pendiente' && f.estado !== 'rechazada' && <p className="w-full text-amber-200 text-xs font-bold">⚠️ Guardado. El profe aún no ha recibido ningún correo: pulsa el botón morado y envíalo desde tu correo.</p>}
-                {f.estado === 'aprobada' && <a href={avisoValidada(f)} className={`${boton} bg-violet-600 hover:bg-violet-500 text-white`}>✉️ Avisarle de que está validada</a>}
+                {recien.includes(f.id) && f.estado !== 'pendiente' && f.estado !== 'rechazada' && (correoDe[f.id] === 'enviado'
+                  ? <p className="w-full text-green-300 text-xs font-bold">✅ Guardado y correo enviado a {f.email}.</p>
+                  : <p className="w-full text-amber-200 text-xs font-bold">⚠️ Guardado, pero el correo no ha salido solo{correoDe[f.id] === 'sin_configurar' ? ' (falta configurar el Gmail en Vercel)' : ''}: pulsa el botón morado y envíalo desde tu correo.</p>)}
+                {!recien.includes(f.id) && f.correoEnviadoEn && f.estado !== 'rechazada' && <span className="text-green-300/70 text-xs self-center">✉️ Correo enviado el {f.correoEnviadoEn.toDate?.().toLocaleDateString('es-ES') ?? ''}</span>}
+                {f.estado === 'aprobada' && <a href={avisoValidada(f)} className={`${boton} bg-violet-600 hover:bg-violet-500 text-white`}>✉️ {f.correoEnviadoEn || correoDe[f.id] === 'enviado' ? 'Escribirle otra vez' : 'Avisarle de que está validada'}</a>}
                 {f.estado === 'rectificar' && <a href={avisoRectificar(f)} className={`${boton} bg-violet-600 hover:bg-violet-500 text-white`}>✉️ Escribirle lo que falta</a>}
               </div>
               {fichaDe === f.id && <FichaProfe f={f} />}

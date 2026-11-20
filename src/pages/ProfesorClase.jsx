@@ -30,6 +30,7 @@ import { Acierto, Fallo, Mando, Bombilla, Libro, Moneda, Racha, Reloj, Lista, Pi
 import { IconoModulo, Ajustes, Chincheta, Grupo } from '../components/IconosProfesor'
 import { hasTopics, topicIds, topicFormats, formatLevels, topicTask, catalogTaskLabel, catalogTaskRoute, examsCoveredByTopics, LEVELS } from '../lib/topicCatalog'
 import { ARTE_JUEGOS, ArteJuego, slugDeRuta } from '../components/arte'
+import { useAvisosClase } from '../context/AvisosClaseContext'
 
 const sinEmojis = s => String(s || '').replace(/(?:\p{Extended_Pictographic}|\u{FE0F})+\s?/gu, '').trim()
 
@@ -342,6 +343,9 @@ function AjustesModulos({ clase, onSave, lang, tr }) {
 export default function ProfesorClase() {
   const { classId } = useParams()
   const { user } = useAuth()
+  // Al abrir una clase, sus entregas dejan de contar como «nuevas» en la barra lateral
+  const { marcarEntregasVistas } = useAvisosClase()
+  useEffect(() => { marcarEntregasVistas() }, [marcarEntregasVistas])
   const { lang, tr, localPath } = useLang()
   const navigate = useNavigate()
 

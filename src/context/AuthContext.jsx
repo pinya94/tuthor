@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import {
   onAuthStateChanged, signInWithPopup, signOut, signInWithCustomToken, getAdditionalUserInfo,
+  linkWithPopup, signInWithCredential, GoogleAuthProvider,
 } from 'firebase/auth'
 import { auth, googleProvider } from '../lib/firebase'
 import { upsertUserProfile } from '../lib/activity'
@@ -61,6 +62,32 @@ export function AuthProvider({ children }) {
   }, [])
 
   async function loginWithGoogle() {
+    // Quien jugaba como invitado (sesión anónima, para el ranking) y se hace
+    // cuenta: se VINCULA Google a esa misma sesión, así conserva el uid y los
+    // puntos que ya llevaba en el ranking. Vincular no dispara
+    // onAuthStateChanged, así que el estado se actualiza a mano. Si esa cuenta
+    // de Google ya existía, se entra en ella (los puntos de invitado se pierden).
+    const actual = auth.currentUser
+    if (actual?.isAnonymous) {
+      try {
+        await linkWithPopup(actual, googleProvider)
+        await auth.currentUser.reload().catch(() => {})
+        const u = auth.currentUser
+        setInvitadoUid(null); setChildMode(false); setUser(u)
+        lastUpsertedUid.current = u.uid
+        await upsertUserProfile(u)
+        trackEvent('sign_up', { method: 'google', desde: 'invitado' })
+        applyPendingReferral()
+        return
+      } catch (e) {
+        if (e?.code === 'auth/credential-already-in-use') {
+          const credencial = GoogleAuthProvider.credentialFromError(e)
+          if (credencial) { await signInWithCredential(auth, credencial); return }
+        }
+        if (e?.code === 'auth/popup-closed-by-user' || e?.code === 'auth/cancelled-popup-request') throw e
+        // Cualquier otro fallo: se sigue con el inicio de sesión normal
+      }
+    }
     const cred = await signInWithPopup(auth, googleProvider)
     // isNewUser viene de Firebase, no de nada que se pueda falsear desde
     // aquí: es la señal correcta para "sign_up" (cuenta creada de verdad),

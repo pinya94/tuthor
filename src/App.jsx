@@ -7,6 +7,7 @@ import Particles from './components/Particles'
 import { useFondo } from './lib/fondo'
 import Navbar from './components/Navbar'
 import SideNav, { useConBarraLateral } from './components/SideNav'
+import AvisoRetoDirecto from './components/AvisoRetoDirecto'
 import SideRails from './components/SideRails'
 import AccessGate from './components/AccessGate'
 import CookieBanner, { useCookieConsent } from './components/CookieBanner'
@@ -630,6 +631,7 @@ function Layout({ onConsent }) {
           )}
           <div className="relative z-10">
             <Navbar />
+            <AvisoRetoDirecto />
             <SideNav />
             <ConBarraLateral>{routes}</ConBarraLateral>
             <SideRails />

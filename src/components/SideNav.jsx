@@ -10,12 +10,10 @@
 //   alumno con cuenta → Mi clase (con aviso de tareas pendientes)
 //   sin cuenta       → Tengo un código
 //   quien no es profe → Soy profe (la página que lo explica)
-import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getTeacherProfile, hasTeacherAccess } from '../lib/classes'
-import { getStudentAssignments } from '../lib/assignments'
+import { useAvisosClase } from '../context/AvisosClaseContext'
 import { CURSOS_LANDING } from '../data/landingsCurso'
 
 const CURSOS = Object.keys(CURSOS_LANDING)
@@ -42,34 +40,19 @@ function Enlace({ it }) {
       className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${it.activo ? 'bg-white/15 text-white' : 'text-white/65 hover:text-white hover:bg-white/[0.08]'}`}>
       <span className="text-lg w-6 text-center" aria-hidden="true">{it.icono}</span>
       <span className="flex-1">{tr(it.label)}</span>
-      {it.aviso > 0 && <span className="bg-red-500 text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1 grid place-items-center">{it.aviso}</span>}
+      {it.aviso > 0 && <span title={it.avisoTitulo ? `${it.aviso} ${tr(it.avisoTitulo)}` : undefined} className="bg-red-500 text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1 grid place-items-center">{it.aviso}</span>}
     </Link>
   )
 }
 
 export default function SideNav() {
   const { pathname, search } = useLocation()
-  const { user, childMode } = useAuth()
+  const { user } = useAuth()
   const { tr } = useLang()
-  const [profe, setProfe] = useState(false)
-  const [pendientes, setPendientes] = useState(0)
-  useEffect(() => {
-    if (!user || childMode) return
-    let vivo = true
-    getTeacherProfile(user.uid).then(p => { if (vivo) setProfe(hasTeacherAccess(p)) }).catch(() => {})
-    return () => { vivo = false }
-  }, [user, childMode])
-  // Tareas sin hacer del alumno (como el aviso de la Navbar), una vez por sesión
-  useEffect(() => {
-    if (!user) return
-    let vivo = true
-    getStudentAssignments(user.uid)
-      .then(ts => { if (vivo) setPendientes(ts.filter(t => !t.completions?.[user.uid]?.done).length) })
-      .catch(() => {})
-    return () => { vivo = false }
-  }, [user])
+  // En vivo (AvisosClaseContext): tareas pendientes, si está en alguna clase
+  // y, para el profe, entregas nuevas desde la última vez que miró
+  const { esProfe, enClase, pendientes, entregasNuevas } = useAvisosClase()
   if (!conBarraLateral(pathname)) return null
-  const esProfe = Boolean(user) && !childMode && profe
 
   const p = sinIdioma(pathname)
   const tab = new URLSearchParams(search).get('tab') || 'clases'
@@ -82,14 +65,16 @@ export default function SideNav() {
   ]
   const clase = esProfe
     ? [
-      { to: '/profesor?tab=clases', icono: '🎓', label: { es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' }, activo: enPanel && (tab === 'clases' || p.startsWith('/profesor/clase/')) },
+      { to: '/profesor?tab=clases', icono: '🎓', label: { es: 'Mis clases', en: 'My classes', ca: 'Les meves classes' }, activo: enPanel && (tab === 'clases' || p.startsWith('/profesor/clase/')), aviso: entregasNuevas, avisoTitulo: { es: 'entregas nuevas', en: 'new submissions', ca: 'entregues noves' } },
       { to: '/profesor?tab=retos', icono: '📺', label: { es: 'Jugar con la clase', en: 'Play with the class', ca: 'Jugar amb la classe' }, activo: p === '/profesor' && tab === 'retos' },
       { to: '/profesor?tab=examenes', icono: '📝', label: { es: 'Mis exámenes', en: 'My exams', ca: 'Els meus exàmens' }, activo: p === '/profesor' && tab === 'examenes' },
     ]
     : [
-      user
-        ? { to: '/clase', icono: '🎒', label: { es: 'Mi clase', en: 'My class', ca: 'La meva classe' }, activo: p === '/clase', aviso: pendientes }
-        : { to: '/reto', icono: '🔑', label: { es: 'Tengo un código', en: 'I have a code', ca: 'Tinc un codi' } },
+      // Con cuenta y aún sin clase: «Unirme a una clase» (no «Mi clase», que
+      // daba a entender que ya tenía una)
+      !user ? { to: '/reto', icono: '🔑', label: { es: 'Tengo un código', en: 'I have a code', ca: 'Tinc un codi' } }
+        : enClase === false ? { to: '/clase', icono: '🔑', label: { es: 'Unirme a una clase', en: 'Join a class', ca: 'Unir-me a una classe' }, activo: p === '/clase' }
+        : { to: '/clase', icono: '🎒', label: { es: 'Mi clase', en: 'My class', ca: 'La meva classe' }, activo: p === '/clase', aviso: pendientes, avisoTitulo: { es: 'tareas sin hacer', en: 'tasks to do', ca: 'tasques per fer' } },
       { to: '/profesores', icono: '🍎', label: { es: 'Soy profe', en: 'I’m a teacher', ca: 'Soc profe' }, activo: p === '/profesores' },
     ]
   const cuenta = user ? [

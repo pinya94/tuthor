@@ -3,11 +3,10 @@ import { useLocation, Link } from 'react-router-dom'
 import { MAIN_CARDS } from '../data/constants'
 import { useAuth } from '../context/AuthContext'
 import { useLang } from '../context/LangContext'
-import { getTeacherProfile, hasTeacherAccess } from '../lib/classes'
-import { getStudentAssignments } from '../lib/assignments'
 import { useFondo, setFondo } from '../lib/fondo'
 import AuthModal from './AuthModal'
 import { useConBarraLateral } from './SideNav'
+import { useAvisosClase } from '../context/AvisosClaseContext'
 
 // Cambia el fondo de la app entre liso (por defecto) y el bosque. El icono
 // enseña a qué se cambia: un árbol si ahora es liso, un plano si es bosque.
@@ -94,44 +93,15 @@ export default function Navbar() {
   const [avatarMenu, setAvatarMenu] = useState(false)
   const { user, childMode, logout } = useAuth()
   const { lang, t, tr, localPath, switchLang } = useLang()
-  const [pendingTasks, setPendingTasks] = useState(0)
 
   const authLoading = user === undefined
   // Con barra lateral (≥1024 px) las secciones ya están ahí: no se repiten arriba
   const conBarra = useConBarraLateral()
 
-  // Aviso de tareas pendientes: se cuentan las asignadas (de cualquier
-  // clase/profesor) que este alumno aún no ha completado. Se calcula una
-  // vez por sesión al iniciar, no en tiempo real.
-  useEffect(() => {
-    if (!user) { setPendingTasks(0); return }
-    getStudentAssignments(user.uid)
-      .then(tasks => setPendingTasks(tasks.filter(t => !t.completions?.[user.uid]?.done).length))
-      .catch(() => {})
-  }, [user])
-
-  // ¿Esta cuenta tiene la capacidad de profesor pagada? Se resuelve una vez al
-  // cargar en lugar de al pulsar, porque de ello depende si el enlace del panel
-  // llega a pintarse.
-  //
-  // En modo niño nunca: padre e hijo comparten uid, así que si el padre es
-  // profesor su hijo heredaría el enlace al aula entera. Las rules ya lo
-  // bloquean (isTeacher() excluye la sesión de hijo), pero enseñar un botón que
-  // solo puede dar error es peor que no enseñarlo.
-  const [teacherAccess, setTeacherAccess] = useState(false)
-  useEffect(() => {
-    if (!user || childMode) return
-    let alive = true
-    getTeacherProfile(user.uid)
-      .then(p => { if (alive) setTeacherAccess(hasTeacherAccess(p)) })
-      .catch(() => {})
-    return () => { alive = false }
-  }, [user, childMode])
-
-  // Las condiciones de sesión se evalúan en el render, no dentro del efecto:
-  // así cerrar sesión o entrar en modo niño oculta el enlace en el acto, sin
-  // depender de que un efecto vuelva a correr.
-  const isTeacher = Boolean(user) && !childMode && teacherAccess
+  // Tareas sin hacer del alumno y si la cuenta es de profe: en vivo y
+  // compartido con la barra lateral (AvisosClaseContext). El profe nunca en
+  // modo niño: padre e hijo comparten uid (lo resuelve el contexto).
+  const { pendientes: pendingTasks, esProfe: isTeacher } = useAvisosClase()
 
   // El menú es Juegos · Estudiar · Recursos y un enlace del aula según quién eres:
   //   profe            → 🎓 Mis clases (su panel)

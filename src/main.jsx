@@ -4,6 +4,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import './index.css'
 import App from './App.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
+import { AvisosClaseProvider } from './context/AvisosClaseContext.jsx'
 import { captureReferralFromUrl } from './lib/referral.js'
 
 // Antes de renderizar nada: si alguien llega con ?ref=<uid> en la URL (un
@@ -16,7 +17,9 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <HelmetProvider>
       <AuthProvider>
-        <App />
+        <AvisosClaseProvider>
+          <App />
+        </AvisosClaseProvider>
       </AuthProvider>
     </HelmetProvider>
   </StrictMode>,
