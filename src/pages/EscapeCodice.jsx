@@ -17,7 +17,7 @@ import GameEndScreen from '../components/GameEndScreen'
 import { Dialogo, Barra, Cuaderno, Sospechosos, Pistas, Aviso, PERGAMINO, BOTON, BOTON_SEC, mmss, caraUrl } from '../components/escape/Comun'
 import { SALA_COMPONENTE } from '../components/escape/SalasCodice'
 import {
-  imgSospechoso, GUIA, MINUTOS, PENALIZACION, PENALIZACION_ACUSAR, CARAS, SOSPECHOSOS, CULPABLE, PISTAS_LADRON,
+  imgSospechoso, GUIA, MINUTOS, PENALIZACION, PENALIZACION_ACUSAR, CARAS, SOSPECHOSOS, CULPABLE, PISTAS_ORDEN,
   INTRO, SALAS, FINAL_ACUSAR, ACUSACION_MAL, FINAL_COFRE, COFRE_MAL, FINAL, SIN_TIEMPO,
 } from '../data/escape/codiceRobado'
 
@@ -91,7 +91,8 @@ export default function EscapeCodice() {
   const trasPagina = () => setE(p => {
     const s = SALAS.find(x => x.id === p.sala)
     const todas = p.resueltas.length === SALAS.length
-    return { ...p, fase: 'plano', sala: null, pagina: null, cola: { lineas: todas ? [...s.despues, ...FINAL_ACUSAR] : s.despues, luego: todas ? 'acusar' : null } }
+    const lineas = [...s.despues, ['susurra', PISTAS_ORDEN[p.resueltas.length - 1].texto]]
+    return { ...p, fase: 'plano', sala: null, pagina: null, cola: { lineas: todas ? [...lineas, ...FINAL_ACUSAR] : lineas, luego: todas ? 'acusar' : null } }
   })
   const tacha = id => setE(p => ({ ...p, tachados: p.tachados.includes(id) ? p.tachados.filter(x => x !== id) : [...p.tachados, id] }))
   const acusa = id => {
@@ -120,7 +121,7 @@ export default function EscapeCodice() {
   const sala = e?.sala ? SALAS.find(s => s.id === e.sala) : null
   const SalaActual = sala ? SALA_COMPONENTE[sala.id] : null
   const paginas = e ? e.resueltas.map(id => ({ id, cifra: e.cifras[id], epoca: SALAS.find(s => s.id === id).epoca })) : []
-  const pistasLadron = e ? e.resueltas.map(id => PISTAS_LADRON[id].texto) : []
+  const pistasLadron = e ? e.resueltas.map((_, i) => PISTAS_ORDEN[i].texto) : []
   const meta = (
     <SEOHead path="/juegos/codice-robado"
       title="Escape room de Historia de España: El Códice Robado"
@@ -146,7 +147,7 @@ export default function EscapeCodice() {
           {solucionario && (
             <ol className="mt-3 space-y-2 text-sm sm:text-base list-decimal pl-5">
               {SALAS.map(s => <li key={s.id}><b>{s.nombre} ({s.epoca}):</b> {s.solucion ?? s.pistas[s.pistas.length - 1]}</li>)}
-              <li><b>El ladrón:</b> el Hermano Íñigo, el único que cumple las cinco pistas: pelo liso, sin gafas, sin canas, sin barba y coronilla rapada.</li>
+              <li><b>El ladrón:</b> el Hermano Íñigo. La primera página no descarta a nadie y cada una de las siguientes descarta a uno (gafas, pelirrojo, rubio, el hortelano y el más anciano), así que solo queda claro con la sexta.</li>
               <li><b>El cofre:</b> las seis cifras de las páginas (cambian en cada partida) ordenadas de la Prehistoria al siglo XX.</li>
             </ol>
           )}
@@ -205,7 +206,7 @@ export default function EscapeCodice() {
               <div className="mx-auto my-4 w-28 h-36 sm:w-36 sm:h-44 rounded-lg bg-[#e6d3a3] border-4 border-[#8a6424] flex items-center justify-center shadow-inner">
                 <span className="font-serif font-black text-7xl sm:text-8xl">{e.cifras[sala.id]}</span>
               </div>
-              <p className="text-lg sm:text-xl"><b>🔎 Pista:</b> {PISTAS_LADRON[sala.id].texto}</p>
+              <p className="text-lg sm:text-xl"><b>🔎 Pista:</b> {PISTAS_ORDEN[e.resueltas.length - 1].texto}</p>
               {e.pagina?.aprendido && (
                 <ul className="text-left mt-4 space-y-1.5 text-base sm:text-lg">{e.pagina.aprendido.map((t, i) => <li key={i}>• {t}</li>)}</ul>
               )}

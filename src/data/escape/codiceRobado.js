@@ -6,13 +6,12 @@
 // Las trampas son de verdad trampas (la imprenta SÍ existía en 1492; «alma»
 // empieza por al- y es latina).
 //
-// Sospechosos: dibujos del usuario (public/escape/sospechoso-<id>.webp, todos
-// con hábito marrón). Las pistas hablan de lo que SE VE en el dibujo (gafas,
-// barba, canas, pelo rizado, coronilla rapada o calva). El culpable las cumple
-// todas, cada inocente falla al menos una y cada pista descarta al menos a
-// uno, así que las salas se pueden jugar en cualquier orden. El test lo
-// comprueba. Íñigo tiene barba de unos días: la pista dice «sin barba» y
-// aclara que «como mucho, de unos días», para que nadie lo discuta.
+// Sospechosos: dibujos del usuario (public/escape/sospechoso-<id>.webp).
+// Las pistas del ladrón NO van atadas a una sala: la 1.ª página resuelta da
+// PISTAS_ORDEN[0], la 2.ª la [1]… La primera no descarta a nadie y cada una de
+// las otras cinco descarta exactamente a UN inocente (un rasgo que solo tiene
+// él). Así el ladrón solo queda al descubierto con la sexta página, se jueguen
+// las salas en el orden que se jueguen. El test lo comprueba.
 
 export const GUIA = 'Fray Anselmo'
 export const MINUTOS = 45
@@ -25,29 +24,29 @@ export const imgSospechoso = id => `/escape/sospechoso-${id}.webp`
 
 export const SOSPECHOSOS = [
   { id: 'gil', tit: 'Fray', nombre: 'Gil', oficio: 'El portero. Lleva cuarenta años abriendo la puerta.',
-    hechos: { gafas: true, barba: false, canas: true, rizado: false, coronilla: true } },
+    hechos: { gafas: true, pelirrojo: false, rubio: false, hortelano: false, anciano: false } },
   { id: 'inigo', tit: 'Hermano', nombre: 'Íñigo', oficio: 'El ayudante del archivo. Muy aplicado… demasiado.',
-    hechos: { gafas: false, barba: false, canas: false, rizado: false, coronilla: true } },
+    hechos: { gafas: false, pelirrojo: false, rubio: false, hortelano: false, anciano: false } },
   { id: 'bruno', tit: 'Hermano', nombre: 'Bruno', oficio: 'El campanero. Ronca en el coro.',
-    hechos: { gafas: false, barba: true, canas: false, rizado: false, coronilla: false } },
+    hechos: { gafas: false, pelirrojo: true, rubio: false, hortelano: false, anciano: false } },
   { id: 'lucas', tit: 'Hermano', nombre: 'Lucas', oficio: 'El novicio más joven. Llega tarde a todo.',
-    hechos: { gafas: false, barba: false, canas: false, rizado: true, coronilla: false } },
+    hechos: { gafas: false, pelirrojo: false, rubio: true, hortelano: false, anciano: false } },
   { id: 'damian', tit: 'Fray', nombre: 'Damián', oficio: 'El hortelano. Siempre huele a cebolla.',
-    hechos: { gafas: false, barba: true, canas: true, rizado: true, coronilla: false } },
-  { id: 'tomas', tit: 'Fray', nombre: 'Tomás', oficio: 'El bibliotecario, el más anciano. No deja tocar ni un libro.',
-    hechos: { gafas: false, barba: true, canas: true, rizado: false, coronilla: true } },
+    hechos: { gafas: false, pelirrojo: false, rubio: false, hortelano: true, anciano: false } },
+  { id: 'tomas', tit: 'Fray', nombre: 'Tomás', oficio: 'El bibliotecario, el más anciano del monasterio. No deja tocar ni un libro.',
+    hechos: { gafas: false, pelirrojo: false, rubio: false, hortelano: false, anciano: true } },
 ]
 export const CULPABLE = 'inigo'
 
-// Lo que dice cada pista sobre el ladrón (lo comprueba el test)
-export const PISTAS_LADRON = {
-  cripta: { texto: 'Tiene el pelo liso: en la roca quedó enganchado un pelo, y no tiene ni un rizo.', cumple: h => !h.rizado },
-  mapas: { texto: 'No lleva gafas: para leer el mapa usó la lupa, y se la dejó olvidada encima.', cumple: h => !h.gafas },
-  palabras: { texto: 'No tiene canas: el pelo que quedó en la tapa del arcón es oscuro.', cumple: h => !h.canas },
-  scriptorium: { texto: 'No tiene barba (como mucho, de unos días): el cocinero lo vio de lejos.', cumple: h => !h.barba },
-  galeria: { texto: 'Lleva la coronilla rapada o es calvo: al pasar bajo la lámpara, le brilló la cabeza.', cumple: h => h.coronilla },
-  torre: { texto: 'Desde la torre se le ve correr hacia el establo con un fardo. ¡Es ahora o nunca!', cumple: () => true },
-}
+// Pista que da cada página, por orden de recuperación (lo comprueba el test)
+export const PISTAS_ORDEN = [
+  { texto: 'Junto a la página, la huella de una sandalia del monasterio: el ladrón es uno de los seis sospechosos. Hay que seguir buscando.', cumple: () => true },
+  { texto: 'No lleva gafas: se dejó olvidada una lupa para poder leer.', cumple: h => !h.gafas },
+  { texto: 'No es pelirrojo: el hermano cocinero lo vio de espaldas y de eso está seguro.', cumple: h => !h.pelirrojo },
+  { texto: 'No es rubio: el pastor lo vio cruzar el claustro con la capucha bajada.', cumple: h => !h.rubio },
+  { texto: 'No es el hortelano: aquí huele a pergamino viejo… y nada de cebolla.', cumple: h => !h.hortelano },
+  { texto: 'No es el más anciano: subió corriendo los doscientos escalones de la torre.', cumple: h => !h.anciano },
+]
 
 // Diálogos: [cara, texto]
 export const INTRO = [
@@ -76,7 +75,6 @@ export const SALAS = [
     ],
     despues: [
       ['feliz', '¡La pared se ha abierto! Y detrás estaba la primera página.'],
-      ['susurra', 'Psst… mirad: un pelo enganchado en la roca. Liso, ni un rizo. ¡Apuntadlo en el Cuaderno!'],
     ],
   },
   {
@@ -92,7 +90,6 @@ export const SALAS = [
     ],
     despues: [
       ['feliz', '¡LUCERNA! Una lucerna es una lámpara de aceite romana… ¡y la página estaba debajo!'],
-      ['piensa', 'Y encima del mapa, mi lupa… Si el ladrón la necesitó para leer, es que no lleva gafas.'],
     ],
   },
   {
@@ -108,7 +105,6 @@ export const SALAS = [
     ],
     despues: [
       ['feliz', '¡Clac! El arcón se ha abierto. Tercera página.'],
-      ['susurra', 'En la tapa del arcón ha quedado un pelo oscuro. El ladrón no tiene canas.'],
     ],
   },
   {
@@ -124,7 +120,6 @@ export const SALAS = [
     ],
     despues: [
       ['feliz', '¡Bien visto! Detrás del sello estaba la cuarta página.'],
-      ['explica', 'Y el hermano cocinero lo vio de lejos salir de aquí: no tenía barba. Como mucho, de unos días.'],
     ],
   },
   {
@@ -140,8 +135,7 @@ export const SALAS = [
       'De izquierda a derecha: «no se ponía el sol» → la Armada Invencible → la expulsión de los moriscos → Velázquez y Portugal → murió sin hijos → el primer Borbón.',
     ],
     despues: [
-      ['feliz', '¡Los reyes están en su sitio! Detrás del último cuadro había una página… y una nota del hermano sacristán.'],
-      ['susurra', 'La nota dice: «Al pasar bajo la lámpara, le brilló la cabeza». Lleva la coronilla rapada… o es calvo.'],
+      ['feliz', '¡Los reyes están en su sitio! Y detrás del último cuadro, una página.'],
     ],
   },
   {
@@ -157,12 +151,12 @@ export const SALAS = [
     ],
     despues: [
       ['feliz', '¡Tic, tac! El reloj anda otra vez. Sexta página.'],
-      ['senala', 'Y desde aquí arriba lo veo: ¡alguien corre hacia el establo con un fardo! Es ahora o nunca.'],
     ],
   },
 ]
 
 export const FINAL_ACUSAR = [
+  ['senala', '¡Mirad por la ventana! Alguien corre hacia el establo con un fardo…'],
   ['piensa', '¡Ya tenéis las seis páginas! Mirad el Cuaderno: ¿quién es el ladrón? Decididlo entre todos, que acusar a un inocente cuesta dos minutos.'],
 ]
 export const ACUSACION_MAL = ['alto', '¡Ese hermano es inocente! Volved a mirar las pistas del Cuaderno.']
