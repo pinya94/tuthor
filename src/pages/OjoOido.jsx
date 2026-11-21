@@ -4,7 +4,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import { NIVELES, genRonda, esCorrecta, tiempoPartida } from '../lib/ojoOido'
+import { NIVELES, genRonda, esCorrecta, tiempoPartida, SEG_POR_ACIERTO } from '../lib/ojoOido'
 import PreguntaOjoOido from '../components/ojoOido/PreguntaOjoOido'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
@@ -96,6 +96,7 @@ export default function OjoOido() {
     if (esCorrecta(ronda, r)) {
       setAciertos(a => a + 1)
       setStreak(s => s + 1)
+      setTimeLeft(t => t + SEG_POR_ACIERTO)
     } else {
       setStreak(0)
       setTimeLeft(t => Math.max(0, t - WRONG_TIME))
@@ -146,7 +147,7 @@ export default function OjoOido() {
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'Sale el ojo o el oído dibujado en corte, sin nombres. En fácil te decimos qué parte tocar; en medio, solo lo que hace (enfocar la imagen, captar la luz, el equilibrio…); en difícil, tienes que seguir el camino de la luz o del sonido tocando las partes en orden.', en: 'The eye or the ear appears in cross-section, without labels. On Easy we tell you which part to tap; on Medium, only what it does (focusing the image, detecting light, balance…); on Hard, you follow the path of light or sound by tapping the parts in order.', ca: 'Surt l’ull o l’orella dibuixat en secció, sense noms. En fàcil et diem quina part tocar; en mitjà, només el que fa (enfocar la imatge, captar la llum, l’equilibri…); en difícil, has de seguir el camí de la llum o del so tocant les parts en ordre.' })}</p>
               <p>{tr({ es: 'La luz entra por la córnea, pasa por la pupila y el cristalino y llega a la retina, que la convierte en señales nerviosas; el nervio óptico las lleva al cerebro. El sonido entra por el pabellón y el conducto, hace vibrar el tímpano y los huesecillos, y la cóclea convierte la vibración en señales nerviosas que el nervio auditivo lleva al cerebro.', en: 'Light enters through the cornea, passes through the pupil and the lens and reaches the retina, which turns it into nerve signals; the optic nerve carries them to the brain. Sound enters through the pinna and the ear canal, makes the eardrum and ossicles vibrate, and the cochlea turns the vibration into nerve signals that the auditory nerve carries to the brain.', ca: 'La llum entra per la còrnia, passa per la pupil·la i el cristal·lí i arriba a la retina, que la converteix en senyals nerviosos; el nervi òptic els porta al cervell. El so entra pel pavelló i el conducte, fa vibrar el timpà i els ossets, i la còclea converteix la vibració en senyals nerviosos que el nervi auditiu porta al cervell.' })}</p>
-              <p className="text-white/40 text-xs pt-1">⏱️ {tiempoPartida(nivel)}s · {tr({ es: `Acierto +10 · Fallo −${WRONG_TIME}s`, en: `Correct +10 · Wrong −${WRONG_TIME}s`, ca: `Encert +10 · Error −${WRONG_TIME}s` })}</p>
+              <p className="text-white/40 text-xs pt-1">⏱️ {tiempoPartida(nivel)}s · {tr({ es: `Acierto +10 y +${SEG_POR_ACIERTO}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${SEG_POR_ACIERTO}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${SEG_POR_ACIERTO}s · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>
         </div>
@@ -214,7 +215,7 @@ export default function OjoOido() {
         {isResult && (
           <p className="text-center text-xs font-bold mt-2">
             {acierto
-              ? <span className="text-green-400">+10{streak >= 2 ? ` · 🔥 ${streak}` : ''}</span>
+              ? <span className="text-green-400">+10 · +{SEG_POR_ACIERTO}s ⏱️{streak >= 2 ? ` · 🔥 ${streak}` : ''}</span>
               : <span className="text-red-400">−{WRONG_TIME}s ⏱️</span>}
           </p>
         )}

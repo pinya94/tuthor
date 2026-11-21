@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
-import { PARTES, RUTAS, NIVELES, partesDe, genRonda, esCorrecta, enunciado, explicacion, schemaQuestion, tiempoPartida } from '../ojoOido'
+import { PARTES, RUTAS, NIVELES, partesDe, genRonda, esCorrecta, enunciado, explicacion, schemaQuestion, tiempoPartida, tiempoVuelta, SEG_POR_ACIERTO } from '../ojoOido'
 
 describe('Ojo y Oído', () => {
   it('cada parte tiene nombre, artículo y función en los tres idiomas, y las funciones no se repiten', () => {
@@ -84,10 +84,13 @@ describe('Ojo y Oído', () => {
 })
 
 describe('tiempo de partida', () => {
-  it('unos 5 s por pregunta distinta del nivel (petición del usuario, 21-nov)', () => {
-    expect(tiempoPartida('facil')).toBe(Object.keys(PARTES).length * 5)
-    expect(tiempoPartida('medio')).toBe(75)
-    expect(tiempoPartida('dificil')).toBe(85)
+  it('menos tiempo que una vuelta entera, para acabar perdiendo (petición del usuario, 21-nov)', () => {
+    expect(tiempoVuelta('facil')).toBe(Object.keys(PARTES).length * 5)
+    expect(tiempoPartida('facil')).toBe(40)
+    expect(tiempoPartida('medio')).toBe(40)
+    expect(tiempoPartida('dificil')).toBe(45)
+    for (const n of ['facil', 'medio', 'dificil']) expect(tiempoPartida(n)).toBeLessThan(tiempoVuelta(n) * 0.7)
+    expect(SEG_POR_ACIERTO).toBe(1)
   })
 })
 
