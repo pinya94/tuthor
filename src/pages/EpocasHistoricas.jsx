@@ -13,6 +13,13 @@ import { ArteJuego } from '../components/arte'
 import { Corazon } from '../components/Iconos'
 
 const VIDAS_INICIALES = 2 // margen pequeño: un fallo no acaba la partida, dos sí
+// Reloj (22-nov-2026, a petición del usuario: «se hace largo»): con solo
+// cinco épocas quien sabe un poco no perdía nunca. 60 s y +2 s por acierto;
+// cada ronda cuesta ~5 s, así que la partida siempre acaba. El reloj solo
+// corre mientras eliges: al fallar, la explicación espera sin gastar tiempo.
+const TIEMPO = 60
+const SEG_ACIERTO = 2
+const PAUSA_ACIERTO_MS = 1200 // al acertar se pasa sola a la siguiente
 const BASE_PTS = 100
 const SLIDER_MAX = 1000
 
@@ -39,7 +46,7 @@ const UI = {
     paso1: 'Aparece una fotografía histórica real',
     paso2: 'Desliza en la línea temporal hasta la época que retrata (¡no cuándo se hizo la foto!)',
     paso3: 'Aciertas: sigues y suman puntos con racha. Fallas: pierdes una vida',
-    paso4: `Tienes ${VIDAS_INICIALES} vidas — cuando se acaban, termina la partida`,
+    paso4: `Tienes ${VIDAS_INICIALES} vidas y ${TIEMPO} segundos (cada acierto suma ${SEG_ACIERTO} s): la partida acaba al quedarte sin vidas o sin tiempo`,
     aviso: 'Ojo: algunas fotos son de excavaciones, pinturas o reconstrucciones modernas de algo mucho más antiguo. Lo que cuenta es la época que retrata la imagen, no cuándo se hizo la fotografía o el cuadro.',
     salir: '← Salir', ronda: 'Ronda',
     tuRespuesta: 'Tu respuesta', confirmar: 'Confirmar →',
@@ -57,7 +64,7 @@ const UI = {
     paso1: 'A real historical photograph appears',
     paso2: 'Drag the timeline to the era it shows (not when the photo was taken!)',
     paso3: 'Correct: keep going, points add up with your streak. Wrong: lose a life',
-    paso4: `You have ${VIDAS_INICIALES} lives — when they run out, the game ends`,
+    paso4: `You have ${VIDAS_INICIALES} lives and ${TIEMPO} seconds (each correct answer adds ${SEG_ACIERTO} s): the game ends when you run out of lives or time`,
     aviso: "Heads up: some photos are of excavations, paintings or modern reconstructions of something much older. What counts is the era shown, not when the photograph or painting was made.",
     salir: '← Exit', ronda: 'Round',
     tuRespuesta: 'Your answer', confirmar: 'Confirm →',
@@ -75,7 +82,7 @@ const UI = {
     paso1: 'Apareix una fotografia històrica real',
     paso2: 'Arrossega a la línia temporal fins a l\'època que retrata (no pas quan es va fer la foto!)',
     paso3: 'Encertes: continues i sumes punts amb la ratxa. Falles: perds una vida',
-    paso4: `Tens ${VIDAS_INICIALES} vides — quan s'acaben, la partida s'atura`,
+    paso4: `Tens ${VIDAS_INICIALES} vides i ${TIEMPO} segons (cada encert suma ${SEG_ACIERTO} s): la partida s'acaba quan et quedes sense vides o sense temps`,
     aviso: "Compte: algunes fotos són d'excavacions, pintures o reconstruccions modernes d'alguna cosa molt més antiga. El que compta és l'època que retrata la imatge, no pas quan es va fer la fotografia o el quadre.",
     salir: '← Sortir', ronda: 'Ronda',
     tuRespuesta: 'La teva resposta', confirmar: 'Confirmar →',
@@ -146,7 +153,25 @@ export default function EpocasHistoricas() {
   const [feedback, setFeedback] = useState(null)
   const [saved, setSaved]       = useState(false)
   const [sliderVal, setSliderVal] = useState(Math.round(SLIDER_MAX / 2))
+  const [tiempo, setTiempo] = useState(TIEMPO)
   const startRef = useRef(null)
+  const siguienteRef = useRef(null)
+
+  // El reloj corre solo mientras se elige la época
+  useEffect(() => {
+    if (fase !== 'jugando') return
+    const id = setInterval(() => setTiempo(x => {
+      if (x <= 1) { clearInterval(id); setFase('fin'); return 0 }
+      return x - 1
+    }), 1000)
+    return () => clearInterval(id)
+  }, [fase])
+  // Al acertar, a la siguiente sin pulsar nada
+  useEffect(() => {
+    if (fase !== 'feedback' || !feedback?.correcto) return
+    const id = setTimeout(() => siguienteRef.current?.(), PAUSA_ACIERTO_MS)
+    return () => clearTimeout(id)
+  }, [fase, feedback])
 
   const preview = sliderToEraYear(sliderVal, epocasOrden)
 
@@ -162,6 +187,7 @@ export default function EpocasHistoricas() {
     setFeedback(null)
     setSaved(false)
     setSliderVal(Math.round(SLIDER_MAX / 2))
+    setTiempo(TIEMPO)
     setFase('jugando')
     startRef.current = Date.now()
   }
@@ -186,7 +212,7 @@ export default function EpocasHistoricas() {
     const nuevaRacha = correcto ? racha + 1 : 0
     const vidasRestantes = correcto ? vidas : vidas - 1
 
-    if (correcto) setPuntos(p => p + pts)
+    if (correcto) { setPuntos(p => p + pts); setTiempo(x => x + SEG_ACIERTO) }
     setRondas(r => r + 1)
     setRacha(nuevaRacha)
     setMejorRacha(m => Math.max(m, nuevaRacha))
@@ -208,6 +234,8 @@ export default function EpocasHistoricas() {
     setFeedback(null)
     setFase('jugando')
   }
+
+  useEffect(() => { siguienteRef.current = siguiente })
 
   // ── INTRO ─────────────────────────────────────────────────────────────────
   if (fase === 'intro') {
@@ -272,6 +300,7 @@ export default function EpocasHistoricas() {
             {t.salir}
           </button>
           <div className="flex items-center gap-3 text-sm text-white/50">
+            <span className={`font-black tabular-nums ${tiempo <= 10 ? 'text-red-400' : 'text-white'}`}>⏱️ {tiempo}s</span>
             {racha >= 2 && <span className="text-amber-400 font-bold">🔥 ×{racha}</span>}
             <span className="text-white font-bold tabular-nums">{puntos.toLocaleString()} pts</span>
             <span className="flex gap-0.5">
