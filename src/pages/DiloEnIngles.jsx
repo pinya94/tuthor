@@ -45,6 +45,7 @@ const COLOR = {
   rojo: 'border-red-400/60 bg-red-950/60 text-red-100',
 }
 const TITULO = { verde: '💚 ¡Perfecto!', amarillo: '💛 Se entiende…', rojo: '🔴 Así no' }
+const TITULO_NO_RECONOCIDA = '🤔 No te he entendido'
 
 export default function DiloEnIngles() {
   const { user } = useAuth()
@@ -284,10 +285,10 @@ export default function DiloEnIngles() {
 
         {resultado && (
           <div className={`mt-4 rounded-2xl border-2 p-4 ${COLOR[resultado.nivel]}`} role="status">
-            <p className="font-black text-lg">{resultado.vacio ? '🔴 No te he entendido' : TITULO[resultado.nivel]}</p>
+            <p className="font-black text-lg">{resultado.vacio ? '🔴 No te he entendido' : resultado.nivel === 'rojo' && !resultado.nota ? TITULO_NO_RECONOCIDA : TITULO[resultado.nivel]}</p>
             {resultado.texto && <p className="text-sm opacity-80 mt-0.5">Has dicho: «{resultado.texto}»</p>}
             {resultado.nota && <p className="mt-2">{resultado.nota}</p>}
-            {!resultado.nota && resultado.nivel === 'rojo' && !resultado.vacio && <p className="mt-2">No es lo que toca aquí. {resultado.final ? '' : 'Mira la pista y prueba otra vez.'}</p>}
+            {!resultado.nota && resultado.nivel === 'rojo' && !resultado.vacio && <p className="mt-2">No la he reconocido como respuesta a esta pregunta. {resultado.final ? 'Si crees que estaba bien, puede que lo esté: aquí tienes otra forma de decirlo.' : 'Mira la pista y prueba otra vez.'}</p>}
             {(resultado.nivel !== 'verde' && resultado.final) && (
               <p className="mt-2 font-bold">Una forma de decirlo: <span className="text-white">{turno.modelo}</span>
                 <button type="button" onClick={() => hablar(turno.modelo.split(' / ')[0])} className="ml-2 text-sm underline">🔊</button></p>

@@ -27,6 +27,12 @@ describe('normaliza y encaja', () => {
 describe('frases reales', () => {
   it('restaurante', () => {
     expect(nivel('restaurante', 0, 'a table for two please')).toBe('verde')
+    // el guion dice dos, pero otro número es inglés correcto (lo encontró el usuario)
+    expect(nivel('restaurante', 0, 'I need a table for five people please')).toBe('verde')
+    expect(nivel('restaurante', 0, 'a table for five persons')).toBe('amarillo')
+    expect(nivel('restaurante', 1, "I'd like a Fanta please")).toBe('verde')
+    expect(nivel('restaurante', 2, 'can I have the lamb please')).toBe('verde')
+    expect(nivel('restaurante', 2, 'I want the lamb')).toBe('amarillo')
     expect(nivel('restaurante', 1, "I'd like an orange juice please")).toBe('verde')
     expect(nivel('restaurante', 1, 'I want a coke')).toBe('amarillo')
     expect(nivel('restaurante', 1, 'a glass of water please')).toBe('verde')
@@ -57,6 +63,7 @@ describe('frases reales', () => {
   it('hotel y calle', () => {
     expect(nivel('hotel', 0, 'I have a reserve')).toBe('rojo')
     expect(nivel('hotel', 0, 'hello I have a booking')).toBe('verde')
+    expect(nivel('hotel', 0, 'hi I would like a double room please')).toBe('verde')
     expect(nivel('hotel', 2, 'M A R T A')).toBe('verde')
     expect(nivel('hotel', 3, 'what hour is breakfast')).toBe('rojo')
     expect(nivel('hotel', 3, "where's the elevator")).toBe('amarillo')
