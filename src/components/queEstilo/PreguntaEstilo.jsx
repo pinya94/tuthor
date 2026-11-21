@@ -3,24 +3,34 @@
 // más moderno. La usan el juego (contra reloj) y el examen (MechanicExam).
 import { useState } from 'react'
 import { useLang } from '../../context/LangContext'
-import { enunciado, explicacion, dibujoDe, nombreDe } from '../../lib/queEstilo'
-
-const CON_SEGUNDA_VISTA = new Set([
-  'griego-dorico', 'romano-acueducto', 'islamico-arqueria', 'romanico-torre',
-  'gotico-arbotantes', 'renacimiento-palacio', 'barroco-calle', 'neoclasico-museo',
-])
+import { enunciado, explicacion, nombreDe, fotoDe, textoOpcion } from '../../lib/queEstilo'
 
 function Dibujo({ r, it, t }) {
-  const dibujo = dibujoDe(r, it)
-  const id = dibujo.pregunta === 'arco' || dibujo.pregunta === 'columna'
-    ? `${dibujo.pregunta}-${dibujo.bueno}`
-    : `${dibujo.estilo}-${dibujo.variante}`
-
-  const variante = CON_SEGUNDA_VISTA.has(id) && r.semilla % 2 === 1 ? '-2' : ''
-
   return (
-    <img src={`/que-estilo/${id}${variante}.webp`} alt={t.aria}
+    <img src={`/que-estilo/${fotoDe(r, it)}.webp`} alt={t.aria}
       className="block w-full h-auto rounded-md" draggable={false} />
+  )
+}
+
+// El juego: una foto y tres opciones (toque rápido)
+function Elige({ r, revelado, elegida, onResponder, l, t }) {
+  return (
+    <>
+      <div className="mx-auto mb-3 w-full max-w-[300px] rounded-xl overflow-hidden border border-white/10 bg-[#0b1226]">
+        <Dibujo r={r} it={r.foto} t={t} />
+      </div>
+      <div className="grid gap-2">
+        {r.opciones.map(o => {
+          const tono = revelado ? (o === r.bueno ? 'border-green-400 bg-green-500/15' : o === elegida ? 'border-red-400 bg-red-500/15' : 'border-white/10 opacity-50') : 'border-white/15 bg-white/[0.06] hover:bg-white/10 active:scale-[0.98]'
+          return (
+            <button key={o} type="button" disabled={revelado} onClick={() => onResponder(o)}
+              className={`py-3 px-3 rounded-xl border-2 text-white text-base font-bold transition-all ${tono}`}>
+              {textoOpcion(o, r, l)}
+            </button>
+          )
+        })}
+      </div>
+    </>
   )
 }
 
@@ -114,7 +124,7 @@ export default function PreguntaEstilo({ ronda, revelado, elegida, onResponder }
   return (
     <div className="w-full">
       <p className="text-white font-bold text-center mb-3 leading-snug">{enunciado(ronda, l)}</p>
-      {ronda.mecanica === 'ordena' ? <Ordena {...props} /> : <Empareja {...props} />}
+      {ronda.mecanica === 'elige' ? <Elige {...props} /> : ronda.mecanica === 'ordena' ? <Ordena {...props} /> : <Empareja {...props} />}
       {revelado && <p className="mt-3 text-white/75 text-sm rounded-xl px-3 py-2.5 bg-white/5 border border-white/10">💡 {explicacion(ronda, l)}</p>}
     </div>
   )

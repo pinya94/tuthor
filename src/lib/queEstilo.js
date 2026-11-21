@@ -256,6 +256,36 @@ export function genRonda(nivel = 'facil', { rand = Math.random, evitar } = {}) {
 }
 export const genRound = difficulty => genRonda(difficulty)
 
+// El JUEGO (21-nov-2026, a petición del usuario): una foto y tres opciones,
+// rápido. Emparejar tres fotos por ronda gastaba las ilustraciones en pocas
+// preguntas y la partida se repetía enseguida. El examen sigue con genRonda.
+// Edificios con segunda vista (public/que-estilo/<id>-2.webp)
+export const CON_SEGUNDA_VISTA = new Set([
+  'griego-dorico', 'romano-acueducto', 'islamico-arqueria', 'romanico-torre',
+  'gotico-arbotantes', 'renacimiento-palacio', 'barroco-calle', 'neoclasico-museo',
+])
+// Fichero de la ilustración de un elemento (edificio «estilo:variante», arco o columna)
+export function fotoDe(r, it, semilla = r.semilla) {
+  const d = dibujoDe(r, it)
+  const id = d.pregunta === 'arco' || d.pregunta === 'columna' ? `${d.pregunta}-${d.bueno}` : `${d.estilo}-${d.variante}`
+  return `${id}${CON_SEGUNDA_VISTA.has(id) && semilla % 2 === 1 ? '-2' : ''}`
+}
+const recientesF = []
+export function genFoto(nivel = 'facil', { rand = Math.random, evitar } = {}) {
+  for (let intento = 0; ; intento++) {
+    const v = genVieja(nivel, { rand, evitar })
+    const it = v.pregunta === 'arco' || v.pregunta === 'columna' ? v.bueno : `${v.estilo}:${v.variante}`
+    const foto = fotoDe(v, it)
+    // Sin repetir foto en las últimas 10 rondas (ni la misma pregunta sobre ella)
+    if (intento < 40 && recientesF.includes(foto)) continue
+    recientesF.push(foto)
+    if (recientesF.length > 10) recientesF.shift()
+    const otras = v.opciones.filter(o => o !== v.bueno).slice(0, 2)
+    const tres = v.pregunta === 'epoca' ? v.opciones.filter(o => o === v.bueno || otras.includes(o)) : baraja(rand, [v.bueno, ...otras])
+    return { ...v, mecanica: 'elige', foto: it, opciones: tres }
+  }
+}
+
 // El estilo de un elemento (edificio «estilo:variante» o arco/columna suelto)
 export const estiloDe = it => it.split(':')[0]
 // Lo que dibuja Edificio para un elemento suelto
@@ -274,7 +304,7 @@ export function nombreDe(r, k, l) {
 export function respuestaBuena(r) {
   if (r.mecanica === 'empareja') return 'empareja:0'
   if (r.mecanica === 'ordena') return r.orden.join('>')
-  return r.bueno
+  return r.bueno // 'elige' (juego) y las rondas viejas
 }
 export function esCorrecta(r, o) {
   if (o == null) return false
@@ -284,6 +314,7 @@ export function esCorrecta(r, o) {
 export const isCorrect = esCorrecta
 
 export function enunciado(r, l) {
+  if (r.mecanica === 'elige') return enunciadoViejo(r, l)
   switch (r.pregunta) {
     case 'estilo': return tx(T('Toca un edificio y después el nombre de su estilo', 'Tap a building and then the name of its style', 'Toca un edifici i després el nom del seu estil'), l)
     case 'arco': return tx(T('Toca un arco y después su nombre', 'Tap an arch and then its name', 'Toca un arc i després el seu nom'), l)
@@ -296,6 +327,7 @@ export function enunciado(r, l) {
 const ejemploDe = (e, l) => { const m = tx(RASGOS[e], l).match(/(?:^|[.,]\s)((?:como|like|com)\s[^.]*)\.?$/i); return m[1].charAt(0).toLowerCase() + m[1].slice(1) }
 
 export function explicacion(r, l) {
+  if (r.mecanica === 'elige') return explicacionVieja(r, l)
   if (r.pregunta === 'estilo') {
     // Corto: cada estilo con su obra de ejemplo («Griego, como el Partenón»)
     return r.items.map(it => { const e = estiloDe(it); return `${tx(NOMBRE_ESTILO[e], l)}, ${ejemploDe(e, l)}` }).join(' · ')

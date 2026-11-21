@@ -98,3 +98,32 @@ describe.each([['arquitectura', arq], ['pintura', pin]])('banco de %s', (_, b) =
     }
   })
 })
+
+// Juego (21-nov-2026): una foto y tres opciones, sin repetir foto seguida
+describe('juego: una foto y tres opciones', async () => {
+  const { genFoto, fotoDe } = await import('../queEstilo')
+  const fs = await import('node:fs')
+  for (const nivel of Object.keys(NIVELES)) {
+    it(`${nivel}: tres opciones con la buena, la foto existe y no se repite en 10 rondas`, () => {
+      const vistas = []
+      for (let i = 0; i < 200; i++) {
+        const r = genFoto(nivel)
+        expect(r.mecanica).toBe('elige')
+        expect(r.opciones).toHaveLength(3)
+        expect(new Set(r.opciones).size).toBe(3)
+        expect(r.opciones).toContain(r.bueno)
+        expect(esCorrecta(r, r.bueno)).toBe(true)
+        for (const o of r.opciones.filter(o => o !== r.bueno)) expect(esCorrecta(r, o)).toBe(false)
+        for (const l of ['es', 'en', 'ca']) {
+          expect(enunciado(r, l).length).toBeGreaterThan(8)
+          expect(explicacion(r, l).length).toBeGreaterThan(20)
+          for (const o of r.opciones) expect(textoOpcion(o, r, l)).toBeTruthy()
+        }
+        const foto = fotoDe(r, r.foto)
+        expect(fs.existsSync(`public/que-estilo/${foto}.webp`), foto).toBe(true)
+        expect(vistas.slice(-10)).not.toContain(foto)
+        vistas.push(foto)
+      }
+    })
+  }
+})

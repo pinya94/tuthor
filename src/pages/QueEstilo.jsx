@@ -4,7 +4,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import { NIVELES, genRonda, esCorrecta } from '../lib/queEstilo'
+import { NIVELES, genFoto, esCorrecta } from '../lib/queEstilo'
 import PreguntaEstilo from '../components/queEstilo/PreguntaEstilo'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
@@ -13,10 +13,15 @@ import { Racha } from '../components/Iconos'
 import { useArranqueDirecto } from '../lib/arranqueDirecto'
 
 // Tres o cuatro dibujos por ronda: 90 s y +6 s por acierto.
-const GAME_TIME = 90
+// 21-nov-2026: una foto y tres opciones, rápido; el tiempo se acaba siempre
+// (cada respuesta cuesta ~3 s y un acierto devuelve 1 s)
+const GAME_TIME = 45
 const WRONG_TIME = 5
-const CORRECT_TIME = 6
-const REVEAL_MS = 4800 // da tiempo a leer los rasgos del estilo
+const CORRECT_TIME = 1
+// Pausa tras responder (el reloj no corre): corta si aciertas; si fallas,
+// tiempo para leer los rasgos del estilo
+const REVEAL_OK_MS = 1100
+const REVEAL_MAL_MS = 3800
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
@@ -53,7 +58,7 @@ export default function QueEstilo() {
   useEffect(() => { aciertosRef.current = aciertos }, [aciertos])
 
   const next = useCallback(niv => {
-    setRonda(prev => genRonda(niv, { evitar: prev?.clave }))
+    setRonda(prev => genFoto(niv, { evitar: prev?.clave }))
     setElegida(null)
     setPhase('choose')
   }, [])
@@ -95,7 +100,8 @@ export default function QueEstilo() {
   function responder(r) {
     if (phase !== 'choose') return
     setElegida(r); setPhase('result')
-    if (esCorrecta(ronda, r)) {
+    const bien = esCorrecta(ronda, r)
+    if (bien) {
       setAciertos(a => a + 1)
       setStreak(s => s + 1)
       setTimeLeft(t => t + CORRECT_TIME)
@@ -103,14 +109,14 @@ export default function QueEstilo() {
       setStreak(0)
       setTimeLeft(t => Math.max(0, t - WRONG_TIME))
     }
-    nextRef.current = setTimeout(() => next(nivel), REVEAL_MS)
+    nextRef.current = setTimeout(() => next(nivel), bien ? REVEAL_OK_MS : REVEAL_MAL_MS)
   }
 
   const seo = {
     title: tr({ es: '¿Qué estilo es? — Juego de estilos arquitectónicos (Historia del Arte)', en: 'What Style Is It? — Architectural styles game (Art History)', ca: 'Quin estil és? — Joc d’estils arquitectònics (Història de l’Art)' }),
     desc: tr({
-      es: 'Edificios dibujados para reconocer el estilo: griego, romano, hispanomusulmán, románico, gótico, Renacimiento, Barroco y Neoclásico. Arcos, columnas y épocas. Juego de Historia del Arte gratis.',
-      en: 'Drawn buildings to recognise the style: Greek, Roman, Islamic Spain, Romanesque, Gothic, Renaissance, Baroque and Neoclassical. Arches, columns and periods. Free art history game.',
+      es: 'Ilustraciones de edificios para reconocer el estilo: griego, romano, hispanomusulmán, románico, gótico, Renacimiento, Barroco y Neoclásico. Arcos, columnas y épocas. Juego de Historia del Arte gratis.',
+      en: 'Illustrated buildings to recognise the style: Greek, Roman, Islamic Spain, Romanesque, Gothic, Renaissance, Baroque and Neoclassical. Arches, columns and periods. Free art history game.',
       ca: 'Edificis dibuixats per reconèixer l’estil: grec, romà, hispanomusulmà, romànic, gòtic, Renaixement, Barroc i Neoclàssic. Arcs, columnes i èpoques. Joc d’Història de l’Art gratis.',
     }),
     path: '/juegos/que-estilo',
@@ -147,7 +153,7 @@ export default function QueEstilo() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'No hay opciones. Salen tres edificios dibujados: toca uno y después el nombre de su estilo (griego, romano, hispanomusulmán, románico, gótico, renacentista, barroco o neoclásico). Otras rondas son tres arcos para nombrar, columnas para ordenar de la más antigua a la más moderna o cuatro edificios para poner en orden en el tiempo.', en: 'There are no options. Three drawn buildings appear: tap one and then the name of its style (Greek, Roman, Islamic Spain, Romanesque, Gothic, Renaissance, Baroque or Neoclassical). Other rounds have three arches to name, columns to put in order from oldest to newest, or four buildings to put in order in time.', ca: 'No hi ha opcions. Surten tres edificis dibuixats: toca’n un i després el nom del seu estil (grec, romà, hispanomusulmà, romànic, gòtic, renaixentista, barroc o neoclàssic). Altres rondes són tres arcs per anomenar, columnes per ordenar de la més antiga a la més moderna o quatre edificis per posar en ordre en el temps.' })}</p>
+              <p>{tr({ es: 'Sale un edificio y tocas su estilo entre tres (griego, romano, hispanomusulmán, románico, gótico, renacentista, barroco o neoclásico). Otras rondas preguntan el tipo de arco, el orden de una columna o la época. Rápido: el reloj corre y cada acierto solo devuelve un segundo.', en: 'A building appears and you tap its style out of three (Greek, Roman, Islamic Spain, Romanesque, Gothic, Renaissance, Baroque or Neoclassical). Other rounds ask for the type of arch, the order of a column or the period. Be quick: the clock is running and each correct answer only gives back one second.', ca: 'Surt un edifici i toques el seu estil entre tres (grec, romà, hispanomusulmà, romànic, gòtic, renaixentista, barroc o neoclàssic). Altres rondes pregunten el tipus d’arc, l’ordre d’una columna o l’època. Ràpid: el rellotge corre i cada encert només torna un segon.' })}</p>
               <p>{tr({ es: 'Busca el rasgo que delata cada estilo: el arco (medio punto, apuntado, herradura), las columnas, el rosetón, los arbotantes, las curvas. En el difícil, los edificios de la ronda son de estilos que se parecen entre sí.', en: 'Look for the feature that gives each style away: the arch (round, pointed, horseshoe), the columns, the rose window, the flying buttresses, the curves. On hard, the buildings in a round are from styles that look alike.', ca: 'Busca el tret que delata cada estil: l’arc (mig punt, apuntat, ferradura), les columnes, la rosassa, els arcbotants, les corbes. Al difícil, els edificis de la ronda són d’estils que s’assemblen entre si.' })}</p>
               <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
             </div>
