@@ -8,15 +8,14 @@
 // Regla de siempre: nada que un profe de inglés aceptaría puede salir en rojo.
 // Lo americano correcto (elevator, check) va en amarillo con la nota, nunca en rojo.
 //
-// Personajes provisionales: los monjes del escape room (el usuario pasará los
-// de verdad). `img` es la ruta de su dibujo.
+// Personajes: dibujos del usuario (public/escape/ingles-<rol>.webp). `img` es la ruta.
 
 const GRACIAS = ['thank', 'thanks', 'cheers', 'you too', 'ta']
 
 export const SITUACIONES = [
   {
     id: 'restaurante', emoji: '🍽️', titulo: 'En el restaurante', nivel: 'A1-A2',
-    personaje: 'El camarero', img: '/escape/sospechoso-bruno.webp',
+    personaje: 'El camarero', img: '/escape/ingles-camarero.webp',
     intro: 'Has entrado en un restaurante de Londres con un amigo. Pide mesa, bebida y comida, y al final pide la cuenta.',
     turnos: [
       { dice: 'Good evening! A table for how many?', ayuda: 'Sois dos personas.', modelo: 'A table for two, please.',
@@ -50,7 +49,7 @@ export const SITUACIONES = [
   },
   {
     id: 'campamento', emoji: '⛺', titulo: 'El primer día de campamento', nivel: 'A1',
-    personaje: 'El monitor', img: '/escape/sospechoso-lucas.webp',
+    personaje: 'El monitor', img: '/escape/ingles-monitor.webp',
     intro: 'Llegas a un campamento de verano en Inglaterra. El monitor quiere conocerte: preséntate.',
     turnos: [
       { dice: "Hi! Welcome to the summer camp. What's your name?", ayuda: 'Di cómo te llamas.', modelo: "My name's Marta. / I'm Marta.",
@@ -85,7 +84,7 @@ export const SITUACIONES = [
   },
   {
     id: 'hotel', emoji: '🏨', titulo: 'Llegada al hotel', nivel: 'A2',
-    personaje: 'El recepcionista', img: '/escape/sospechoso-gil.webp',
+    personaje: 'El recepcionista', img: '/escape/ingles-recepcionista.webp',
     intro: 'Llegas a un hotel de Edimburgo con tu familia. Tenéis una reserva: haz el check-in.',
     turnos: [
       { dice: 'Good afternoon! How can I help you?', ayuda: 'Di que tienes una reserva.', modelo: "Hello, I have a reservation. / I'd like to check in, please.",
@@ -108,8 +107,8 @@ export const SITUACIONES = [
   },
   {
     id: 'calle', emoji: '🗺️', titulo: 'Perdido por la ciudad', nivel: 'A2',
-    personaje: 'Un señor por la calle', img: '/escape/sospechoso-tomas.webp',
-    intro: 'Estás en York y no encuentras la estación de tren. Un señor se ofrece a ayudarte: escucha bien el camino.',
+    personaje: 'Un chico por la calle', img: '/escape/ingles-calle.webp',
+    intro: 'Estás en York y no encuentras la estación de tren. Un chico se ofrece a ayudarte: escucha bien el camino.',
     turnos: [
       { dice: 'Hello! You look lost. Can I help you?', ayuda: 'Pregunta cómo llegar a la estación de tren.', modelo: 'Yes, please. How do I get to the train station?',
         mal: [
