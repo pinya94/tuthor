@@ -241,6 +241,11 @@ export const STATIC_META = {
     es: { title: 'Simplificar fracciones paso a paso', desc: 'Escribe una fracción y obtén su forma irreducible dividiendo entre el máximo común divisor, paso a paso y con el decimal. Gratis y sin registro.' },
     en: { title: 'Simplify fractions to lowest terms, step by step', desc: 'Type a fraction and get its lowest terms by dividing by the greatest common divisor, step by step and with the decimal. Free, no sign-up.' },
   },
+  '/recursos/ensayo-orquesta': {
+    es: { title: 'Ensayo con la orquesta: el Himno de la alegría para tocar en clase', desc: 'Partitura de todas las voces en el proyector: flauta dulce, láminas, ukelele y percusión, o versión de orquesta. Silencia o deja sola cada voz, tempo y bucle. Gratis.' },
+    en: { title: 'Orchestra rehearsal: Ode to Joy to play in class', desc: 'Every part on the projector: recorder, tuned percussion, ukulele and percussion, or the orchestra version. Mute or solo each part, tempo and loop. Free.' },
+    ca: { title: 'Assaig amb l’orquestra: l’Himne de l’alegria per tocar a classe', desc: 'Partitura de totes les veus al projector: flauta dolça, làmines, ukelele i percussió, o versió d’orquestra. Silencia o deixa sola cada veu, tempo i bucle. Gratis.' },
+  },
   '/recursos/sistema-solar': {
     es: { title: 'Sistema solar en 3D: dónde están hoy los planetas', desc: 'Gira el sistema solar en 3D y mira dónde están los planetas en cualquier fecha, con distancias, tamaños y datos de cada uno. Posiciones reales, gratis y sin registro.' },
     en: { title: 'Solar system in 3D: where the planets are today', desc: 'Rotate the solar system in 3D and see where the planets are on any date, with distances, sizes and facts for each one. Real positions, free, no sign-up.' },

@@ -133,6 +133,7 @@ const CompasCompleto         = lazy(() => import('./pages/CompasCompleto'))
 const LaOrquesta             = lazy(() => import('./pages/LaOrquesta'))
 const EscalasAcordes         = lazy(() => import('./pages/EscalasAcordes'))
 const TocaOrquesta           = lazy(() => import('./pages/TocaOrquesta'))
+const RecursoEnsayo          = lazy(() => import('./pages/RecursoEnsayo'))
 const QuienDesafina          = lazy(() => import('./pages/QuienDesafina'))
 const QueHoraEs              = lazy(() => import('./pages/QueHoraEs'))
 const ContinentesOceanos     = lazy(() => import('./pages/ContinentesOceanos'))
@@ -509,6 +510,7 @@ function AppRoutes() {
       <Route path="profesores" element={<Profesores />} />
       <Route path="recursos" element={<Recursos />} />
       <Route path="recursos/funciones" element={<RecursoFunciones />} />
+      <Route path="recursos/ensayo-orquesta" element={<RecursoEnsayo />} />
       <Route path="recursos/funciones/:tipo" element={<RecursoFunciones />} />
       <Route path="recursos/ecuaciones" element={<RecursoEcuaciones />} />
       <Route path="recursos/ecuaciones/:tipo" element={<RecursoEcuaciones />} />

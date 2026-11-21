@@ -4,6 +4,7 @@ import { ArteMateria } from '../components/arte/materias'
 import TarjetaArte from '../components/TarjetaArte'
 import { ARTE_TEMAS } from '../components/arte/temas'
 import { ARTE_JUEGOS } from '../components/arte'
+import RecursosInteractivos from '../components/RecursosInteractivos'
 
 const TEMAS = [
   {
@@ -89,6 +90,10 @@ export default function MusicaIndex() {
           sub={tr({ es: 'Tres instrumentos, uno desafina: encuéntralo y afínalo', en: 'Three instruments, one out of tune: find it and tune it', ca: 'Tres instruments, un desafina: troba’l i afina’l' })}
           to={localPath('/juegos/quien-desafina')} />
       </div>
+      <section className="max-w-3xl mx-auto w-full mt-10">
+        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-3">{tr({ es: 'Para tocar en clase', en: 'To play in class', ca: 'Per tocar a classe' })}</p>
+        <RecursosInteractivos materia="musica" />
+      </section>
     </div>
   )
 }

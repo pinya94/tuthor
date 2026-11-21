@@ -120,6 +120,7 @@ describe('recursos interactivos', () => {
       matematicas: 'src/pages/MatematicasIndex.jsx',
       geografia: 'src/pages/GeografiaIndex.jsx',
       geologia: 'src/pages/QuimicaIndex.jsx',
+      musica: 'src/pages/MusicaIndex.jsx',
     }
     for (const r of RECURSOS_INTERACTIVOS) {
       expect(r.materias?.length, `${r.id}: sin materia`).toBeGreaterThan(0)

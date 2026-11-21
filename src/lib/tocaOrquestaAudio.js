@@ -14,6 +14,10 @@ const SINTE = {
   cello: { type: 'sawtooth', f: 1100, q: 0.8, g: 0.1, att: 0.03 },
   contrabass: { type: 'triangle', f: 700, q: 1, g: 0.22, att: 0.01 },
   piano: { type: 'triangle', f: 3000, q: 0.7, g: 0.2, att: 0.005 },
+  recorder: { type: 'triangle', f: 5000, q: 0.7, g: 0.18, att: 0.01 },
+  xylophone: { type: 'sine', f: 6000, q: 0.7, g: 0.25, att: 0.003 },
+  guitarra: { type: 'triangle', f: 2500, q: 0.7, g: 0.12, att: 0.005 },
+  woodblock: { type: 'square', f: 1800, q: 4, g: 0.15, att: 0.002 },
 }
 
 export function creaMotor() {
@@ -24,6 +28,11 @@ export function creaMotor() {
   master.connect(ctx.destination)
   const muestras = {} // `${timbre}/${midi}` → AudioBuffer
   const fuentes = new Set()
+  const canales = {} // una ganancia por voz: silenciar sin reprogramar
+  function canal(id) {
+    if (!canales[id]) { canales[id] = ctx.createGain(); canales[id].connect(master) }
+    return canales[id]
+  }
   let micro = null // { stream, analyser, buf }
 
   async function carga(timbre, midis) {
@@ -38,10 +47,10 @@ export function creaMotor() {
     }))
   }
 
-  function nota(timbre, m, t, d, vol = 1) {
+  function nota(timbre, m, t, d, vol = 1, destino = master) {
     const buf = muestras[`${timbre}/${m}`]
     const g = ctx.createGain()
-    g.connect(master)
+    g.connect(destino)
     const fin = t + Math.max(0.08, d * 0.95)
     if (buf) {
       const s = ctx.createBufferSource()
@@ -141,5 +150,5 @@ export function creaMotor() {
 
   function cierra() { para(); cierraMicro(); ctx.close().catch(() => {}) }
 
-  return { ctx, carga, nota, click, para, abreMicro, escucha, cierraMicro, calibra, cierra, tieneMicro: () => !!micro }
+  return { ctx, canal, carga, nota, click, para, abreMicro, escucha, cierraMicro, calibra, cierra, tieneMicro: () => !!micro }
 }

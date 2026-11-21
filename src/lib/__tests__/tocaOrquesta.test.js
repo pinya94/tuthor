@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
-import { OBRAS } from '../../data/tocaOrquesta/obras'
-import { INSTRUMENTOS, parte, quintasEscritas, deletrea, nombreNota, musicXML, notasParte, corrige, detectaNota, hzAMidi, TECLAS, numCompases } from '../tocaOrquesta'
+import { OBRAS, vocesJugables } from '../../data/tocaOrquesta/obras'
+import { INSTRUMENTOS, PERCUSION_MIDI, musicXMLPartitura, parte, quintasEscritas, deletrea, nombreNota, musicXML, notasParte, corrige, detectaNota, hzAMidi, TECLAS, numCompases } from '../tocaOrquesta'
 
 const NOMBRE = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
 
@@ -17,10 +17,12 @@ describe('Toca con la Orquesta: arreglos', () => {
     })
     it(`${id}: hay muestra de sonido para cada nota de la orquesta`, () => {
       for (const voz of Object.values(o.voces)) {
-        for (const c of voz.compases) for (const [m] of c) {
-          if (m == null) continue
-          const f = `public/toca-orquesta/sf/${voz.timbre}/${NOMBRE[m % 12]}${Math.floor(m / 12) - 1}.mp3`
-          expect(fs.existsSync(f), f).toBe(true)
+        for (const c of voz.compases) for (const [alt] of c) {
+          if (alt == null) continue
+          for (const m of alt === 'x' ? [PERCUSION_MIDI] : [alt].flat()) {
+            const f = `public/toca-orquesta/sf/${voz.timbre}/${NOMBRE[m % 12]}${Math.floor(m / 12) - 1}.mp3`
+            expect(fs.existsSync(f), f).toBe(true)
+          }
         }
       }
     })
@@ -44,10 +46,9 @@ describe('Toca con la Orquesta: transposición', () => {
     expect(nombreNota(70, -1, 'en')).toBe('B♭')
   })
   it('cada voz cae en la zona cómoda de cada instrumento y la partitura tiene todos los compases', () => {
-    const o = OBRAS['himno-alegria']
-    for (const inst of [...Object.keys(INSTRUMENTOS), 'piano']) {
-      for (const voz of Object.keys(o.voces)) {
-        const p = parte('himno-alegria', voz, inst)
+    for (const obraId of Object.keys(OBRAS)) for (const inst of [...Object.keys(INSTRUMENTOS), 'piano']) {
+      for (const voz of vocesJugables(obraId)) {
+        const p = parte(obraId, voz, inst)
         const rango = inst === 'piano' ? [48, 84] : INSTRUMENTOS[inst].rango
         const ns = notasParte(p)
         if (rango) for (const n of ns) expect(n.suena >= rango[0] && n.suena <= rango[1], `${inst} ${voz} ${n.suena}`).toBe(true)
@@ -125,5 +126,26 @@ describe('Toca con la Orquesta: detección y teclado', () => {
   it('cada tecla del ordenador da una nota distinta (salvo ; y ñ, que son la misma)', () => {
     const notas = Object.entries(TECLAS).filter(([k]) => k !== ';').map(([, m]) => m)
     expect(new Set(notas).size).toBe(notas.length)
+  })
+})
+
+describe('Toca con la Orquesta: versión escuela y partitura general', () => {
+  it('la flauta dulce lee la melodía sin alteraciones: Si, La, Sol, Do, Re y el Re grave', () => {
+    const p = parte('himno-alegria-escuela', 'melodia', 'flautaDulce')
+    expect(p.quintas).toBe(1)
+    const escritas = new Set(notasParte(p).map(n => n.escrita))
+    expect([...escritas].sort((a, b) => a - b)).toEqual([62, 67, 69, 71, 72, 74]) // Re4 Sol4 La4 Si4 Do5 Re5
+  })
+  it('el ukelele y la percusión no se ofrecen en el juego (el micro no los corrige)', () => {
+    expect(vocesJugables('himno-alegria-escuela')).toEqual(['melodia', 'laminas'])
+  })
+  it('la partitura general tiene todas las voces, el cifrado del ukelele y la percusión en una línea', () => {
+    const o = OBRAS['himno-alegria-escuela']
+    const xml = musicXMLPartitura('himno-alegria-escuela', Object.keys(o.voces))
+    expect(xml.match(/<part id=/g)).toHaveLength(4)
+    expect(xml.match(/<harmony>/g)).toHaveLength(32) // un cifrado por medio compás
+    expect(xml).toContain('<root-step>D</root-step></root><kind>dominant</kind>')
+    expect(xml).toContain('<staff-lines>1</staff-lines>')
+    expect(xml).toContain('<part-name>Melodía</part-name>')
   })
 })

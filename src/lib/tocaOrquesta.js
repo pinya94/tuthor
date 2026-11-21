@@ -7,7 +7,7 @@
 // usuario (cobla-estudio): mismo criterio de afinación (±⅓ de semitono bien,
 // hasta ⅔ «un poco alta/baja», más es otra nota), entrada con 70-140 ms de
 // margen y cada compás del color de su peor nota.
-import { OBRAS } from '../data/tocaOrquesta/obras'
+import { OBRAS, ACORDES } from '../data/tocaOrquesta/obras'
 
 const T = (es, en, ca) => ({ es, en, ca })
 
@@ -15,6 +15,9 @@ const T = (es, en, ca) => ({ es, en, ca })
 // escribe un tono más alto). rango = zona cómoda en sonido real, para elegir
 // la octava de cada voz sin salirse del instrumento.
 export const INSTRUMENTOS = {
+  // De escuela: la flauta dulce (soprano) se escribe una octava más grave de lo que suena
+  flautaDulce: { nombre: T('Flauta dulce', 'Recorder', 'Flauta dolça'), emoji: '🎵', trans: -12, clave: 'sol', rango: [72, 98], escuela: true },
+  laminas:   { nombre: T('Xilófono o metalófono', 'Xylophone or glockenspiel', 'Xilòfon o metal·lòfon'), emoji: '🎼', trans: 0, clave: 'sol', rango: [60, 81], escuela: true },
   violin:    { nombre: T('Violín', 'Violin', 'Violí'), emoji: '🎻', trans: 0, clave: 'sol', rango: [55, 84] },
   flauta:    { nombre: T('Flauta', 'Flute', 'Flauta'), emoji: '🎶', trans: 0, clave: 'sol', rango: [60, 93] },
   clarinete: { nombre: T('Clarinete en Si♭', 'B♭ clarinet', 'Clarinet en Si♭'), emoji: '🎶', trans: 2, clave: 'sol', rango: [50, 84] },
@@ -38,7 +41,7 @@ export const NIVELES = {
 }
 
 export const obra = id => OBRAS[id]
-const notasDe = compases => compases.flat().filter(([m]) => m != null).map(([m]) => m)
+const notasDe = compases => compases.flat().filter(([m]) => typeof m === 'number').map(([m]) => m)
 
 // La octava (en múltiplos de 12) que deja la voz dentro de la zona cómoda
 export function octavaPara(voz, rango) {
@@ -115,12 +118,15 @@ export function notasParte(p, vozId = p.vozId) {
   o.voces[vozId].compases.forEach((c, i) => {
     let t = i * negrasCompas
     for (const [m, d] of c) {
-      if (m != null) res.push({ compas: i + 1, inicio: t, dur: d, suena: m + (vozId === p.vozId ? p.sonido : 0), escrita: m + p.sonido + p.trans })
+      const mia = vozId === p.vozId
+      const alturas = m == null ? [] : m === 'x' ? [PERCUSION_MIDI] : Array.isArray(m) ? m : [m]
+      for (const a of alturas) res.push({ compas: i + 1, inicio: t, dur: d, suena: a + (mia && typeof m === 'number' ? p.sonido : 0), escrita: a + p.sonido + p.trans })
       t += d
     }
   })
   return res
 }
+export const PERCUSION_MIDI = 72 // la muestra de wood-block
 export const numCompases = obraId => OBRAS[obraId].voces[Object.keys(OBRAS[obraId].voces)[0]].compases.length
 export const negrasPorCompas = obraId => { const o = OBRAS[obraId]; return o.compas[0] * 4 / o.compas[1] }
 
@@ -148,6 +154,47 @@ export function musicXML(p) {
     return `<measure number="${i + 1}">${attrs}${notas}${fin}</measure>`
   }).join('')
   return `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd"><score-partwise version="3.1"><part-list><score-part id="P1"><part-name></part-name></score-part></part-list><part id="P1">${medidas}</part></score-partwise>`
+}
+
+// ── Partitura general: todas las voces a la vez (recurso de clase) ───────
+// El ukelele y la percusión van en una línea con el ritmo; el ukelele lleva
+// encima el cifrado (Sol, Re7…). Las demás voces, en su clave y transportadas.
+const KIND = { '': 'major', 7: 'dominant', m: 'minor' }
+function harmonyXML(cifra) {
+  const [, letra, alt, resto] = cifra.match(/^([A-G])([b#]?)(.*)$/)
+  return `<harmony><root><root-step>${letra}</root-step>${alt ? `<root-alter>${alt === '#' ? 1 : -1}</root-alter>` : ''}</root><kind>${KIND[resto] ?? 'major'}</kind></harmony>`
+}
+function medidasVoz(obraId, vozId) {
+  const o = OBRAS[obraId]
+  const voz = o.voces[vozId]
+  const linea = voz.tipo === 'acordes' || voz.tipo === 'percusion'
+  const p = linea ? null : parte(obraId, vozId, voz.inst)
+  return voz.compases.map((c, i) => {
+    const attrs = i === 0
+      ? `<attributes><divisions>${DIV}</divisions><key><fifths>${linea ? 0 : p.quintas}</fifths></key><time><beats>${o.compas[0]}</beats><beat-type>${o.compas[1]}</beat-type></time>${linea ? '<clef><sign>percussion</sign></clef><staff-details><staff-lines>1</staff-lines></staff-details>' : `<clef>${CLAVE_XML[p.clave] ?? CLAVE_XML.sol}</clef>`}</attributes>`
+      : ''
+    let t = 0
+    const notas = c.map(([m, d]) => {
+      const [tipo, puntos] = TIPO[d] ?? ['quarter', 0]
+      const dots = '<dot/>'.repeat(puntos)
+      // El cifrado, al empezar cada medio compás
+      const cifra = voz.tipo === 'acordes' && t % 2 === 0 ? harmonyXML(o.cifrado[ACORDES[i][t / 2]]) : ''
+      t += d
+      if (m == null) return `<note><rest/><duration>${d * DIV}</duration><type>${tipo}</type>${dots}</note>`
+      if (linea) return `${cifra}<note><unpitched><display-step>E</display-step><display-octave>4</display-octave></unpitched><duration>${d * DIV}</duration><type>${tipo}</type>${dots}</note>`
+      const { letra, alter, octava } = deletrea(m + p.sonido + p.trans, p.quintas)
+      return `<note><pitch><step>${letra}</step>${alter ? `<alter>${alter}</alter>` : ''}<octave>${octava}</octave></pitch><duration>${d * DIV}</duration><type>${tipo}</type>${dots}</note>`
+    }).join('')
+    const fin = i === voz.compases.length - 1 ? '<barline location="right"><bar-style>light-heavy</bar-style></barline>' : ''
+    return `<measure number="${i + 1}">${attrs}${notas}${fin}</measure>`
+  }).join('')
+}
+const escXML = x => String(x).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+export function musicXMLPartitura(obraId, voces, l = 'es') {
+  const o = OBRAS[obraId]
+  const lista = voces.map((v, k) => `<score-part id="P${k + 1}"><part-name>${escXML((o.voces[v].nombre[l] ?? o.voces[v].nombre.es).replace(/ \(.*\)$/, ''))}</part-name></score-part>`).join('')
+  const partes = voces.map((v, k) => `<part id="P${k + 1}">${medidasVoz(obraId, v)}</part>`).join('')
+  return `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd"><score-partwise version="3.1"><part-list>${lista}</part-list>${partes}</score-partwise>`
 }
 
 // ── Corrección ───────────────────────────────────────────────────────────

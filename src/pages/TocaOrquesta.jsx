@@ -4,12 +4,12 @@
 // Idea y método de corrección: la app de estudio de partituras del usuario
 // (cobla-estudio). Todo en el navegador: el micro no se graba ni se envía.
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import { OBRAS, OBRA_POR_DEFECTO } from '../data/tocaOrquesta/obras'
+import { OBRAS, OBRA_POR_DEFECTO, vocesJugables } from '../data/tocaOrquesta/obras'
 import { INSTRUMENTOS, NIVELES, parte, musicXML, notasParte, numCompases, negrasPorCompas, corrige, textoFallo, midiAHz } from '../lib/tocaOrquesta'
 import Partitura from '../components/tocaOrquesta/Partitura'
 import PianoPantalla from '../components/tocaOrquesta/PianoPantalla'
@@ -27,7 +27,7 @@ const DIFS = {
   dificil: { emoji: '🔴', label: { es: 'Difícil', en: 'Hard', ca: 'Difícil' },
              desc: { es: 'A tempo y sin metrónomo: solo la orquesta', en: 'Full tempo, no metronome: just the orchestra', ca: 'A tempo i sense metrònom: només l’orquestra' } },
 }
-const VOL = { melodia: 0.9, armonia: 0.55, acompanamiento: 0.55, bajo: 0.8 }
+const VOL = { melodia: 0.9, armonia: 0.55, acompanamiento: 0.55, bajo: 0.8, laminas: 0.6, acordes: 0.35, percusion: 0.5 }
 const CLAVES = { sol: { es: 'Sol', en: 'Treble', ca: 'Sol' }, fa: { es: 'Fa', en: 'Bass', ca: 'Fa' }, do: { es: 'Do (viola)', en: 'Alto', ca: 'Do (viola)' } }
 const leeLat = () => { try { return Number(localStorage.getItem('tocaOrquesta.lat')) || 120 } catch { return 120 } }
 const guardaLat = v => { try { localStorage.setItem('tocaOrquesta.lat', String(v)) } catch { /* sin almacenamiento */ } }
@@ -41,9 +41,9 @@ export default function TocaOrquesta() {
   const backPath = location.state?.backPath
 
   const [screen, setScreen] = useState('intro')
-  const [obraId] = useState(OBRA_POR_DEFECTO)
+  const [obraId, setObraId] = useState(OBRA_POR_DEFECTO)
   const [vozId, setVozId] = useState('melodia')
-  const [instId, setInstId] = useState('violin')
+  const [instId, setInstId] = useState('flautaDulce')
   const [semitonos, setSemitonos] = useState(0)
   const [claveOtro, setClaveOtro] = useState('sol')
   const [nivel, setNivel] = useState('facil')
@@ -182,9 +182,9 @@ export default function TocaOrquesta() {
   const seo = {
     title: tr({ es: 'Toca con la Orquesta — Toca tu instrumento con la orquesta y el micro te corrige', en: 'Play with the Orchestra — Play your instrument with the orchestra and get corrected', ca: 'Toca amb l’Orquestra — Toca el teu instrument amb l’orquestra i el micro et corregeix' }),
     desc: tr({
-      es: 'Elige el Himno de la alegría de Beethoven, tu voz y tu instrumento (violín, flauta, clarinete, trompeta, saxo, trompa, viola o violonchelo) y tócala con la orquesta de fondo. El micro corrige cada nota y cada entrada, compás a compás. También con piano en pantalla. Gratis.',
-      en: 'Choose Beethoven’s Ode to Joy, your part and your instrument (violin, flute, clarinet, trumpet, sax, horn, viola or cello) and play it with the orchestra. The microphone checks every note and entry, bar by bar. On-screen piano too. Free.',
-      ca: 'Tria l’Himne de l’alegria de Beethoven, la teva veu i el teu instrument (violí, flauta, clarinet, trompeta, saxo, trompa, viola o violoncel) i toca-la amb l’orquestra de fons. El micro corregeix cada nota i cada entrada, compàs a compàs. També amb piano en pantalla. Gratis.',
+      es: 'Elige el Himno de la alegría de Beethoven, tu voz y tu instrumento (flauta dulce, xilófono, violín, flauta, clarinete, trompeta, saxo, trompa, viola o violonchelo) y tócala con la orquesta de fondo. El micro corrige cada nota y cada entrada, compás a compás. También con piano en pantalla. Gratis.',
+      en: 'Choose Beethoven’s Ode to Joy, your part and your instrument (recorder, xylophone, violin, flute, clarinet, trumpet, sax, horn, viola or cello) and play it with the orchestra. The microphone checks every note and entry, bar by bar. On-screen piano too. Free.',
+      ca: 'Tria l’Himne de l’alegria de Beethoven, la teva veu i el teu instrument (flauta dolça, xilòfon, violí, flauta, clarinet, trompeta, saxo, trompa, viola o violoncel) i toca-la amb l’orquestra de fons. El micro corregeix cada nota i cada entrada, compàs a compàs. També amb piano en pantalla. Gratis.',
     }),
     path: `/juegos/${SLUG}`,
   }
@@ -202,14 +202,22 @@ export default function TocaOrquesta() {
             sub={tr({ es: 'Tu instrumento, tu parte y la orquesta de fondo', en: 'Your instrument, your part and the orchestra behind you', ca: 'El teu instrument, la teva part i l’orquestra de fons' })} />
           <p className="text-center mb-4"><span className="rounded bg-violet-500 text-white text-[10px] font-black uppercase tracking-wide px-1.5 py-0.5">Beta</span></p>
 
-          <div className="rounded-xl bg-white/5 border border-white/10 px-4 py-3 mb-4">
+          <div className="rounded-xl bg-white/5 border border-white/10 px-4 py-3 mb-2">
             <p className="text-white font-bold">🎼 {tr(obra.titulo)}</p>
             <p className="text-white/50 text-xs">{obra.autor} · {tr(obra.origen)} · {tr({ es: 'arreglo de Tuthor', en: 'arranged by Tuthor', ca: 'arranjament de Tuthor' })}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-1.5 mb-4">
+            {Object.keys(OBRAS).map(id => (
+              <button key={id} type="button" onClick={() => { setObraId(id); setVozId('melodia'); setInstId(id === 'himno-alegria' ? 'violin' : 'flautaDulce') }}
+                className={`px-3 py-2 rounded-lg text-xs font-semibold border transition-all ${obraId === id ? 'bg-white/15 border-white/30 text-white' : 'bg-white/5 border-white/10 text-white/50 hover:text-white/80'}`}>
+                {id === 'himno-alegria' ? '🎻' : '🏫'} {tr(OBRAS[id].version)}
+              </button>
+            ))}
           </div>
 
           <p className="text-white/40 text-xs uppercase tracking-widest mb-2">{tr({ es: 'Tu voz', en: 'Your part', ca: 'La teva veu' })}</p>
           <div className="grid grid-cols-2 gap-1.5 mb-4">
-            {Object.entries(obra.voces).map(([id, v]) => (
+            {vocesJugables(obraId).map(id => [id, obra.voces[id]]).map(([id, v]) => (
               <button key={id} type="button" onClick={() => setVozId(id)}
                 className={`px-3 py-2 rounded-lg text-sm font-semibold border transition-all ${vozId === id ? 'bg-white/15 border-white/30 text-white' : 'bg-white/5 border-white/10 text-white/50 hover:text-white/80'}`}>
                 {tr(v.nombre)}
@@ -262,6 +270,10 @@ export default function TocaOrquesta() {
             className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
             {tr({ es: '▶ Ver mi partitura', en: '▶ See my part', ca: '▶ Veure la meva partitura' })}
           </button>
+          <Link to={localPath(`/recursos/ensayo-orquesta?obra=${obraId}`)}
+            className="mt-2 block w-full py-3 rounded-2xl bg-white/10 border border-white/15 text-white font-bold text-center hover:bg-white/15">
+            🏫 {tr({ es: 'Tocar con la clase (todas las voces en el proyector)', en: 'Play with the class (every part on the projector)', ca: 'Tocar amb la classe (totes les veus al projector)' })}
+          </Link>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'Elige tu voz y tu instrumento: la partitura sale ya transportada y en tu clave (el clarinete y la trompeta en Si♭, el saxo alto en Mi♭, la trompa en Fa, la viola en clave de Do y el violonchelo en clave de Fa). Con «Otro» eliges los semitonos y vale para cualquier instrumento.', en: 'Choose your part and instrument: the score appears already transposed and in your clef (clarinet and trumpet in B♭, alto sax in E♭, horn in F, viola in alto clef and cello in bass clef). With “Other” you choose the semitones, so it works for any instrument.', ca: 'Tria la teva veu i el teu instrument: la partitura surt ja transportada i en la teva clau (el clarinet i la trompeta en Si♭, el saxo alt en Mi♭, la trompa en Fa, la viola en clau de Do i el violoncel en clau de Fa). Amb «Altre» tries els semitons i serveix per a qualsevol instrument.' })}</p>

@@ -13,8 +13,10 @@ function geometria(osmd, dx, dy) {
     const gm = fila?.[0]
     if (!gm) return null
     const b = gm.PositionAndShape
+    // Con varias voces (partitura general) la caja abarca del primer pentagrama al último
+    const ult = fila.filter(Boolean).at(-1).PositionAndShape
     const x = b.AbsolutePosition.x * esc + dx, y = b.AbsolutePosition.y * esc + dy
-    const w = b.Size.width * esc, h = 4 * esc // alto del pentagrama (4 espacios)
+    const w = b.Size.width * esc, h = (ult.AbsolutePosition.y - b.AbsolutePosition.y + 4) * esc // 4 = alto de un pentagrama
     const puntos = gm.staffEntries.map(se => ({
       x: se.PositionAndShape.AbsolutePosition.x * esc + dx,
       negra: se.relInMeasureTimestamp.RealValue * 4,
@@ -32,7 +34,7 @@ function xEn(caja, negra, negrasCompas) {
   return caja.x
 }
 
-export default function Partitura({ xml, negrasCompas = 4, posicion = null, colores = null, onCompas }) {
+export default function Partitura({ xml, negrasCompas = 4, posicion = null, colores = null, onCompas, nombres = false, zoom = null, rango = null }) {
   const caja = useRef(null)
   const osmdRef = useRef(null)
   const [cajas, setCajas] = useState([])
@@ -48,13 +50,13 @@ export default function Partitura({ xml, negrasCompas = 4, posicion = null, colo
         caja.current.innerHTML = ''
         const osmd = new OpenSheetMusicDisplay(caja.current, {
           autoResize: false, backend: 'svg', drawTitle: false, drawSubtitle: false, drawComposer: false,
-          drawPartNames: false, drawMeasureNumbers: true, autoBeam: true, drawingParameters: 'compacttight',
+          drawPartNames: nombres, drawPartAbbreviations: false, drawMeasureNumbers: true, autoBeam: true, drawingParameters: 'compacttight',
         })
         osmdRef.current = osmd
         await osmd.load(xml)
         if (!vivo) return
         const dibuja = () => {
-          osmd.Zoom = caja.current.clientWidth < 500 ? 0.75 : 1
+          osmd.Zoom = zoom ?? (caja.current.clientWidth < 500 ? 0.75 : 1)
           osmd.render()
           setCajas(geometria(osmd, caja.current.offsetLeft, caja.current.offsetTop))
         }
@@ -70,7 +72,7 @@ export default function Partitura({ xml, negrasCompas = 4, posicion = null, colo
       }
     })()
     return () => { vivo = false; ro?.disconnect() }
-  }, [xml])
+  }, [xml, nombres, zoom])
 
   const actual = posicion ? cajas[posicion.compas - 1] : null
   return (
@@ -83,6 +85,9 @@ export default function Partitura({ xml, negrasCompas = 4, posicion = null, colo
           onClick={() => onCompas?.(i + 1)}
           className="absolute rounded-sm"
           style={{ left: c.x, top: c.y - 10, width: c.w, height: c.h + 20, background: colores?.[i + 1] ? COLOR[colores[i + 1]] : 'transparent', cursor: onCompas ? 'pointer' : 'default' }} />
+      ))}
+      {rango && cajas.map((c, i) => c && i + 1 >= rango[0] && i + 1 <= rango[1] && (
+        <div key={`r${i}`} className="absolute pointer-events-none border-y-2 border-sky-500/70" style={{ left: c.x, top: c.y - 12, width: c.w, height: c.h + 24 }} />
       ))}
       {actual && (
         <>

@@ -172,4 +172,23 @@ export const RECURSOS_INTERACTIVOS = [
     etiquetas: [T('3D', '3D', '3D'), T('Países y coordenadas', 'Countries and coordinates', 'Països i coordenades')],
     accion: T('Abrir el globo', 'Open the globe', 'Obrir el globus'),
   },
+  {
+    id: 'ensayo-orquesta',
+    tipo: 'explorar',
+    emoji: '🎻',
+    path: '/recursos/ensayo-orquesta',
+    materias: ['musica'],
+    materia: T('Música', 'Music', 'Música'),
+    titulo: T('Ensayo con la orquesta', 'Orchestra rehearsal', 'Assaig amb l’orquestra'),
+    desc: T(
+      'La partitura de todas las voces en el proyector para tocar con toda la clase: flauta dulce, láminas, ukelele y percusión, o la versión de orquesta. Silencia o deja sola cada voz, cambia el tempo y repite un tramo en bucle.',
+      'Every part on the projector so the whole class can play: recorder, tuned percussion, ukulele and percussion, or the orchestra version. Mute or solo each part, change the tempo and loop a passage.',
+      'La partitura de totes les veus al projector per tocar amb tota la classe: flauta dolça, làmines, ukelele i percussió, o la versió d’orquestra. Silencia o deixa sola cada veu, canvia el tempo i repeteix un tram en bucle.'),
+    corto: T(
+      'Todas las voces en el proyector para tocar juntos en clase.',
+      'Every part on the projector to play together in class.',
+      'Totes les veus al projector per tocar junts a classe.'),
+    etiquetas: [T('Proyector', 'Projector', 'Projector'), T('Flauta, láminas y ukelele', 'Recorder, xylophone and ukulele', 'Flauta, làmines i ukelele')],
+    accion: T('Abrir el ensayo', 'Open the rehearsal', 'Obrir l’assaig'),
+  },
 ]
