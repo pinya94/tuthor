@@ -43,9 +43,9 @@ const COLOR = {
   verde: 'border-emerald-400/60 bg-emerald-950/60 text-emerald-100',
   amarillo: 'border-amber-400/60 bg-amber-950/60 text-amber-100',
   rojo: 'border-red-400/60 bg-red-950/60 text-red-100',
+  falta: 'border-sky-400/60 bg-sky-950/60 text-sky-100',
 }
-const TITULO = { verde: '💚 ¡Perfecto!', amarillo: '💛 Se entiende…', rojo: '🔴 Así no' }
-const TITULO_NO_RECONOCIDA = '🤔 No te he entendido'
+const TITULO = { verde: '💚 ¡Perfecto!', amarillo: '💛 Se entiende…', rojo: '🔴 Error típico', falta: '🤔 Te falta algo' }
 
 export default function DiloEnIngles() {
   const { user } = useAuth()
@@ -60,7 +60,6 @@ export default function DiloEnIngles() {
   const [escuchando, setEscuchando] = useState(false)
   const [parcial, setParcial] = useState('')
   const [escrito, setEscrito] = useState('')
-  const [ayuda, setAyuda] = useState(false)
   const [verTexto, setVerTexto] = useState(true)
   const [errorMic, setErrorMic] = useState(null)
   const recRef = useRef(null)
@@ -82,7 +81,7 @@ export default function DiloEnIngles() {
   useEffect(() => () => recRef.current?.abort?.(), [])
 
   const empezar = id => {
-    setSit(id); setI(0); setIntentos(0); setResultado(null); setAyuda(false); setEscrito(''); setParcial('')
+    setSit(id); setI(0); setIntentos(0); setResultado(null); setEscrito(''); setParcial('')
     setCuenta({ verde: 0, amarillo: 0, rojo: 0, puntos: 0 }); setNotas([]); setErrorMic(null)
     inicio.current = ahora()
     setScreen('jugando')
@@ -93,12 +92,14 @@ export default function DiloEnIngles() {
     if (!turno || resultado?.final) return
     const r = corrigeVarias(turno, textos)
     trackEvent('dilo_ingles_respuesta', { item_id: via, nivel: r.nivel })
-    const final = r.nivel !== 'rojo' || intentos >= 1
+    const fallido = r.nivel === 'rojo' || r.nivel === 'falta'
+    const final = !fallido || intentos >= 1
     setResultado({ ...r, final })
-    if (r.nivel === 'rojo') setIntentos(n => n + 1)
+    if (fallido) setIntentos(n => n + 1)
     if (final) {
-      setCuenta(c => ({ ...c, [r.nivel]: c[r.nivel] + 1, puntos: c.puntos + PUNTOS[r.nivel] }))
-      if (r.nota || r.nivel === 'rojo') setNotas(n => [...n, { dice: turno.dice, nota: r.nota, modelo: turno.modelo }])
+      const clave = r.nivel === 'falta' ? 'rojo' : r.nivel
+      setCuenta(c => ({ ...c, [clave]: c[clave] + 1, puntos: c.puntos + PUNTOS[r.nivel] }))
+      if (r.nota || fallido) setNotas(n => [...n, { dice: turno.dice, nota: r.nota, modelo: turno.modelo }])
     } else if (r.nota) {
       // un error con explicación cuenta para el resumen aunque luego se acierte
       setNotas(n => [...n, { dice: turno.dice, nota: r.nota, modelo: turno.modelo }])
@@ -146,7 +147,7 @@ export default function DiloEnIngles() {
   const reintentar = () => { setResultado(null); setParcial('') }
   const seguir = () => {
     if (i + 1 < situacion.turnos.length) {
-      setI(i + 1); setIntentos(0); setResultado(null); setAyuda(false); setParcial('')
+      setI(i + 1); setIntentos(0); setResultado(null); setParcial('')
     } else {
       setScreen('fin')
       const segundos = Math.round((ahora() - inicio.current) / 1000)
@@ -185,6 +186,11 @@ export default function DiloEnIngles() {
             </button>
           ))}
         </div>
+        <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white/70 space-y-1.5">
+          <p className="text-white font-bold">ℹ️ Cómo corrige (y qué no hace)</p>
+          <p>Cada frase es una misión, por ejemplo «pide una mesa para cinco junto a la ventana». Lo dices como quieras: comprueba que digas lo que pide la misión, que suene educado cuando pides algo y si cometes alguno de los errores típicos de los hispanohablantes.</p>
+          <p>Es una herramienta para soltarte a hablar, no un profesor: no detecta todos los errores de gramática y no corrige la pronunciación (el reconocedor escribe la frase más parecida que conoce, así que lo que mide es si se te entiende). Si te marca algo que creas que está bien, puede que lo esté.</p>
+        </div>
         {!Reconocedor && (
           <p className="mt-4 rounded-xl bg-amber-950/50 border border-amber-400/30 text-amber-100 text-sm px-4 py-3">
             Tu navegador no reconoce la voz (va en Chrome y Edge). Puedes jugar igual escribiendo las respuestas.
@@ -192,9 +198,8 @@ export default function DiloEnIngles() {
         )}
         <ComoSeJuega>
           <div className="space-y-2 text-white/70 text-sm">
-            <p>El personaje te habla en inglés (y lo ves escrito). Pulsa el micrófono y contesta en voz alta, o escribe la respuesta. Si te atascas, «¿Qué digo?» te da una pista en castellano.</p>
-            <p>💚 Perfecto · 💛 Se entiende, pero hay una forma mejor (te dice cuál) · 🔴 Es un error típico o no es lo que toca. Con el rojo tienes otro intento.</p>
-            <p>Ojo: no corrige la pronunciación. El reconocedor escribe la frase más parecida que conoce, así que lo que comprueba es si se te entiende, como en una conversación de verdad.</p>
+            <p>El personaje te habla en inglés (y lo ves escrito). Debajo tienes tu misión en castellano: pulsa el micrófono y dilo en inglés, o escríbelo.</p>
+            <p>💚 Perfecto · 💛 Se entiende, pero hay una forma mejor (te dice cuál) · 🔴 Error típico, con la explicación · 🤔 Te falta algo de la misión. Con el rojo y el 🤔 tienes otro intento.</p>
             <p className="text-white/45 text-xs">🔒 En Chrome, tu voz la convierte en texto Google (en Edge, Microsoft). Tuthor no guarda ni el audio ni el texto, y el micrófono solo se abre cuando pulsas el botón.</p>
           </div>
         </ComoSeJuega>
@@ -258,13 +263,14 @@ export default function DiloEnIngles() {
           </div>
         </div>
 
+        <div className="mb-4 rounded-2xl border-2 border-amber-400/60 bg-amber-400/10 px-4 py-3">
+          <p className="text-amber-300 text-xs font-black uppercase tracking-widest">🎯 Tu misión</p>
+          <p className="text-white text-lg sm:text-xl font-bold leading-snug">{turno.mision}</p>
+          <p className="text-white/45 text-xs mt-0.5">Dilo en inglés como tú quieras.</p>
+        </div>
+
         {!resultado?.final && (
           <>
-            <div className="text-center mb-3">
-              {ayuda
-                ? <p className="inline-block rounded-xl bg-sky-950/60 border border-sky-400/30 text-sky-100 px-4 py-2 text-sm sm:text-base">💡 {turno.ayuda}</p>
-                : <button type="button" onClick={() => setAyuda(true)} className="text-sky-300 hover:text-sky-200 text-sm font-bold">💡 ¿Qué digo?</button>}
-            </div>
             {Reconocedor && (
               <div className="flex flex-col items-center">
                 <button type="button" onClick={escuchando ? parar : escuchar} aria-label={escuchando ? 'Parar' : 'Hablar'}
@@ -285,10 +291,10 @@ export default function DiloEnIngles() {
 
         {resultado && (
           <div className={`mt-4 rounded-2xl border-2 p-4 ${COLOR[resultado.nivel]}`} role="status">
-            <p className="font-black text-lg">{resultado.vacio ? '🔴 No te he entendido' : resultado.nivel === 'rojo' && !resultado.nota ? TITULO_NO_RECONOCIDA : TITULO[resultado.nivel]}</p>
+            <p className="font-black text-lg">{resultado.vacio ? '🤔 No te he oído' : TITULO[resultado.nivel]}</p>
             {resultado.texto && <p className="text-sm opacity-80 mt-0.5">Has dicho: «{resultado.texto}»</p>}
             {resultado.nota && <p className="mt-2">{resultado.nota}</p>}
-            {!resultado.nota && resultado.nivel === 'rojo' && !resultado.vacio && <p className="mt-2">No la he reconocido como respuesta a esta pregunta. {resultado.final ? 'Si crees que estaba bien, puede que lo esté: aquí tienes otra forma de decirlo.' : 'Mira la pista y prueba otra vez.'}</p>}
+            {resultado.faltan?.length > 0 && <ul className="mt-2 space-y-1">{resultado.faltan.map((t, k) => <li key={k}>• {t}</li>)}</ul>}
             {(resultado.nivel !== 'verde' && resultado.final) && (
               <p className="mt-2 font-bold">Una forma de decirlo: <span className="text-white">{turno.modelo}</span>
                 <button type="button" onClick={() => hablar(turno.modelo.split(' / ')[0])} className="ml-2 text-sm underline">🔊</button></p>

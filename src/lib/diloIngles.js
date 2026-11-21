@@ -9,6 +9,7 @@
 // Patrones (las palabras van seguidas, en ese orden, en cualquier parte de lo dicho):
 //   palabra           esa palabra
 //   palabra$          esa palabra y nada detrás (final de lo dicho)
+//   ^palabra          esa palabra al principio de lo dicho
 //   (a|b c|d)         una de las opciones (pueden ser de varias palabras)
 //   [a|b]             opcional
 //   ...               cualquier cosa en medio (también nada)
@@ -38,7 +39,7 @@ const DECENAS = { twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seven
 // Texto → lista de palabras en minúscula, sin puntuación, con las contracciones
 // deshechas y los números en cifras («twenty one» y «21» quedan igual).
 export function normaliza(texto) {
-  const t = String(texto || '').toLowerCase().replace(/[’‘`´]/g, "'")
+  const t = String(texto || '').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[’‘`´]/g, "'")
     .replace(/wi-fi/g, 'wifi').replace(/\bcheck-in\b/g, 'check in').replace(/\bo\.?k\.?\b/g, 'ok').replace(/\bokay\b/g, 'ok')
     .replace(/(\d)(st|nd|rd|th)\b/g, '$1')
     .replace(/[^a-z0-9'\s-]/g, ' ').replace(/-/g, ' ')
@@ -76,8 +77,9 @@ function compila(patron) {
     else if (m[4]) els.push({ t: 'any' })
     else if (m[5]) els.push({ t: m[5] })
     else {
-      const fin = m[6].endsWith('$')
-      const palabra = fin ? m[6].slice(0, -1) : m[6]
+      const ini = m[6].startsWith('^'), fin = m[6].endsWith('$')
+      const palabra = m[6].slice(ini ? 1 : 0, fin ? -1 : undefined)
+      if (ini) els.push({ t: 'ini' })
       if (palabra) els.push({ t: 'alt', ops: [normaliza(palabra)] })
       if (fin) els.push({ t: 'fin' })
     }
@@ -94,6 +96,7 @@ export function encaja(patron, palabras) {
     if (e === els.length) return true
     const el = els[e]
     switch (el.t) {
+      case 'ini': return j === 0 && rec(e + 1, j)
       case 'fin': return j === n && rec(e + 1, j)
       case 'gap': for (let k = j; k <= n; k++) if (rec(e + 1, k)) return true; return false
       case 'any': return j < n && rec(e + 1, j + 1)
@@ -120,30 +123,48 @@ export function encaja(patron, palabras) {
 
 const casa = (lista, palabras) => (lista || []).find(x => encaja(typeof x === 'string' ? x : x.p, palabras))
 
-// Nota de un turno: 'verde' (bien), 'amarillo' (se entiende pero mejor de otra
-// forma; cuenta como superado) o 'rojo'. Orden: error típico → brusco → bien → casi.
+// Marcas de educación al pedir, y de brusquedad. Sirven para cualquier frase:
+// no hace falta haber previsto cómo lo dice cada uno.
+export const EDUCADO = ['please', 'could', 'can', 'would', 'may', 'do you have', 'have you got', 'is there', 'are there',
+  'excuse me', 'is it possible', 'if possible', 'i would like', 'i would love', 'thank', 'thanks', 'sorry']
+export const BRUSCO = ['i want', 'give me']
+
+// Corrección de un turno-misión. El turno lleva:
+//   claves  [{ p, falta }]  lo que la misión pide que digas (todas). Si falta
+//                           algo NO es un error: se dice qué falta.
+//   tono    true si es pedir algo: sin marca de educación o con «I want» → amarillo
+//   mal     [{ p, nota }]   errores típicos → rojo con la explicación
+//   mejor   [{ p, nota }]   se entiende pero hay forma mejor → amarillo
+// Niveles: verde · amarillo (superado, con nota) · rojo (error típico) · falta.
+// Lo que no está fichado como error se acepta: no detecta TODOS los errores
+// de gramática, y lo dice la propia página.
 export function corrige(turno, texto) {
   const w = normaliza(texto)
-  if (!w.length) return { nivel: 'rojo', nota: null, vacio: true }
+  if (!w.length) return { nivel: 'falta', nota: null, faltan: [], vacio: true }
   const mal = casa(turno.mal, w)
-  if (mal) return { nivel: 'rojo', nota: mal.nota }
-  const brusco = casa(turno.brusco, w)
-  if (brusco) return { nivel: 'amarillo', nota: brusco.nota }
-  if (casa(turno.bien, w)) return { nivel: 'verde', nota: null }
-  const casi = casa(turno.casi, w)
-  if (casi) return { nivel: 'amarillo', nota: casi.nota }
-  return { nivel: 'rojo', nota: null }
+  if (mal) return { nivel: 'rojo', nota: mal.nota, faltan: [] }
+  const faltan = (turno.claves || []).filter(c => !encaja(c.p, w)).map(c => c.falta)
+  if (faltan.length) return { nivel: 'falta', nota: null, faltan }
+  const mejor = casa(turno.mejor, w)
+  if (mejor) return { nivel: 'amarillo', nota: mejor.nota, faltan: [] }
+  if (turno.tono) {
+    // «give me» dentro de «Could you give me…?» es educado: solo es brusco sin el modal
+    if (BRUSCO.some(b => encaja(b, w)) && !encaja('(could|can|would|may) (you|i|we)', w)) return { nivel: 'amarillo', nota: '«I want…» o «Give me…» suenan bruscos al pedir. Mejor «Could I have…, please?» o «I\'d like…».', faltan: [] }
+    if (!EDUCADO.some(b => encaja(b, w))) return { nivel: 'amarillo', nota: 'Se entiende, pero suena seco. Añade «please» o empieza con «Could I…?» / «Can I…?».', faltan: [] }
+  }
+  return { nivel: 'verde', nota: null, faltan: [] }
 }
 
-// El reconocedor da varias versiones de lo que ha oído: nos quedamos con la mejor
-const RANGO = { verde: 2, amarillo: 1, rojo: 0 }
+// El reconocedor da varias versiones de lo que ha oído: nos quedamos con la
+// mejor. Un error típico (rojo) se enseña antes que un «te falta algo».
+const RANGO = { verde: 3, amarillo: 2, rojo: 1, falta: 0 }
 export function corrigeVarias(turno, textos) {
   let mejor = null
   for (const t of textos) {
     const r = { ...corrige(turno, t), texto: t }
     if (!mejor || RANGO[r.nivel] > RANGO[mejor.nivel]) mejor = r
   }
-  return mejor ?? { nivel: 'rojo', nota: null, vacio: true, texto: '' }
+  return mejor ?? { nivel: 'falta', nota: null, faltan: [], vacio: true, texto: '' }
 }
 
-export const PUNTOS = { verde: 20, amarillo: 12, rojo: 0 }
+export const PUNTOS = { verde: 20, amarillo: 12, rojo: 0, falta: 0 }
