@@ -12,6 +12,7 @@ const SECTIONS = [
 • Cuenta de usuario: nombre y foto de perfil cuando te registras con Google (gestionado por Firebase Authentication).
 • Datos de uso: progreso, rachas y resultados de exámenes, almacenados en Firestore asociados a tu cuenta.
 • Voz (solo en el juego «Dilo en Inglés» y solo si pulsas el micrófono): el reconocimiento de voz lo hace tu navegador. En Chrome el audio lo convierte en texto Google y en Edge, Microsoft, según sus propias políticas. Tuthor no recibe ni guarda el audio ni el texto: la respuesta se comprueba en tu dispositivo y se descarta. Solo si envías tu opinión sobre el juego y marcas la casilla de adjuntarlas, se guardan las frases que el juego no te aceptó, para revisarlas.
+• Micrófono en «Toca con la Orquesta» (solo si eliges tocar con micro): el sonido de tu instrumento se analiza en tu propio dispositivo para saber qué nota tocas y cuándo. No se graba, no se envía a ningún servidor y se descarta al momento. Solo se guarda, si tienes cuenta, el porcentaje de notas bien, como en cualquier juego.
 • Analítica anónima: mediante Vercel Analytics y Google Analytics recopilamos métricas de uso agregadas (páginas visitadas, dispositivo, país) sin identificarte de forma personal.
 • Publicidad: si aceptas la categoría "Publicidad", nuestros proveedores pueden tratar identificadores de tu navegador para mostrarte anuncios adaptados. Si no la aceptas, los anuncios se sirven sin personalizar.`,
   },

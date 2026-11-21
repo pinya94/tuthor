@@ -199,6 +199,27 @@ function EscalasAcordes(p) {
   )
 }
 
+function TocaOrquesta(p) {
+  // Pentagrama con los compases en verde, amarillo y rojo, y un micro
+  const notas = [[40, 78], [62, 72], [84, 66], [106, 66], [140, 72], [162, 78], [184, 84]]
+  return (
+    <Lienzo {...p}>
+      <rect x="20" y="52" width="66" height="44" rx="4" fill="#22C55E" fillOpacity=".28" />
+      <rect x="86" y="52" width="44" height="44" rx="4" fill="#F59E0B" fillOpacity=".32" />
+      <rect x="130" y="52" width="70" height="44" rx="4" fill="#EF4444" fillOpacity=".28" />
+      {[60, 69, 78, 87, 96].map(y => <line key={y} x1="20" y1={y} x2="200" y2={y} stroke="#E2E8F0" strokeWidth="1.6" />)}
+      {[86, 130, 200].map(x => <line key={x} x1={x} y1="60" x2={x} y2="96" stroke="#E2E8F0" strokeWidth="1.6" />)}
+      {notas.map(([x, y]) => (
+        <g key={x}><ellipse cx={x} cy={y} rx="6.5" ry="4.8" fill="#F8FAFC" transform={`rotate(-20 ${x} ${y})`} /><line x1={x + 6} y1={y} x2={x + 6} y2={y - 26} stroke="#F8FAFC" strokeWidth="2" /></g>
+      ))}
+      <rect x="210" y="34" width="20" height="34" rx="10" fill="#EDAE49" />
+      <path d="M204 60Q204 80 220 80Q236 80 236 60" stroke="#EDAE49" strokeWidth="3" fill="none" />
+      <line x1="220" y1="80" x2="220" y2="96" stroke="#EDAE49" strokeWidth="3" />
+      <path d="M30 30Q60 14 90 30T150 30" stroke="#A78BFA" strokeWidth="3" fill="none" strokeLinecap="round" />
+    </Lienzo>
+  )
+}
+
 function QuienDesafina(p) {
   return (
     <Lienzo {...p}>
@@ -218,6 +239,7 @@ export const ARTE_VIDA = {
   'cuentas-claras': CuentasClaras,
   'escalas-acordes': EscalasAcordes,
   'quien-desafina': QuienDesafina,
+  'toca-con-la-orquesta': TocaOrquesta,
   'pentagrama-path': PentagramaPath,
   'compas-completo': CompasCompleto,
   'la-orquesta': LaOrquesta,

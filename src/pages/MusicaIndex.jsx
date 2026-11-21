@@ -80,6 +80,10 @@ export default function MusicaIndex() {
           titulo={tr({ es: 'Escalas y Acordes (juego)', en: 'Scales and Chords (game)', ca: 'Escales i Acords (joc)' })}
           sub={tr({ es: 'Intervalos, escalas y acordes en el teclado, con sonido', en: 'Intervals, scales and chords on the keyboard, with sound', ca: 'Intervals, escales i acords al teclat, amb so' })}
           to={localPath('/juegos/escalas-acordes')} />
+        <TarjetaArte Arte={ARTE_JUEGOS['toca-con-la-orquesta']}
+          titulo={tr({ es: 'Toca con la Orquesta (juego)', en: 'Play with the Orchestra (game)', ca: 'Toca amb l’Orquestra (joc)' })}
+          sub={tr({ es: 'Tu instrumento con la orquesta de fondo: el micro te corrige', en: 'Your instrument with the orchestra: the microphone corrects you', ca: 'El teu instrument amb l’orquestra de fons: el micro et corregeix' })}
+          to={localPath('/juegos/toca-con-la-orquesta')} />
         <TarjetaArte Arte={ARTE_JUEGOS['quien-desafina']}
           titulo={tr({ es: '¿Quién Desafina? (juego)', en: 'Who’s Out of Tune? (game)', ca: 'Qui Desafina? (joc)' })}
           sub={tr({ es: 'Tres instrumentos, uno desafina: encuéntralo y afínalo', en: 'Three instruments, one out of tune: find it and tune it', ca: 'Tres instruments, un desafina: troba’l i afina’l' })}

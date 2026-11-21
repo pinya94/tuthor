@@ -291,6 +291,14 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'toca-con-la-orquesta': {
+    label: { es: 'Toca con la Orquesta', en: 'Play with the Orchestra', ca: 'Toca amb l’Orquestra' },
+    emoji: '🎻',
+    subject: 'musica',
+    route: '/juegos/toca-con-la-orquesta',
+    // % de notas bien (0-100) → hasta 20 monedas por obra tocada
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 5), 20),
+  },
   'la-orquesta': {
     label: { es: 'La Orquesta', en: 'The Orchestra', ca: 'L’Orquestra' },
     emoji: '🎻',

@@ -132,6 +132,7 @@ const PentagramaPath         = lazy(() => import('./pages/PentagramaPath'))
 const CompasCompleto         = lazy(() => import('./pages/CompasCompleto'))
 const LaOrquesta             = lazy(() => import('./pages/LaOrquesta'))
 const EscalasAcordes         = lazy(() => import('./pages/EscalasAcordes'))
+const TocaOrquesta           = lazy(() => import('./pages/TocaOrquesta'))
 const QuienDesafina          = lazy(() => import('./pages/QuienDesafina'))
 const QueHoraEs              = lazy(() => import('./pages/QueHoraEs'))
 const ContinentesOceanos     = lazy(() => import('./pages/ContinentesOceanos'))
@@ -425,6 +426,7 @@ function AppRoutes() {
       <Route path="juegos/compas-completo" element={<CompasCompleto />} />
       <Route path="juegos/la-orquesta" element={<LaOrquesta />} />
       <Route path="juegos/escalas-acordes" element={<EscalasAcordes />} />
+      <Route path="juegos/toca-con-la-orquesta" element={<TocaOrquesta />} />
       <Route path="juegos/quien-desafina" element={<QuienDesafina />} />
       <Route path="juegos/que-hora-es" element={<QueHoraEs />} />
       <Route path="juegos/continentes-oceanos" element={<ContinentesOceanos />} />

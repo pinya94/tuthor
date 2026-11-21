@@ -1303,6 +1303,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Música', niveles: 'ESO',
   },
+  'toca-con-la-orquesta': {
+    titulo: "Toca con la Orquesta",
+    subtitulo: "Juego de música: toca tu instrumento con la orquesta y el micro te corrige",
+    emoji: '🎻', gradient: 'from-rose-500 to-indigo-700',
+    path: '/juegos/toca-con-la-orquesta',
+    intro: "Un juego para tocar un instrumento de verdad con una orquesta de fondo. Se elige la obra (de momento, el Himno de la alegría de Beethoven, en un arreglo propio a cuatro voces), la voz —melodía, armonía, acompañamiento o bajo— y el instrumento: violín, flauta, clarinete, trompeta, saxo alto, trompa, viola o violonchelo. La partitura sale ya transportada y en la clave de cada uno, y con «Otro» se eligen los semitonos para cualquier instrumento. Tras un compás de cuenta entra la orquesta, se toca la parte y el micro escucha: al acabar, cada compás sale en verde, amarillo o rojo con la lista de fallos. Sin instrumento se puede tocar con el piano en pantalla o el teclado del ordenador.",
+    beneficios: [
+      { titulo: "Tocar en grupo sin el grupo", texto: "Lo difícil de una orquesta o una banda no es tocar la propia parte, sino tocarla mientras suenan las demás: entrar a tiempo, no correr y mantener la afinación. Aquí el resto de la orquesta suena de fondo y no espera, igual que en un ensayo." },
+      { titulo: "Saber qué compás falla", texto: "El micro compara cada nota con la partitura: si es otra nota, si está un poco alta o baja y, desde el nivel medio, si se entra antes o después de tiempo. La lista dice «c.10: te adelantas» o «c.12: no se oye el Do», que es justo lo que hay que repetir." },
+      { titulo: "Leer en su clave y transportada", texto: "Cada instrumento lee su papel: el clarinete y la trompeta en Si♭ un tono por encima, el saxo alto en Mi♭, la trompa en Fa, la viola en clave de Do y el violonchelo en clave de Fa. Así se practica la partitura tal como se vería en un atril." },
+    ],
+    ejemplo: "Una alumna de 2.º de ESO que toca la flauta elige la armonía en el nivel fácil, al 60 % del tempo y con metrónomo. Al acabar le salen en rojo los compases con acorde de Do: ahí la segunda voz toca la séptima, Si♭, y ella ha tocado Si natural. Repite fijándose en el bemol de la armadura y esos compases pasan a verde.",
+    enPapel: {
+      titulo: "Ensayo por voces en clase",
+      pasos: [
+        "Repartid la clase en cuatro grupos: melodía, armonía, acompañamiento y bajo.",
+        "Cada grupo ensaya su voz por separado, primero muy lento y contando en voz alta.",
+        "Juntad dos voces, después tres y al final las cuatro, siempre con alguien marcando el pulso.",
+        "Cambiad los papeles: quien tocaba la melodía hace ahora el bajo.",
+      ],
+    },
+    alternativas: [
+      { nombre: "La Orquesta", desc: "Los instrumentos, sus familias y dónde se sienta cada uno." },
+      { nombre: "Pentagrama Path", desc: "Lee las notas del pentagrama y tócalas en el piano." },
+      { nombre: "¿Quién Desafina?", desc: "Afina el oído: encuentra el instrumento desafinado." },
+    ],
+    asignatura: "Música", niveles: "Primaria, ESO y conservatorio",
+  },
   'la-orquesta': {
     titulo: 'La Orquesta',
     subtitulo: 'Juego de instrumentos musicales: familias, sonido y orquesta',
@@ -4326,6 +4354,34 @@ export const FICHAS_EN = {
     ],
     asignatura: 'Music', niveles: 'Secondary',
   },
+  'toca-con-la-orquesta': {
+    titulo: "Play with the Orchestra",
+    subtitulo: "Music game: play your instrument with the orchestra and the microphone corrects you",
+    emoji: '🎻', gradient: 'from-rose-500 to-indigo-700',
+    path: '/juegos/toca-con-la-orquesta',
+    intro: "A game for playing a real instrument with an orchestra behind you. You choose the piece (for now, Beethoven’s Ode to Joy in our own four-part arrangement), the part —melody, harmony, accompaniment or bass— and the instrument: violin, flute, clarinet, trumpet, alto sax, horn, viola or cello. The score appears already transposed and in each instrument’s clef, and with “Other” you choose the semitones for any instrument. After one bar of count-in the orchestra comes in, you play your part and the microphone listens: at the end each bar turns green, yellow or red, with a list of mistakes. Without an instrument you can play on the on-screen piano or the computer keyboard.",
+    beneficios: [
+      { titulo: "Playing in a group without the group", texto: "The hard thing about an orchestra or band is not playing your own part but playing it while the others sound: coming in on time, not rushing and staying in tune. Here the rest of the orchestra plays along and doesn’t wait, just like in a rehearsal." },
+      { titulo: "Knowing which bar goes wrong", texto: "The microphone compares every note with the score: whether it is a different note, a little sharp or flat and, from medium level, whether you come in early or late. The list says “b.10: you come in early” or “b.12: the C can’t be heard”, which is exactly what needs practising." },
+      { titulo: "Reading in your clef, transposed", texto: "Each instrument reads its own part: clarinet and trumpet in B♭ a tone higher, alto sax in E♭, horn in F, viola in alto clef and cello in bass clef. So you practise the score as it would look on a music stand." },
+    ],
+    ejemplo: "A Year 8 flute player chooses the harmony part on easy, at 60% tempo with a metronome. At the end the bars with a C chord are red: there the second part plays the seventh, B♭, and she played B natural. She tries again, watching the flat in the key signature, and those bars turn green.",
+    enPapel: {
+      titulo: "Sectional rehearsal in class",
+      pasos: [
+        "Split the class into four groups: melody, harmony, accompaniment and bass.",
+        "Each group practises its part on its own, very slowly first and counting aloud.",
+        "Put two parts together, then three and finally all four, always with someone keeping the beat.",
+        "Swap roles: whoever played the melody now plays the bass.",
+      ],
+    },
+    alternativas: [
+      { nombre: "The Orchestra", desc: "The instruments, their families and where each one sits." },
+      { nombre: "Pentagrama Path", desc: "Read the notes on the staff and play them on the piano." },
+      { nombre: "Who’s Out of Tune?", desc: "Train your ear: find the instrument that is out of tune." },
+    ],
+    asignatura: "Music", niveles: "Primary, secondary and music school",
+  },
   'la-orquesta': {
     titulo: 'The Orchestra',
     subtitulo: 'Musical instruments game: families, sound and orchestra',
@@ -7054,6 +7110,34 @@ export const FICHAS_CA = {
       { nombre: 'Compàs Complet', desc: 'Figures, silencis i compassos: el ritme, l’altra meitat de la teoria.' },
     ],
     asignatura: 'Música', niveles: 'ESO',
+  },
+  'toca-con-la-orquesta': {
+    titulo: "Toca amb l’Orquestra",
+    subtitulo: "Joc de música: toca el teu instrument amb l’orquestra i el micro et corregeix",
+    emoji: '🎻', gradient: 'from-rose-500 to-indigo-700',
+    path: '/juegos/toca-con-la-orquesta',
+    intro: "Un joc per tocar un instrument de veritat amb una orquestra de fons. Es tria l’obra (de moment, l’Himne de l’alegria de Beethoven, en un arranjament propi a quatre veus), la veu —melodia, harmonia, acompanyament o baix— i l’instrument: violí, flauta, clarinet, trompeta, saxo alt, trompa, viola o violoncel. La partitura surt ja transportada i en la clau de cadascun, i amb «Altre» es trien els semitons per a qualsevol instrument. Després d’un compàs de compte entra l’orquestra, es toca la part i el micro escolta: en acabar, cada compàs surt en verd, groc o vermell amb la llista d’errors. Sense instrument es pot tocar amb el piano en pantalla o el teclat de l’ordinador.",
+    beneficios: [
+      { titulo: "Tocar en grup sense el grup", texto: "El difícil d’una orquestra o una banda no és tocar la pròpia part, sinó tocar-la mentre sonen les altres: entrar a temps, no córrer i mantenir l’afinació. Aquí la resta de l’orquestra sona de fons i no espera, igual que en un assaig." },
+      { titulo: "Saber quin compàs falla", texto: "El micro compara cada nota amb la partitura: si és una altra nota, si està una mica alta o baixa i, des del nivell mitjà, si s’entra abans o després de temps. La llista diu «c.10: t’avances» o «c.12: no se sent el Do», que és just el que cal repetir." },
+      { titulo: "Llegir en la seva clau i transportada", texto: "Cada instrument llegeix el seu paper: el clarinet i la trompeta en Si♭ un to per sobre, el saxo alt en Mi♭, la trompa en Fa, la viola en clau de Do i el violoncel en clau de Fa. Així es practica la partitura tal com es veuria en un faristol." },
+    ],
+    ejemplo: "Una alumna de 2n d’ESO que toca la flauta tria l’harmonia al nivell fàcil, al 60 % del tempo i amb metrònom. En acabar li surten en vermell els compassos amb acord de Do: allà la segona veu fa la setena, Si♭, i ella ha tocat Si natural. Repeteix fixant-se en el bemoll de l’armadura i aquests compassos passen a verd.",
+    enPapel: {
+      titulo: "Assaig per veus a classe",
+      pasos: [
+        "Repartiu la classe en quatre grups: melodia, harmonia, acompanyament i baix.",
+        "Cada grup assaja la seva veu per separat, primer molt lent i comptant en veu alta.",
+        "Ajunteu dues veus, després tres i al final les quatre, sempre amb algú marcant el pols.",
+        "Canvieu els papers: qui tocava la melodia fa ara el baix.",
+      ],
+    },
+    alternativas: [
+      { nombre: "L’Orquestra", desc: "Els instruments, les seves famílies i on seu cadascun." },
+      { nombre: "Pentagrama Path", desc: "Llegeix les notes del pentagrama i toca-les al piano." },
+      { nombre: "Qui Desafina?", desc: "Afina l’orella: troba l’instrument desafinat." },
+    ],
+    asignatura: "Música", niveles: "Primària, ESO i conservatori",
   },
   'la-orquesta': {
     titulo: 'L’Orquestra',

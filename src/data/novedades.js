@@ -10,6 +10,7 @@
 // Solo lo que nota quien usa Tuthor (nada de SEO, admin ni cambios internos).
 // El test novedades.test.js comprueba fechas, idiomas y que los juegos existen.
 export const NOVEDADES = [
+  { fecha: '2026-11-21', juego: 'toca-con-la-orquesta' },
   { fecha: '2026-11-21', juego: 'dilo-en-ingles' },
   { fecha: '2026-11-20', juego: 'codice-robado' },
   { fecha: '2026-11-20', para: 'profes', emoji: '📺', enlace: '/profesor?tab=retos',

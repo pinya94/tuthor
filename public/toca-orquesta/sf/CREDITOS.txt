@@ -1,0 +1,9 @@
+Muestras de instrumentos de «Toca con la Orquesta»
+
+FluidR3 GM soundfont (Frank Wen), notas sueltas renderizadas por el proyecto
+midi-js-soundfonts (https://github.com/gleitz/midi-js-soundfonts).
+Licencia: Creative Commons Attribution 3.0 (https://creativecommons.org/licenses/by/3.0/).
+
+Solo se incluyen las notas que usa el arreglo (violín, viola, violonchelo y
+contrabajo). El arreglo del Himno de la alegría es propio de Tuthor, a partir
+de la obra de Beethoven (dominio público).
