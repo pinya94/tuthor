@@ -27,6 +27,12 @@
  *   revelado  true tras responder: apaga el resto y marca el veredicto
  */
 
+import { useLang } from '../context/LangContext'
+import { ORGANULOS } from '../data/organulos'
+
+// Número fijo de cada zona para el lector de pantalla (sin decir qué es)
+const numZona = id => ORGANULOS.findIndex(o => o.id === id) + 1 || ORGANULOS.length + 1
+
 const VERDE = '#4ade80'
 const ROJO = '#f87171'
 
@@ -173,6 +179,7 @@ export function OrganuloIcono({ id, className = 'w-12 h-12' }) {
 }
 
 export default function CelulaSVG({ tipo, onPick, elegido, correcto, revelado }) {
+  const { tr } = useLang()
   const vegetal = tipo === 'vegetal'
 
   // Props del <g> de cada orgánulo: clic, y el veredicto al revelar (brillo
@@ -185,22 +192,33 @@ export default function CelulaSVG({ tipo, onPick, elegido, correcto, revelado })
       else opacity = 0.28
     } else if (elegido === id) filter = brillo('#ffffff')
     return {
+      'data-zona': id,
+      role: onPick ? 'button' : undefined,
+      tabIndex: onPick ? 0 : undefined,
+      'aria-label': onPick ? tr({ es: `Zona ${numZona(id)}`, en: `Area ${numZona(id)}`, ca: `Zona ${numZona(id)}` }) : undefined,
+      className: onPick ? 'focus-visible:[filter:drop-shadow(0_0_4px_white)]' : undefined,
+      onKeyDown: onPick ? event => {
+        if (event.repeat || !['Enter', ' '].includes(event.key)) return
+        event.preventDefault()
+        event.stopPropagation()
+        onPick(id)
+      } : undefined,
       onClick: onPick ? e => { e.stopPropagation(); onPick(id) } : undefined,
       style: { cursor: onPick ? 'pointer' : 'default', opacity, filter, transition: 'opacity .2s' },
     }
   }
 
   return (
-    <svg viewBox="0 0 320 360" className="w-full h-auto select-none" role="img" style={{ touchAction: 'manipulation' }}>
+    <svg viewBox="0 0 320 360" className="w-full h-auto select-none" role={onPick ? "group" : "img"} aria-label={tr({ es: "Esquema celular", en: "Cell diagram", ca: "Esquema cel·lular" })} style={{ touchAction: 'manipulation' }}>
       {vegetal ? (
         <>
           {/* Pared celular: solo vegetal, y va POR FUERA de la membrana */}
           <g {...org('pared')}>
-            <rect x="4" y="4" width="312" height="352" rx="18" fill="#4d7c0f" />
+            <rect x="11" y="11" width="298" height="338" rx="14" fill="none" stroke="#4d7c0f" strokeWidth="14" />
             <path d="M14 30l10-10M14 120l10-10M14 210l10-10M14 300l10-10M296 60l10-10M296 150l10-10M296 240l10-10M296 330l10-10M60 14l10-10M150 14l10-10M240 14l10-10M90 356l10-10M180 356l10-10M270 356l10-10"
               stroke="#84cc16" strokeWidth="2" strokeLinecap="round" opacity="0.7" />
           </g>
-          <g {...org('membrana')}><rect x="18" y="18" width="284" height="324" rx="12" fill="#f59e0b" /></g>
+          <g {...org('membrana')}><rect x="22" y="22" width="276" height="316" rx="10" fill="none" stroke="#f59e0b" strokeWidth="8" /></g>
           <g {...org('citoplasma')}><rect x="26" y="26" width="268" height="308" rx="8" fill="#334155" /></g>
 
           {/* Vacuola: la bolsa de agua que ocupa medio interior */}
@@ -214,7 +232,7 @@ export default function CelulaSVG({ tipo, onPick, elegido, correcto, revelado })
           <g {...org('nucleolo')}><Nucleolo x={98} y={92} r={12} /></g>
 
           <g {...org('reticulo')}>
-            <path d="M44 212q12-10 24 0t24 0t24 0t20 0M44 230q12-10 24 0t24 0t24 0t20 0" stroke="#f472b6" strokeWidth="6" fill="none" strokeLinecap="round" />
+            <path d="M123 111Q130 124 117 135Q107 146 87 148M140 112Q143 129 126 142Q113 156 91 159" stroke="#f472b6" strokeWidth="6" fill="none" strokeLinecap="round" />
           </g>
           <g {...org('golgi')}><Golgi x={92} y={268} /></g>
 
@@ -231,7 +249,7 @@ export default function CelulaSVG({ tipo, onPick, elegido, correcto, revelado })
         </>
       ) : (
         <>
-          <g {...org('membrana')}><ellipse cx="160" cy="180" rx="152" ry="172" fill="#f59e0b" /></g>
+          <g {...org('membrana')}><ellipse cx="160" cy="180" rx="146" ry="166" fill="none" stroke="#f59e0b" strokeWidth="12" /></g>
           <g {...org('citoplasma')}><ellipse cx="160" cy="180" rx="140" ry="160" fill="#334155" /></g>
 
           <g {...org('reticulo')}><Reticulo cx={118} cy={132} radios={[62, 76, 90]} desde={-52} hasta={72} /></g>

@@ -21,23 +21,12 @@ const enunciado = 'text-[#f6ecd2] text-lg sm:text-2xl font-semibold leading-snug
 
 // ── 1. La cripta (Prehistoria) ──────────────────────────────────────────────
 
-const PIEDRA = '#8B7D6B', HUESO = '#E8DCC0', BRONCE = '#C9963A', HIERRO = '#6B7280', BARRO = '#B5652F', MADERA = '#7C4A23'
-const DIBUJO = {
-  bifaz: <g><path d="M50 10 C70 30 76 60 66 82 Q50 94 34 82 C24 60 30 30 50 10 Z" fill={PIEDRA} /><path d="M50 10 L44 40 L56 52 L46 70 L52 88 M36 45 L44 40 M64 50 L56 52 M38 70 L46 70" stroke="#5E5345" strokeWidth="2.5" fill="none" /></g>,
-  arpon: <g><rect x="46" y="8" width="8" height="84" rx="4" fill={HUESO} /><path d="M54 18 L66 26 L54 28 Z M54 34 L66 42 L54 44 Z M54 50 L66 58 L54 60 Z M46 26 L34 34 L46 36 Z M46 42 L34 50 L46 52 Z" fill={HUESO} /><path d="M46 8 L50 0 L54 8 Z" fill={HUESO} /></g>,
-  bisonte: <g><rect x="4" y="14" width="92" height="72" rx="16" fill="#C8A272" /><path d="M20 62 Q18 44 32 40 Q38 28 52 32 Q70 30 78 42 Q86 46 82 56 L78 70 L72 70 L72 60 Q60 64 48 62 L44 72 L38 72 L38 62 Q30 64 28 72 L22 72 Z" fill="#9B2C1C" /><path d="M24 44 Q20 36 26 34 M72 36 Q80 30 82 38" stroke="#2B1A12" strokeWidth="3" fill="none" /><circle cx="76" cy="46" r="1.8" fill="#2B1A12" /></g>,
-  vasija: <g><path d="M30 18 L70 18 L66 28 Q84 44 76 70 Q68 90 50 90 Q32 90 24 70 Q16 44 34 28 Z" fill={BARRO} /><path d="M24 50 L32 42 L40 50 L48 42 L56 50 L64 42 L72 50 L78 44" stroke="#F3D9B1" strokeWidth="3" fill="none" /><rect x="28" y="14" width="44" height="6" rx="3" fill="#9A5226" /></g>,
-  hacha: <g><rect x="44" y="20" width="10" height="76" rx="4" fill={MADERA} /><path d="M18 24 Q36 14 52 20 L52 40 Q36 46 18 38 Q12 31 18 24 Z" fill="#5F6B5C" /><path d="M22 28 Q34 24 46 26" stroke="#8A9A86" strokeWidth="3" fill="none" /><path d="M44 18 L56 22 M44 42 L56 38" stroke="#D6B98C" strokeWidth="3" /></g>,
-  molino: <g><path d="M8 72 Q50 54 92 72 L88 84 Q50 74 12 84 Z" fill={PIEDRA} /><ellipse cx="50" cy="58" rx="20" ry="9" fill="#A3967F" /><g fill="#E8C76A">{[[20, 74], [28, 70], [76, 72], [70, 68], [82, 76], [36, 76]].map(([x, y]) => <ellipse key={x} cx={x} cy={y} rx="2.6" ry="1.6" />)}</g></g>,
-  espada: <g><path d="M50 4 L58 18 L56 66 L44 66 L42 18 Z" fill={BRONCE} /><path d="M50 8 L50 64" stroke="#E7C27A" strokeWidth="2" /><rect x="34" y="64" width="32" height="7" rx="3" fill="#8A6424" /><rect x="46" y="70" width="8" height="20" rx="3" fill="#6B4A1C" /><circle cx="50" cy="92" r="5" fill="#8A6424" /></g>,
-  molde: <g><rect x="12" y="22" width="76" height="62" rx="8" fill="#9C9384" /><path d="M30 36 Q50 30 70 36 L64 60 Q50 64 36 60 Z" fill="#4A443B" /><path d="M36 40 Q50 36 64 40 L60 56 Q50 59 40 56 Z" fill="#F59E0B" /><path d="M46 8 L54 8 L52 30 L48 30 Z" fill="#F97316" /></g>,
-  lanza: <g><path d="M50 4 Q66 26 58 52 L54 60 L46 60 L42 52 Q34 26 50 4 Z" fill={HIERRO} /><path d="M50 8 L50 58" stroke="#9CA3AF" strokeWidth="2" /><rect x="45" y="58" width="10" height="16" rx="3" fill="#4B5563" /><rect x="46" y="72" width="8" height="24" rx="3" fill={MADERA} /></g>,
-}
 function Objeto({ o, sel, onClick, pequeno }) {
   return (
     <button type="button" onClick={onClick}
       className={`flex flex-col items-center rounded-xl p-1.5 transition-all ${sel ? 'bg-amber-300/30 ring-4 ring-amber-400 scale-105' : 'bg-black/25 hover:bg-black/40'} ${pequeno ? 'w-[5.5rem] sm:w-28' : 'w-24 sm:w-32'}`}>
-      <svg viewBox="0 0 100 100" className={pequeno ? 'w-14 h-14 sm:w-16 sm:h-16' : 'w-16 h-16 sm:w-20 sm:h-20'} aria-hidden="true">{DIBUJO[o.id]}</svg>
+      <img src={`/escape/cripta/${o.id}.webp`} alt="" draggable={false}
+        className={`rounded-md object-cover ${pequeno ? 'w-14 h-14 sm:w-16 sm:h-16' : 'w-16 h-16 sm:w-20 sm:h-20'}`} />
       <span className="text-[#f6ecd2] text-xs sm:text-sm font-bold leading-tight text-center mt-1">{o.nombre}</span>
     </button>
   )
@@ -56,7 +45,7 @@ export function Cripta({ onResuelta, onFallo }) {
   }
   return (
     <div>
-      <p className={enunciado}>Toca un objeto y después la etapa a la que pertenece.</p>
+      <p className={enunciado}>Toca un objeto y después la etapa a la que pertenece. Las imágenes son reconstrucciones ilustradas.</p>
       <div className="min-h-[7rem] flex flex-wrap justify-center gap-2 rounded-2xl bg-[#2a1f16] border border-amber-900/50 p-3">
         {sueltos.length === 0 ? <p className="self-center text-white/40">Todos los objetos están colocados.</p>
           : sueltos.map(o => <Objeto key={o.id} o={o} sel={sel === o.id} onClick={() => toca(o.id)} />)}
@@ -210,7 +199,7 @@ export function Galeria({ onResuelta, onFallo }) {
   }
   return (
     <div>
-      <p className={enunciado}>Del más antiguo (izquierda) al más moderno (derecha). Toca dos cuadros para cambiarlos.</p>
+      <p className={enunciado}>Ordénalos por el inicio de su reinado, del primero al último. Toca dos cuadros para cambiarlos.</p>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {orden.map((r, i) => (
           <button key={r.id} type="button" onClick={() => toca(i)}
@@ -230,6 +219,13 @@ export function Galeria({ onResuelta, onFallo }) {
 
 // ── 6. La torre del reloj (siglos XIX y XX) ─────────────────────────────────
 
+function ImagenSuceso({ anio }) {
+  return (
+    <img src={`/escape/sucesos/${anio}.webp`} alt="" draggable={false}
+      className="h-12 w-16 shrink-0 rounded object-cover sm:h-16 sm:w-24" />
+  )
+}
+
 export function Torre({ onResuelta, onFallo }) {
   const [cartas] = useState(() => barajar(SUCESOS))
   const [huecos, setHuecos] = useState({}) // año → texto
@@ -247,26 +243,31 @@ export function Torre({ onResuelta, onFallo }) {
   }
   return (
     <div>
-      <p className={enunciado}>Toca un acontecimiento y después su año. (Toca un año ocupado para vaciarlo.)</p>
+      <p className={enunciado}>Toca un acontecimiento y después su año. Toca un año ocupado para vaciarlo. Las escenas son reconstrucciones ilustradas.</p>
       <div className="flex flex-wrap justify-center gap-2 mb-4 min-h-[3.5rem]">
         {cartas.filter(c => !usadas.includes(c.t)).map(c => (
           <button key={c.t} type="button" onClick={() => setSel(s => (s === c.t ? null : c.t))}
             className={`${PERGAMINO} rounded-xl px-3 py-2 font-bold text-sm sm:text-lg max-w-xs text-left transition-all ${sel === c.t ? 'ring-4 ring-amber-400 scale-105' : 'hover:brightness-95'}`}>
-            {c.t}
+            <span className="flex items-center gap-2"><ImagenSuceso anio={c.anio} /><span>{c.t}</span></span>
           </button>
         ))}
       </div>
       <div className="relative max-w-3xl mx-auto">
         <div className="absolute left-[3.25rem] sm:left-[4.5rem] top-2 bottom-2 w-1.5 bg-amber-700/60 rounded" aria-hidden="true" />
         <div className="space-y-2.5">
-          {SUCESOS.map(s => (
+          {SUCESOS.map(s => {
+            const colocado = SUCESOS.find(c => c.t === huecos[s.anio])
+            return (
             <button key={s.anio} type="button" onClick={() => pon(s.anio)} className="relative w-full flex items-center gap-3 sm:gap-5 text-left">
               <span className="relative z-10 w-24 sm:w-36 shrink-0 rounded-xl bg-amber-500 text-[#2a1d10] font-black text-xl sm:text-3xl text-center py-2">{s.anio}</span>
               <span className={`flex-1 rounded-xl border-2 border-dashed px-3 py-2.5 text-base sm:text-xl font-bold min-h-[3rem] ${huecos[s.anio] ? 'border-transparent bg-[#f1e2bd] text-[#3b2a1a]' : sel ? 'border-amber-400 text-amber-200/70 bg-amber-400/10' : 'border-white/20 text-white/30'}`}>
-                {huecos[s.anio] ?? '…'}
+                {colocado ? (
+                  <span className="flex items-center gap-2"><ImagenSuceso anio={colocado.anio} /><span>{colocado.t}</span></span>
+                ) : '…'}
               </span>
             </button>
-          ))}
+            )
+          })}
         </div>
       </div>
       <div className="mt-4 text-center"><button type="button" className={BOTON} disabled={usadas.length < SUCESOS.length} onClick={comprobar}>🕰️ Poner el reloj en marcha</button></div>

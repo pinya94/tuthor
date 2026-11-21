@@ -72,7 +72,7 @@ function Clasifica({ r, revelado, onResponder, l }) {
     <>
       {roca && !revelado && (
         <div className="rounded-2xl bg-[#0b1226] border border-white/[0.08] p-3 mb-3 flex items-center gap-3">
-          <div className="w-28 shrink-0"><MuestraRoca roca={roca} aria={nombreRoca(roca, l)} /></div>
+          <div className="w-28 shrink-0"><MuestraRoca ronda={r.id} roca={roca} aria={nombreRoca(roca, l)} /></div>
           <div className="min-w-0">
             <p className="text-white/40 text-xs">{activa + 1} / {r.items.length}</p>
             <p className="text-white font-black text-lg leading-tight">{nombreRoca(roca, l)}</p>
@@ -86,7 +86,7 @@ function Clasifica({ r, revelado, onResponder, l }) {
             <span className="block text-white font-black text-[12.5px] leading-tight mb-1">{nombreCaja(c)}</span>
             {r.items.filter(id => puestas[id] === c).map(id => (
               <span key={id} className={`block rounded-lg p-1 mb-1 ${revelado ? (cajaDe(r, id) === c ? 'ring-2 ring-green-400' : 'ring-2 ring-red-400') : 'bg-white/5'}`}>
-                <span className="block w-14 mx-auto"><MuestraRoca roca={id} aria={nombreRoca(id, l)} /></span>
+                <span className="block w-14 mx-auto"><MuestraRoca ronda={r.id} roca={id} aria={nombreRoca(id, l)} /></span>
                 <span className="block text-white text-[11px] font-bold leading-tight">{nombreRoca(id, l)}</span>
               </span>
             ))}
@@ -116,7 +116,7 @@ function Empareja({ r, revelado, onResponder, tr, l }) {
             const bien = revelado && union[id] === ROCAS[id].origen
             return (
               <button key={id} disabled={revelado} onClick={() => setActivo(id)} className={`rounded-xl border-2 p-1.5 flex items-center gap-2 text-left ${revelado ? (bien ? 'border-green-400' : 'border-red-400') : activo === id ? 'border-amber-300 bg-amber-400/10' : 'border-white/15 bg-white/[0.05]'}`}>
-                <span className="w-10 shrink-0"><MuestraRoca roca={id} aria={nombreRoca(id, l)} /></span>
+                <span className="w-10 shrink-0"><MuestraRoca ronda={r.id} roca={id} aria={nombreRoca(id, l)} /></span>
                 <span className="min-w-0">
                   <span className="block text-white text-[13px] font-black leading-tight">{nombreRoca(id, l)}</span>
                   <span className="block text-[11px] text-white/60 leading-tight">← {union[id] ? nombreRoca(union[id], l).toLowerCase() : '?'}</span>

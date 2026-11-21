@@ -5,7 +5,6 @@
 // respuesta. La usan el juego (contra reloj) y el examen (MechanicExam).
 import { useState } from 'react'
 import { useLang } from '../../context/LangContext'
-import Cuadro from './Cuadro'
 import { OBRAS, ESTILOS, ORDEN_ESTILOS, obra, enunciado, explicacion, tx, infoItem, claveItem } from '../../lib/laGaleria'
 
 function Cartela({ o, conPintor, conAnyo = true, l, chica = false }) {
@@ -44,7 +43,13 @@ function Empareja({ r, revelado, onResponder, l }) {
   const tono = it => (revelado ? (bien(it) ? 'border-green-400 bg-green-500/10' : 'border-red-400 bg-red-500/10') : sel === it ? 'border-amber-300 bg-amber-300/10' : pares[it] ? 'border-white/30' : 'border-white/10')
   const dibujo = it => {
     const x = infoItem(it)
-    if (x.obra == null) return <Cuadro estilo={x.estilo} semilla={x.semilla} className="w-full max-w-[150px] mx-auto block" />
+    if (x.obra == null) {
+      const variante = (x.semilla % 4) + 1
+      return (
+        <img src={`/la-galeria/${x.estilo}-${variante}.webp`} alt="" draggable={false}
+          className="block w-full h-auto max-w-[150px] mx-auto rounded-md" />
+      )
+    }
     const o = OBRAS[x.obra]
     if (r.tipo === 'pintor') return <Cartela o={o} conPintor={revelado} conAnyo l={l} chica />
     return (

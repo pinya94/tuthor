@@ -23,6 +23,13 @@
  *   revelado  true tras responder: resalta y apaga el resto
  */
 
+import { useLang } from '../../context/LangContext'
+import { ORGANOS, ESPALDA } from '../../data/organos'
+
+// Número fijo de cada zona para el lector de pantalla (sin decir qué es)
+const NUM_ZONA = [...new Set([...ORGANOS.map(o => o.id), ...ESPALDA])]
+const numZona = id => NUM_ZONA.indexOf(id) + 1 || NUM_ZONA.length + 1
+
 const VERDE = '#4ade80'
 const ROJO = '#f87171'
 const HUESO = '#e2e8f0'
@@ -187,6 +194,7 @@ function MusculosEspalda({ pieza }) {
 }
 
 export default function CuerpoSVG({ capa, onPick, elegido, correcto, revelado }) {
+  const { tr } = useLang()
   const H = ALTO[capa] ?? 440
   const pieza = id => {
     let opacity = 1, filter
@@ -196,13 +204,24 @@ export default function CuerpoSVG({ capa, onPick, elegido, correcto, revelado })
       else opacity = 0.25
     }
     return {
+      'data-zona': id,
+      role: onPick ? 'button' : undefined,
+      tabIndex: onPick ? 0 : undefined,
+      'aria-label': onPick ? tr({ es: `Zona ${numZona(id)}`, en: `Area ${numZona(id)}`, ca: `Zona ${numZona(id)}` }) : undefined,
+      className: onPick ? 'focus-visible:[filter:drop-shadow(0_0_4px_white)]' : undefined,
+      onKeyDown: onPick ? event => {
+        if (event.repeat || !['Enter', ' '].includes(event.key)) return
+        event.preventDefault()
+        event.stopPropagation()
+        onPick(id)
+      } : undefined,
       onClick: onPick ? e => { e.stopPropagation(); onPick(id) } : undefined,
       style: { cursor: onPick ? 'pointer' : 'default', opacity, filter, transition: 'opacity .2s' },
     }
   }
 
   return (
-    <svg viewBox={`0 0 200 ${H}`} className="w-full h-auto block select-none" role="img" style={{ touchAction: 'manipulation' }}>
+    <svg viewBox={`0 0 200 ${H}`} className="w-full h-auto block select-none" role={onPick ? "group" : "img"} aria-label={tr({ es: "Vista anatómica", en: "Anatomical view", ca: "Vista anatòmica" })} style={{ touchAction: 'manipulation' }}>
       <defs>
         <radialGradient id="rx-fondo" cx="50%" cy="40%" r="70%">
           <stop offset="0%" stopColor="#10244a" />
@@ -252,9 +271,11 @@ export default function CuerpoSVG({ capa, onPick, elegido, correcto, revelado })
             <path d="M93 264Q93 258 100 258Q107 258 107 264Q107 273 100 274Q93 273 93 264Z" fill="#facc15" />
           </g>
           <g {...pieza('corazon')}>
-            <path d="M112 176C97 166 97 146 105.5 146C109 146 111 149 112 152C113 149 115 146 118.5 146C127 146 127 166 112 176Z"
-              fill="#ef4444" transform="rotate(-15 112 160)" />
-            <path d="M106 146Q106 136 114 136Q120 136 120 142" stroke="#b91c1c" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+            <path d="M102 151V141Q102 135 108 135Q116 135 117 142" stroke="#e36a68" strokeWidth="4" fill="none" strokeLinecap="round" />
+            <path d="M109 150Q109 141 120 145" stroke="#ab8de0" strokeWidth="3" fill="none" strokeLinecap="round" />
+            <path d="M98 151Q101 147 107 150Q114 146 119 152Q123 157 122 165Q121 174 117 179Q109 176 103 170Q96 164 96 158Q96 154 98 151Z"
+              fill="#e65053" stroke="#8c2437" strokeWidth="1.4" />
+            <path d="M106 151Q105 157 110 162Q115 166 117 174M110 162Q115 160 119 161" fill="none" stroke="#ffd0ba" strokeWidth="1.1" strokeLinecap="round" />
           </g>
           <g {...pieza('cerebro')}>
             <ellipse cx="100" cy="34" rx="22" ry="16" fill="#c084fc" />

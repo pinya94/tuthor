@@ -4,10 +4,24 @@
 import { useState } from 'react'
 import { useLang } from '../../context/LangContext'
 import { enunciado, explicacion, dibujoDe, nombreDe } from '../../lib/queEstilo'
-import Edificio from './Edificio'
+
+const CON_SEGUNDA_VISTA = new Set([
+  'griego-dorico', 'romano-acueducto', 'islamico-arqueria', 'romanico-torre',
+  'gotico-arbotantes', 'renacimiento-palacio', 'barroco-calle', 'neoclasico-museo',
+])
 
 function Dibujo({ r, it, t }) {
-  return <Edificio ronda={dibujoDe(r, it)} t={t} recortado />
+  const dibujo = dibujoDe(r, it)
+  const id = dibujo.pregunta === 'arco' || dibujo.pregunta === 'columna'
+    ? `${dibujo.pregunta}-${dibujo.bueno}`
+    : `${dibujo.estilo}-${dibujo.variante}`
+
+  const variante = CON_SEGUNDA_VISTA.has(id) && r.semilla % 2 === 1 ? '-2' : ''
+
+  return (
+    <img src={`/que-estilo/${id}${variante}.webp`} alt={t.aria}
+      className="block w-full h-auto rounded-md" draggable={false} />
+  )
 }
 
 function Empareja({ r, revelado, onResponder, l, t }) {
@@ -30,7 +44,8 @@ function Empareja({ r, revelado, onResponder, l, t }) {
         {r.items.map(it => (
           <button key={it} disabled={revelado} onClick={() => setSel(s => (s === it ? null : it))}
             className={`rounded-xl border-2 bg-[#0b1226] p-1.5 flex ${edificios ? 'flex-row items-center gap-2' : 'flex-col items-center'} ${tono(it)}`}>
-            <span className={edificios ? 'w-[58%] shrink-0' : 'w-full'}><Dibujo r={r} it={it} t={t} /></span>
+            {/* Las ilustraciones son cuadradas: a 42 % caben los tres edificios y los nombres en la pantalla de un móvil */}
+            <span className={edificios ? 'w-[42%] max-w-[180px] shrink-0' : 'w-full'}><Dibujo r={r} it={it} t={t} /></span>
             <span className="flex-1 text-white text-[12px] font-bold leading-tight text-center min-h-[2.2em]">
               {pares[it] ? nombreDe(r, pares[it], l) : edificios ? '?' : ''}
               {revelado && !bien(it) && <span className="block text-green-300">{nombreDe(r, it, l)}</span>}
@@ -94,7 +109,7 @@ function Ordena({ r, revelado, elegida, onResponder, tr, t }) {
 export default function PreguntaEstilo({ ronda, revelado, elegida, onResponder }) {
   const { tr, lang } = useLang()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
-  const t = { aria: tr({ es: 'Dibujo de arquitectura', en: 'Architectural drawing', ca: 'Dibuix d’arquitectura' }) }
+  const t = { aria: tr({ es: 'Ilustración de arquitectura', en: 'Architectural illustration', ca: 'Il·lustració d’arquitectura' }) }
   const props = { r: ronda, revelado, elegida, onResponder, l, tr, t }
   return (
     <div className="w-full">

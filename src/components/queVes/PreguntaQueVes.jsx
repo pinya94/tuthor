@@ -3,34 +3,36 @@
 // tocar un hueco lleno lo vacía.
 import { useState } from 'react'
 import { useLang } from '../../context/LangContext'
-import { ACCIONES, MASCOTAS, GRUPOS, esCorrecta, explicacion, fraseCorrecta } from '../../lib/queVes'
+import { esCorrecta, explicacion, fraseCorrecta } from '../../lib/queVes'
 
-const E = ({ x, y, s = 22, children }) => <text x={x} y={y} fontSize={s} textAnchor="middle" dominantBaseline="central">{children}</text>
+const FichaVisual = ({ id, x, y, lado, tipo }) => (
+  <image href={`/que-ves/${id}.webp`} x={x - lado / 2} y={y - lado / 2}
+    width={lado} height={lado} data-tipo={tipo} />
+)
 
-export function Escena({ esc }) {
+export function Escena({ esc, etiqueta = 'Park' }) {
   const xs = esc.ninos.length === 2 ? [95, 245] : [62, 180, 298]
-  const fila = (n, x0, dx, y, emoji, s) => Array.from({ length: n }, (_, i) => <E key={i} x={x0 + i * dx} y={y} s={s}>{emoji}</E>)
+  const fila = (id, x0, dx, y, lado) => Array.from({ length: esc.grupos[id] }, (_, i) => (
+    <FichaVisual key={i} id={id} tipo={id} x={x0 + i * dx} y={y} lado={lado} />
+  ))
   return (
-    <svg viewBox="0 0 360 240" className="w-full h-auto block select-none" role="img" aria-label="Park">
+    <svg viewBox="0 0 360 240" className="w-full h-auto block select-none" role="img" aria-label={etiqueta}>
       <rect width="360" height="100" fill="#1d3b63" />
       <rect y="100" width="360" height="140" fill="#1f5130" />
       <circle cx="330" cy="26" r="16" fill="#fcd34d" />
-      {fila(esc.grupos.birds, 34, 34, 30, GRUPOS.birds.emoji, 22)}
+      {fila('birds', 34, 34, 30, 26)}
       <ellipse cx="292" cy="206" rx="64" ry="26" fill="#2563eb" fillOpacity=".75" />
-      {fila(esc.grupos.ducks, 248, 22, 206, GRUPOS.ducks.emoji, 18)}
-      {fila(esc.grupos.flowers, 22, 24, 218, GRUPOS.flowers.emoji, 18)}
-      {fila(esc.grupos.butterflies, 26, 26, 184, GRUPOS.butterflies.emoji, 16)}
+      {fila('ducks', 248, 22, 206, 20)}
+      {fila('flowers', 22, 24, 218, 22)}
+      {fila('butterflies', 26, 26, 184, 22)}
       {esc.ninos.map((p, i) => {
-        const A = ACCIONES[p.accion], x = xs[i]
+        const x = xs[i]
         return (
           <g key={p.n}>
-            {/* Cada niño con su mascota sobre su alfombrilla: de quién es cada una, sin dudas */}
-            <rect x={x - 50} y={86} width={92} height={74} rx={12} fill="#ffffff" fillOpacity=".08" stroke="#ffffff" strokeOpacity=".18" />
-            {A.agua && <ellipse cx={x} cy={122} rx="30" ry="11" fill="#38bdf8" fillOpacity=".7" />}
-            <E x={x} y={112} s={34}>{A.emoji}</E>
-            {A.prop && <E x={x + 22} y={124} s={18}>{A.prop}</E>}
-            <E x={x - 30} y={132} s={20}>{MASCOTAS[p.mascota].emoji}</E>
-            <text x={x} y={150} textAnchor="middle" fontSize="14" fontWeight="900" fill="#fff" stroke="#0b1530" strokeWidth="4" paintOrder="stroke">{p.n}</text>
+            <rect x={x - 50} y={86} width={92} height={76} rx={12} fill="#ffffff" fillOpacity=".08" stroke="#ffffff" strokeOpacity=".18" />
+            <FichaVisual id={`${p.he}-${p.accion}`} tipo="accion" x={x + 3} y={111} lado={46} />
+            <FichaVisual id={p.mascota} tipo="mascota" x={x - 33} y={130} lado={25} />
+            <text x={x} y={151} textAnchor="middle" fontSize="14" fontWeight="900" fill="#fff" stroke="#0b1530" strokeWidth="4" paintOrder="stroke">{p.n}</text>
           </g>
         )
       })}
@@ -56,7 +58,11 @@ export default function PreguntaQueVes({ ronda: r, revelado, onResponder }) {
   let k = -1
   return (
     <div className="w-full">
-      <div className="rounded-2xl overflow-hidden border border-white/10 mb-3"><Escena esc={r.escena} /></div>
+      <div className="rounded-2xl overflow-hidden border border-white/10 mb-3"><Escena esc={r.escena} etiqueta={tr({
+        es: 'Parque con personajes, mascotas y grupos de figuras',
+        en: 'Park with characters, pets and groups of figures',
+        ca: 'Parc amb personatges, mascotes i grups de figures',
+      })} /></div>
 
       <div lang="en" className={`rounded-xl px-3 py-3 border mb-3 text-lg leading-[2.6rem] ${revelado ? (acierto ? 'border-green-500/60 bg-green-500/10' : 'border-red-500/60 bg-red-500/10') : 'border-white/15 bg-[#0d1117]'}`}>
         {r.partes.map((p, idx) => {
