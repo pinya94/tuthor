@@ -103,3 +103,35 @@ it('todos los estilos con dibujo pintan algo, y los demás no', () => {
     expect(html.length > 0, k).toBe(e.dibujo)
   }
 })
+
+// Juego (21-nov-2026): una imagen y tres opciones, sin repetir imagen seguida
+describe('juego: una imagen y tres opciones', async () => {
+  const L = await import('../laGaleria')
+  const fs = await import('node:fs')
+  for (const fuente of ['real', 'dibujo']) for (const nivel of Object.keys(L.NIVELES)) {
+    it(`${fuente} · ${nivel}: tres opciones con la buena, imagen existente y sin repetir en 10`, () => {
+      const vistas = []
+      for (let i = 0; i < 200; i++) {
+        const r = L.genFoto(nivel, { fuente })
+        expect(r.mecanica).toBe('elige')
+        expect(r.opciones).toHaveLength(3)
+        expect(new Set(r.opciones).size).toBe(3)
+        expect(r.opciones).toContain(r.bueno)
+        expect(L.esCorrecta(r, r.bueno)).toBe(true)
+        for (const o of r.opciones.filter(o => o !== r.bueno)) expect(L.esCorrecta(r, o)).toBe(false)
+        for (const l of ['es', 'en', 'ca']) {
+          expect(L.enunciado(r, l).length).toBeGreaterThan(8)
+          expect(L.explicacion(r, l).length).toBeGreaterThan(20)
+          for (const o of r.opciones) expect(L.textoOpcion(o, r, l)).toBeTruthy()
+        }
+        if (r.tipo !== 'rasgo') {
+          const f = r.obra != null ? `public/galeria/${L.OBRAS[r.obra].img}.webp` : `public/la-galeria/${r.estilo}-${(r.semilla % 4) + 1}.webp`
+          expect(fs.existsSync(f), f).toBe(true)
+        }
+        const foto = L.fotoGaleria(r)
+        expect(vistas.slice(-10)).not.toContain(foto)
+        vistas.push(foto)
+      }
+    })
+  }
+})

@@ -5,7 +5,7 @@
 // respuesta. La usan el juego (contra reloj) y el examen (MechanicExam).
 import { useState } from 'react'
 import { useLang } from '../../context/LangContext'
-import { OBRAS, ESTILOS, ORDEN_ESTILOS, obra, enunciado, explicacion, tx, infoItem, claveItem } from '../../lib/laGaleria'
+import { OBRAS, ESTILOS, ORDEN_ESTILOS, obra, enunciado, explicacion, tx, infoItem, claveItem, textoOpcion } from '../../lib/laGaleria'
 
 function Cartela({ o, conPintor, conAnyo = true, l, chica = false }) {
   return (
@@ -24,6 +24,33 @@ function Obra({ o, l, alto = 'max-h-48 sm:max-h-64' }) {
           className={`block ${alto} w-auto max-w-full select-none`} />
       </div>
     </figure>
+  )
+}
+
+// El juego: una imagen (o los rasgos) y tres opciones, toque rápido
+function Elige({ r, revelado, elegida, onResponder, l }) {
+  const o = obra(r)
+  return (
+    <>
+      <div className="mb-3">
+        {r.tipo === 'rasgo'
+          ? <p className="text-white font-bold text-lg leading-snug text-center rounded-xl bg-white/5 border border-white/10 px-3 py-4">{tx(ESTILOS[r.bueno].rasgo, l)}</p>
+          : o ? <Obra o={o} l={l} alto="max-h-[300px]" />
+          : <img src={`/la-galeria/${r.estilo}-${(r.semilla % 4) + 1}.webp`} alt="" draggable={false} className="block w-full max-w-[300px] h-auto mx-auto rounded-md" />}
+        {revelado && o && <p className="mt-1.5 text-white/60 text-xs text-center">«{tx(o.titulo, l)}» · {o.pintor}, {o.anyo}</p>}
+      </div>
+      <div className="grid gap-2">
+        {r.opciones.map(op => {
+          const tono = revelado ? (op === r.bueno ? 'border-green-400 bg-green-500/15' : op === elegida ? 'border-red-400 bg-red-500/15' : 'border-white/10 opacity-50') : 'border-white/15 bg-white/[0.06] hover:bg-white/10 active:scale-[0.98]'
+          return (
+            <button key={op} type="button" disabled={revelado} onClick={() => onResponder(op)}
+              className={`py-3 px-3 rounded-xl border-2 text-white text-base font-bold transition-all ${tono}`}>
+              {textoOpcion(op, r, l)}
+            </button>
+          )
+        })}
+      </div>
+    </>
   )
 }
 
@@ -153,7 +180,7 @@ export default function PreguntaGaleria({ ronda, revelado, elegida, onResponder 
   const { lang, tr } = useLang()
   const l = lang === 'en' ? 'en' : lang === 'ca' ? 'ca' : 'es'
   const props = { r: ronda, revelado, elegida, onResponder, l, tr }
-  const cuerpo = ronda.mecanica === 'linea' ? <Linea {...props} /> : ronda.mecanica === 'ordena' ? <Ordena {...props} /> : <Empareja {...props} />
+  const cuerpo = ronda.mecanica === 'elige' ? <Elige {...props} /> : ronda.mecanica === 'linea' ? <Linea {...props} /> : ronda.mecanica === 'ordena' ? <Ordena {...props} /> : <Empareja {...props} />
   return (
     <div className="w-full">
       <p className="text-white font-bold text-center mb-3 leading-snug">{enunciado(ronda, l)}</p>

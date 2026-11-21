@@ -285,6 +285,44 @@ export function genRonda(nivel = 'facil', opts = {}) {
 }
 export const genRound = (difficulty = 'facil', fuente = 'real') => genRonda(difficulty, { fuente })
 
+// El JUEGO (21-nov-2026, a petición del usuario): una imagen y tres opciones,
+// rápido, como ¿Qué estilo es?. Emparejar gastaba tres cuadros por ronda y se
+// repetían enseguida. El examen sigue con genRonda.
+// Tipos del juego: «estilo» es lo mismo que «cuadro» con una obra real y
+// «orden» necesita cuatro obras, así que en el juego pasan a «cuadro».
+const TIPOS_FOTO = {
+  facil: ['cuadro', 'cuadro', 'pintor'],
+  medio: ['cuadro', 'cuadro', 'pintor', 'rasgo'],
+  dificil: ['cuadro', 'cuadro', 'pintor', 'rasgo'],
+}
+const conImg = OBRAS.map((o, i) => i).filter(i => OBRAS[i].img)
+// La imagen que se ve (para no repetirla): obra real, dibujo «al estilo de» o rasgos
+export const fotoGaleria = r => (r.tipo === 'rasgo' ? `rasgo:${r.bueno}` : r.obra != null ? `obra:${r.obra}` : `d:${r.estilo}:${(r.semilla % 4) + 1}`)
+const recientesF = []
+export function genFoto(nivel = 'facil', { rand = Math.random, fuente = 'real' } = {}) {
+  const tipos = TIPOS_FOTO[nivel] ?? TIPOS_FOTO.facil
+  for (let intento = 0; ; intento++) {
+    const tipo = elige(rand, tipos)
+    let r
+    if (tipo === 'pintor') {
+      // Solo obras con imagen: se reconoce mirando el cuadro
+      const k = elige(rand, conImg)
+      const o = OBRAS[k]
+      const otros = [...new Set(OBRAS.filter(x => x.pintor !== o.pintor).sort((a, b) => Math.abs(a.anyo - o.anyo) - Math.abs(b.anyo - o.anyo)).slice(0, 6).map(x => x.pintor))]
+      r = { id: ++seq, nivel, tipo, fuente, obra: k, bueno: o.pintor, opciones: [o.pintor, ...baraja(rand, otros)] }
+    } else {
+      // cuadro (real o dibujo) y rasgo, con sus opciones de siempre (vecinos en difícil)
+      for (;;) { r = genUna(nivel, { rand, fuente }); if (r.tipo === tipo) break }
+    }
+    const foto = fotoGaleria(r)
+    if (intento < 40 && recientesF.includes(foto)) continue
+    recientesF.push(foto)
+    if (recientesF.length > 10) recientesF.shift()
+    const otras = r.opciones.filter(o => o !== r.bueno).slice(0, 2)
+    return { ...r, mecanica: 'elige', opciones: baraja(rand, [r.bueno, ...otras]) }
+  }
+}
+
 export function respuestaBuena(r) {
   if (r.mecanica === 'empareja') return 'empareja:0'
   if (r.mecanica === 'ordena') return r.orden.join('>')
@@ -298,6 +336,7 @@ export function esCorrecta(r, o) {
 export const isCorrect = esCorrecta
 
 export function enunciado(r, l) {
+  if (r.mecanica === 'elige') return enunciadoViejo(r, l)
   switch (r.tipo) {
     case 'cuadro': return s(l, 'Toca un cuadro y después la sala de su estilo', 'Tap a painting and then the room for its style', 'Toca un quadre i després la sala del seu estil')
     case 'pintor': return s(l, 'Toca una obra y después su pintor', 'Tap a work and then its painter', 'Toca una obra i després el seu pintor')
@@ -309,6 +348,7 @@ export function enunciado(r, l) {
 }
 
 export function explicacion(r, l) {
+  if (r.mecanica === 'elige') return explicacionVieja(r, l)
   if (r.mecanica === 'empareja') {
     return r.items.map(it => {
       const x = infoItem(it)
