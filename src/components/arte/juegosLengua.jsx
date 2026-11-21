@@ -249,6 +249,24 @@ function QueVes(p) {
   )
 }
 
+// Hablar inglés: un micrófono, el bocadillo del personaje y el tuyo en verde
+function DiloEnIngles(p) {
+  return (
+    <Lienzo {...p}>
+      <rect x="20" y="16" width="104" height="44" rx="14" fill="#F8FAFC" />
+      <path d="M40 60L34 74L54 60Z" fill="#F8FAFC" />
+      {[[32, 30, 70], [32, 42, 50]].map(([x, y, w]) => <rect key={y} x={x} y={y} width={w} height="6" rx="3" fill="#94A3B8" />)}
+      <rect x="116" y="68" width="100" height="40" rx="14" fill="#10B981" />
+      <path d="M196 108L204 120L182 108Z" fill="#10B981" />
+      {[[128, 80, 64], [128, 92, 44]].map(([x, y, w]) => <rect key={y} x={x} y={y} width={w} height="6" rx="3" fill="#D1FAE5" />)}
+      <rect x="60" y="76" width="22" height="34" rx="11" fill="#F59E0B" />
+      <path d="M54 94a17 17 0 0 0 34 0" stroke="#F59E0B" strokeWidth="4" strokeLinecap="round" />
+      <path d="M71 111v12M62 124h18" stroke="#F59E0B" strokeWidth="4" strokeLinecap="round" />
+      <path d="M96 84q6 8 0 16M104 79q11 13 0 26" stroke="#FDE68A" strokeWidth="3" strokeLinecap="round" />
+    </Lienzo>
+  )
+}
+
 function ElMensajero(p) {
   // Un bocadillo con la frase directa y un sobre que la lleva, ya cambiada.
   return (
@@ -320,6 +338,7 @@ export const ARTE_LENGUA = {
   'pieza-que-falta': PiezaQueFalta,
   'verbos-irregulares': VerbosIrregulares,
   'el-mensajero': ElMensajero,
+  'dilo-en-ingles': DiloEnIngles,
   'monta-el-verbo': MontaVerbo,
   'que-ves': QueVes,
   'pon-la-tilde': PonLaTilde,

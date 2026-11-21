@@ -2344,6 +2344,34 @@ export const FICHAS_ES = {
     ],
     asignatura: 'Lengua', niveles: 'Primaria y ESO',
   },
+  'dilo-en-ingles': {
+    titulo: 'Dilo en Inglés',
+    subtitulo: 'Juego para practicar a hablar inglés en situaciones reales',
+    emoji: '🎙️', gradient: 'from-sky-500 to-violet-700',
+    path: '/juegos/dilo-en-ingles',
+    intro: 'Un juego para practicar el speaking, que es lo que menos se practica en clase de inglés. Eliges una situación (pedir en un restaurante, presentarte el primer día de un campamento, hacer el check-in en un hotel o preguntar por la calle cómo llegar a la estación) y el personaje te habla en inglés, en voz alta y por escrito. Tú contestas con el micrófono o escribiendo. Cada respuesta sale en verde si es correcta, en amarillo si se entiende pero hay una forma mejor (y te dice cuál) y en rojo si es un error típico de hispanohablante, con la explicación y otro intento. Al final ves las frases que puedes mejorar con su versión correcta.',
+    beneficios: [
+      { titulo: 'Hablar, no solo rellenar', texto: 'La mayoría de ejercicios de inglés son de leer y escribir. Aquí hay que producir la frase entera y decirla, como en una conversación: el camarero pregunta «What would you like to drink?» y no hay opciones para elegir.' },
+      { titulo: 'Los errores de los hispanohablantes', texto: 'Cada situación está escrita pensando en los fallos más típicos: «I have 13 years» en lugar de «I\'m 13», «the account» por «the bill», «I like play» sin -ing, «How I get to…?» sin do. Y lo que se entiende pero suena brusco, como «I want a coke», sale en amarillo con la forma educada.' },
+      { titulo: 'Escuchar de verdad', texto: 'El personaje habla con la voz inglesa del navegador, se puede repetir o poner despacio, y con «Solo escuchar» se tapa el texto para entrenar el oído. En la calle, además, hay que repetir el camino que te han indicado.' },
+    ],
+    ejemplo: 'En el restaurante, el camarero pregunta «Is everything OK with your meal?». Si contestas «Yes, can I have the account?», sale en rojo: «account» es una cuenta del banco, y la del restaurante es «the bill». Si dices «The check, please», sale en amarillo: se entiende, pero «check» es de Estados Unidos y en Reino Unido se dice «Could we have the bill, please?».',
+    enPapel: {
+      titulo: 'Tu propia situación',
+      pasos: [
+        'Elige un sitio: una tienda de ropa, el médico o una estación de tren.',
+        'Escribe cinco preguntas que te harían allí, en inglés.',
+        'Al lado de cada una, escribe una respuesta educada y una que suene brusca.',
+        'Representadlo por parejas: uno pregunta y el otro contesta sin mirar el papel.',
+      ],
+    },
+    alternativas: [
+      { nombre: 'Verbos Irregulares', desc: 'Las tres formas de los verbos irregulares, para no fallar en pasado.' },
+      { nombre: 'El Mensajero', desc: 'Reported speech: cuenta lo que dijo otra persona.' },
+      { nombre: '¿Qué Ves?', desc: 'Inglés de Primaria: mira el dibujo y completa la frase.' },
+    ],
+    asignatura: 'Inglés', niveles: 'Primaria (5.º y 6.º) y ESO',
+  },
   'codice-robado': {
     titulo: 'El Códice Robado',
     subtitulo: 'Escape room de Historia de España para jugar en clase',

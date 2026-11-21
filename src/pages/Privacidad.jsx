@@ -11,6 +11,7 @@ const SECTIONS = [
     content: `Recopilamos únicamente los datos necesarios para el funcionamiento del servicio:
 • Cuenta de usuario: nombre y foto de perfil cuando te registras con Google (gestionado por Firebase Authentication).
 • Datos de uso: progreso, rachas y resultados de exámenes, almacenados en Firestore asociados a tu cuenta.
+• Voz (solo en el juego «Dilo en Inglés» y solo si pulsas el micrófono): el reconocimiento de voz lo hace tu navegador. En Chrome el audio lo convierte en texto Google y en Edge, Microsoft, según sus propias políticas. Tuthor no recibe ni guarda el audio ni el texto: la respuesta se comprueba en tu dispositivo y se descarta.
 • Analítica anónima: mediante Vercel Analytics y Google Analytics recopilamos métricas de uso agregadas (páginas visitadas, dispositivo, país) sin identificarte de forma personal.
 • Publicidad: si aceptas la categoría "Publicidad", nuestros proveedores pueden tratar identificadores de tu navegador para mostrarte anuncios adaptados. Si no la aceptas, los anuncios se sirven sin personalizar.`,
   },

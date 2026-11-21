@@ -41,6 +41,7 @@ export const ETAPAS_JUEGO = {
   'cuanto-cabe': 'p',
   'cuentas-claras': 'eb',
   'detective-textos': 'pe',
+  'dilo-en-ingles': 'pe',
   'el-cambio': 'p',
   'el-laboratorio': 'pe',
   'el-mensajero': 'eb',

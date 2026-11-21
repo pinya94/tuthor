@@ -645,6 +645,15 @@ export const GAMES = {
     // aciertos × 10 puntos → hasta 200 monedas
     coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 10), 200),
   },
+  'dilo-en-ingles': {
+    label: { es: 'Dilo en Inglés', en: 'Dilo en Inglés', ca: 'Dilo en Inglés' },
+    emoji: '🎙️',
+    subject: 'ingles',
+    route: '/juegos/dilo-en-ingles',
+    idiomas: ['es'], // pistas y correcciones en castellano (para hispanohablantes)
+    // 20 por frase perfecta, 12 si se entiende → hasta 20 monedas por situación
+    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 5), 40),
+  },
   'el-mensajero': {
     label: { es: 'El Mensajero', en: 'The Messenger', ca: 'El Missatger' },
     emoji: '📨',
