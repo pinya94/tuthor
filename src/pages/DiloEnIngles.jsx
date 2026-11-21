@@ -17,6 +17,7 @@ import { SITUACIONES } from '../data/diloIngles'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, ComoSeJuega } from '../components/IntroJuego'
+import OpinionBeta from '../components/OpinionBeta'
 
 const ahora = () => Date.now()
 const Reconocedor = typeof window !== 'undefined' ? (window.SpeechRecognition || window.webkitSpeechRecognition) : null
@@ -57,6 +58,7 @@ export default function DiloEnIngles() {
   const [resultado, setResultado] = useState(null) // { nivel, nota, texto, final }
   const [cuenta, setCuenta] = useState({ verde: 0, amarillo: 0, rojo: 0, puntos: 0 })
   const [notas, setNotas] = useState([])           // lo que se puede mejorar, para el final
+  const [fallidas, setFallidas] = useState([])     // lo que no aceptó: solo se envía si el jugador lo marca
   const [escuchando, setEscuchando] = useState(false)
   const [parcial, setParcial] = useState('')
   const [escrito, setEscrito] = useState('')
@@ -82,7 +84,7 @@ export default function DiloEnIngles() {
 
   const empezar = id => {
     setSit(id); setI(0); setIntentos(0); setResultado(null); setEscrito(''); setParcial('')
-    setCuenta({ verde: 0, amarillo: 0, rojo: 0, puntos: 0 }); setNotas([]); setErrorMic(null)
+    setCuenta({ verde: 0, amarillo: 0, rojo: 0, puntos: 0 }); setNotas([]); setFallidas([]); setErrorMic(null)
     inicio.current = ahora()
     setScreen('jugando')
     trackEvent('dilo_ingles_situacion', { item_id: id })
@@ -96,6 +98,7 @@ export default function DiloEnIngles() {
     const final = !fallido || intentos >= 1
     setResultado({ ...r, final })
     if (fallido) setIntentos(n => n + 1)
+    if (fallido && r.texto) setFallidas(x => [...x, { texto: r.texto, mision: turno.mision }])
     if (final) {
       const clave = r.nivel === 'falta' ? 'rojo' : r.nivel
       setCuenta(c => ({ ...c, [clave]: c[clave] + 1, puntos: c.puntos + PUNTOS[r.nivel] }))
@@ -170,7 +173,7 @@ export default function DiloEnIngles() {
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-4 py-8">
       {head}
       <div className="max-w-2xl w-full">
-        <CabeceraJuego slug="dilo-en-ingles" badge="Inglés · Hablar" titulo="🎙️ Dilo en Inglés"
+        <CabeceraJuego slug="dilo-en-ingles" badge="Inglés · Hablar · Beta (en pruebas)" titulo="🎙️ Dilo en Inglés"
           sub="Te hablan en inglés y contestas con tu voz (o escribiendo)" />
         <p className="text-white/40 text-xs uppercase tracking-widest text-center mb-3">Elige una situación</p>
         <div className="grid sm:grid-cols-2 gap-3">
@@ -191,6 +194,7 @@ export default function DiloEnIngles() {
           <p>Cada frase es una misión, por ejemplo «pide una mesa para cinco junto a la ventana». Lo dices como quieras: comprueba que digas lo que pide la misión, que suene educado cuando pides algo y si cometes alguno de los errores típicos de los hispanohablantes.</p>
           <p>Es una herramienta para soltarte a hablar, no un profesor: no detecta todos los errores de gramática y no corrige la pronunciación (el reconocedor escribe la frase más parecida que conoce, así que lo que mide es si se te entiende). Si te marca algo que creas que está bien, puede que lo esté.</p>
         </div>
+        <div className="mt-4"><OpinionBeta juego="dilo-en-ingles" nombre="Dilo en Inglés" pagina="/juegos/dilo-en-ingles" contexto="presentación" compacto /></div>
         {!Reconocedor && (
           <p className="mt-4 rounded-xl bg-amber-950/50 border border-amber-400/30 text-amber-100 text-sm px-4 py-3">
             Tu navegador no reconoce la voz (va en Chrome y Edge). Puedes jugar igual escribiendo las respuestas.
@@ -200,7 +204,7 @@ export default function DiloEnIngles() {
           <div className="space-y-2 text-white/70 text-sm">
             <p>El personaje te habla en inglés (y lo ves escrito). Debajo tienes tu misión en castellano: pulsa el micrófono y dilo en inglés, o escríbelo.</p>
             <p>💚 Perfecto · 💛 Se entiende, pero hay una forma mejor (te dice cuál) · 🔴 Error típico, con la explicación · 🤔 Te falta algo de la misión. Con el rojo y el 🤔 tienes otro intento.</p>
-            <p className="text-white/45 text-xs">🔒 En Chrome, tu voz la convierte en texto Google (en Edge, Microsoft). Tuthor no guarda ni el audio ni el texto, y el micrófono solo se abre cuando pulsas el botón.</p>
+            <p className="text-white/45 text-xs">🔒 En Chrome, tu voz la convierte en texto Google (en Edge, Microsoft). Tuthor no guarda ni el audio ni el texto (salvo las frases que tú decidas adjuntar a tu opinión), y el micrófono solo se abre cuando pulsas el botón.</p>
           </div>
         </ComoSeJuega>
       </div>
@@ -230,6 +234,10 @@ export default function DiloEnIngles() {
             </ul>
           </div>
         )}
+        <div className="mt-4">
+          <OpinionBeta juego="dilo-en-ingles" nombre="Dilo en Inglés" pagina="/juegos/dilo-en-ingles"
+            contexto={`${situacion.titulo}: ${cuenta.verde} perfectas, ${cuenta.amarillo} se entiende, ${cuenta.rojo} a mejorar`} frases={fallidas} />
+        </div>
       </GameEndScreen>
     )
   }
@@ -306,7 +314,7 @@ export default function DiloEnIngles() {
             </div>
           </div>
         )}
-        <p className="text-center text-white/25 text-xs mt-6"><a href={localPath('/privacidad')} className="underline">Privacidad</a>: Tuthor no guarda tu voz ni lo que dices.</p>
+        <p className="text-center text-white/25 text-xs mt-6"><a href={localPath('/privacidad')} className="underline">Privacidad</a>: Tuthor no guarda tu voz ni lo que dices (salvo si lo adjuntas a tu opinión).</p>
       </div>
     </div>
   )
