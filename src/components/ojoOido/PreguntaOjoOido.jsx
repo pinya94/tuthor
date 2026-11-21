@@ -39,10 +39,10 @@ function anillo(cx, cy, rxi, ryi, rxo, ryo, a0, a1) {
 // retina el triple de gruesa); lab = [texto x, y, punto x, y]
 export const ZONAS = {
   // Ojo: globo con centro ~(850, 470); retina en rx≈340/ry≈377, coroides hasta 358/395, esclerótica hasta 412/455
-  esclerotica: { d: anillo(850, 470, 358, 395, 430, 471, -140, 140), forma: anillo(850, 470, 366, 402, 414, 457, -140, 140), lab: [1390, 190, 1190, 230] },
-  retina: { d: anillo(850, 470, 309, 345, 358, 395, -134, 134), forma: anillo(850, 470, 336, 372, 352, 389, -134, 134), lab: [900, 250, 900, 92] },
+  esclerotica: { d: anillo(850, 470, 358, 395, 470, 515, -140, 140), forma: anillo(850, 470, 366, 402, 414, 457, -140, 140), lab: [1390, 190, 1190, 230] },
+  retina: { d: anillo(850, 470, 280, 312, 358, 395, -134, 134), forma: anillo(850, 470, 336, 372, 352, 389, -134, 134), lab: [900, 250, 900, 92] },
   'nervio-optico': { d: pol([[1185, 505], [1465, 560], [1470, 715], [1185, 645]]), lab: [1330, 820, 1400, 650] },
-  cornea: { d: anillo(560, 475, 225, 250, 305, 330, 104, 256), forma: anillo(560, 475, 262, 282, 292, 312, 104, 256), lab: [330, 215, 318, 330] },
+  cornea: { d: anillo(560, 475, 225, 250, 350, 370, 104, 256), forma: anillo(560, 475, 262, 282, 292, 312, 104, 256), lab: [330, 215, 318, 330] },
   cristalino: { d: elipse(600, 480, 88, 178), lab: [820, 470, 688, 470] },
   iris: { d: pol([[500, 240], [465, 295], [438, 360], [420, 430], [420, 520], [435, 600], [462, 662], [500, 715], [528, 712], [532, 650], [525, 600], [515, 560], [515, 400], [525, 330], [530, 280], [524, 240]]), lab: [420, 70, 470, 300] },
   pupila: { d: elipse(488, 477, 30, 98), lab: [380, 905, 488, 560] },
@@ -105,7 +105,6 @@ export default function PreguntaOjoOido({ ronda: r, revelado, onResponder }) {
     if (r.tipo !== 'ruta') { setTocadas([id]); onResponder(id); return }
     const sig = [...tocadas, id]
     setTocadas(sig)
-    setZoom(null)
     if (id !== r.ruta[tocadas.length] || sig.length === r.ruta.length) onResponder(sig)
   }
   // Lupa: solo con el dedo y en pantallas estrechas, y solo si aún no está ampliado
@@ -159,7 +158,7 @@ export default function PreguntaOjoOido({ ronda: r, revelado, onResponder }) {
           <image href={esc.img} x="0" y="0" width={W} height={H} preserveAspectRatio="none"
             onClick={ev => { if (!revelado && usaLupa()) amplia(ev) }} />
           {ORDEN[r.organo].map(id => (
-            <path key={id} data-zona={id} d={ZONAS[id].d} fill="transparent"
+            <path key={id} d={ZONAS[id].d} fill="transparent"
               onClick={ev => pulsa(id, ev)}
               className={revelado ? '' : 'cursor-pointer'} style={{ pointerEvents: revelado ? 'none' : 'all' }} />
           ))}
@@ -179,13 +178,7 @@ export default function PreguntaOjoOido({ ronda: r, revelado, onResponder }) {
             <rect key={`k${id}`} x={ZONAS[id].lab[2] - 1} y={ZONAS[id].lab[3] - 1} width="2" height="2" fill="transparent"
               tabIndex={0} role="button" aria-label={tr({ es: `Zona ${k + 1} de ${tab.length}`, en: `Area ${k + 1} of ${tab.length}`, ca: `Zona ${k + 1} de ${tab.length}` })}
               onFocus={() => setFoco(id)} onBlur={() => setFoco(f => (f === id ? null : f))}
-              onClick={() => toca(id)}
-              onKeyDown={ev => {
-                if (!ev.repeat && (ev.key === 'Enter' || ev.key === ' ')) {
-                  ev.preventDefault()
-                  toca(id)
-                }
-              }}
+              onKeyDown={ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toca(id) } }}
               className="pointer-events-none outline-none" />
           ))}
         </svg>
