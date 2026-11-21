@@ -13,7 +13,7 @@ import { avisarAdmin } from '../lib/avisoAdmin'
 
 const CARAS = [['😞', 'Nada'], ['😐', 'Poco'], ['🙂', 'Bien'], ['😀', 'Mucho'], ['🤩', '¡Me encanta!']]
 
-export default function OpinionBeta({ juego, nombre, pagina, contexto = '', frases = [], compacto = false }) {
+export default function OpinionBeta({ juego, nombre, pagina, contexto = '', frases = [], compacto = false, pista = '¿Algo que mejorar? ¿Te marcó mal una frase que estaba bien? Cuéntanoslo.' }) {
   const { lang } = useLang()
   const [nota, setNota] = useState(0)
   const [texto, setTexto] = useState('')
@@ -67,7 +67,7 @@ export default function OpinionBeta({ juego, nombre, pagina, contexto = '', fras
         ))}
       </div>
       <textarea value={texto} onChange={ev => setTexto(ev.target.value)} rows={compacto ? 2 : 3} maxLength={1200}
-        placeholder="¿Algo que mejorar? ¿Te marcó mal una frase que estaba bien? Cuéntanoslo."
+        placeholder={pista}
         className="w-full mt-2 rounded-lg bg-white/10 border border-white/15 text-white text-sm px-3 py-2 placeholder-white/35 focus:outline-none focus:border-white/40" />
       {frases.length > 0 && (
         <label className="flex items-start gap-2 mt-2 text-white/70 text-xs cursor-pointer">

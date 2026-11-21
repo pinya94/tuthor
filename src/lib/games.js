@@ -296,8 +296,9 @@ export const GAMES = {
     emoji: '🎻',
     subject: 'musica',
     route: '/juegos/toca-con-la-orquesta',
-    // % de notas bien (0-100) → hasta 20 monedas por obra tocada
-    coins: ({ score = 0 } = {}) => Math.min(Math.floor(score / 5), 20),
+    // Por estrellas (% de notas bien: ⭐ 60, ⭐⭐ 85, ⭐⭐⭐ 95; los mismos umbrales
+    // que UMBRALES_ESTRELLAS de lib/tocaOrquesta, comprobado en su test)
+    coins: ({ score = 0 } = {}) => [0, 5, 10, 20][[60, 85, 95].filter(u => score >= u).length],
   },
   'la-orquesta': {
     label: { es: 'La Orquesta', en: 'The Orchestra', ca: 'L’Orquestra' },

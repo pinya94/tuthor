@@ -40,6 +40,19 @@ export const NIVELES = {
   dificil: { tempo: 1, metronomo: false, tiempo: true },
 }
 
+// Estrellas por % de notas bien (22-nov-2026: que el juego tenga meta).
+// ⭐⭐ = «superado» y abre el nivel siguiente. Las monedas salen de aquí
+// (games.js repite los umbrales para no cargar este módulo; hay test).
+export const UMBRALES_ESTRELLAS = [60, 85, 95]
+export const SUPERADO = 2
+export const estrellas = pct => UMBRALES_ESTRELLAS.filter(u => pct >= u).length
+export const ORDEN_NIVELES = ['facil', 'medio', 'dificil']
+// progreso: { 'obra|nivel': mejores estrellas }. El fácil siempre está abierto.
+export function nivelAbierto(progreso, obraId, nivel) {
+  const i = ORDEN_NIVELES.indexOf(nivel)
+  return i <= 0 || (progreso[`${obraId}|${ORDEN_NIVELES[i - 1]}`] ?? 0) >= SUPERADO
+}
+
 export const obra = id => OBRAS[id]
 const notasDe = compases => compases.flat().filter(([m]) => typeof m === 'number').map(([m]) => m)
 

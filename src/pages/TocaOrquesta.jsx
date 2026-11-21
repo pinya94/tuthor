@@ -10,7 +10,7 @@ import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
 import { OBRAS, OBRA_POR_DEFECTO, vocesJugables } from '../data/tocaOrquesta/obras'
-import { INSTRUMENTOS, NIVELES, parte, musicXML, notasParte, numCompases, negrasPorCompas, corrige, textoFallo, midiAHz } from '../lib/tocaOrquesta'
+import { INSTRUMENTOS, NIVELES, ORDEN_NIVELES, SUPERADO, estrellas, nivelAbierto, parte, musicXML, notasParte, numCompases, negrasPorCompas, corrige, textoFallo, midiAHz } from '../lib/tocaOrquesta'
 import Partitura from '../components/tocaOrquesta/Partitura'
 import PianoPantalla from '../components/tocaOrquesta/PianoPantalla'
 import GameEndScreen from '../components/GameEndScreen'
@@ -29,6 +29,9 @@ const DIFS = {
 }
 const VOL = { melodia: 0.9, armonia: 0.55, acompanamiento: 0.55, bajo: 0.8, laminas: 0.6, acordes: 0.35, percusion: 0.5 }
 const CLAVES = { sol: { es: 'Sol', en: 'Treble', ca: 'Sol' }, fa: { es: 'Fa', en: 'Bass', ca: 'Fa' }, do: { es: 'Do (viola)', en: 'Alto', ca: 'Do (viola)' } }
+const leeJSON = (k, def) => { try { return JSON.parse(localStorage.getItem(k)) ?? def } catch { return def } }
+const guardaJSON = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch { /* sin almacenamiento */ } }
+const pintaEstrellas = n => '⭐'.repeat(n) + '☆'.repeat(3 - n)
 const leeLat = () => { try { return Number(localStorage.getItem('tocaOrquesta.lat')) || 120 } catch { return 120 } }
 const guardaLat = v => { try { localStorage.setItem('tocaOrquesta.lat', String(v)) } catch { /* sin almacenamiento */ } }
 
@@ -55,6 +58,10 @@ export default function TocaOrquesta() {
   const [tecla, setTecla] = useState(null)
   const [resultado, setResultado] = useState(null)
   const [marcado, setMarcado] = useState(null) // compás tocado en la lista de fallos
+  // Mejores estrellas por obra y nivel (en este dispositivo) y niveles abiertos
+  const [progreso, setProgreso] = useState(() => leeJSON('tocaOrquesta.progreso', {}))
+  const [libre, setLibre] = useState(() => leeJSON('tocaOrquesta.libre', false))
+  const [abierto, setAbierto] = useState(null) // nivel que se acaba de desbloquear
 
   const motorRef = useRef(null)
   const rafRef = useRef(0)
@@ -144,6 +151,13 @@ export default function TocaOrquesta() {
     const r = corrige(notas, framesRef.current, { octavaLibre: true, tiempo: NIVELES[nivel].tiempo })
     setResultado(r)
     setMarcado(null)
+    const est = estrellas(r.pct)
+    const clave = `${obraId}|${nivel}`
+    const sig = ORDEN_NIVELES[ORDEN_NIVELES.indexOf(nivel) + 1]
+    const antes = sig && nivelAbierto(progreso, obraId, sig)
+    const nuevo = est > (progreso[clave] ?? 0) ? { ...progreso, [clave]: est } : progreso
+    if (nuevo !== progreso) { setProgreso(nuevo); guardaJSON('tocaOrquesta.progreso', nuevo) }
+    setAbierto(sig && !antes && !libre && nivelAbierto(nuevo, obraId, sig) ? sig : null)
     setScreen('fin')
     if (user) {
       saveActivity(user.uid, {
@@ -257,17 +271,31 @@ export default function TocaOrquesta() {
 
           <p className="text-white/40 text-xs uppercase tracking-widest text-center mt-4 mb-2">{tr({ es: 'Elige nivel', en: 'Choose a level', ca: 'Tria nivell' })}</p>
           <div className="flex flex-wrap justify-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl mb-2">
-            {Object.entries(DIFS).map(([id, d], i) => (
-              <button key={id} onClick={() => setNivel(id)}
-                className={`flex items-center gap-1 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${nivel === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'}`}>
-                <NivelBarras clave={id} i={i} />{tr(d.label)}
-              </button>
-            ))}
+            {Object.entries(DIFS).map(([id, d], i) => {
+              const cerrado = !libre && !nivelAbierto(progreso, obraId, id)
+              const mejor = progreso[`${obraId}|${id}`] ?? 0
+              return (
+                <button key={id} onClick={() => setNivel(id)}
+                  className={`flex flex-col items-center px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all ${nivel === id ? 'bg-white/15 text-white shadow-sm' : 'text-white/40 hover:text-white/70'}`}>
+                  <span className="flex items-center gap-1">{cerrado ? '🔒' : <NivelBarras clave={id} i={i} />}{tr(d.label)}</span>
+                  <span className="text-[10px] tracking-tight">{pintaEstrellas(mejor)}</span>
+                </button>
+              )
+            })}
           </div>
-          <p className="text-white/40 text-xs text-center mb-5">{tr(DIFS[nivel].desc)}</p>
+          <p className="text-white/40 text-xs text-center mb-1">{tr(DIFS[nivel].desc)}</p>
+          <p className="text-white/40 text-[11px] text-center mb-5">{tr({ es: '⭐ 60 % · ⭐⭐ 85 % (superado: se abre el nivel siguiente) · ⭐⭐⭐ 95 %', en: '⭐ 60% · ⭐⭐ 85% (passed: the next level opens) · ⭐⭐⭐ 95%', ca: '⭐ 60 % · ⭐⭐ 85 % (superat: s’obre el nivell següent) · ⭐⭐⭐ 95 %' })}</p>
 
-          <button onClick={() => setScreen('tocar')}
-            className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors">
+          {!libre && !nivelAbierto(progreso, obraId, nivel) && (
+            <div className="rounded-xl bg-white/5 border border-white/10 px-3 py-2.5 mb-3 text-center text-sm text-white/70">
+              🔒 {tr({ es: `Saca ⭐⭐ en el nivel ${tr(DIFS[ORDEN_NIVELES[ORDEN_NIVELES.indexOf(nivel) - 1]].label).toLowerCase()} para abrir este.`, en: `Get ⭐⭐ on ${tr(DIFS[ORDEN_NIVELES[ORDEN_NIVELES.indexOf(nivel) - 1]].label).toLowerCase()} to open this one.`, ca: `Treu ⭐⭐ al nivell ${tr(DIFS[ORDEN_NIVELES[ORDEN_NIVELES.indexOf(nivel) - 1]].label).toLowerCase()} per obrir aquest.` })}
+              <button type="button" onClick={() => { setLibre(true); guardaJSON('tocaOrquesta.libre', true) }} className="block mx-auto mt-1 text-xs underline text-white/50">
+                {tr({ es: 'Ya sé tocar: abrir todos los niveles', en: 'I can already play: open every level', ca: 'Ja sé tocar: obrir tots els nivells' })}
+              </button>
+            </div>
+          )}
+          <button onClick={() => setScreen('tocar')} disabled={!libre && !nivelAbierto(progreso, obraId, nivel)}
+            className="w-full py-3.5 rounded-2xl bg-[#EDAE49] text-black font-black text-lg hover:bg-amber-400 transition-colors disabled:opacity-40">
             {tr({ es: '▶ Ver mi partitura', en: '▶ See my part', ca: '▶ Veure la meva partitura' })}
           </button>
           <Link to={localPath(`/recursos/ensayo-orquesta?obra=${obraId}`)}
@@ -290,10 +318,15 @@ export default function TocaOrquesta() {
   if (screen === 'fin' && resultado) {
     const r = resultado
     const verdes = Object.values(r.porCompas).filter(e => e === 'ok').length
-    const msg = r.pct >= 85
-      ? (nivel !== 'dificil' ? tr({ es: '¡Muy bien! Prueba el nivel siguiente.', en: 'Very good! Try the next level.', ca: 'Molt bé! Prova el nivell següent.' }) : tr({ es: '¡Lo dominas a tempo!', en: 'You’ve mastered it at full tempo!', ca: 'El domines a tempo!' }))
-      : r.pct >= 60 ? tr({ es: 'Casi. Repite; mira en qué compases fallas.', en: 'Nearly. Try again; look at which bars you miss.', ca: 'Gairebé. Repeteix; mira en quins compassos falles.' })
-      : tr({ es: 'Baja de nivel (va más lento) o escucha antes tu parte.', en: 'Go down a level (it’s slower) or listen to your part first.', ca: 'Baixa de nivell (va més lent) o escolta abans la teva part.' })
+    const est = estrellas(r.pct)
+    const titulo = est === 3 ? tr({ es: '¡Perfecto!', en: 'Perfect!', ca: 'Perfecte!' })
+      : est >= SUPERADO ? tr({ es: '¡Superado!', en: 'Passed!', ca: 'Superat!' })
+      : est === 1 ? tr({ es: 'Casi', en: 'Nearly', ca: 'Gairebé' })
+      : tr({ es: 'Inténtalo otra vez', en: 'Try again', ca: 'Torna-ho a provar' })
+    const msg = est >= SUPERADO
+      ? (nivel !== 'dificil' ? tr({ es: '¡Muy bien! Ya puedes pasar al nivel siguiente.', en: 'Very good! You can move on to the next level.', ca: 'Molt bé! Ja pots passar al nivell següent.' }) : tr({ es: '¡Lo dominas a tempo!', en: 'You’ve mastered it at full tempo!', ca: 'El domines a tempo!' }))
+      : est === 1 ? tr({ es: 'Te falta poco para ⭐⭐: repite y mira en qué compases fallas.', en: 'Nearly ⭐⭐: try again and look at which bars you miss.', ca: 'Et falta poc per a ⭐⭐: repeteix i mira en quins compassos falles.' })
+      : tr({ es: 'Escucha antes tu parte o baja de nivel, que va más lento.', en: 'Listen to your part first, or go down a level: it’s slower.', ca: 'Escolta abans la teva part o baixa de nivell, que va més lent.' })
     const porCompas = {}
     r.fallos.forEach(x => { (porCompas[x.compas] = porCompas[x.compas] || []).push(x) })
     const shareText = tr({
@@ -302,15 +335,21 @@ export default function TocaOrquesta() {
       ca: `He tocat l’Himne de l’alegria amb l’orquestra a Tuthor: ${r.pct} % 🎻 https://tuthor.es/ca/juegos/${SLUG}`,
     })
     const secondary = [
+      ...(abierto ? [{ label: tr({ es: `Ir al nivel ${tr(DIFS[abierto].label).toLowerCase()} →`, en: `Go to ${tr(DIFS[abierto].label).toLowerCase()} →`, ca: `Anar al nivell ${tr(DIFS[abierto].label).toLowerCase()} →` }), onClick: () => { setNivel(abierto); setScreen('tocar') } }] : []),
       { label: tr({ es: 'Cambiar voz o instrumento', en: 'Change part or instrument', ca: 'Canviar veu o instrument' }), onClick: () => setScreen('intro') },
       ...(backPath ? [{ label: tr({ es: '← Volver', en: '← Back', ca: '← Tornar' }), onClick: () => navigate(localPath(backPath)) }] : []),
     ]
     return (
-      <GameEndScreen game={SLUG} emoji="🎻" title={tr(obra.titulo)} score={r.pct} message={msg}
-        stats={[{ label: tr({ es: 'notas bien', en: 'notes right', ca: 'notes bé' }), value: `${r.pct} %`, emoji: '🎯' }, { label: tr({ es: 'compases en verde', en: 'green bars', ca: 'compassos en verd' }), value: `${verdes}/${numCompases(obraId)}`, emoji: '💚' }]}
+      <GameEndScreen game={SLUG} emoji="🎻" title={titulo} score={r.pct} message={msg}
+        stats={[{ label: tr({ es: 'estrellas', en: 'stars', ca: 'estrelles' }), value: pintaEstrellas(est), emoji: '🏅' }, { label: tr({ es: 'notas bien', en: 'notes right', ca: 'notes bé' }), value: `${r.pct} %`, emoji: '🎯' }, { label: tr({ es: 'compases en verde', en: 'green bars', ca: 'compassos en verd' }), value: `${verdes}/${numCompases(obraId)}`, emoji: '💚' }]}
         shareText={shareText} user={user} lang={l}
         onPlayAgain={() => setScreen('tocar')} secondaryActions={secondary}>
         <div className="w-full max-w-2xl mx-auto mt-4 text-left">
+          {abierto && (
+            <p className="mb-3 rounded-xl bg-emerald-500/15 border border-emerald-400/40 px-3 py-2.5 text-emerald-100 font-bold text-center">
+              🔓 {tr({ es: `¡Nivel ${tr(DIFS[abierto].label).toLowerCase()} desbloqueado!`, en: `${tr(DIFS[abierto].label)} level unlocked!`, ca: `Nivell ${tr(DIFS[abierto].label).toLowerCase()} desbloquejat!` })}
+            </p>
+          )}
           <Partitura xml={xml} negrasCompas={ncomp} colores={r.porCompas} onCompas={setMarcado} />
           <ul className="mt-3 space-y-1">
             {Object.keys(porCompas).map(Number).sort((a, b) => a - b).map(c => {
@@ -326,6 +365,7 @@ export default function TocaOrquesta() {
           </ul>
           <div className="mt-4">
             <OpinionBeta juego={SLUG} nombre="Toca con la Orquesta" pagina={`/juegos/${SLUG}`}
+              pista="¿Algo que mejorar? ¿Te marcó mal una nota que estaba bien? ¿Qué instrumento tocabas? Cuéntanoslo."
               contexto={`${obraId} · ${vozId} · ${instId}${instId === 'otro' ? ` (${semitonos})` : ''} · ${nivel} · ${r.pct}%`} />
           </div>
         </div>

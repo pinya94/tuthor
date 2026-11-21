@@ -149,3 +149,21 @@ describe('Toca con la Orquesta: versión escuela y partitura general', () => {
     expect(xml).toContain('<part-name>Melodía</part-name>')
   })
 })
+
+describe('Toca con la Orquesta: estrellas y niveles', async () => {
+  const { estrellas, nivelAbierto, UMBRALES_ESTRELLAS } = await import('../tocaOrquesta')
+  const { computeCoins } = await import('../games')
+  it('estrellas por porcentaje y monedas según las estrellas', () => {
+    expect([0, 59, 60, 84, 85, 94, 95, 100].map(estrellas)).toEqual([0, 0, 1, 1, 2, 2, 3, 3])
+    expect([0, 60, 85, 95].map(p => computeCoins('toca-con-la-orquesta', { score: p }))).toEqual([0, 5, 10, 20])
+    for (const u of UMBRALES_ESTRELLAS) expect(computeCoins('toca-con-la-orquesta', { score: u })).toBeGreaterThan(computeCoins('toca-con-la-orquesta', { score: u - 1 }))
+  })
+  it('el fácil está abierto; el medio se abre con ⭐⭐ en fácil, por obra', () => {
+    expect(nivelAbierto({}, 'himno-alegria-escuela', 'facil')).toBe(true)
+    expect(nivelAbierto({}, 'himno-alegria-escuela', 'medio')).toBe(false)
+    expect(nivelAbierto({ 'himno-alegria-escuela|facil': 1 }, 'himno-alegria-escuela', 'medio')).toBe(false)
+    expect(nivelAbierto({ 'himno-alegria-escuela|facil': 2 }, 'himno-alegria-escuela', 'medio')).toBe(true)
+    expect(nivelAbierto({ 'himno-alegria-escuela|facil': 3 }, 'himno-alegria', 'medio')).toBe(false)
+    expect(nivelAbierto({ 'himno-alegria-escuela|facil': 3 }, 'himno-alegria-escuela', 'dificil')).toBe(false)
+  })
+})
