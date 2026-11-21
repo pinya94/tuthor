@@ -108,7 +108,7 @@ it('todos los estilos con dibujo pintan algo, y los demás no', () => {
 describe('juego: una imagen y tres opciones', async () => {
   const L = await import('../laGaleria')
   const fs = await import('node:fs')
-  for (const fuente of ['real', 'dibujo']) for (const nivel of Object.keys(L.NIVELES)) {
+  for (const fuente of ['mezcla', 'real', 'dibujo']) for (const nivel of Object.keys(L.NIVELES)) {
     it(`${fuente} · ${nivel}: tres opciones con la buena, imagen existente y sin repetir en 10`, () => {
       const vistas = []
       for (let i = 0; i < 200; i++) {
@@ -134,4 +134,13 @@ describe('juego: una imagen y tres opciones', async () => {
       }
     })
   }
+})
+
+describe('juego: reales e ilustraciones mezclados', () => {
+  it('sin elegir fuente salen las dos clases de cuadro', async () => {
+    const L = await import('../laGaleria')
+    const tipos = new Set()
+    for (let i = 0; i < 300; i++) { const r = L.genFoto('medio'); if (r.tipo === 'cuadro') tipos.add(r.obra != null ? 'real' : 'dibujo') }
+    expect([...tipos].sort()).toEqual(['dibujo', 'real'])
+  })
 })

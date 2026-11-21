@@ -299,7 +299,9 @@ const conImg = OBRAS.map((o, i) => i).filter(i => OBRAS[i].img)
 // La imagen que se ve (para no repetirla): obra real, dibujo «al estilo de» o rasgos
 export const fotoGaleria = r => (r.tipo === 'rasgo' ? `rasgo:${r.bueno}` : r.obra != null ? `obra:${r.obra}` : `d:${r.estilo}:${(r.semilla % 4) + 1}`)
 const recientesF = []
-export function genFoto(nivel = 'facil', { rand = Math.random, fuente = 'real' } = {}) {
+// fuente 'mezcla' (la del juego desde el 21-nov, a petición del usuario: ya no
+// se elige): cada cuadro sale al azar real o ilustración «al estilo de».
+export function genFoto(nivel = 'facil', { rand = Math.random, fuente = 'mezcla' } = {}) {
   const tipos = TIPOS_FOTO[nivel] ?? TIPOS_FOTO.facil
   for (let intento = 0; ; intento++) {
     const tipo = elige(rand, tipos)
@@ -309,10 +311,11 @@ export function genFoto(nivel = 'facil', { rand = Math.random, fuente = 'real' }
       const k = elige(rand, conImg)
       const o = OBRAS[k]
       const otros = [...new Set(OBRAS.filter(x => x.pintor !== o.pintor).sort((a, b) => Math.abs(a.anyo - o.anyo) - Math.abs(b.anyo - o.anyo)).slice(0, 6).map(x => x.pintor))]
-      r = { id: ++seq, nivel, tipo, fuente, obra: k, bueno: o.pintor, opciones: [o.pintor, ...baraja(rand, otros)] }
+      r = { id: ++seq, nivel, tipo, fuente: 'real', obra: k, bueno: o.pintor, opciones: [o.pintor, ...baraja(rand, otros)] }
     } else {
       // cuadro (real o dibujo) y rasgo, con sus opciones de siempre (vecinos en difícil)
-      for (;;) { r = genUna(nivel, { rand, fuente }); if (r.tipo === tipo) break }
+      const f = fuente === 'mezcla' ? (rand() < 0.5 ? 'real' : 'dibujo') : fuente
+      for (;;) { r = genUna(nivel, { rand, fuente: f }); if (r.tipo === tipo) break }
     }
     const foto = fotoGaleria(r)
     if (intento < 40 && recientesF.includes(foto)) continue
