@@ -4,7 +4,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import { NIVELES, genRonda, esCorrecta } from '../lib/ojoOido'
+import { NIVELES, genRonda, esCorrecta, tiempoPartida } from '../lib/ojoOido'
 import PreguntaOjoOido from '../components/ojoOido/PreguntaOjoOido'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
@@ -13,9 +13,7 @@ import { Racha } from '../components/Iconos'
 import { useArranqueDirecto } from '../lib/arranqueDirecto'
 
 // Tocar una parte es rápido; el recorrido, algo más: 120 s y +10 s por acierto.
-const GAME_TIME = 120
 const WRONG_TIME = 5
-const CORRECT_TIME = 10
 const REVEAL_MS = 5000 // da tiempo a leer la comprobación
 
 const DIFS = {
@@ -40,7 +38,7 @@ export default function OjoOido() {
 
   const [screen, setScreen] = useState('intro')
   const [nivel, setNivel] = useState('facil')
-  const [timeLeft, setTimeLeft] = useState(GAME_TIME)
+  const [timeLeft, setTimeLeft] = useState(() => tiempoPartida('facil'))
   const [aciertos, setAciertos] = useState(0)
   const [streak, setStreak] = useState(0)
   const [ronda, setRonda] = useState(null)
@@ -61,7 +59,7 @@ export default function OjoOido() {
   const startGame = useCallback((niv = 'facil') => {
     setNivel(niv); setScreen('playing')
     setAciertos(0); setStreak(0)
-    setTimeLeft(GAME_TIME)
+    setTimeLeft(tiempoPartida(niv))
     next(niv)
   }, [next])
 
@@ -72,7 +70,7 @@ export default function OjoOido() {
     if (user) {
       saveActivity(user.uid, {
         type: 'juego', game: 'ojo-y-oido', category: 'los-sentidos',
-        score: pts, timeSpent: GAME_TIME,
+        score: pts, timeSpent: tiempoPartida(nivel),
         coinsEarned: computeCoins('ojo-y-oido', { score: pts }),
         userName: user.displayName, userPhoto: user.photoURL,
       }).catch(() => {})
@@ -98,7 +96,6 @@ export default function OjoOido() {
     if (esCorrecta(ronda, r)) {
       setAciertos(a => a + 1)
       setStreak(s => s + 1)
-      setTimeLeft(t => t + CORRECT_TIME)
     } else {
       setStreak(0)
       setTimeLeft(t => Math.max(0, t - WRONG_TIME))
@@ -109,9 +106,9 @@ export default function OjoOido() {
   const seo = {
     title: tr({ es: 'Ojo y Oído — Juego de los sentidos: partes del ojo y del oído', en: 'Eye and Ear — Senses game: parts of the eye and ear', ca: 'Ull i Orella — Joc dels sentits: parts de l’ull i de l’orella' }),
     desc: tr({
-      es: 'Juego de los sentidos: toca las partes del ojo y del oído dibujados en corte, por su nombre o por su función, y sigue el camino de la luz y del sonido hasta el cerebro. Primaria y ESO. Gratis.',
-      en: 'Senses game: tap the parts of the eye and ear in cross-section, by name or by what they do, and follow the path of light and sound to the brain. Free.',
-      ca: 'Joc dels sentits: toca les parts de l’ull i de l’orella dibuixats en secció, pel nom o per la funció, i segueix el camí de la llum i del so fins al cervell. Primària i ESO. Gratis.',
+      es: 'Juego de los sentidos: toca las partes del ojo y del oído dibujados en corte, por su nombre o por su función, y sigue el camino de la luz y del sonido hasta que se convierten en señales para el cerebro. Primaria y ESO. Gratis.',
+      en: 'Senses game: tap the parts of the eye and ear in cross-section, by name or by what they do, and follow the path of light and sound until they become signals for the brain. Free.',
+      ca: 'Joc dels sentits: toca les parts de l’ull i de l’orella dibuixats en secció, pel nom o per la funció, i segueix el camí de la llum i del so fins que es converteixen en senyals per al cervell. Primària i ESO. Gratis.',
     }),
     path: '/juegos/ojo-y-oido',
   }
@@ -148,8 +145,8 @@ export default function OjoOido() {
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
               <p>{tr({ es: 'Sale el ojo o el oído dibujado en corte, sin nombres. En fácil te decimos qué parte tocar; en medio, solo lo que hace (enfocar la imagen, captar la luz, el equilibrio…); en difícil, tienes que seguir el camino de la luz o del sonido tocando las partes en orden.', en: 'The eye or the ear appears in cross-section, without labels. On Easy we tell you which part to tap; on Medium, only what it does (focusing the image, detecting light, balance…); on Hard, you follow the path of light or sound by tapping the parts in order.', ca: 'Surt l’ull o l’orella dibuixat en secció, sense noms. En fàcil et diem quina part tocar; en mitjà, només el que fa (enfocar la imatge, captar la llum, l’equilibri…); en difícil, has de seguir el camí de la llum o del so tocant les parts en ordre.' })}</p>
-              <p>{tr({ es: 'La luz entra por la córnea, pasa por la pupila y el cristalino y llega a la retina; el nervio óptico la lleva al cerebro. El sonido entra por el pabellón y el conducto, hace vibrar el tímpano y los huesecillos, y la cóclea lo convierte en impulsos para el nervio auditivo.', en: 'Light enters through the cornea, passes through the pupil and the lens and reaches the retina; the optic nerve carries it to the brain. Sound enters through the pinna and the ear canal, makes the eardrum and ossicles vibrate, and the cochlea turns it into impulses for the auditory nerve.', ca: 'La llum entra per la còrnia, passa per la pupil·la i el cristal·lí i arriba a la retina; el nervi òptic la porta al cervell. El so entra pel pavelló i el conducte, fa vibrar el timpà i els ossets, i la còclea el converteix en impulsos per al nervi auditiu.' })}</p>
-              <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
+              <p>{tr({ es: 'La luz entra por la córnea, pasa por la pupila y el cristalino y llega a la retina, que la convierte en señales nerviosas; el nervio óptico las lleva al cerebro. El sonido entra por el pabellón y el conducto, hace vibrar el tímpano y los huesecillos, y la cóclea convierte la vibración en señales nerviosas que el nervio auditivo lleva al cerebro.', en: 'Light enters through the cornea, passes through the pupil and the lens and reaches the retina, which turns it into nerve signals; the optic nerve carries them to the brain. Sound enters through the pinna and the ear canal, makes the eardrum and ossicles vibrate, and the cochlea turns the vibration into nerve signals that the auditory nerve carries to the brain.', ca: 'La llum entra per la còrnia, passa per la pupil·la i el cristal·lí i arriba a la retina, que la converteix en senyals nerviosos; el nervi òptic els porta al cervell. El so entra pel pavelló i el conducte, fa vibrar el timpà i els ossets, i la còclea converteix la vibració en senyals nerviosos que el nervi auditiu porta al cervell.' })}</p>
+              <p className="text-white/40 text-xs pt-1">⏱️ {tiempoPartida(nivel)}s · {tr({ es: `Acierto +10 · Fallo −${WRONG_TIME}s`, en: `Correct +10 · Wrong −${WRONG_TIME}s`, ca: `Encert +10 · Error −${WRONG_TIME}s` })}</p>
             </div>
           </ComoSeJuega>
         </div>
@@ -182,8 +179,9 @@ export default function OjoOido() {
   }
 
   if (!ronda) return null
-  const timerColor = timeLeft > GAME_TIME * 0.66 ? '#22c55e' : timeLeft > GAME_TIME * 0.28 ? '#f59e0b' : '#ef4444'
-  const timerPct = Math.min(1, timeLeft / GAME_TIME)
+  const total = tiempoPartida(nivel)
+  const timerColor = timeLeft > total * 0.66 ? '#22c55e' : timeLeft > total * 0.28 ? '#f59e0b' : '#ef4444'
+  const timerPct = Math.min(1, timeLeft / total)
   const isResult = phase === 'result'
   const acierto = isResult && esCorrecta(ronda, elegida)
 
@@ -216,7 +214,7 @@ export default function OjoOido() {
         {isResult && (
           <p className="text-center text-xs font-bold mt-2">
             {acierto
-              ? <span className="text-green-400">+10 · +{CORRECT_TIME}s ⏱️{streak >= 2 ? ` · 🔥 ${streak}` : ''}</span>
+              ? <span className="text-green-400">+10{streak >= 2 ? ` · 🔥 ${streak}` : ''}</span>
               : <span className="text-red-400">−{WRONG_TIME}s ⏱️</span>}
           </p>
         )}

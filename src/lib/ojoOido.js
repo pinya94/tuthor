@@ -62,6 +62,22 @@ export const RUTAS = {
   oido: ['pabellon', 'conducto', 'timpano', 'huesecillos', 'coclea', 'nervio-auditivo'],
 }
 export const NIVELES = { facil: {}, medio: {}, dificil: {} }
+
+// Tiempo de partida (21-nov-2026, a petición del usuario): unos 5 s por
+// respuesta y tantas respuestas como preguntas distintas tiene el nivel, para
+// que dé para una vuelta y no sobre. Fácil y medio: una por parte (15 → 75 s).
+// Difícil: un «¿adónde llega después?» por paso de cada recorrido (11 → 55 s)
+// más los dos recorridos enteros, que llevan 5-6 toques (15 s cada uno).
+// Los aciertos ya no suman tiempo (antes +10 s: la partida no acababa).
+export const SEG_POR_RESPUESTA = 5
+export const SEG_POR_RECORRIDO = 15
+export function tiempoPartida(nivel) {
+  if (nivel === 'dificil') {
+    const pasos = Object.values(RUTAS).reduce((n, r) => n + r.length, 0)
+    return pasos * SEG_POR_RESPUESTA + Object.keys(RUTAS).length * SEG_POR_RECORRIDO
+  }
+  return Object.keys(PARTES).length * SEG_POR_RESPUESTA
+}
 export const partesDe = organo => Object.keys(PARTES).filter(k => PARTES[k].organo === organo)
 
 const elige = (rand, arr) => arr[Math.floor(rand() * arr.length)]
