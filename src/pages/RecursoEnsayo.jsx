@@ -9,6 +9,7 @@ import { useLang } from '../context/LangContext'
 import { OBRAS, OBRA_POR_DEFECTO } from '../data/tocaOrquesta/obras'
 import { musicXMLPartitura, notasParte, numCompases, negrasPorCompas } from '../lib/tocaOrquesta'
 import Partitura from '../components/tocaOrquesta/Partitura'
+import { planEnsayo } from '../lib/planEnsayo'
 import SEOHead from '../components/SEOHead'
 
 const VOL = { melodia: 0.9, armonia: 0.55, acompanamiento: 0.55, bajo: 0.8, laminas: 0.6, acordes: 0.35, percusion: 0.5 }
@@ -56,6 +57,13 @@ export default function RecursoEnsayo() {
   const [posicion, setPosicion] = useState(null)
   const [enPantalla, setEnPantalla] = useState(false)
   const [marcando, setMarcando] = useState(false) // tras tocar el compás de inicio, falta el final
+  // Ensayo guiado: qué voces toca la clase, el plan de pasos y en cuál vamos
+  const [modo, setModo] = useState('guiado') // guiado · libre
+  const [vocesClase, setVocesClase] = useState(() => Object.keys(OBRAS[obraId].voces))
+  const [paso, setPaso] = useState(0)
+  const [hechos, setHechos] = useState({})
+  const plan = useMemo(() => planEnsayo(obraId, vocesClase), [obraId, vocesClase])
+  const actual = plan[Math.min(paso, plan.length - 1)]
 
   const motorRef = useRef(null)
   const relojRef = useRef(0)
@@ -83,6 +91,7 @@ export default function RecursoEnsayo() {
     setObraId(id)
     setApagadas({}); setSolo(null)
     setDesde(1); setHasta(numCompases(id))
+    setVocesClase(Object.keys(OBRAS[id].voces)); setPaso(0); setHechos({})
   }
 
   const para = useCallback(() => {
@@ -92,7 +101,7 @@ export default function RecursoEnsayo() {
     setPosicion(null)
   }, [])
 
-  async function toca() {
+  async function toca(cfg = { tempo, desde, hasta, bucle, metronomo, suenan: vocesObra.filter(v => suena(v)) }) {
     if (!motorRef.current) {
       const { creaMotor } = await import('../lib/tocaOrquestaAudio')
       motorRef.current = creaMotor()
@@ -102,15 +111,15 @@ export default function RecursoEnsayo() {
     // Las notas suenan con las alturas del arreglo (de concierto)
     const concierto = v => notasParte({ obraId, vozId: '', sonido: 0, trans: 0 }, v)
     await Promise.all(vocesObra.map(v => m.carga(obra.voces[v].timbre, concierto(v).map(x => x.suena))))
-    for (const v of vocesObra) m.canal(v).gain.value = suena(v) ? 1 : 0
-    const spq = 60 / (obra.tempo * tempo / 100)
-    const a = Math.min(desde, hasta), b = Math.max(desde, hasta)
+    for (const v of vocesObra) m.canal(v).gain.value = cfg.suenan.includes(v) ? 1 : 0
+    const spq = 60 / (obra.tempo * cfg.tempo / 100)
+    const a = Math.min(cfg.desde, cfg.hasta), b = Math.max(cfg.desde, cfg.hasta)
     const q0 = (a - 1) * ncomp, q1 = b * ncomp
     const dur = (q1 - q0) * spq
     const porVoz = vocesObra.map(v => [v, concierto(v).filter(x => x.inicio >= q0 && x.inicio < q1)])
     const programa = inicio => {
       for (const [v, ns] of porVoz) for (const x of ns) m.nota(obra.voces[v].timbre, x.suena, inicio + (x.inicio - q0) * spq, x.dur * spq, VOL[v] ?? 0.7, m.canal(v))
-      if (metronomo) for (let k = 0; k < q1 - q0; k++) m.click(inicio + k * spq, k % ncomp === 0, 0.35)
+      if (cfg.metronomo) for (let k = 0; k < q1 - q0; k++) m.click(inicio + k * spq, k % ncomp === 0, 0.35)
     }
     const cuenta = ncomp * spq
     let vuelta = m.ctx.currentTime + 0.3 + cuenta
@@ -125,12 +134,29 @@ export default function RecursoEnsayo() {
         setPosicion({ compas: a + Math.floor(neg / ncomp), negra: neg % ncomp })
       }
       // En bucle: la vuelta siguiente se programa un segundo antes, sin hueco
-      if (bucle && !siguiente && t > dur - 1) { programa(vuelta + dur); siguiente = true }
+      if (cfg.bucle && !siguiente && t > dur - 1) { programa(vuelta + dur); siguiente = true }
       if (t >= dur) {
-        if (bucle) { vuelta += dur; siguiente = false } else para()
+        if (cfg.bucle) { vuelta += dur; siguiente = false } else para()
       }
     }, 16)
   }
+
+  function aplicaPaso(p) {
+    setApagadas(Object.fromEntries(vocesObra.map(v => [v, !p.suenan.includes(v)])))
+    setSolo(null)
+    setTempo(p.tempo); setDesde(p.desde); setHasta(p.hasta); setBucle(p.bucle); setMetronomo(p.metronomo)
+  }
+  function empiezaPaso() {
+    aplicaPaso(actual)
+    setHechos(h => ({ ...h, [actual.id]: true }))
+    toca(actual)
+  }
+  function irAPaso(i) {
+    para()
+    setPaso(i)
+    aplicaPaso(plan[i])
+  }
+  const nombreGrupos = vs => vs.map(v => tr(obra.voces[v].grupo)).join(' + ')
 
   function pantallaCompleta() {
     if (document.fullscreenElement) document.exitFullscreen?.()
@@ -162,7 +188,61 @@ export default function RecursoEnsayo() {
           ))}
         </div>
 
+        <div className="flex gap-1.5 mt-3">
+          {[['guiado', tr({ es: '📋 Ensayo guiado', en: '📋 Guided rehearsal', ca: '📋 Assaig guiat' })], ['libre', tr({ es: '🎛️ Libre', en: '🎛️ Free', ca: '🎛️ Lliure' })]].map(([id, txt]) => (
+            <button key={id} type="button" onClick={() => { para(); setModo(id); if (id === 'guiado') aplicaPaso(actual) }} className={`px-3 py-1.5 rounded-lg text-sm font-bold ${modo === id ? 'bg-[#EDAE49] text-black' : 'bg-white/10 text-white/70'}`}>{txt}</button>
+          ))}
+        </div>
+
         <div ref={escenaRef} className={`mt-3 ${enPantalla ? 'bg-[#0b1020] p-4 overflow-auto' : ''}`}>
+          {modo === 'guiado' && (
+            <div className="mb-3">
+              <div className="flex flex-wrap items-center gap-1.5 mb-2 text-sm">
+                <span className="text-white/60 mr-1">{tr({ es: '¿Qué toca tu clase?', en: 'What does your class play?', ca: 'Què toca la teva classe?' })}</span>
+                {vocesObra.map(v => {
+                  const on = vocesClase.includes(v)
+                  return (
+                    <button key={v} type="button" disabled={tocando} aria-pressed={on}
+                      onClick={() => { setVocesClase(x => (on ? x.filter(y => y !== v) : [...x, v])); setPaso(0); setHechos({}) }}
+                      className={pill(on)}>{on ? '✓ ' : ''}{tr(obra.voces[v].grupo)}</button>
+                  )
+                })}
+              </div>
+              {/* Los pasos del plan: se puede saltar a cualquiera */}
+              <ol className="flex gap-1.5 overflow-x-auto pb-1.5">
+                {plan.map((p, i) => (
+                  <li key={p.id} className="shrink-0">
+                    <button type="button" disabled={tocando} onClick={() => irAPaso(i)}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-bold border whitespace-nowrap ${i === paso ? 'bg-sky-500/25 border-sky-300 text-white' : hechos[p.id] ? 'bg-emerald-500/15 border-emerald-400/40 text-emerald-100' : 'bg-white/5 border-white/10 text-white/50'}`}>
+                      {hechos[p.id] && i !== paso ? '✓ ' : `${i + 1}. `}{tr(p.titulo)}
+                    </button>
+                  </li>
+                ))}
+              </ol>
+              <div className="rounded-2xl bg-white/[0.06] border border-white/15 px-4 py-3">
+                <p className="text-white/40 text-xs uppercase tracking-widest">{tr({ es: `Paso ${paso + 1} de ${plan.length}`, en: `Step ${paso + 1} of ${plan.length}`, ca: `Pas ${paso + 1} de ${plan.length}` })}</p>
+                <p className="text-white font-black text-2xl sm:text-3xl leading-tight mt-0.5">
+                  {actual.tocan.length ? `🎵 ${tr({ es: 'Tocan', en: 'Playing', ca: 'Toquen' })}: ${nombreGrupos(actual.tocan)}` : `👂 ${tr({ es: 'Escuchamos', en: 'We listen', ca: 'Escoltem' })}`}
+                </p>
+                <p className="text-white/75 text-sm mt-1">
+                  🔊 {actual.suenan.length ? (actual.fase === 'escuchar' || actual.suenan.length === vocesObra.length ? tr({ es: 'Suenan todas las voces', en: 'Every part plays', ca: 'Sonen totes les veus' }) : `${tr({ es: 'Suena', en: 'Speaker plays', ca: 'Sona' })}: ${nombreGrupos(actual.suenan)}`) : tr({ es: 'Solo el metrónomo', en: 'Only the metronome', ca: 'Només el metrònom' })}
+                  {actual.metronomo && actual.suenan.length ? ` · ${tr({ es: 'metrónomo', en: 'metronome', ca: 'metrònom' })}` : ''}
+                  {' · '}{tr({ es: `compases ${actual.desde}-${actual.hasta}`, en: `bars ${actual.desde}-${actual.hasta}`, ca: `compassos ${actual.desde}-${actual.hasta}` })}
+                  {' · '}{actual.tempo} %{actual.bucle ? ` · ${tr({ es: 'en bucle', en: 'looping', ca: 'en bucle' })}` : ''}
+                </p>
+                <p className="text-white/50 text-sm mt-1">💡 {tr(actual.consejo)}</p>
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {tocando
+                    ? <button type="button" onClick={para} className="px-5 py-2.5 rounded-xl bg-red-500 text-white font-black">⏹ {tr({ es: 'Parar', en: 'Stop', ca: 'Aturar' })}</button>
+                    : <button type="button" onClick={empiezaPaso} className="px-5 py-2.5 rounded-xl bg-[#EDAE49] text-black font-black">▶ {tr({ es: 'Empezar este paso', en: 'Start this step', ca: 'Començar aquest pas' })}</button>}
+                  <button type="button" disabled={paso === 0} onClick={() => irAPaso(paso - 1)} className="px-3 py-2.5 rounded-xl bg-white/10 text-white font-bold disabled:opacity-30">← {tr({ es: 'Anterior', en: 'Back', ca: 'Anterior' })}</button>
+                  <button type="button" disabled={paso >= plan.length - 1} onClick={() => irAPaso(paso + 1)} className="px-3 py-2.5 rounded-xl bg-white/10 text-white font-bold disabled:opacity-30">{tr({ es: 'Siguiente paso', en: 'Next step', ca: 'Pas següent' })} →</button>
+                  <button type="button" onClick={pantallaCompleta} className="ml-auto px-3 py-2.5 rounded-xl bg-white/10 text-white text-xs font-bold">⛶ {enPantalla ? tr({ es: 'Salir', en: 'Exit', ca: 'Sortir' }) : tr({ es: 'Proyector', en: 'Projector', ca: 'Projector' })}</button>
+                </div>
+              </div>
+            </div>
+          )}
+          {modo === 'libre' && (<>
           {/* Voces: suena / silenciada / sola */}
           <div className="flex flex-wrap gap-1.5 mb-2">
             {vocesObra.map(v => (
@@ -183,7 +263,7 @@ export default function RecursoEnsayo() {
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-3 text-white/70 text-sm">
             {tocando
               ? <button type="button" onClick={para} className="px-5 py-2.5 rounded-xl bg-red-500 text-white font-black">⏹ {tr({ es: 'Parar', en: 'Stop', ca: 'Aturar' })}</button>
-              : <button type="button" onClick={toca} className="px-5 py-2.5 rounded-xl bg-[#EDAE49] text-black font-black">▶ {tr({ es: 'Tocar', en: 'Play', ca: 'Tocar' })}</button>}
+              : <button type="button" onClick={() => toca()} className="px-5 py-2.5 rounded-xl bg-[#EDAE49] text-black font-black">▶ {tr({ es: 'Tocar', en: 'Play', ca: 'Tocar' })}</button>}
             <label className="flex items-center gap-2">
               <span>{tr({ es: 'Tempo', en: 'Tempo', ca: 'Tempo' })} {tempo} %</span>
               <input type="range" min="40" max="120" step="10" value={tempo} disabled={tocando} onChange={e => setTempo(Number(e.target.value))} className="w-28" />
@@ -204,6 +284,8 @@ export default function RecursoEnsayo() {
               ⛶ {enPantalla ? tr({ es: 'Salir de pantalla completa', en: 'Exit full screen', ca: 'Sortir de pantalla completa' }) : tr({ es: 'Pantalla completa (proyector)', en: 'Full screen (projector)', ca: 'Pantalla completa (projector)' })}
             </button>
           </div>
+
+          </>)}
 
           <Partitura xml={xml} negrasCompas={ncomp} posicion={posicion} nombres zoom={enPantalla ? 1.15 : null}
             rango={desde !== 1 || hasta !== n ? [Math.min(desde, hasta), Math.max(desde, hasta)] : null}

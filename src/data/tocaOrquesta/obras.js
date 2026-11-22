@@ -50,6 +50,12 @@ const PERCUSION = ACORDES.map((_, i) => (i === ACORDES.length - 1
   ? [['x', 1], ['x', 1], ['x', 2]]
   : [['x', 1], ['x', 1], ['x', 0.5], ['x', 0.5], ['x', 1]]))
 
+// Partes para ensayar por trozos (plan de ensayo del recurso de clase)
+const SECCIONES_HIMNO = [
+  { nombre: T('Parte A (compases 1-8)', 'Part A (bars 1-8)', 'Part A (compassos 1-8)'), desde: 1, hasta: 8 },
+  { nombre: T('Parte B (compases 9-16)', 'Part B (bars 9-16)', 'Part B (compassos 9-16)'), desde: 9, hasta: 16 },
+]
+
 export const OBRAS = {
   'himno-alegria-escuela': {
     titulo: T('Himno de la alegría', 'Ode to Joy', 'Himne de l’alegria'),
@@ -60,16 +66,21 @@ export const OBRAS = {
     compas: [4, 4],
     tempo: 100,
     cifrado: { I: 'G', V: 'D7' },
+    secciones: SECCIONES_HIMNO,
+    conjuntos: [
+      { voces: ['melodia', 'laminas'], nombre: T('Conjunto: flautas y láminas', 'Ensemble: recorders and tuned percussion', 'Conjunt: flautes i làmines') },
+      { voces: ['acordes', 'percusion'], nombre: T('Conjunto: la base (ukeleles y percusión)', 'Ensemble: the rhythm section (ukuleles and percussion)', 'Conjunt: la base (ukeleles i percussió)') },
+    ],
     voces: {
       // La flauta dulce suena una octava más alta de lo que se escribe
-      melodia: { nombre: T('Melodía (flauta dulce)', 'Melody (recorder)', 'Melodia (flauta dolça)'), inst: 'flautaDulce', timbre: 'recorder',
+      melodia: { grupo: T('Flautas', 'Recorders', 'Flautes'), nombre: T('Melodía (flauta dulce)', 'Melody (recorder)', 'Melodia (flauta dolça)'), inst: 'flautaDulce', timbre: 'recorder',
         compases: melodia({ 1: 79, 2: 81, 3: 83, 4: 84, 5: 86, b5: 74 }) },
-      laminas: { nombre: T('Láminas (xilófono o metalófono)', 'Tuned percussion (xylophone or glockenspiel)', 'Làmines (xilòfon o metal·lòfon)'), inst: 'laminas', timbre: 'xylophone',
+      laminas: { grupo: T('Láminas', 'Tuned percussion', 'Làmines'), nombre: T('Láminas (xilófono o metalófono)', 'Tuned percussion (xylophone or glockenspiel)', 'Làmines (xilòfon o metal·lòfon)'), inst: 'laminas', timbre: 'xylophone',
         compases: porAcordes({ I: [[67, 1], [62, 1]], V: [[62, 1], [69, 1]] }) }, // bordón: fundamental y quinta
-      acordes: { nombre: T('Acordes (ukelele)', 'Chords (ukulele)', 'Acords (ukelele)'), inst: 'ukelele', timbre: 'guitarra', tipo: 'acordes',
+      acordes: { grupo: T('Ukeleles', 'Ukuleles', 'Ukeleles'), nombre: T('Acordes (ukelele)', 'Chords (ukulele)', 'Acords (ukelele)'), inst: 'ukelele', timbre: 'guitarra', tipo: 'acordes',
         // Sol (0232) y Re7 (2020) con la afinación del ukelele (Sol Do Mi La)
         compases: porAcordes({ I: [[[67, 62, 67, 71], 1], [[67, 62, 67, 71], 1]], V: [[[69, 60, 66, 69], 1], [[69, 60, 66, 69], 1]] }) },
-      percusion: { nombre: T('Percusión (claves, pandero o palmas)', 'Percussion (claves, tambourine or clapping)', 'Percussió (claus, pandero o picant de mans)'), inst: 'percusion', timbre: 'woodblock', tipo: 'percusion',
+      percusion: { grupo: T('Percusión', 'Percussion', 'Percussió'), nombre: T('Percusión (claves, pandero o palmas)', 'Percussion (claves, tambourine or clapping)', 'Percussió (claus, pandero o picant de mans)'), inst: 'percusion', timbre: 'woodblock', tipo: 'percusion',
         compases: PERCUSION },
     },
   },
@@ -82,15 +93,20 @@ export const OBRAS = {
     compas: [4, 4],
     tempo: 100,
     cifrado: { I: 'F', V: 'C7' },
+    secciones: SECCIONES_HIMNO,
+    conjuntos: [
+      { voces: ['melodia', 'armonia'], nombre: T('Conjunto: las voces agudas', 'Ensemble: the upper parts', 'Conjunt: les veus agudes') },
+      { voces: ['acompanamiento', 'bajo'], nombre: T('Conjunto: las voces graves', 'Ensemble: the lower parts', 'Conjunt: les veus greus') },
+    ],
     voces: {
-      melodia: { nombre: T('Melodía', 'Melody', 'Melodia'), inst: 'violin', timbre: 'violin',
+      melodia: { grupo: T('Melodía', 'Melody', 'Melodia'), nombre: T('Melodía', 'Melody', 'Melodia'), inst: 'violin', timbre: 'violin',
         compases: melodia({ 1: 65, 2: 67, 3: 69, 4: 70, 5: 72, b5: 60 }) },
       // La séptima (Si♭) resuelve en La; la sensible (Mi) resuelve en Fa
-      armonia: { nombre: T('Armonía (2.ª voz)', 'Harmony (2nd part)', 'Harmonia (2a veu)'), inst: 'viola', timbre: 'viola',
+      armonia: { grupo: T('2.ª voz', '2nd part', '2a veu'), nombre: T('Armonía (2.ª voz)', 'Harmony (2nd part)', 'Harmonia (2a veu)'), inst: 'viola', timbre: 'viola',
         compases: porAcordes({ I: [[57, 2]], V: [[58, 2]] }) },
-      acompanamiento: { nombre: T('Acompañamiento (3.ª voz)', 'Accompaniment (3rd part)', 'Acompanyament (3a veu)'), inst: 'chelo', timbre: 'cello',
+      acompanamiento: { grupo: T('3.ª voz', '3rd part', '3a veu'), nombre: T('Acompañamiento (3.ª voz)', 'Accompaniment (3rd part)', 'Acompanyament (3a veu)'), inst: 'chelo', timbre: 'cello',
         compases: porAcordes({ I: [[53, 2]], V: [[52, 2]] }) },
-      bajo: { nombre: T('Bajo', 'Bass', 'Baix'), inst: 'chelo', timbre: 'contrabass',
+      bajo: { grupo: T('Bajos', 'Basses', 'Baixos'), nombre: T('Bajo', 'Bass', 'Baix'), inst: 'chelo', timbre: 'contrabass',
         compases: porAcordes({ I: [[41, 1], [48, 1]], V: [[36, 1], [43, 1]] }) }, // fundamental y quinta
     },
   },
