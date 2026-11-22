@@ -38,6 +38,16 @@ const ERA_RANGOS = {
   contemporanea:  { start: 1789,     end: new Date().getFullYear() },
 }
 
+// La Prehistoria dura millones de años: dentro de su tramo, tres trozos del
+// mismo ancho (22-nov-2026, a petición del usuario: con un solo tramo lineal
+// casi todo caía en «hace ~300.000 años» y no se entendía). Límites en a.C.,
+// para que hoy se lean «hace ~300.000» y «hace ~50.000 años».
+const TRAMOS_PREHISTORIA = [
+  { start: -3300000, end: -298000, nombre: { es: 'Paleolítico inferior', en: 'Lower Palaeolithic', ca: 'Paleolític inferior' } },
+  { start: -298000, end: -48000, nombre: { es: 'Paleolítico medio', en: 'Middle Palaeolithic', ca: 'Paleolític mitjà' } },
+  { start: -48000, end: -3000, nombre: { es: 'Paleolítico superior, Neolítico y Edad de los Metales', en: 'Upper Palaeolithic, Neolithic and Metal Ages', ca: 'Paleolític superior, Neolític i edat dels metalls' } },
+]
+
 const UI = {
   es: {
     titulo: '¿Qué Época Es?', desc: 'Modo roguelike: adivina la época en fotos reales, ronda tras ronda, hasta que se te acaben las vidas.',
@@ -55,7 +65,7 @@ const UI = {
     siguiente: 'Siguiente →', verResultado: 'Ver resultado →',
     finPartida: 'Fin de la partida', rondas: 'Rondas', mejorRacha: 'Mejor racha',
     compartir: '🔗 Compartir resultado', reintentar: 'Jugar de nuevo', volverMenu: 'Volver al menú',
-    aC: 'a.C.', dC: 'd.C.', haceAnos: n => `hace ~${n} años`,
+    aC: 'a.C.', dC: 'd.C.', haceAnos: n => `hace ~${n} años`, haceMillones: n => `hace ~${n} millones de años`,
   },
   en: {
     titulo: 'What Era Is This?', desc: 'Roguelike mode: guess the era in real photos, round after round, until you run out of lives.',
@@ -73,7 +83,7 @@ const UI = {
     siguiente: 'Next →', verResultado: 'See result →',
     finPartida: 'Game over', rondas: 'Rounds', mejorRacha: 'Best streak',
     compartir: '🔗 Share result', reintentar: 'Play again', volverMenu: 'Back to menu',
-    aC: 'BC', dC: 'AD', haceAnos: n => `~${n} years ago`,
+    aC: 'BC', dC: 'AD', haceAnos: n => `~${n} years ago`, haceMillones: n => `~${n} million years ago`,
   },
   ca: {
     titulo: 'Quina Època És?', desc: 'Mode roguelike: endevina l\'època en fotos reals, ronda rere ronda, fins que se t\'acabin les vides.',
@@ -91,7 +101,7 @@ const UI = {
     siguiente: 'Següent →', verResultado: 'Veure resultat →',
     finPartida: 'Fi de la partida', rondas: 'Rondes', mejorRacha: 'Millor ratxa',
     compartir: '🔗 Compartir resultat', reintentar: 'Jugar de nou', volverMenu: 'Tornar al menú',
-    aC: 'aC', dC: 'dC', haceAnos: n => `fa ~${n} anys`,
+    aC: 'aC', dC: 'dC', haceAnos: n => `fa ~${n} anys`, haceMillones: n => `fa ~${n} milions d'anys`,
   },
 }
 
@@ -102,6 +112,12 @@ function sliderToEraYear(value, epocasOrden) {
   const segIdx  = Math.min(epocasOrden.length - 1, Math.floor(value / segSize))
   const eraId   = epocasOrden[segIdx]
   const frac    = (value - segIdx * segSize) / segSize
+  if (eraId === 'prehistoria') {
+    const tramo = Math.min(TRAMOS_PREHISTORIA.length - 1, Math.floor(frac * TRAMOS_PREHISTORIA.length))
+    const f = frac * TRAMOS_PREHISTORIA.length - tramo
+    const { start, end } = TRAMOS_PREHISTORIA[tramo]
+    return { eraId, year: Math.round(start + f * (end - start)), tramo }
+  }
   const { start, end } = ERA_RANGOS[eraId]
   const year = Math.round(start + frac * (end - start))
   return { eraId, year }
@@ -109,8 +125,11 @@ function sliderToEraYear(value, epocasOrden) {
 
 function formatYear(eraId, year, t) {
   if (eraId === 'prehistoria') {
+    // Redondeado a lo que tiene sentido en cada escala
     const yearsAgo = new Date().getFullYear() - year
-    return t.haceAnos(yearsAgo.toLocaleString())
+    if (yearsAgo >= 1000000) return t.haceMillones((Math.round(yearsAgo / 100000) / 10).toLocaleString())
+    const paso = yearsAgo >= 100000 ? 10000 : yearsAgo >= 20000 ? 1000 : 500
+    return t.haceAnos((Math.round(yearsAgo / paso) * paso).toLocaleString())
   }
   if (year < 0) return `${Math.abs(year).toLocaleString()} ${t.aC}`
   return `${year.toLocaleString()} ${t.dC}`
@@ -325,12 +344,19 @@ export default function EpocasHistoricas() {
             <p className="text-white/30 text-xs uppercase tracking-widest mb-1">{t.tuRespuesta}</p>
             <p className="text-white font-black text-2xl">{EPOCAS[preview.eraId][lang] ?? EPOCAS[preview.eraId].es}</p>
             <p className="text-amber-300 font-semibold text-sm mt-0.5">{formatYear(preview.eraId, preview.year, t)}</p>
+            {preview.eraId === 'prehistoria' && <p className="text-white/50 text-xs mt-0.5">{TRAMOS_PREHISTORIA[preview.tramo].nombre[lang] ?? TRAMOS_PREHISTORIA[preview.tramo].nombre.es}</p>}
           </div>
 
           {/* Tramos iguales por época (no proporcionales a años reales) */}
           <div className="flex gap-0.5 h-2.5 rounded-full overflow-hidden mb-2">
-            {epocasOrden.map(id => (
-              <div key={id} className={`flex-1 rounded-full transition-colors ${id === preview.eraId ? 'bg-[#EDAE49]' : 'bg-white/10'}`} />
+            {epocasOrden.map(id => (id === 'prehistoria'
+              // La Prehistoria en sus tres trozos
+              ? <div key={id} className="flex-1 flex gap-px">
+                  {TRAMOS_PREHISTORIA.map((_, k) => (
+                    <div key={k} className={`flex-1 rounded-full transition-colors ${preview.eraId === id ? (preview.tramo === k ? 'bg-[#EDAE49]' : 'bg-[#EDAE49]/40') : 'bg-white/10'}`} />
+                  ))}
+                </div>
+              : <div key={id} className={`flex-1 rounded-full transition-colors ${id === preview.eraId ? 'bg-[#EDAE49]' : 'bg-white/10'}`} />
             ))}
           </div>
 
