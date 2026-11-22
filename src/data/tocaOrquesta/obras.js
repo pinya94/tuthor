@@ -68,19 +68,19 @@ export const OBRAS = {
     cifrado: { I: 'G', V: 'D7' },
     secciones: SECCIONES_HIMNO,
     conjuntos: [
-      { voces: ['melodia', 'laminas'], nombre: T('Conjunto: flautas y láminas', 'Ensemble: recorders and tuned percussion', 'Conjunt: flautes i làmines') },
-      { voces: ['acordes', 'percusion'], nombre: T('Conjunto: la base (ukeleles y percusión)', 'Ensemble: the rhythm section (ukuleles and percussion)', 'Conjunt: la base (ukeleles i percussió)') },
+      { voces: ['melodia', 'laminas'], nombre: T('Conjunto: melodía y acompañamiento', 'Ensemble: melody and accompaniment', 'Conjunt: melodia i acompanyament') },
+      { voces: ['acordes', 'percusion'], nombre: T('Conjunto: la base (acordes y percusión)', 'Ensemble: the rhythm section (chords and percussion)', 'Conjunt: la base (acords i percussió)') },
     ],
     voces: {
       // La flauta dulce suena una octava más alta de lo que se escribe
-      melodia: { grupo: T('Flautas', 'Recorders', 'Flautes'), nombre: T('Melodía (flauta dulce)', 'Melody (recorder)', 'Melodia (flauta dolça)'), inst: 'flautaDulce', timbre: 'recorder',
+      melodia: { grupo: T('Melodía', 'Melody', 'Melodia'), nombre: T('Melodía', 'Melody', 'Melodia'), inst: 'flautaDulce', timbre: 'recorder',
         compases: melodia({ 1: 79, 2: 81, 3: 83, 4: 84, 5: 86, b5: 74 }) },
-      laminas: { grupo: T('Láminas', 'Tuned percussion', 'Làmines'), nombre: T('Láminas (xilófono o metalófono)', 'Tuned percussion (xylophone or glockenspiel)', 'Làmines (xilòfon o metal·lòfon)'), inst: 'laminas', timbre: 'xylophone',
+      laminas: { grupo: T('Acompañamiento', 'Accompaniment', 'Acompanyament'), nombre: T('Acompañamiento', 'Accompaniment', 'Acompanyament'), inst: 'laminas', timbre: 'xylophone',
         compases: porAcordes({ I: [[67, 1], [62, 1]], V: [[62, 1], [69, 1]] }) }, // bordón: fundamental y quinta
-      acordes: { grupo: T('Ukeleles', 'Ukuleles', 'Ukeleles'), nombre: T('Acordes (ukelele)', 'Chords (ukulele)', 'Acords (ukelele)'), inst: 'ukelele', timbre: 'guitarra', tipo: 'acordes',
+      acordes: { grupo: T('Acordes', 'Chords', 'Acords'), nombre: T('Acordes', 'Chords', 'Acords'), inst: 'ukelele', timbre: 'guitarra', tipo: 'acordes',
         // Sol (0232) y Re7 (2020) con la afinación del ukelele (Sol Do Mi La)
         compases: porAcordes({ I: [[[67, 62, 67, 71], 1], [[67, 62, 67, 71], 1]], V: [[[69, 60, 66, 69], 1], [[69, 60, 66, 69], 1]] }) },
-      percusion: { grupo: T('Percusión', 'Percussion', 'Percussió'), nombre: T('Percusión (claves, pandero o palmas)', 'Percussion (claves, tambourine or clapping)', 'Percussió (claus, pandero o picant de mans)'), inst: 'percusion', timbre: 'woodblock', tipo: 'percusion',
+      percusion: { grupo: T('Percusión', 'Percussion', 'Percussió'), nombre: T('Percusión', 'Percussion', 'Percussió'), inst: 'percusion', timbre: 'woodblock', tipo: 'percusion',
         compases: PERCUSION },
     },
   },
@@ -95,18 +95,18 @@ export const OBRAS = {
     cifrado: { I: 'F', V: 'C7' },
     secciones: SECCIONES_HIMNO,
     conjuntos: [
-      { voces: ['melodia', 'armonia'], nombre: T('Conjunto: las voces agudas', 'Ensemble: the upper parts', 'Conjunt: les veus agudes') },
-      { voces: ['acompanamiento', 'bajo'], nombre: T('Conjunto: las voces graves', 'Ensemble: the lower parts', 'Conjunt: les veus greus') },
+      { voces: ['melodia', 'armonia'], nombre: T('Conjunto: voces agudas (melodía y voz 2)', 'Ensemble: upper parts (melody and part 2)', 'Conjunt: veus agudes (melodia i veu 2)') },
+      { voces: ['acompanamiento', 'bajo'], nombre: T('Conjunto: voces graves (voz 3 y bajo)', 'Ensemble: lower parts (part 3 and bass)', 'Conjunt: veus greus (veu 3 i baix)') },
     ],
     voces: {
       melodia: { grupo: T('Melodía', 'Melody', 'Melodia'), nombre: T('Melodía', 'Melody', 'Melodia'), inst: 'violin', timbre: 'violin',
         compases: melodia({ 1: 65, 2: 67, 3: 69, 4: 70, 5: 72, b5: 60 }) },
       // La séptima (Si♭) resuelve en La; la sensible (Mi) resuelve en Fa
-      armonia: { grupo: T('2.ª voz', '2nd part', '2a veu'), nombre: T('Armonía (2.ª voz)', 'Harmony (2nd part)', 'Harmonia (2a veu)'), inst: 'viola', timbre: 'viola',
+      armonia: { grupo: T('Voz 2', 'Part 2', 'Veu 2'), nombre: T('Voz 2', 'Part 2', 'Veu 2'), inst: 'viola', timbre: 'viola',
         compases: porAcordes({ I: [[57, 2]], V: [[58, 2]] }) },
-      acompanamiento: { grupo: T('3.ª voz', '3rd part', '3a veu'), nombre: T('Acompañamiento (3.ª voz)', 'Accompaniment (3rd part)', 'Acompanyament (3a veu)'), inst: 'chelo', timbre: 'cello',
+      acompanamiento: { grupo: T('Voz 3', 'Part 3', 'Veu 3'), nombre: T('Voz 3', 'Part 3', 'Veu 3'), inst: 'chelo', timbre: 'cello',
         compases: porAcordes({ I: [[53, 2]], V: [[52, 2]] }) },
-      bajo: { grupo: T('Bajos', 'Basses', 'Baixos'), nombre: T('Bajo', 'Bass', 'Baix'), inst: 'chelo', timbre: 'contrabass',
+      bajo: { grupo: T('Bajo', 'Bass', 'Baix'), nombre: T('Bajo', 'Bass', 'Baix'), inst: 'chelo', timbre: 'contrabass',
         compases: porAcordes({ I: [[41, 1], [48, 1]], V: [[36, 1], [43, 1]] }) }, // fundamental y quinta
     },
   },

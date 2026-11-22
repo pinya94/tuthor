@@ -177,11 +177,11 @@ function harmonyXML(cifra) {
   const [, letra, alt, resto] = cifra.match(/^([A-G])([b#]?)(.*)$/)
   return `<harmony><root><root-step>${letra}</root-step>${alt ? `<root-alter>${alt === '#' ? 1 : -1}</root-alter>` : ''}</root><kind>${KIND[resto] ?? 'major'}</kind></harmony>`
 }
-function medidasVoz(obraId, vozId) {
+function medidasVoz(obraId, vozId, instId) {
   const o = OBRAS[obraId]
   const voz = o.voces[vozId]
   const linea = voz.tipo === 'acordes' || voz.tipo === 'percusion'
-  const p = linea ? null : parte(obraId, vozId, voz.inst)
+  const p = linea ? null : parte(obraId, vozId, instId ?? voz.inst)
   return voz.compases.map((c, i) => {
     const attrs = i === 0
       ? `<attributes><divisions>${DIV}</divisions><key><fifths>${linea ? 0 : p.quintas}</fifths></key><time><beats>${o.compas[0]}</beats><beat-type>${o.compas[1]}</beat-type></time>${linea ? '<clef><sign>percussion</sign></clef><staff-details><staff-lines>1</staff-lines></staff-details>' : `<clef>${CLAVE_XML[p.clave] ?? CLAVE_XML.sol}</clef>`}</attributes>`
@@ -203,10 +203,11 @@ function medidasVoz(obraId, vozId) {
   }).join('')
 }
 const escXML = x => String(x).replace(/&/g, '&amp;').replace(/</g, '&lt;')
-export function musicXMLPartitura(obraId, voces, l = 'es') {
+// insts: { voz: instrumento } elegido por el profesor (si no, el de la obra)
+export function musicXMLPartitura(obraId, voces, l = 'es', insts = {}) {
   const o = OBRAS[obraId]
   const lista = voces.map((v, k) => `<score-part id="P${k + 1}"><part-name>${escXML((o.voces[v].nombre[l] ?? o.voces[v].nombre.es).replace(/ \(.*\)$/, ''))}</part-name></score-part>`).join('')
-  const partes = voces.map((v, k) => `<part id="P${k + 1}">${medidasVoz(obraId, v)}</part>`).join('')
+  const partes = voces.map((v, k) => `<part id="P${k + 1}">${medidasVoz(obraId, v, insts[v])}</part>`).join('')
   return `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd"><score-partwise version="3.1"><part-list>${lista}</part-list>${partes}</score-partwise>`
 }
 
