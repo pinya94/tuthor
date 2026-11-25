@@ -30,13 +30,14 @@ export async function listarSuscritos() {
   return snap.docs
     .map(d => d.data())
     .filter(u => u.email)
-    .map(u => ({ nombre: u.name ?? '', email: u.email, alta: fecha(u.createdAt), suscrito: fecha(u.newsletterAt), ultimoAcceso: fecha(u.lastLogin), idioma: u.idioma ?? '' }))
+    .map(u => ({ nombre: u.name ?? '', email: u.email, alta: fecha(u.createdAt), suscrito: fecha(u.newsletterAt), ultimoAcceso: fecha(u.lastLogin), idioma: u.idioma ?? '', tipo: u.teacherProfile ? 'profe' : 'alumno/familia' }))
     .sort((a, b) => a.email.localeCompare(b.email))
 }
 
 // CSV con BOM (Excel lo abre con tildes bien) y comillas escapadas.
 export function aCsv(filas) {
-  const cols = ['nombre', 'email', 'idioma', 'alta', 'suscrito', 'ultimoAcceso']
+  // tipo: para mandar a los profes un correo distinto (sale de teacherProfile)
+  const cols = ['nombre', 'email', 'tipo', 'idioma', 'alta', 'suscrito', 'ultimoAcceso']
   const celda = v => `"${String(v ?? '').replace(/"/g, '""')}"`
   return '﻿' + [cols.join(','), ...filas.map(f => cols.map(c => celda(f[c])).join(','))].join('\r\n')
 }
