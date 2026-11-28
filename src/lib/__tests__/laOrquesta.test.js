@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, INSTRUMENTOS, FAMILIAS, SUBFAMILIAS, SONIDOS, HS, SIN_SITIO, instrumento, esCorrecta, cajaDe, textoCaja, enunciado, explicacion, schemaQuestion, correccion, porQue, bienDe, REGLA_PLANO } from '../laOrquesta'
+import { genRonda, NIVELES, INSTRUMENTOS, FAMILIAS, SUBFAMILIAS, SONIDOS, HS, SIN_SITIO, instrumento, esCorrecta, cajaDe, textoCaja, enunciado, explicacion, schemaQuestion, correccion, porQue, bienDe, REGLA_PLANO, crearBolsa } from '../laOrquesta'
+import { MAX_SEGUIDAS } from '../bolsaMecanicas'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -55,6 +56,47 @@ describe('La Orquesta', () => {
       expect(SUBFAMILIAS && SONIDOS && HS && INSTRUMENTOS.length).toBeTruthy()
     })
   }
+})
+
+describe('La Orquesta · bolsa de mecánicas y evitar', () => {
+  for (const nivel of Object.keys(NIVELES)) {
+    it(`${nivel}: mecánicas repartidas, nunca 3 seguidas, sin repetir la ronda anterior`, () => {
+      const mecs = [...new Set(NIVELES[nivel].tipos)]
+      const cuenta = Object.fromEntries(mecs.map(m => [m, 0]))
+      let total = 0
+      for (let sem = 1; sem <= 200; sem++) {
+        const rand = semilla(sem * 7919)
+        const bolsa = crearBolsa(nivel, { rand })
+        let prev = null, racha = 0
+        for (let i = 0; i < 12; i++) {
+          const r = genRonda(nivel, { rand, bolsa, evitar: prev?.clave })
+          expect(r.clave).toBeTruthy()
+          if (prev) {
+            expect(r.clave, `semilla ${sem} ronda ${i}`).not.toBe(prev.clave)
+            // en «clasifica» con varias variantes, nunca la misma dos veces seguidas
+            if (r.tipo === 'clasifica' && prev.tipo === 'clasifica' && NIVELES[nivel].clasifica.length > 1) expect(r.variante).not.toBe(prev.variante)
+          }
+          racha = prev && r.tipo === prev.tipo ? racha + 1 : 1
+          expect(racha, `semilla ${sem}: ${r.tipo} ${racha} seguidas`).toBeLessThanOrEqual(MAX_SEGUIDAS)
+          cuenta[r.tipo]++; total++
+          prev = r
+        }
+      }
+      for (const m of mecs) {
+        const peso = NIVELES[nivel].tipos.filter(t => t === m).length / NIVELES[nivel].tipos.length
+        expect(Math.abs(cuenta[m] / total - peso), `${nivel} ${m}: ${cuenta[m]}/${total}`).toBeLessThan(0.08)
+      }
+    })
+  }
+  it('la bolsa es de cada partida y en las primeras rondas salen todas las mecánicas', () => {
+    for (let sem = 1; sem <= 50; sem++) {
+      const rand = semilla(sem * 131)
+      const bolsa = crearBolsa('medio', { rand })
+      expect(bolsa.historial).toHaveLength(0)
+      const vistas = new Set([0, 1, 2].map(() => genRonda('medio', { rand, bolsa }).tipo))
+      expect(vistas.size, `semilla ${sem}`).toBe(3)
+    }
+  })
 })
 
 describe('La Orquesta · corrección concreta', () => {

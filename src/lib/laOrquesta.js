@@ -7,6 +7,8 @@
 // travesera y el saxofón son de metal pero de viento madera, y el piano es de
 // cuerda percutida. Esas trampas son las del examen de instrumentos.
 
+import { crearBolsaMecanicas, sacarDeBolsa } from './bolsaMecanicas'
+
 const T = (es, en, ca) => ({ es, en, ca })
 const s = (l, es, en, ca) => (l === 'en' ? en : l === 'ca' ? ca : es)
 export const tx = (o, l) => o[l] ?? o.es
@@ -87,10 +89,20 @@ export const SIN_SITIO = ['arpa', 'piano', 'guitarra', 'saxofon']
 //   empareja   unir cada dibujo con su nombre
 //   clasifica  instrumentos a cajas de subfamilia, de cómo suenan o de
 //              Hornbostel-Sachs (las cajas: las suyas y alguna más)
+//
+// Variedad (nov-2026): en el juego, cada partida saca los tipos de una BOLSA
+// barajada (lib/bolsaMecanicas, crearBolsa), nunca más de dos rondas seguidas
+// de la misma mecánica; genRonda respeta `evitar` (la ronda anterior) y en
+// «clasifica» no repite la variante (subfamilia/sonido/H-S) de la anterior.
+// Antes el difícil era 3/4 de «clasifica» sorteado a pelo (14 seguidas).
 export const NIVELES = {
   facil:   { tipos: ['empareja', 'sienta', 'sienta'], clasifica: [] },
-  medio:   { tipos: ['empareja', 'sienta', 'clasifica', 'clasifica'], clasifica: ['subfamilia'] },
-  dificil: { tipos: ['sienta', 'clasifica', 'clasifica', 'clasifica'], clasifica: ['sonido', 'hs', 'subfamilia'] },
+  medio:   { tipos: ['empareja', 'sienta', 'clasifica'], clasifica: ['subfamilia'] },
+  dificil: { tipos: ['sienta', 'clasifica', 'clasifica'], clasifica: ['sonido', 'hs', 'subfamilia'] },
+}
+export function crearBolsa(nivel, { rand = Math.random } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  return { nivel, ...crearBolsaMecanicas(cfg.tipos, { rand }), variante: null }
 }
 const CAMPO = { subfamilia: 'sub', sonido: 'sonido', hs: 'hs' }
 const CAJAS = { subfamilia: SUBFAMILIAS, sonido: SONIDOS, hs: HS }
@@ -104,20 +116,27 @@ const baraja = (rand, xs) => {
 let seq = 0
 const recientes = []
 
-export function genRonda(nivel = 'facil', opts = {}) {
+// opts: rand; evitar = la clave de la ronda anterior (no se repite);
+// bolsa = la de la partida (crearBolsa): si no hay, el tipo se sortea.
+export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null, bolsa = null } = {}) {
+  const tipo = bolsa ? sacarDeBolsa(bolsa) : null
+  const sinVariante = bolsa?.variante ?? null
   for (let intento = 0; ; intento++) {
-    const r = genUna(nivel, opts)
+    const r = genUna(nivel, rand, tipo, sinVariante)
+    r.clave = `${r.tipo}:${r.variante ?? ''}:${[...r.inst].sort().join()}`
+    if (intento < 30 && r.clave === evitar) continue
     if (intento < 20 && r.inst.filter(i => recientes.includes(i)).length > 1) continue
     recientes.push(...r.inst)
     while (recientes.length > 8) recientes.shift()
+    if (bolsa && r.variante) bolsa.variante = r.variante
     return r
   }
 }
 
-function genUna(nivel, { rand = Math.random } = {}) {
+function genUna(nivel, rand, tipoFijo, sinVariante) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
   for (;;) {
-    const tipo = elige(rand, cfg.tipos)
+    const tipo = tipoFijo ?? elige(rand, cfg.tipos)
     const base = { id: ++seq, nivel, tipo }
 
     if (tipo === 'sienta') {
@@ -132,7 +151,9 @@ function genUna(nivel, { rand = Math.random } = {}) {
     }
 
     // clasifica
-    const variante = elige(rand, cfg.clasifica)
+    // la variante de la ronda anterior no se repite (si hay otra)
+    const variantes = cfg.clasifica.length > 1 ? cfg.clasifica.filter(v => v !== sinVariante) : cfg.clasifica
+    const variante = elige(rand, variantes)
     const campo = CAMPO[variante]
     const inst = baraja(rand, INSTRUMENTOS).slice(0, 4).map(i => i.id)
     const suyas = [...new Set(inst.map(i => instrumento(i)[campo]))]

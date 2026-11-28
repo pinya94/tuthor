@@ -4,7 +4,7 @@ import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
 import { saveActivity } from '../lib/activity'
 import { computeCoins } from '../lib/games'
-import { NIVELES, genRonda, esCorrecta } from '../lib/laOrquesta'
+import { NIVELES, genRonda, esCorrecta, crearBolsa } from '../lib/laOrquesta'
 import PreguntaOrquesta from '../components/laOrquesta/PreguntaOrquesta'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
@@ -53,9 +53,16 @@ export default function LaOrquesta() {
 
   const nivelRef = useRef('facil')
   const aciertosRef = useRef(0)
+  // Bolsa de mecánicas de la partida (ver lib/bolsaMecanicas) y la ronda
+  // anterior, para no repetirla. En refs: genRonda no puede ir dentro de un
+  // updater de setState (StrictMode lo llama dos veces y sacaría dos de la bolsa).
+  const bolsaRef = useRef(null)
+  const rondaRef = useRef(null)
 
   const next = useCallback(niv => {
-    setRonda(genRonda(niv))
+    const r = genRonda(niv, { evitar: rondaRef.current?.clave, bolsa: bolsaRef.current })
+    rondaRef.current = r
+    setRonda(r)
     setElegida(null)
   }, [])
 
@@ -84,7 +91,8 @@ export default function LaOrquesta() {
     setScreen('playing')
     aciertosRef.current = 0
     setAciertos(0); setStreak(0); setJugado(0)
-
+    bolsaRef.current = crearBolsa(niv)
+    rondaRef.current = null
     empezar()
     next(niv)
   }, [next, empezar])

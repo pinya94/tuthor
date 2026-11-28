@@ -27,6 +27,8 @@
 // venir de varias rocas, el vinagre apenas hace burbujas…) y las rutas solo
 // dicen lo que PUEDE pasar con las condiciones adecuadas.
 
+import { crearBolsaMecanicas, sacarDeBolsa, MAX_SEGUIDAS } from './bolsaMecanicas'
+
 const T = (es, en, ca) => ({ es, en, ca })
 
 export const PROCESOS = {
@@ -246,36 +248,15 @@ function schemaVieja(ronda, l) {
 export const MECANICA_DE_TIPO = { proceso: 'etiqueta', tipo: 'clasifica', subtipo: 'clasifica', origen: 'empareja', ruta: 'traza' }
 export const METAMORFICAS = Object.keys(ROCAS).filter(id => ROCAS[id].origen)
 
-// Bolsa de mecánicas de UNA partida: los tipos del nivel barajados; se saca
-// el primero que no repita por tercera vez seguida la misma mecánica y, al
-// vaciarse, se rellena. Se crea al empezar cada partida (no se arrastra).
-export const MAX_SEGUIDAS = 2
+// Bolsa de mecánicas de UNA partida (ver lib/bolsaMecanicas): los tipos del
+// nivel barajados, máx. dos seguidos de la misma mecánica. Se crea al empezar
+// cada partida (no se arrastra).
+export { MAX_SEGUIDAS }
 export function crearBolsa(nivel, { rand = Math.random } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
-  return { nivel, tipos: cfg.tipos, rand, saco: [], historial: [] }
+  return { nivel, ...crearBolsaMecanicas(cfg.tipos, { rand, mecanica: t => MECANICA_DE_TIPO[t] }) }
 }
-export function sacarTipo(bolsa) {
-  const mec = t => MECANICA_DE_TIPO[t]
-  const ult = bolsa.historial.slice(-MAX_SEGUIDAS).map(mec)
-  const bloqueada = ult.length === MAX_SEGUIDAS && ult.every(m => m === ult[0]) ? ult[0] : null
-  if (!bolsa.saco.length) bolsa.saco = barajaFY(bolsa.rand, bolsa.tipos)
-  let i = bolsa.saco.findIndex(t => mec(t) !== bloqueada)
-  // Lo que queda es todo de la mecánica bloqueada: se añade otra bolsa (con
-  // tope de intentos; un nivel de una sola mecánica no tendría salida).
-  for (let k = 0; i < 0 && k < 5; k++) {
-    bolsa.saco.push(...barajaFY(bolsa.rand, bolsa.tipos))
-    i = bolsa.saco.findIndex(t => mec(t) !== bloqueada)
-  }
-  if (i < 0) i = 0
-  const [t] = bolsa.saco.splice(i, 1)
-  bolsa.historial.push(t)
-  return t
-}
-const barajaFY = (rand, xs) => {
-  const a = [...xs]
-  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] }
-  return a
-}
+export const sacarTipo = sacarDeBolsa
 
 // Piezas que se colocan en la ronda (el bonus de tiempo es por pieza).
 export function accionesDe(r) {
