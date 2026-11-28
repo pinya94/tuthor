@@ -38,7 +38,7 @@ function renderQuestion({ round, phase, onAnswer, answer, l }) {
         <p className="text-center text-xs font-bold text-white/50 -mt-2 mb-2">{{ es: 'Vista de espalda', en: 'Back view', ca: 'Vista d’esquena' }[l] ?? 'Vista de espalda'}</p>
       )}
       <div className="mx-auto rounded-2xl overflow-hidden border border-white/[0.08]"
-        style={{ maxWidth: `min(${round.capa === 'organos' ? 360 : 300}px, calc((100dvh - 20rem) * ${200 / ALTO[round.capa]}))` }}>
+        style={{ maxWidth: `min(400px, calc((100dvh - 18rem) * ${200 / ALTO[round.capa]}))` }}>
         <CuerpoSVG capa={round.capa} onPick={revelado ? null : onAnswer}
           elegido={answer} correcto={revelado ? round.parte.id : null} revelado={revelado} />
       </div>

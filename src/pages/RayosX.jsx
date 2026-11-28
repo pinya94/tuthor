@@ -160,6 +160,11 @@ export default function RayosX() {
           <Link to={localPath('/examen/rayos-x-test')} className="block text-center mt-3 text-white/30 hover:text-white/60 text-sm transition-colors">
             {tr({ es: 'Examen con la mecánica del juego →', en: 'Exam using the game mechanic →', ca: 'Examen amb la mecànica del joc →' })}
           </Link>
+          {/* Atribución que piden las licencias CC BY / CC BY-SA de las láminas */}
+          <p className="text-center mt-4 text-white/25 text-[11px] leading-snug">
+            {tr({ es: 'Ilustraciones: Servier Medical Art (CC BY 4.0), OpenStax · T. Kebert · umimeto.org (CC BY-SA 4.0), LadyofHats y M. Häggström (dominio público).', en: 'Illustrations: Servier Medical Art (CC BY 4.0), OpenStax · T. Kebert · umimeto.org (CC BY-SA 4.0), LadyofHats and M. Häggström (public domain).', ca: 'Il·lustracions: Servier Medical Art (CC BY 4.0), OpenStax · T. Kebert · umimeto.org (CC BY-SA 4.0), LadyofHats i M. Häggström (domini públic).' })}{' '}
+            <a href="/rayos-x/CREDITOS.md" target="_blank" rel="noopener" className="underline hover:text-white/50">{tr({ es: 'Créditos', en: 'Credits', ca: 'Crèdits' })}</a>
+          </p>
         </div>
       </div>
     )
@@ -231,30 +236,34 @@ export default function RayosX() {
         </div>
       </div>
 
-      <p className="text-white/50 text-xs uppercase tracking-widest">
-        {ronda.preguntaPor === 'funcion' ? tr({ es: 'Toca el que…', en: 'Tap the one that…', ca: 'Toca el que…' }) : tr({ es: 'Toca', en: 'Tap', ca: 'Toca' })}
-      </p>
-      <p className="text-white text-xl font-black text-center px-2 leading-snug mb-3">{enunciado(ronda, l)}</p>
+      {/* La pregunta y, al corregir, la respuesta ocupan el MISMO hueco encima
+          del cuerpo: así la lámina puede usar casi todo el alto libre. */}
+      <div className="w-full max-w-[460px] min-h-[5.25rem] flex flex-col items-center justify-center px-1 mb-2" aria-live="polite">
+        {!isResult ? (
+          <>
+            <p className="text-white/50 text-xs uppercase tracking-widest">
+              {ronda.preguntaPor === 'funcion' ? tr({ es: 'Toca el que…', en: 'Tap the one that…', ca: 'Toca el que…' }) : tr({ es: 'Toca', en: 'Tap', ca: 'Toca' })}
+            </p>
+            <p className="text-white text-xl font-black text-center px-2 leading-snug">{enunciado(ronda, l)}</p>
+          </>
+        ) : (
+          <>
+            <p className={`text-center font-black ${acerto ? 'text-green-400' : 'text-red-400'}`}>
+              {acerto ? '✓' : '✗'} {tr({ es: 'Era', en: 'It was', ca: 'Era' })}: {parte.nombre[l] ?? parte.nombre.es}
+              {sistema && <span className="text-white/40 font-semibold text-xs"> · {sistema[l] ?? sistema.es}</span>}
+            </p>
+            <p className="text-white/70 text-sm text-center leading-snug mt-1">{ronda.preguntaPor === 'funcion' ? (parte.dato[l] ?? parte.dato.es) : (parte.funcion[l] ?? parte.funcion.es)}</p>
+          </>
+        )}
+      </div>
 
-      {/* El ancho sale del alto libre (el cuerpo es alto y estrecho): así
-          cabe entero con la explicación debajo sin tener que bajar. */}
+      {/* El ancho sale del alto libre (el cuerpo es alto y estrecho): así cabe
+          entero sin tener que bajar. */}
       <div className="w-full rounded-2xl overflow-hidden border border-white/[0.08]"
-        style={{ maxWidth: `min(${ronda.capa === 'organos' ? 380 : 320}px, calc((100dvh - 20rem) * ${200 / ALTO[ronda.capa]}))` }}>
+        style={{ maxWidth: `min(420px, calc((100dvh - 15.5rem) * ${200 / ALTO[ronda.capa]}))` }}>
         <CuerpoSVG capa={ronda.capa} onPick={isResult ? null : tocar}
           elegido={elegido} correcto={isResult ? parte.id : null} revelado={isResult} />
       </div>
-
-      {isResult && (
-        <div className="w-full max-w-[460px] mt-3 space-y-1.5 px-1">
-          <p className={`text-center font-black ${acerto ? 'text-green-400' : 'text-red-400'}`}>
-            {acerto ? '✓' : '✗'} {tr({ es: 'Era', en: 'It was', ca: 'Era' })}: {parte.nombre[l] ?? parte.nombre.es}
-            {sistema && <span className="text-white/40 font-semibold text-xs"> · {sistema[l] ?? sistema.es}</span>}
-          </p>
-          <div className="rounded-xl px-3 py-2 bg-[#141b2e] border border-white/[0.08]">
-            <p className="text-white/70 text-sm">{ronda.preguntaPor === 'funcion' ? (parte.dato[l] ?? parte.dato.es) : (parte.funcion[l] ?? parte.funcion.es)}</p>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

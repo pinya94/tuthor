@@ -1,0 +1,264 @@
+[
+  {
+    "fichero": "public/rayos-x/huesos.webp",
+    "capa": "huesos",
+    "ids": [
+      "craneo",
+      "columna",
+      "costillas",
+      "esternon",
+      "clavicula",
+      "pelvis",
+      "humero",
+      "codo",
+      "radio",
+      "cubito",
+      "muneca",
+      "femur",
+      "rotula",
+      "tibia",
+      "perone",
+      "tobillo"
+    ],
+    "fuentes": [
+      {
+        "fichero": "skeleton_front_nolabels.svg",
+        "titulo": "Human skeleton front - no labels.svg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/df/Human_skeleton_front_-_no_labels.svg",
+        "pagina": "https://commons.wikimedia.org/wiki/File:Human_skeleton_front_-_no_labels.svg",
+        "autor": "Mikael Häggström, a partir de «Human skeleton front en.svg» de LadyofHats (Mariana Ruiz Villarreal)",
+        "licencia": "Dominio público",
+        "licenciaUrl": "https://commons.wikimedia.org/wiki/File:Human_skeleton_front_-_no_labels.svg",
+        "sha256": "c8d5c3f208deac302ab3f7d70c0f499719c53de865f47df264d21f9e298cbc72"
+      }
+    ],
+    "licencia": "Dominio público",
+    "modificaciones": "Encuadre (sin rótulos en origen); rasterizado a WebP. Sin cambios en el dibujo.",
+    "fecha": "2026-11-28",
+    "validacion": "Revisado visualmente (capturas) y con clic automático en cada zona — 2026-11-28"
+  },
+  {
+    "fichero": "public/rayos-x/musculos.webp",
+    "capa": "musculos",
+    "ids": [
+      "deltoides",
+      "pectoral",
+      "biceps",
+      "antebrazo",
+      "abdominales",
+      "oblicuos",
+      "esternocleidomastoideo",
+      "cuadriceps",
+      "aductores",
+      "tibial"
+    ],
+    "fuentes": [
+      {
+        "fichero": "muscles_front_and_back.svg",
+        "titulo": "Muscles front and back.svg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Muscles_front_and_back.svg",
+        "pagina": "https://commons.wikimedia.org/wiki/File:Muscles_front_and_back.svg",
+        "autor": "OpenStax, Tomáš Kebert y umimeto.org",
+        "licencia": "CC BY-SA 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "sha256": "56aae1c8068df6bcbbaec2faf074df82581d997afc5bd45912efc555b624e5f3"
+      }
+    ],
+    "licencia": "CC BY-SA 4.0 (obra derivada bajo la misma licencia)",
+    "modificaciones": "Recorte de la figura de frente; rasterizado a WebP. Sin cambios en el dibujo.",
+    "fecha": "2026-11-28",
+    "validacion": "Revisado visualmente (capturas) y con clic automático en cada zona — 2026-11-28"
+  },
+  {
+    "fichero": "public/rayos-x/espalda.webp",
+    "capa": "espalda",
+    "ids": [
+      "trapecio",
+      "dorsal",
+      "triceps",
+      "gluteos",
+      "isquiotibiales",
+      "gemelos"
+    ],
+    "fuentes": [
+      {
+        "fichero": "muscles_front_and_back.svg",
+        "titulo": "Muscles front and back.svg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Muscles_front_and_back.svg",
+        "pagina": "https://commons.wikimedia.org/wiki/File:Muscles_front_and_back.svg",
+        "autor": "OpenStax, Tomáš Kebert y umimeto.org",
+        "licencia": "CC BY-SA 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "sha256": "56aae1c8068df6bcbbaec2faf074df82581d997afc5bd45912efc555b624e5f3"
+      }
+    ],
+    "licencia": "CC BY-SA 4.0 (obra derivada bajo la misma licencia)",
+    "modificaciones": "Recorte de la figura de espalda; rasterizado a WebP. Sin cambios en el dibujo.",
+    "fecha": "2026-11-28",
+    "validacion": "Revisado visualmente (capturas) y con clic automático en cada zona — 2026-11-28"
+  },
+  {
+    "fichero": "public/rayos-x/organos.webp",
+    "capa": "organos",
+    "ids": [
+      "cerebro",
+      "ojos",
+      "boca",
+      "traquea",
+      "pulmones",
+      "corazon",
+      "diafragma",
+      "higado",
+      "estomago",
+      "rinones",
+      "intestinos",
+      "vejiga"
+    ],
+    "fuentes": [
+      {
+        "fichero": "silhouette_neutral_front.svg",
+        "titulo": "Human silhouette gender neutral front.svg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Human_silhouette_gender_neutral_front.svg",
+        "pagina": "https://commons.wikimedia.org/wiki/File:Human_silhouette_gender_neutral_front.svg",
+        "autor": "Sebastian Wallroth",
+        "licencia": "CC0 1.0",
+        "licenciaUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "sha256": "1541ba0d97c94a7197cdfc8ad3d27dedc2169e17cbde8837077548ebcb50e1cb"
+      },
+      {
+        "fichero": "respiratory_system_complete_en.svg",
+        "titulo": "Respiratory system complete en.svg",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Respiratory_system_complete_en.svg",
+        "pagina": "https://commons.wikimedia.org/wiki/File:Respiratory_system_complete_en.svg",
+        "autor": "LadyofHats (Mariana Ruiz Villarreal) y Jmarchn",
+        "licencia": "Dominio público",
+        "licenciaUrl": "https://commons.wikimedia.org/wiki/File:Respiratory_system_complete_en.svg",
+        "sha256": "2544b2013ada84edff87c9d16475da335a1a4161440e5bfb48925b3394f20909"
+      },
+      {
+        "fichero": "poumons_01.png",
+        "autor": "Servier Medical Art (Servier)",
+        "licencia": "CC BY 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "titulo": "Lungs",
+        "url": "https://smart.servier.com/wp-content/uploads/2016/10/poumons_01.png",
+        "pagina": "https://smart.servier.com/smart_image/lungs-11/",
+        "sha256": "f990937abb5d6b53103ff708842e607b0b1e5ced599a07dcd2b2a6b42136f2c6"
+      },
+      {
+        "fichero": "Larynx.png",
+        "autor": "Servier Medical Art (Servier)",
+        "licencia": "CC BY 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "titulo": "Larynx front view",
+        "url": "https://smart.servier.com/wp-content/uploads/2016/10/Larynx.png",
+        "pagina": "https://smart.servier.com/smart_image/larynx-front-view/",
+        "sha256": "96cfd1ee1c7cc80dadc1e06a33e7eece3275fb6c277b0553ace26a7a8d0ef27a"
+      },
+      {
+        "fichero": "coeur.png",
+        "autor": "Servier Medical Art (Servier)",
+        "licencia": "CC BY 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "titulo": "Heart",
+        "url": "https://smart.servier.com/wp-content/uploads/2016/10/coeur.png",
+        "pagina": "https://smart.servier.com/smart_image/heart/",
+        "sha256": "81dd8bf54c02b3d160de0db89a7e52de44238265d158225f7b95e524634c7622"
+      },
+      {
+        "fichero": "foie.png",
+        "autor": "Servier Medical Art (Servier)",
+        "licencia": "CC BY 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "titulo": "Liver",
+        "url": "https://smart.servier.com/wp-content/uploads/2016/10/foie.png",
+        "pagina": "https://smart.servier.com/smart_image/liver/",
+        "sha256": "9d4801437975ec711b21ff7f22bc2687034d3c1e48a179a2f5ae95333a11a64a"
+      },
+      {
+        "fichero": "estomac.png",
+        "autor": "Servier Medical Art (Servier)",
+        "licencia": "CC BY 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "titulo": "Stomach overview",
+        "url": "https://smart.servier.com/wp-content/uploads/2016/10/estomac.png",
+        "pagina": "https://smart.servier.com/smart_image/stomach-overview/",
+        "sha256": "8b327c64b5fd1d7ba7981b5abd4d0a7879ecec7720f4cc81140fc351b36aa8ff"
+      },
+      {
+        "fichero": "intestin.png",
+        "autor": "Servier Medical Art (Servier)",
+        "licencia": "CC BY 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "titulo": "Intestine overview",
+        "url": "https://smart.servier.com/wp-content/uploads/2016/10/intestin.png",
+        "pagina": "https://smart.servier.com/smart_image/intestine-overview/",
+        "sha256": "787024de5a66e98a9f3ed9f1d46996ef2164ff0d21af0d2ea8dc1eee2c5fa087"
+      },
+      {
+        "fichero": "colon.png",
+        "autor": "Servier Medical Art (Servier)",
+        "licencia": "CC BY 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "titulo": "Colon",
+        "url": "https://smart.servier.com/wp-content/uploads/2016/10/colon.png",
+        "pagina": "https://smart.servier.com/smart_image/colon/",
+        "sha256": "7799b31c8fd3dff3c482648ed80735807a5a40db0f2d7b3fadeba4c8d18ceaf8"
+      },
+      {
+        "fichero": "App_urinaire_homme.png",
+        "autor": "Servier Medical Art (Servier)",
+        "licencia": "CC BY 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "titulo": "Urinary tract overview",
+        "url": "https://smart.servier.com/wp-content/uploads/2016/10/App_urinaire_homme.png",
+        "pagina": "https://smart.servier.com/smart_image/urinary-tract-overview/",
+        "sha256": "3e047a4778710b9f5944943a740ddf4e13aca5f27ecd6eb9f6302be022185547"
+      },
+      {
+        "fichero": "vessie.png",
+        "autor": "Servier Medical Art (Servier)",
+        "licencia": "CC BY 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "titulo": "Bladder",
+        "url": "https://smart.servier.com/wp-content/uploads/2016/10/vessie.png",
+        "pagina": "https://smart.servier.com/smart_image/bladder/",
+        "sha256": "1c750c28ba47277230f875b531380c62620c513022a9de52c84dcca76b000599"
+      },
+      {
+        "fichero": "cerveau_09.png",
+        "autor": "Servier Medical Art (Servier)",
+        "licencia": "CC BY 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "titulo": "Brain section (coronal)",
+        "url": "https://smart.servier.com/wp-content/uploads/2016/10/cerveau_09.png",
+        "pagina": "https://smart.servier.com/smart_image/smart-section-brain/",
+        "sha256": "e8ee0caa0b181cb8286ead521a3521381e7315416fa014bf4983bfd3d2210b19"
+      },
+      {
+        "fichero": "oeil_02.png",
+        "autor": "Servier Medical Art (Servier)",
+        "licencia": "CC BY 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "titulo": "Eye view",
+        "url": "https://smart.servier.com/wp-content/uploads/2016/10/oeil_02.png",
+        "pagina": "https://smart.servier.com/smart_image/eye-view/",
+        "sha256": "687d2211d98cd608d29cddcfe7e5d721f274c0ebe64626fa4060659447315e69"
+      },
+      {
+        "fichero": "oral-cavity.png",
+        "autor": "Servier Medical Art (Servier)",
+        "licencia": "CC BY 4.0",
+        "licenciaUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "titulo": "Oral cavity",
+        "url": "https://smart.servier.com/wp-content/uploads/2017/03/oral-cavity.png",
+        "pagina": "https://smart.servier.com/smart_image/oral-cavity/",
+        "sha256": "6dabecbe27441200ec3388c5379a4a2046daeb3ed34b595b5a164589fa7b2102"
+      }
+    ],
+    "licencia": "CC BY 4.0 (Servier Medical Art) + dominio público / CC0",
+    "modificaciones": "Composición propia: cada órgano recortado de su ilustración, escalado y colocado en su sitio sobre una silueta CC0; tráquea separada del pulmón y uréteres del riñón por color; riñón izquierdo = espejo del derecho; ojo derecho = espejo del izquierdo; ojo recortado a la abertura de los párpados; colon recortado bajo el sigma (el recto queda detrás de la vejiga); vejiga recortada a su cuerpo; diafragma de LadyofHats con color opaco. Rasterizado a WebP.",
+    "fecha": "2026-11-28",
+    "validacion": "Revisado visualmente (capturas) y con clic automático en cada zona — 2026-11-28"
+  }
+]
