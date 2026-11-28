@@ -14,7 +14,8 @@
  * Vista FRONTAL como en un atlas: la derecha de la persona queda a la
  * IZQUIERDA del dibujo. Huesos y músculos de brazos y piernas valen a los dos lados.
  *
- * Lupa: con el dedo en pantallas estrechas, si el toque cae entre zonas
+ * Lupa: con el dedo en pantallas estrechas (y con el ratón, con un margen
+ * más fino), si el toque cae entre zonas
  * distintas (muñeca, rótula, ojos…), primero acerca la imagen ×2,5 y el
  * siguiente toque responde. Un toque claro responde a la primera.
  *
@@ -45,6 +46,9 @@ const VERDE = '#4ade80'
 const ROJO = '#f87171'
 const LUPA = 2.5
 const DEDO = 11 // radio (px de pantalla) que se considera «el dedo»
+const LENTE = 2.5 // aumento de la lente que sigue al ratón
+const D_LENTE = 150 // su diámetro en px
+const RATON = 5 // con ratón se apunta mejor: solo amplía si el clic cae casi en el borde
 const TACTIL = typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches
 
 export default function CuerpoSVG({ capa, onPick, elegido, correcto, revelado }) {
@@ -52,6 +56,8 @@ export default function CuerpoSVG({ capa, onPick, elegido, correcto, revelado })
   const lam = LAMINAS[capa] ?? LAMINAS.organos
   const vista = useMemo(() => [0, 0, lam.w, lam.h], [lam])
   const [zoom, setZoom] = useState(null) // { capa, caja } mientras está ampliado
+  const [lente, setLente] = useState(null) // ratón: { x, y } en px del recuadro + caja de la lámina que enseña
+  const [apuntar, setApuntar] = useState(false) // botón «Ampliar»: el siguiente clic acerca en vez de responder
   const svgRef = useRef(null)
   const zonasRef = useRef({})
   const puntero = useRef(TACTIL ? 'touch' : 'mouse')
@@ -77,7 +83,7 @@ export default function CuerpoSVG({ capa, onPick, elegido, correcto, revelado })
     const svg = svgRef.current
     if (!svg) return []
     const escala = svg.getScreenCTM()?.a || 1
-    const r = DEDO / escala
+    const r = (puntero.current === 'touch' ? DEDO : RATON) / escala
     const p = aLamina(ev.clientX, ev.clientY)
     if (!p) return []
     const puntos = [[0, 0], ...Array.from({ length: 8 }, (_, i) => [Math.cos(i * Math.PI / 4) * r, Math.sin(i * Math.PI / 4) * r])]
@@ -88,16 +94,20 @@ export default function CuerpoSVG({ capa, onPick, elegido, correcto, revelado })
     }
     return [...vistas]
   }
-  const usaLupa = () => !ampliado && puntero.current === 'touch' && (svgRef.current?.clientWidth ?? 999) < 560
+  // Dedo en pantalla estrecha (como siempre) o ratón (en escritorio las láminas altas, como
+  // la de órganos, quedan estrechas: ojos y boca miden unos 20 px)
+  const usaLupa = () => !ampliado && (puntero.current === 'touch' ? (svgRef.current?.clientWidth ?? 999) < 560 : true)
   function amplia(ev) {
     const p = aLamina(ev.clientX, ev.clientY)
     if (!p) return
     const w = vista[2] / LUPA, h = vista[3] / LUPA
     const x = Math.min(Math.max(p.x - w / 2, 0), vista[2] - w), y = Math.min(Math.max(p.y - h / 2, 0), vista[3] - h)
     setZoom({ capa, caja: [x, y, w, h] })
+    setApuntar(false)
   }
   function pulsa(id, ev) {
     if (!onPick || revelado) return
+    if (!ampliado && apuntar) { amplia(ev); return }
     if (usaLupa() && zonasBajoDedo(ev).length > 1) { amplia(ev); return }
     setZoom(null)
     onPick(id)
@@ -112,6 +122,17 @@ export default function CuerpoSVG({ capa, onPick, elegido, correcto, revelado })
       <svg ref={svgRef} viewBox={caja.join(' ')} className="w-full h-auto block select-none"
         role={onPick ? 'group' : 'img'} style={{ touchAction: 'manipulation' }}
         onPointerDown={ev => { puntero.current = ev.pointerType }}
+        onPointerMove={ev => {
+          // Lente de aumento con el ratón: enseña ×2,5 lo que hay bajo el puntero (no captura clics)
+          if (ev.pointerType !== 'mouse' || !onPick || revelado || ampliado) { if (lente) setLente(null); return }
+          const svg = svgRef.current, ctm = svg?.getScreenCTM?.()
+          if (!ctm) return
+          const caja2 = svg.getBoundingClientRect()
+          const p = new DOMPoint(ev.clientX, ev.clientY).matrixTransform(ctm.inverse())
+          const w = D_LENTE / (ctm.a * LENTE)
+          setLente({ x: ev.clientX - caja2.left, y: ev.clientY - caja2.top, vb: [p.x - w / 2, p.y - w / 2, w, w] })
+        }}
+        onPointerLeave={() => setLente(null)}
         aria-label={tr({ es: 'Vista anatómica', en: 'Anatomical view', ca: 'Vista anatòmica' })}>
         <defs>
           <radialGradient id="rx-fondo" cx="50%" cy="40%" r="70%">
@@ -120,7 +141,9 @@ export default function CuerpoSVG({ capa, onPick, elegido, correcto, revelado })
           </radialGradient>
         </defs>
         <rect width={lam.w} height={lam.h} fill="url(#rx-fondo)" />
-        <image href={lam.img} width={lam.w} height={lam.h} preserveAspectRatio="none" />
+        <image href={lam.img} width={lam.w} height={lam.h} preserveAspectRatio="none"
+          onClick={ev => { if (onPick && !revelado && !ampliado && apuntar) amplia(ev) }}
+          style={{ cursor: apuntar && !ampliado ? 'zoom-in' : undefined }} />
 
         {revelado && (
           <path d={velo} fill="#050b1a" fillOpacity="0.72" fillRule="evenodd" className="pointer-events-none" style={{ transition: 'opacity .2s' }} />
@@ -140,7 +163,7 @@ export default function CuerpoSVG({ capa, onPick, elegido, correcto, revelado })
             data-zona={id} fill="transparent" stroke="transparent" strokeWidth={3 * k}
             role="button" tabIndex={0}
             aria-label={tr({ es: `Zona ${n + 1} de ${orden.length}`, en: `Area ${n + 1} of ${orden.length}`, ca: `Zona ${n + 1} de ${orden.length}` })}
-            className="cursor-pointer outline-none focus-visible:[fill:rgba(56,189,248,0.22)] focus-visible:[stroke:#fff]"
+            className={`${apuntar && !ampliado ? 'cursor-zoom-in' : 'cursor-pointer'} outline-none focus-visible:[fill:rgba(56,189,248,0.22)] focus-visible:[stroke:#fff]`}
             style={{ pointerEvents: 'fill' }}
             onClick={ev => { ev.stopPropagation(); pulsa(id, ev) }}
             onKeyDown={ev => {
@@ -150,6 +173,23 @@ export default function CuerpoSVG({ capa, onPick, elegido, correcto, revelado })
             }} />
         ))}
       </svg>
+      {lente && onPick && !revelado && !ampliado && (
+        <div aria-hidden="true" className="pointer-events-none absolute rounded-full overflow-hidden border-2 border-white/80 shadow-[0_6px_24px_rgba(0,0,0,.6)]"
+          style={{ width: D_LENTE, height: D_LENTE, left: lente.x - D_LENTE / 2, top: lente.y - D_LENTE / 2 }}>
+          <svg viewBox={lente.vb.join(' ')} width={D_LENTE} height={D_LENTE} className="block">
+            <rect width={lam.w} height={lam.h} fill="#071026" />
+            <image href={lam.img} width={lam.w} height={lam.h} preserveAspectRatio="none" />
+          </svg>
+          <span className="absolute left-1/2 top-1/2 w-1.5 h-1.5 -ml-[3px] -mt-[3px] rounded-full bg-white/90 ring-1 ring-black/60" />
+        </div>
+      )}
+      {/* Con ratón (escritorio) se puede acercar a mano; con el dedo la lupa sale sola */}
+      {onPick && !revelado && !ampliado && !TACTIL && (
+        <button type="button" onClick={() => setApuntar(a => !a)} aria-pressed={apuntar}
+          className={`absolute top-2 right-2 rounded-lg text-xs font-bold px-2.5 py-1.5 shadow border ${apuntar ? 'bg-sky-500 text-slate-950 border-sky-300' : 'bg-slate-900/85 text-white border-white/15 hover:bg-slate-800'}`}>
+          {apuntar ? tr({ es: '🔍 Haz clic donde quieras ver', en: '🔍 Click where you want to look', ca: '🔍 Fes clic on vulguis veure' }) : tr({ es: '🔍 Ampliar', en: '🔍 Zoom in', ca: '🔍 Ampliar' })}
+        </button>
+      )}
       {ampliado && (
         <button type="button" onClick={() => setZoom(null)}
           className="absolute top-2 right-2 rounded-lg bg-slate-900/85 text-white text-xs font-bold px-2.5 py-1.5 shadow border border-white/15">

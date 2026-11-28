@@ -207,9 +207,12 @@ export default function RayosX() {
 
   // ── JUGANDO ────────────────────────────────────────────────────────────────
   return (
-    <div className="relative z-10 flex flex-col items-center min-h-[calc(100dvh-4rem)] px-3 sm:px-4 pt-4 pb-6">
+    // En pantallas anchas, dos columnas: la lámina a la izquierda con todo el alto
+    // y, a la derecha, el marcador y la pregunta. En móvil, todo en columna.
+    <div className="relative z-10 flex flex-col items-center lg:flex-row lg:items-start lg:justify-center lg:gap-10 min-h-[calc(100dvh-4rem)] px-3 sm:px-4 pt-4 pb-6">
       <SEOHead title={seo.title} description={seo.desc} path="/juegos/rayos-x" />
 
+      <div className="contents lg:flex lg:flex-col lg:order-2 lg:w-[380px] lg:shrink-0 lg:pt-6">
       <div className="w-full max-w-[460px] flex items-center justify-between mb-2 px-1">
         <div>
           <p className="text-white/40 text-xs uppercase tracking-widest">
@@ -256,11 +259,17 @@ export default function RayosX() {
           </>
         )}
       </div>
+      {!isResult && (
+        <p className="hidden lg:block text-center text-white/35 text-xs mt-2 px-4">
+          {tr({ es: 'La lupa sigue al ratón; «Ampliar» acerca la imagen.', en: 'The magnifier follows your mouse; “Zoom in” enlarges the picture.', ca: 'La lupa segueix el ratolí; «Ampliar» acosta la imatge.' })}
+        </p>
+      )}
+      </div>
 
       {/* El ancho sale del alto libre (el cuerpo es alto y estrecho): así cabe
-          entero sin tener que bajar. */}
-      <div className="w-full rounded-2xl overflow-hidden border border-white/[0.08]"
-        style={{ maxWidth: `min(420px, calc((100dvh - 15.5rem) * ${200 / ALTO[ronda.capa]}))` }}>
+          entero sin tener que bajar. En dos columnas, casi todo el alto es suyo. */}
+      <div className="w-full rounded-2xl overflow-hidden border border-white/[0.08] lg:order-1 max-w-[min(420px,calc((100dvh_-_15.5rem)*var(--rx-prop)))] lg:max-w-[min(640px,calc((100dvh_-_6.5rem)*var(--rx-prop)))]"
+        style={{ '--rx-prop': 200 / ALTO[ronda.capa] }}>
         <CuerpoSVG capa={ronda.capa} onPick={isResult ? null : tocar}
           elegido={elegido} correcto={isResult ? parte.id : null} revelado={isResult} />
       </div>
