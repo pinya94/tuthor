@@ -1,0 +1,42 @@
+{
+  "comentario": "Manifiesto de las ilustraciones de la célula de «Bajo el Microscopio». Lo lee src/lib/__tests__/celulaArte.test.js: todo fichero de esta carpeta (salvo este y CREDITOS.md) debe estar aquí. Generados con scripts/celula-arte.mjs; los originales no se guardan en el repo.",
+  "ficheros": [
+    {
+      "fichero": "animal.svg",
+      "ids": ["membrana", "citoplasma", "nucleo", "nucleolo", "reticulo", "ribosoma", "golgi", "mitocondria", "lisosoma", "centriolo"],
+      "titulo": "Animal cell structure en.svg",
+      "fuente": "https://commons.wikimedia.org/wiki/File:Animal_cell_structure_en.svg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/4/48/Animal_cell_structure_en.svg",
+      "sha1_original": "d1d99274bfa8c87f648520594164e347417544a0",
+      "autor": "LadyofHats (Mariana Ruiz Villarreal)",
+      "licencia": "Dominio público",
+      "licencia_comprobada": "Plantilla {{PD-user|LadyofHats}} en la ficha del fichero; consultada el 2026-11-28",
+      "modificaciones": [
+        "Quitados los rótulos en inglés y sus líneas",
+        "Quitado el flagelo: una célula animal típica de libro no lo lleva",
+        "Quitada la mancha del lisosoma (medio tapada por una mitocondria e irreconocible sin rótulo); dos vesículas esféricas del propio dibujo llevan ahora puntitos de enzimas y pasan a ser lisosomas, y se añade un tercero del mismo estilo junto al Golgi",
+        "Recortado el lienzo a la célula, quitados metadatos de Inkscape e ids sin uso, coordenadas redondeadas a 2 decimales"
+      ],
+      "fecha": "2026-11-28",
+      "validacion": "Zonas generadas por rasterizado de lo visible (partición sin solapes). Comprobado en navegador real: clic en el centro de cada zona registra su id (ver informe de auditoría)."
+    },
+    {
+      "fichero": "vegetal.svg",
+      "ids": ["membrana", "citoplasma", "nucleo", "nucleolo", "reticulo", "ribosoma", "golgi", "mitocondria", "pared", "cloroplasto", "vacuola"],
+      "titulo": "Plant cell structure svg 2.svg",
+      "fuente": "https://commons.wikimedia.org/wiki/File:Plant_cell_structure_svg_2.svg",
+      "original": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Plant_cell_structure_svg_2.svg",
+      "sha1_original": "3e9c8648f7eb0b8e4a125c61e3477860c225b5ca",
+      "autor": "LadyofHats (Mariana Ruiz Villarreal); obra derivada «Layout for biological accuracy» de Dhatfield",
+      "licencia": "Dominio público",
+      "licencia_comprobada": "Plantilla {{PD-self}} en la ficha del fichero (y PD-user del original de LadyofHats); consultada el 2026-11-28",
+      "modificaciones": [
+        "Quitada la capa «Labels» (rótulos en inglés y líneas)",
+        "Quitadas las dos siluetas verde claro de las células vecinas del fondo (al recortar quedaban cortadas)",
+        "Recortado el lienzo a la célula, quitados metadatos de Inkscape e ids sin uso, coordenadas redondeadas a 2 decimales"
+      ],
+      "fecha": "2026-11-28",
+      "validacion": "Zonas generadas por rasterizado de lo visible (partición sin solapes). Comprobado en navegador real: clic en el centro de cada zona registra su id (ver informe de auditoría)."
+    }
+  ]
+}

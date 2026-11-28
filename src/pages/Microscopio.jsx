@@ -7,7 +7,7 @@ import { computeCoins } from '../lib/games'
 import { CELULAS } from '../data/organulos'
 import { genRound, esCorrecta, enunciado } from '../lib/microscopio'
 import { nuevaRonda } from '../lib/preparaciones'
-import CelulaSVG, { OrganuloIcono } from '../components/CelulaSVG'
+import CelulaSVG, { OrganuloIcono, aspectoCelula } from '../components/CelulaSVG'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, ComoSeJuega, NivelBarras } from '../components/IntroJuego'
@@ -46,6 +46,9 @@ const C = {
   otroModo:{ es: 'Cambiar de modo', en: 'Change mode', ca: 'Canviar de mode' },
 }
 const T = (k, l) => C[k]?.[l] ?? C[k]?.es ?? k
+
+// Solo en desarrollo: ?depurar-celula pinta las zonas táctiles encima del dibujo
+const DEPURAR = import.meta.env.DEV && typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('depurar-celula')
 
 // Niveles de la célula dibujada (las preparaciones reales no tienen). Una
 // sola mecánica; cambia la ayuda del enunciado:
@@ -301,8 +304,8 @@ export default function Microscopio() {
       <div className="flex items-center justify-center gap-3 mb-3 px-2">
         {/* Nivel fácil: el dibujo del orgánulo al lado del nombre */}
         {!esPrep && NIVELES[nivel].icono && round.preguntaPor === 'nombre' && (
-          <span className="shrink-0 rounded-xl bg-[#141b2e] border border-white/10 p-1">
-            <OrganuloIcono id={round.organulo.id} className="w-11 h-11" />
+          <span className="shrink-0 rounded-xl bg-[#eef3f8] border border-white/10 p-1">
+            <OrganuloIcono id={round.organulo.id} tipo={round.tipo} className="w-11 h-11" />
           </span>
         )}
         <p className="text-white text-lg sm:text-xl font-bold text-center leading-snug">
@@ -358,11 +361,12 @@ export default function Microscopio() {
           </div>
         </>
       ) : (
-        <div className="w-full rounded-2xl border border-white/[0.08] bg-[#141b2e] p-2 mb-3"
-          style={{ maxWidth: 'min(420px, calc((100dvh - 24rem) / 1.125))' }}>
-          {/* El ancho sale también del alto libre: así la explicación de
-              debajo cabe en la pantalla del móvil sin tener que bajar. */}
-          <CelulaSVG tipo={round.tipo} onPick={isResult ? null : pick}
+        <div className="w-full rounded-2xl border border-white/[0.08] bg-[#141b2e] p-1.5 mb-3"
+          style={{ maxWidth: `min(600px, calc((100dvh - 22rem) * ${aspectoCelula(round.tipo).toFixed(3)}))` }}>
+          {/* El ancho sale también del alto libre (y de la proporción de cada
+              ilustración: la animal es apaisada, la vegetal casi cuadrada):
+              así la explicación de debajo cabe en el móvil sin bajar. */}
+          <CelulaSVG tipo={round.tipo} onPick={isResult ? null : pick} depurar={DEPURAR}
             elegido={elegido} correcto={isResult ? round.organulo.id : null} revelado={isResult} />
         </div>
       )}
