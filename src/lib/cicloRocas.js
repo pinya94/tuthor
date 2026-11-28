@@ -16,13 +16,23 @@
 //
 // Niveles: facil → proceso, tipo; medio → proceso, tipo, origen;
 // dificil → subtipo, origen, ruta.
+//
+// Variedad (nov-2026): en el juego, cada partida saca los tipos de una BOLSA
+// barajada (crearBolsa), nunca más de dos rondas seguidas de la misma
+// mecánica, y genRonda respeta `evitar` (la ronda anterior). Antes el tipo se
+// sorteaba a pelo y el nivel difícil era media partida de rutas.
+//
+// Ciencia: los nombres de proceso incluyen la sedimentación y la litificación;
+// las descripciones evitan absolutos (la pómez suele flotar, el gneis puede
+// venir de varias rocas, el vinagre apenas hace burbujas…) y las rutas solo
+// dicen lo que PUEDE pasar con las condiciones adecuadas.
 
 const T = (es, en, ca) => ({ es, en, ca })
 
 export const PROCESOS = {
   enfriamiento: T('Enfriamiento y solidificación', 'Cooling and solidifying', 'Refredament i solidificació'),
-  erosion:      T('Meteorización, erosión y transporte', 'Weathering, erosion and transport', 'Meteorització, erosió i transport'),
-  litificacion: T('Compactación y cementación', 'Compaction and cementation', 'Compactació i cimentació'),
+  erosion:      T('Meteorización, erosión, transporte y sedimentación', 'Weathering, erosion, transport and deposition', 'Meteorització, erosió, transport i sedimentació'),
+  litificacion: T('Compactación y cementación (litificación)', 'Compaction and cementation (lithification)', 'Compactació i cimentació (litificació)'),
   metamorfismo: T('Presión y temperatura altas, sin fundirse', 'High pressure and temperature, without melting', 'Pressió i temperatura altes, sense fondre’s'),
   fusion:       T('Fusión', 'Melting', 'Fusió'),
 }
@@ -65,21 +75,22 @@ export const NOMBRE_SUBTIPO = {
 const R = (tipo, subtipo, origen, textura, nombre, desc) => ({ tipo, subtipo, origen, textura, nombre, desc })
 export const ROCAS = {
   granito: R('ignea', 'plutonica', null, 'cristales', T('Granito', 'Granite', 'Granit'), T('Cristales grandes y visibles: cuarzo gris, feldespato rosa o blanco y mica negra.', 'Large, visible crystals: grey quartz, pink or white feldspar and black mica.', 'Cristalls grans i visibles: quars gris, feldspat rosa o blanc i mica negra.')),
-  basalto: R('ignea', 'volcanica', null, 'fino', T('Basalto', 'Basalt', 'Basalt'), T('Oscuro y de grano muy fino: sus cristales no se ven a simple vista. Sale de las coladas de lava.', 'Dark and very fine-grained: its crystals cannot be seen with the naked eye. It comes from lava flows.', 'Fosc i de gra molt fi: els seus cristalls no es veuen a simple vista. Surt de les colades de lava.')),
-  pomez: R('ignea', 'volcanica', null, 'poros', T('Piedra pómez', 'Pumice', 'Pedra tosca'), T('Muy ligera y llena de agujeros de burbujas de gas: ¡flota en el agua!', 'Very light and full of gas-bubble holes: it floats on water!', 'Molt lleugera i plena de forats de bombolles de gas: sura a l’aigua!')),
-  obsidiana: R('ignea', 'volcanica', null, 'vidrio', T('Obsidiana', 'Obsidian', 'Obsidiana'), T('Negra y brillante como el vidrio, sin cristales: la lava se enfrió de golpe.', 'Black and glassy, with no crystals: the lava cooled all at once.', 'Negra i brillant com el vidre, sense cristalls: la lava es va refredar de cop.')),
-  caliza: R('sedimentaria', null, null, 'fosiles', T('Caliza', 'Limestone', 'Calcària'), T('Gris clara, a veces con conchas fósiles; hace burbujas si se le echa vinagre.', 'Light grey, sometimes with fossil shells; it fizzes if you pour vinegar on it.', 'Grisa clara, de vegades amb closques fòssils; fa bombolles si s’hi tira vinagre.')),
+  basalto: R('ignea', 'volcanica', null, 'fino', T('Basalto', 'Basalt', 'Basalt'), T('Oscuro y de grano muy fino: sus cristales no se ven a simple vista. Se forma sobre todo en coladas de lava.', 'Dark and very fine-grained: its crystals cannot be seen with the naked eye. It forms mainly in lava flows.', 'Fosc i de gra molt fi: els seus cristalls no es veuen a simple vista. Es forma sobretot en colades de lava.')),
+  pomez: R('ignea', 'volcanica', null, 'poros', T('Piedra pómez', 'Pumice', 'Pedra tosca'), T('Muy ligera y llena de agujeros de burbujas de gas: a menudo flota en el agua, hasta que sus poros se llenan.', 'Very light and full of gas-bubble holes: it often floats on water until its pores fill up.', 'Molt lleugera i plena de forats de bombolles de gas: sovint sura a l’aigua, fins que se li omplen els porus.')),
+  obsidiana: R('ignea', 'volcanica', null, 'vidrio', T('Obsidiana', 'Obsidian', 'Obsidiana'), T('Negra y brillante como el vidrio, sin cristales: la lava se enfrió tan deprisa que no les dio tiempo a formarse.', 'Black and glassy, with no crystals: the lava cooled so fast that they had no time to form.', 'Negra i brillant com el vidre, sense cristalls: la lava es va refredar tan de pressa que no van tenir temps de formar-se.')),
+  caliza: R('sedimentaria', null, null, 'fosiles', T('Caliza', 'Limestone', 'Calcària'), T('Gris clara, a veces con conchas fósiles; con un ácido diluido (en el laboratorio, clorhídrico) hace efervescencia; con vinagre, solo unas burbujas lentas.', 'Light grey, sometimes with fossil shells; it fizzes with a dilute acid (in the lab, hydrochloric); with vinegar, only a few slow bubbles.', 'Grisa clara, de vegades amb closques fòssils; amb un àcid diluït (al laboratori, clorhídric) fa efervescència; amb vinagre, només unes bombolles lentes.')),
   arenisca: R('sedimentaria', 'detritica', null, 'granos', T('Arenisca', 'Sandstone', 'Gres'), T('Granos de arena pegados entre sí; raspa al tocarla.', 'Grains of sand stuck together; it feels rough.', 'Grans de sorra enganxats entre si; rasca en tocar-la.')),
   conglomerado: R('sedimentaria', 'detritica', null, 'cantos', T('Conglomerado', 'Conglomerate', 'Conglomerat'), T('Cantos redondeados de varios tamaños unidos por un cemento natural.', 'Rounded pebbles of various sizes held together by a natural cement.', 'Còdols arrodonits de diverses mides units per un ciment natural.')),
   carbon: R('sedimentaria', 'organica', null, 'carbon', T('Carbón', 'Coal', 'Carbó'), T('Negro y ligero, arde: se formó con restos de plantas enterradas hace millones de años.', 'Black and light, it burns: it formed from plant remains buried millions of years ago.', 'Negre i lleuger, crema: es va formar amb restes de plantes enterrades fa milions d’anys.')),
-  yeso: R('sedimentaria', 'quimica', null, 'blanco', T('Yeso', 'Gypsum', 'Guix'), T('Blanco y tan blando que se raya con la uña; se formó al evaporarse agua salada.', 'White and so soft you can scratch it with a fingernail; it formed as salty water evaporated.', 'Blanc i tan tou que es ratlla amb l’ungla; es va formar en evaporar-se aigua salada.')),
-  marmol: R('metamorfica', null, 'caliza', 'vetas', T('Mármol', 'Marble', 'Marbre'), T('Blanco o de colores, con vetas y cristales que brillan; también burbujea con vinagre.', 'White or coloured, with veins and sparkling crystals; it also fizzes with vinegar.', 'Blanc o de colors, amb vetes i cristalls que brillen; també fa bombolles amb vinagre.')),
-  pizarra: R('metamorfica', null, 'arcilla', 'laminas', T('Pizarra', 'Slate', 'Pissarra'), T('Gris oscura, se separa en láminas planas y finas: se usa en tejados.', 'Dark grey, it splits into thin flat sheets: it is used on roofs.', 'Grisa fosca, se separa en làmines planes i fines: es fa servir a les teulades.')),
-  cuarcita: R('metamorfica', null, 'arenisca', 'azucar', T('Cuarcita', 'Quartzite', 'Quarsita'), T('Muy dura y de aspecto azucarado: sus granos de arena se han soldado.', 'Very hard and sugary-looking: its sand grains have fused together.', 'Molt dura i d’aspecte ensucrat: els seus grans de sorra s’han soldat.')),
-  gneis: R('metamorfica', null, 'granito', 'bandas', T('Gneis', 'Gneiss', 'Gneis'), T('Bandas claras y oscuras alternadas, como un granito aplastado.', 'Alternating light and dark bands, like a squashed granite.', 'Bandes clares i fosques alternades, com un granit aixafat.')),
+  yeso: R('sedimentaria', 'quimica', null, 'blanco', T('Yeso', 'Gypsum', 'Guix'), T('Roca formada casi solo por el mineral yeso: blanca y tan blanda que se raya con la uña. Se formó al evaporarse agua salada.', 'A rock made almost entirely of the mineral gypsum: white and so soft you can scratch it with a fingernail. It formed as salty water evaporated.', 'Roca formada gairebé només pel mineral guix: blanca i tan tova que es ratlla amb l’ungla. Es va formar en evaporar-se aigua salada.')),
+  marmol: R('metamorfica', null, 'caliza', 'vetas', T('Mármol', 'Marble', 'Marbre'), T('Blanco o de colores, con vetas y cristales que brillan; como la caliza, hace efervescencia con un ácido diluido.', 'White or coloured, with veins and sparkling crystals; like limestone, it fizzes with a dilute acid.', 'Blanc o de colors, amb vetes i cristalls que brillen; com la calcària, fa efervescència amb un àcid diluït.')),
+  pizarra: R('metamorfica', null, 'arcilla', 'laminas', T('Pizarra', 'Slate', 'Pissarra'), T('Gris oscura, se separa en láminas planas y finas: se usa en tejados. Viene de rocas de arcilla (lutitas) transformadas.', 'Dark grey, it splits into thin flat sheets: it is used on roofs. It comes from transformed clay rocks (shale).', 'Grisa fosca, se separa en làmines planes i fines: es fa servir a les teulades. Ve de roques d’argila (lutites) transformades.')),
+  cuarcita: R('metamorfica', null, 'arenisca', 'azucar', T('Cuarcita', 'Quartzite', 'Quarsita'), T('Muy dura y de aspecto azucarado: es arenisca de cuarzo recristalizada, con los granos soldados entre sí.', 'Very hard and sugary-looking: it is recrystallised quartz sandstone, with the grains welded together.', 'Molt dura i d’aspecte ensucrat: és gres de quars recristal·litzat, amb els grans soldats entre si.')),
+  gneis: R('metamorfica', null, 'granito', 'bandas', T('Gneis', 'Gneiss', 'Gneis'), T('Bandas claras y oscuras alternadas: roca muy transformada por la presión y la temperatura. Puede venir de un granito, pero también de otras rocas.', 'Alternating light and dark bands: a rock heavily transformed by pressure and temperature. It can come from granite, but also from other rocks.', 'Bandes clares i fosques alternades: roca molt transformada per la pressió i la temperatura. Pot venir d’un granit, però també d’altres roques.')),
 }
 export const ORIGENES = ['caliza', 'arenisca', 'granito', 'arcilla']
-const NOMBRE_ORIGEN = { arcilla: T('Arcilla', 'Clay', 'Argila') }
+// La pizarra viene de rocas de grano muy fino ricas en arcilla (lutitas).
+const NOMBRE_ORIGEN = { arcilla: T('Lutita (arcilla)', 'Shale (clay rock)', 'Lutita (argila)') }
 
 // Rutas entre dos rocas: la buena y tres imposibles.
 const RU = (desde, hasta, buena, malas) => ({ desde, hasta, buena, malas })
@@ -89,14 +100,16 @@ export const RUTAS = [
   RU('arenisca', 'cuarcita', ['metamorfismo'], [['erosion', 'litificacion'], ['fusion', 'enfriamiento'], ['enfriamiento']]),
   RU('caliza', 'marmol', ['metamorfismo'], [['erosion', 'litificacion'], ['fusion', 'enfriamiento'], ['litificacion']]),
   RU('granito', 'gneis', ['metamorfismo'], [['erosion', 'litificacion'], ['fusion', 'enfriamiento'], ['enfriamiento']]),
-  RU('marmol', 'granito', ['fusion', 'enfriamiento'], [['erosion', 'litificacion'], ['metamorfismo'], ['enfriamiento', 'fusion']]),
-  RU('gneis', 'basalto', ['fusion', 'enfriamiento'], [['erosion', 'litificacion'], ['metamorfismo'], ['enfriamiento', 'fusion']]),
+  // Fundir un gneis puede dar un magma granítico (no un basalto, ni fundir
+  // mármol da granito: la composición no cuadra).
+  RU('gneis', 'granito', ['fusion', 'enfriamiento'], [['erosion', 'litificacion'], ['metamorfismo'], ['enfriamiento', 'fusion']]),
+  RU('cuarcita', 'conglomerado', ['erosion', 'litificacion'], [['metamorfismo'], ['fusion', 'enfriamiento'], ['litificacion', 'erosion']]),
 ]
 
 export const NIVELES = {
   facil:   { tipos: ['proceso', 'tipo'] },
   medio:   { tipos: ['proceso', 'tipo', 'origen'] },
-  dificil: { tipos: ['subtipo', 'origen', 'ruta', 'ruta'] },
+  dificil: { tipos: ['subtipo', 'origen', 'ruta'] },
 }
 
 const elige = (rand, xs) => xs[Math.floor(rand() * xs.length)]
@@ -139,6 +152,15 @@ const tx = (o, l) => o[l] ?? o.es
 export const nombreRoca = (id, l) => (ROCAS[id] ? tx(ROCAS[id].nombre, l) : tx(NOMBRE_ORIGEN[id], l))
 export const nombreNodo = (id, l) => tx(NODOS[id], l)
 export const nombreProceso = (id, l) => tx(PROCESOS[id], l)
+// Nombre corto para escribirlo SOBRE el diagrama (el largo no cabe en móvil).
+const PROCESO_CORTO = {
+  enfriamiento: T('Enfriamiento', 'Cooling', 'Refredament'),
+  erosion: T('Erosión', 'Erosion', 'Erosió'),
+  litificacion: T('Litificación', 'Lithification', 'Litificació'),
+  metamorfismo: T('Metamorfismo', 'Metamorphism', 'Metamorfisme'),
+  fusion: T('Fusión', 'Melting', 'Fusió'),
+}
+export const nombreProcesoCorto = (id, l) => tx(PROCESO_CORTO[id], l)
 const NOMBRE_TIPO = { ignea: T('Ígnea', 'Igneous', 'Ígnia'), sedimentaria: T('Sedimentaria', 'Sedimentary', 'Sedimentària'), metamorfica: T('Metamórfica', 'Metamorphic', 'Metamòrfica') }
 
 export function textoOpcion(o, ronda, l) {
@@ -176,11 +198,11 @@ const POR_QUE_TIPO = {
 }
 
 const POR_QUE_PROCESO = {
-  enfriamiento: T('El magma o la lava se enfrían y se solidifican: se forma una roca ígnea.', 'Magma or lava cools and solidifies: an igneous rock forms.', 'El magma o la lava es refreden i se solidifiquen: es forma una roca ígnia.'),
-  erosion: T('El agua, el viento y el hielo rompen la roca en trozos y se los llevan: son los sedimentos.', 'Water, wind and ice break the rock into pieces and carry them away: these are the sediments.', 'L’aigua, el vent i el gel trenquen la roca en trossos i se’ls emporten: són els sediments.'),
-  litificacion: T('Las capas de sedimentos se aprietan con el peso de las de encima y se pegan entre sí: se forma una roca sedimentaria.', 'Layers of sediment are squeezed by the weight of those above and stick together: a sedimentary rock forms.', 'Les capes de sediments s’estrenyen amb el pes de les de sobre i s’enganxen entre si: es forma una roca sedimentària.'),
-  metamorfismo: T('Enterrada a gran profundidad, la roca se transforma por la presión y el calor, sin llegar a fundirse.', 'Buried deep down, the rock is transformed by pressure and heat, without melting.', 'Enterrada a gran profunditat, la roca es transforma per la pressió i la calor, sense arribar a fondre’s.'),
-  fusion: T('Si la temperatura sube muchísimo, la roca se funde y vuelve a ser magma.', 'If the temperature rises a great deal, the rock melts and becomes magma again.', 'Si la temperatura puja moltíssim, la roca es fon i torna a ser magma.'),
+  enfriamiento: T('El magma o la lava se enfrían y se solidifican: se forma una roca ígnea (despacio bajo tierra, cristales grandes; deprisa en la superficie, grano fino o vidrio).', 'Magma or lava cools and solidifies: an igneous rock forms (slowly underground, large crystals; quickly at the surface, fine grain or glass).', 'El magma o la lava es refreden i se solidifiquen: es forma una roca ígnia (a poc a poc sota terra, cristalls grans; de pressa a la superfície, gra fi o vidre).'),
+  erosion: T('La meteorización rompe y altera la roca; la erosión arranca los trozos, el agua, el viento o el hielo los transportan y al final se depositan (sedimentación): son los sedimentos.', 'Weathering breaks down and alters the rock; erosion removes the pieces, water, wind or ice transport them and finally they are deposited: these are the sediments.', 'La meteorització trenca i altera la roca; l’erosió n’arrenca els trossos, l’aigua, el vent o el gel els transporten i al final es dipositen (sedimentació): són els sediments.'),
+  litificacion: T('Las capas de sedimentos depositadas se compactan con el peso de las de encima y un cemento natural une los granos (litificación): se forma una roca sedimentaria.', 'Deposited layers of sediment are compacted by the weight of those above and a natural cement binds the grains (lithification): a sedimentary rock forms.', 'Les capes de sediments dipositades es compacten amb el pes de les de sobre i un ciment natural uneix els grans (litificació): es forma una roca sedimentària.'),
+  metamorfismo: T('Enterrada a gran profundidad o junto a un magma, la roca cambia en estado sólido por la presión y la temperatura, sin llegar a fundirse.', 'Buried deep down or next to a magma, the rock changes in the solid state through pressure and temperature, without melting.', 'Enterrada a gran profunditat o al costat d’un magma, la roca canvia en estat sòlid per la pressió i la temperatura, sense arribar a fondre’s.'),
+  fusion: T('Si la temperatura sube lo bastante en el interior de la Tierra, la roca se funde (a menudo solo en parte) y forma magma.', 'If the temperature rises enough deep in the Earth, the rock melts (often only partly) and forms magma.', 'Si la temperatura puja prou a l’interior de la Terra, la roca es fon (sovint només en part) i forma magma.'),
 }
 
 function explicacionVieja(ronda, l) {
@@ -197,10 +219,10 @@ function explicacionVieja(ronda, l) {
     default: {
       const ru = RUTAS[r.ruta]
       return ru.buena.map((p, i) => `${i + 1}. ${nombreProceso(p, l)}`).join(' · ') + '. ' + tx(ru.buena.length === 1
-        ? T('Sin fundirse ni deshacerse: solo cambia por la presión y la temperatura.', 'Without melting or breaking down: it only changes through pressure and temperature.', 'Sense fondre’s ni desfer-se: només canvia per la pressió i la temperatura.')
+        ? T('Sin fundirse ni deshacerse: con la presión y la temperatura adecuadas, cambia en estado sólido.', 'Without melting or breaking down: with the right pressure and temperature, it changes in the solid state.', 'Sense fondre’s ni desfer-se: amb la pressió i la temperatura adequades, canvia en estat sòlid.')
         : ru.buena[0] === 'erosion'
           ? T('Primero hay que romperla en sedimentos; luego esos sedimentos se compactan y cementan.', 'First it has to be broken into sediments; then those sediments are compacted and cemented.', 'Primer cal trencar-la en sediments; després aquests sediments es compacten i es cimenten.')
-          : T('Primero se funde y se hace magma; luego el magma se enfría y forma una roca ígnea.', 'First it melts into magma; then the magma cools and forms an igneous rock.', 'Primer es fon i es fa magma; després el magma es refreda i forma una roca ígnia.'), l)
+          : T('Primero se funde (al menos en parte) y se hace magma; luego el magma se enfría y forma una roca ígnea: cuál, depende de la composición del magma y de dónde se enfríe.', 'First it melts (at least partly) into magma; then the magma cools and forms an igneous rock: which one depends on the magma’s composition and where it cools.', 'Primer es fon (almenys en part) i es fa magma; després el magma es refreda i forma una roca ígnia: quina, depèn de la composició del magma i d’on es refredi.'), l)
     }
   }
 }
@@ -224,11 +246,53 @@ function schemaVieja(ronda, l) {
 export const MECANICA_DE_TIPO = { proceso: 'etiqueta', tipo: 'clasifica', subtipo: 'clasifica', origen: 'empareja', ruta: 'traza' }
 export const METAMORFICAS = Object.keys(ROCAS).filter(id => ROCAS[id].origen)
 
-const recientes = []
-export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
+// Bolsa de mecánicas de UNA partida: los tipos del nivel barajados; se saca
+// el primero que no repita por tercera vez seguida la misma mecánica y, al
+// vaciarse, se rellena. Se crea al empezar cada partida (no se arrastra).
+export const MAX_SEGUIDAS = 2
+export function crearBolsa(nivel, { rand = Math.random } = {}) {
   const cfg = NIVELES[nivel] ?? NIVELES.facil
+  return { nivel, tipos: cfg.tipos, rand, saco: [], historial: [] }
+}
+export function sacarTipo(bolsa) {
+  const mec = t => MECANICA_DE_TIPO[t]
+  const ult = bolsa.historial.slice(-MAX_SEGUIDAS).map(mec)
+  const bloqueada = ult.length === MAX_SEGUIDAS && ult.every(m => m === ult[0]) ? ult[0] : null
+  if (!bolsa.saco.length) bolsa.saco = barajaFY(bolsa.rand, bolsa.tipos)
+  let i = bolsa.saco.findIndex(t => mec(t) !== bloqueada)
+  // Lo que queda es todo de la mecánica bloqueada: se añade otra bolsa (con
+  // tope de intentos; un nivel de una sola mecánica no tendría salida).
+  for (let k = 0; i < 0 && k < 5; k++) {
+    bolsa.saco.push(...barajaFY(bolsa.rand, bolsa.tipos))
+    i = bolsa.saco.findIndex(t => mec(t) !== bloqueada)
+  }
+  if (i < 0) i = 0
+  const [t] = bolsa.saco.splice(i, 1)
+  bolsa.historial.push(t)
+  return t
+}
+const barajaFY = (rand, xs) => {
+  const a = [...xs]
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] }
+  return a
+}
+
+// Piezas que se colocan en la ronda (el bonus de tiempo es por pieza).
+export function accionesDe(r) {
+  if (r.mecanica === 'etiqueta') return r.flechas.length
+  if (r.mecanica === 'clasifica' || r.mecanica === 'empareja') return r.items.length
+  if (r.mecanica === 'traza') return RUTAS[r.ruta].buena.length
+  return 1
+}
+
+// opts: rand; evitar = la clave de la ronda anterior (no se repite);
+// bolsa = la de la partida (crearBolsa): si no hay, el tipo se sortea.
+const recientes = []
+export function genRonda(nivel = 'facil', { rand = Math.random, evitar = null, bolsa = null } = {}) {
+  const cfg = NIVELES[nivel] ?? NIVELES.facil
+  const fijo = bolsa ? sacarTipo(bolsa) : null
   for (let intento = 0; ; intento++) {
-    const tipo = elige(rand, cfg.tipos)
+    const tipo = fijo ?? elige(rand, cfg.tipos)
     const r = genVieja(nivel, tipo, rand)
     const out = { ...r, mecanica: MECANICA_DE_TIPO[tipo] }
     if (tipo === 'proceso') {
@@ -257,8 +321,9 @@ export function genRonda(nivel = 'facil', { rand = Math.random } = {}) {
       out.items = baraja(rand, METAMORFICAS)
       out.origenes = baraja(rand, ORIGENES)
     }
-    const tema = `${tipo}${(out.items ?? out.flechas ?? [r.clave]).join()}`
-    if (intento < 20 && recientes.includes(tema)) continue
+    const tema = `${tipo}:${(out.items ?? out.flechas ?? [r.clave]).join()}`
+    out.clave = tema
+    if (intento < 30 && (tema === evitar || (intento < 20 && recientes.includes(tema)))) continue
     recientes.push(tema)
     if (recientes.length > 5) recientes.shift()
     return out
@@ -296,13 +361,48 @@ export function enunciado(r, l) {
 }
 
 export function explicacion(r, l) {
-  if (r.mecanica === 'etiqueta') return r.flechas.map((i, k) => `${k + 1}. ${nombreNodo(FLECHAS[i][0], l)} → ${nombreNodo(FLECHAS[i][1], l).toLowerCase()}: ${nombreProceso(FLECHAS[i][2], l).toLowerCase()}`).join('. ') + '.'
+  if (r.mecanica === 'etiqueta') return [...new Set(r.flechas.map(i => FLECHAS[i][2]))].map(p => tx(POR_QUE_PROCESO[p], l)).join(' ')
   if (r.mecanica === 'clasifica') {
-    const nombre = id => (r.tipo === 'subtipo' ? tx(NOMBRE_SUBTIPO[ROCAS[id].subtipo], l).split(':')[0] : tx(NOMBRE_TIPO[ROCAS[id].tipo], l))
-    return r.items.map(id => `${nombreRoca(id, l)} → ${nombre(id).toLowerCase()}`).join(' · ') + '.'
+    if (r.tipo === 'subtipo') return [...new Set(r.items.map(id => ROCAS[id].subtipo))].map(st => tx(NOMBRE_SUBTIPO[st], l)).join('. ') + '.'
+    return [...new Set(r.items.map(id => ROCAS[id].tipo))].map(t => tx(POR_QUE_TIPO[t], l)).join(' ')
   }
-  if (r.mecanica === 'empareja') return r.items.map(id => `${nombreRoca(id, l)} ← ${nombreRoca(ROCAS[id].origen, l).toLowerCase()}`).join(' · ') + '. ' + tx(T('La roca de origen se transforma por la presión y la temperatura, sin llegar a fundirse.', 'The parent rock is transformed by pressure and temperature, without melting.', 'La roca d’origen es transforma per la pressió i la temperatura, sense arribar a fondre’s.'), l)
+  if (r.mecanica === 'empareja') return r.items.map(id => `${nombreRoca(id, l)} ← ${nombreRoca(ROCAS[id].origen, l).toLowerCase()}`).join(' · ') + '. ' + tx(T('La roca de origen se transforma por la presión y la temperatura, sin llegar a fundirse. El gneis también puede venir de otras rocas, no solo del granito.', 'The parent rock is transformed by pressure and temperature, without melting. Gneiss can also come from other rocks, not just granite.', 'La roca d’origen es transforma per la pressió i la temperatura, sense arribar a fondre’s. El gneis també pot venir d’altres roques, no només del granit.'), l)
   return explicacionVieja(r, l)
+}
+
+// Corrección concreta, una línea por pieza (lo que puso el alumno y lo bueno).
+// puestas: etiqueta {k: proceso}, clasifica {roca: caja}, empareja {roca:
+// origen}; traza: la ruta elegida «p1>p2».
+export function correccion(r, puestas = {}, l = 'es') {
+  const t = (es, en, ca) => tx(T(es, en, ca), l)
+  if (r.mecanica === 'etiqueta') return r.flechas.map((i, k) => {
+    const [a, b, p] = FLECHAS[i]
+    const q = puestas[k]
+    const cab = `${k + 1}. ${nombreNodo(a, l)} → ${nombreNodo(b, l).toLowerCase()}`
+    const P = nombreProceso(p, l).toLowerCase(), Q = q ? nombreProceso(q, l).toLowerCase() : '—'
+    return { ok: q === p, texto: q === p ? `${cab}: ${P}` : t(`${cab}: pusiste «${Q}»; es «${P}»`, `${cab}: you put «${Q}»; it is «${P}»`, `${cab}: hi vas posar «${Q}»; és «${P}»`) }
+  })
+  if (r.mecanica === 'clasifica') {
+    const caja = c => (r.tipo === 'subtipo' ? tx(NOMBRE_SUBTIPO[c], l).split(':')[0] : tx(NOMBRE_TIPO[c], l)).toLowerCase()
+    return r.items.map(id => {
+      const b = cajaDe(r, id), q = puestas[id], n = nombreRoca(id, l)
+      return { ok: q === b, texto: q === b ? `${n}: ${caja(b)}` : t(`${n}: no es ${q ? caja(q) : '—'}, sino ${caja(b)}`, `${n}: not ${q ? caja(q) : '—'} but ${caja(b)}`, `${n}: no és ${q ? caja(q) : '—'}, sinó ${caja(b)}`) }
+    })
+  }
+  if (r.mecanica === 'empareja') return r.items.map(id => {
+    const b = ROCAS[id].origen, q = puestas[id], n = nombreRoca(id, l)
+    const B = nombreRoca(b, l).toLowerCase(), Q = q ? nombreRoca(q, l).toLowerCase() : '—'
+    return { ok: q === b, texto: q === b ? `${n} ← ${B}` : t(`${n}: no viene de ${Q}, sino de ${B}`, `${n}: it did not form from ${Q} but from ${B}`, `${n}: no ve de ${Q}, sinó de ${B}`) }
+  })
+  if (r.mecanica === 'traza') {
+    const camino = x => String(x).split('>').map(p => nombreProceso(p, l).toLowerCase()).join(' → ')
+    const ok = esCorrecta(r, puestas)
+    return ok ? [{ ok, texto: camino(r.bueno) }] : [
+      { ok: false, texto: t(`Tu camino: ${camino(puestas)}`, `Your path: ${camino(puestas)}`, `El teu camí: ${camino(puestas)}`) },
+      { ok: true, texto: t(`Camino más corto: ${camino(r.bueno)}`, `Shortest path: ${camino(r.bueno)}`, `Camí més curt: ${camino(r.bueno)}`) },
+    ]
+  }
+  return []
 }
 
 export function schemaQuestion(r, l) {

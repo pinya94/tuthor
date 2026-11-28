@@ -4,23 +4,42 @@
 //              instrumento y luego su zona; los ya sentados se ven en su arco
 //   empareja   tocar un dibujo y luego su nombre
 //   clasifica  tocar un dibujo y luego su caja
+// Al corregir: una línea por instrumento con ✓/✗ (lo que pusiste y lo bueno)
+// y la explicación en un «¿Por qué?» desplegable, no un párrafo obligatorio.
+// onResponder(respuesta, colocadas): el examen usa solo la respuesta.
 import { useState } from 'react'
 import { useLang } from '../../context/LangContext'
 import Instrumento, { InstrumentoEn } from './Instrumento'
-import { FAMILIAS, instrumento, enunciado, explicacion, tx, cajaDe, textoCaja } from '../../lib/laOrquesta'
+import { FAMILIAS, instrumento, enunciado, tx, cajaDe, textoCaja, correccion, porQue } from '../../lib/laOrquesta'
+import { LineasCorreccion } from '../RitmoPartida'
 
 const COLORES = ['bg-sky-500', 'bg-fuchsia-500', 'bg-amber-500', 'bg-emerald-500']
 const ZONAS = [['cuerda', 30], ['madera', 48], ['metal', 66], ['percusion', 84]] // familia y radio del arco
+
+// La corrección de la ronda: líneas ✓/✗ y el «¿Por qué?» de los fallados.
+function Correccion({ r, colocadas, l }) {
+  const lineas = correccion(r, colocadas, l)
+  const fallados = lineas.filter(x => !x.ok).map(x => x.id)
+  return <LineasCorreccion lineas={lineas} porQue={porQue(r, l, fallados.length ? fallados : null)} />
+}
 
 // Con su nombre debajo: lo que se juega es dónde se sienta o de qué familia
 // es, no adivinar el instrumento por un dibujo pequeño.
 function Ficha({ id, activo, onClick, l }) {
   return (
-    <button type="button" onClick={onClick} className={`rounded-xl p-1 pb-1.5 transition-all w-[5.2rem] ${activo ? 'bg-white/20 ring-2 ring-amber-300' : 'bg-white/5'}`}>
+    <button type="button" aria-pressed={!!activo} onClick={onClick} className={`rounded-xl p-1 pb-1.5 transition-all w-[5.2rem] ${activo ? 'bg-white/20 ring-2 ring-amber-300' : 'bg-white/5'}`}>
       <Instrumento id={id} className="w-full h-auto block" />
       <span className="block text-[10.5px] font-bold text-white/85 leading-tight">{tx(instrumento(id).nombre, l)}</span>
     </button>
   )
+}
+
+// Sin el nombre de la zona (medio y difícil), el lector de pantalla dice la fila.
+const FILA = {
+  cuerda: { es: 'Fila 1, junto al director', en: 'Row 1, next to the conductor', ca: 'Fila 1, al costat del director' },
+  madera: { es: 'Fila 2', en: 'Row 2', ca: 'Fila 2' },
+  metal: { es: 'Fila 3', en: 'Row 3', ca: 'Fila 3' },
+  percusion: { es: 'Fila 4, al fondo', en: 'Row 4, at the back', ca: 'Fila 4, al fons' },
 }
 
 function Sienta({ r, revelado, onResponder, tr, l }) {
@@ -32,18 +51,21 @@ function Sienta({ r, revelado, onResponder, tr, l }) {
     setPuestas(n)
     const sig = r.inst.find(i => !n[i])
     setActivo(sig ?? null)
-    if (!sig) onResponder(`sienta:${r.inst.filter(i => n[i] !== instrumento(i).familia).length}`)
+    if (!sig) onResponder(`sienta:${r.inst.filter(i => n[i] !== instrumento(i).familia).length}`, n)
   }
   return (
     <>
       <p className="text-white font-bold text-center mb-2 leading-snug">{enunciado(r, l)}</p>
-      <div className="flex justify-center gap-1.5 mb-2 min-h-[5.6rem]">
+      <div className={`flex justify-center gap-1.5 mb-2 ${revelado ? '' : 'min-h-[5.6rem]'}`}>
         {r.inst.filter(i => !puestas[i]).map(i => <Ficha key={i} id={i} l={l} activo={activo === i} onClick={() => setActivo(i)} />)}
       </div>
       <div className="rounded-2xl bg-[#0b1226] border border-white/[0.08] p-2">
         <svg viewBox="0 0 200 106" className="w-full max-w-[360px] mx-auto block">
           {[...ZONAS].reverse().map(([fam, rad]) => (
-            <g key={fam} onClick={() => sienta(fam)} className={revelado || !activo ? '' : 'cursor-pointer'}>
+            <g key={fam} data-zona={fam} onClick={() => sienta(fam)} className={revelado || !activo ? '' : 'cursor-pointer focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-300'}
+              role="button" tabIndex={revelado || !activo ? -1 : 0} aria-disabled={revelado || !activo}
+              aria-label={r.nivel === 'facil' || revelado ? tx(FAMILIAS[fam], l) : tr(FILA[fam])}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); sienta(fam) } }}>
               <path d={`M${100 - rad - 14} 96 A${rad + 14} ${rad + 14} 0 0 1 ${100 + rad + 14} 96 L${100 + rad - 4} 96 A${rad - 4} ${rad - 4} 0 0 0 ${100 - rad + 4} 96 Z`}
                 fill="#1E293B" stroke="#475569" strokeWidth="1" className={revelado || !activo ? '' : 'hover:fill-slate-700'} />
               {(r.nivel === 'facil' || revelado) && <text x="100" y={96 - rad - 1} textAnchor="middle" fontSize="6" fontWeight="800" fill={revelado ? '#86EFAC' : '#94A3B8'} className="pointer-events-none">{tx(FAMILIAS[fam], l)}</text>}
@@ -67,8 +89,9 @@ function Sienta({ r, revelado, onResponder, tr, l }) {
             })
           })}
         </svg>
-        {!revelado && <p className="text-center text-xs text-white/50">{tr({ es: 'Toca un instrumento y luego su zona', en: 'Tap an instrument and then its section', ca: 'Toca un instrument i després la seva zona' })}</p>}
+        {!revelado && <p className="text-center text-xs text-white/50">{tr({ es: 'Toca un instrumento y luego su zona (o Tab y Enter)', en: 'Tap an instrument and then its section (or Tab and Enter)', ca: 'Toca un instrument i després la seva zona (o Tab i Enter)' })}</p>}
       </div>
+      {revelado && <Correccion r={r} colocadas={puestas} l={l} />}
     </>
   )
 }
@@ -83,7 +106,7 @@ function Empareja({ r, revelado, onResponder, l }) {
     setUnion(n)
     const sig = r.inst.find(i => !n[i])
     setActivo(sig ?? null)
-    if (!sig) onResponder(`empareja:${r.inst.filter(i => n[i] !== i).length}`)
+    if (!sig) onResponder(`empareja:${r.inst.filter(i => n[i] !== i).length}`, n)
   }
   const colorDe = id => { const k = r.inst.findIndex(i => union[i] === id); return k >= 0 ? COLORES[k] : 'bg-white/15' }
   return (
@@ -105,6 +128,7 @@ function Empareja({ r, revelado, onResponder, l }) {
           </button>
         ))}
       </div>
+      {revelado && <Correccion r={r} colocadas={union} l={l} />}
     </>
   )
 }
@@ -118,12 +142,12 @@ function Clasifica({ r, revelado, onResponder, l }) {
     setPuestas(n)
     const sig = r.inst.find(i => !n[i])
     setActivo(sig ?? null)
-    if (!sig) onResponder(`clasifica:${r.inst.filter(i => n[i] !== cajaDe(r, i)).length}`)
+    if (!sig) onResponder(`clasifica:${r.inst.filter(i => n[i] !== cajaDe(r, i)).length}`, n)
   }
   return (
     <>
       <p className="text-white font-bold text-center mb-2 leading-snug">{enunciado(r, l)}</p>
-      <div className="flex justify-center gap-1.5 mb-3 min-h-[5.6rem]">
+      <div className={`flex justify-center gap-1.5 mb-3 ${revelado ? '' : 'min-h-[5.6rem]'}`}>
         {r.inst.filter(i => !puestas[i]).map(i => <Ficha key={i} id={i} l={l} activo={activo === i} onClick={() => setActivo(i)} />)}
       </div>
       <div className="grid grid-cols-2 gap-2">
@@ -138,6 +162,7 @@ function Clasifica({ r, revelado, onResponder, l }) {
           </button>
         ))}
       </div>
+      {revelado && <Correccion r={r} colocadas={puestas} l={l} />}
     </>
   )
 }
@@ -149,7 +174,6 @@ export default function PreguntaOrquesta({ ronda, revelado, onResponder }) {
   return (
     <div className="w-full">
       {ronda.tipo === 'sienta' ? <Sienta {...props} /> : ronda.tipo === 'empareja' ? <Empareja {...props} /> : <Clasifica {...props} />}
-      {revelado && <p className="mt-3 text-white/75 text-sm rounded-xl px-3 py-2.5 bg-white/5 border border-white/10">💡 {explicacion(ronda, l)}</p>}
     </div>
   )
 }

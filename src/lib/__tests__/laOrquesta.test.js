@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { genRonda, NIVELES, INSTRUMENTOS, FAMILIAS, SUBFAMILIAS, SONIDOS, HS, SIN_SITIO, instrumento, esCorrecta, cajaDe, textoCaja, enunciado, explicacion, schemaQuestion } from '../laOrquesta'
+import { genRonda, NIVELES, INSTRUMENTOS, FAMILIAS, SUBFAMILIAS, SONIDOS, HS, SIN_SITIO, instrumento, esCorrecta, cajaDe, textoCaja, enunciado, explicacion, schemaQuestion, correccion, porQue, bienDe, REGLA_PLANO } from '../laOrquesta'
 
 function semilla(s) {
   return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648 }
@@ -55,4 +55,39 @@ describe('La Orquesta', () => {
       expect(SUBFAMILIAS && SONIDOS && HS && INSTRUMENTOS.length).toBeTruthy()
     })
   }
+})
+
+describe('La Orquesta · corrección concreta', () => {
+  it('una línea por instrumento: lo que pusiste y lo bueno, no un texto genérico', () => {
+    const rand = semilla(99)
+    for (let i = 0; i < 300; i++) {
+      const r = genRonda(['facil', 'medio', 'dificil'][i % 3], { rand })
+      const bien = Object.fromEntries(r.inst.map(id => [id, bienDe(r, id)]))
+      for (const l of ['es', 'en', 'ca']) {
+        const c = correccion(r, bien, l)
+        expect(c).toHaveLength(r.inst.length)
+        expect(c.every(x => x.ok)).toBe(true)
+        for (const x of c) expect(x.texto).not.toMatch(/undefined|null/)
+        expect(porQue(r, l)).not.toMatch(/undefined/)
+      }
+      // Un instrumento mal puesto: solo su línea sale ✗ y nombra lo elegido y lo bueno.
+      const id = r.inst[0]
+      const opciones = r.tipo === 'sienta' ? Object.keys(FAMILIAS) : r.tipo === 'empareja' ? r.inst : r.cajas
+      const malo = opciones.find(o => o !== bien[id])
+      const c = correccion(r, { ...bien, [id]: malo }, 'es')
+      expect(c[0].ok).toBe(false)
+      expect(c.slice(1).every(x => x.ok)).toBe(true)
+      if (r.tipo === 'sienta') expect(c[0].texto).toMatch(/no es de .+, sino de /)
+      if (r.tipo === 'clasifica') expect(c[0].texto).toMatch(/no es «.+», sino «.+»/)
+      if (r.tipo === 'empareja') expect(c[0].texto).toMatch(/uniste su dibujo con «/)
+      // El «por qué» de una ronda con un fallo habla del fallado (si tiene trampa)
+      const pq = porQue(r, 'es', [id])
+      if (instrumento(id).nota) expect(pq).toContain(instrumento(id).nota.es)
+    }
+  })
+  it('sin absolutos: el fagot no es «el más grave» y el plano dice «normalmente»', () => {
+    expect(instrumento('fagot').nota.es).not.toMatch(/el más grave/)
+    expect(instrumento('fagot').nota.es).toMatch(/contrafagot/)
+    for (const l of ['es', 'en', 'ca']) expect(REGLA_PLANO[l]).toMatch(/Normalmente|Usually|Normalment/)
+  })
 })

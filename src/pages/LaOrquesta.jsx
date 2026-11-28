@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useLang } from '../context/LangContext'
 import { useAuth } from '../context/AuthContext'
@@ -9,14 +9,19 @@ import PreguntaOrquesta from '../components/laOrquesta/PreguntaOrquesta'
 import GameEndScreen from '../components/GameEndScreen'
 import SEOHead from '../components/SEOHead'
 import { CabeceraJuego, NivelBarras, ComoSeJuega } from '../components/IntroJuego'
-import { Racha } from '../components/Iconos'
+import { HudPartida, PanelRespuesta } from '../components/RitmoPartida'
+import { useRitmoPartida } from '../lib/useRitmoPartida'
+import { PERFILES } from '../lib/ritmoPartida'
 import { useArranqueDirecto } from '../lib/arranqueDirecto'
 
-// Cada ronda se coloca (sentar, unir, clasificar): 90 s y +6 s por acierto.
-const GAME_TIME = 90
-const WRONG_TIME = 5
-const CORRECT_TIME = 6
-const REVEAL_MS = 4500 // da tiempo a leer cómo suena el instrumento
+// Ritmo (nov-2026, ver lib/ritmoPartida): perfil «construcción», porque cada
+// ronda son varias piezas. 60 s de juego, +1 s por pieza de una ronda acertada
+// (con tope de +30 s en toda la partida: se acaba siempre), −5 s por fallo. Al
+// acertar, confirmación breve (1,1 s); al fallar, corrección concreta con el
+// reloj parado y «Seguir». Antes: 90 s, +6 s por acierto y 4,5 s de espera
+// obligatoria tras cada respuesta (una partida «de 90 s» duraba ~4 min).
+const PERFIL = 'construccion'
+const P = PERFILES[PERFIL]
 
 const DIFS = {
   facil:   { emoji: '💚', label: { es: 'Fácil', en: 'Easy', ca: 'Fàcil' },
@@ -40,70 +45,56 @@ export default function LaOrquesta() {
 
   const [screen, setScreen] = useState('intro')
   const [nivel, setNivel] = useState('facil')
-  const [timeLeft, setTimeLeft] = useState(GAME_TIME)
   const [aciertos, setAciertos] = useState(0)
   const [streak, setStreak] = useState(0)
   const [ronda, setRonda] = useState(null)
   const [elegida, setElegida] = useState(null)
-  const [phase, setPhase] = useState('choose')
+  const [jugado, setJugado] = useState(0)
 
-  const timerRef = useRef(null)
-  const nextRef = useRef(null)
+  const nivelRef = useRef('facil')
   const aciertosRef = useRef(0)
-  useEffect(() => { aciertosRef.current = aciertos }, [aciertos])
 
   const next = useCallback(niv => {
     setRonda(genRonda(niv))
     setElegida(null)
-    setPhase('choose')
   }, [])
 
+  const ritmo = useRitmoPartida(PERFIL, {
+    onSiguiente: () => next(nivelRef.current),
+    onFin: ({ jugadoSeg }) => {
+      setJugado(jugadoSeg)
+      setScreen('end')
+      const pts = aciertosRef.current * 10
+      if (user) {
+        saveActivity(user.uid, {
+          type: 'juego', game: 'la-orquesta', category: 'instrumentos',
+          score: pts, timeSpent: jugadoSeg, // tiempo REAL de juego, sin las pausas de lectura
+          coinsEarned: computeCoins('la-orquesta', { score: pts }),
+          userName: user.displayName, userPhoto: user.photoURL,
+        }).catch(() => {})
+      }
+    },
+  })
+  const { empezar } = ritmo
+
+  // Empezar o reempezar (también al cambiar de nivel en plena partida): todo a
+  // cero, para que nunca se mezclen puntos de dos niveles en una partida.
   const startGame = useCallback((niv = 'facil') => {
-    setNivel(niv); setScreen('playing')
-    setAciertos(0); setStreak(0)
-    setTimeLeft(GAME_TIME)
+    setNivel(niv); nivelRef.current = niv
+    setScreen('playing')
+    aciertosRef.current = 0
+    setAciertos(0); setStreak(0); setJugado(0)
+
+    empezar()
     next(niv)
-  }, [next])
-
-  function finish() {
-    clearTimeout(nextRef.current)
-    setScreen('end')
-    const pts = aciertosRef.current * 10
-    if (user) {
-      saveActivity(user.uid, {
-        type: 'juego', game: 'la-orquesta', category: 'instrumentos',
-        score: pts, timeSpent: GAME_TIME,
-        coinsEarned: computeCoins('la-orquesta', { score: pts }),
-        userName: user.displayName, userPhoto: user.photoURL,
-      }).catch(() => {})
-    }
-  }
-
-  useEffect(() => {
-    if (screen !== 'playing' || phase === 'result') return
-    timerRef.current = setInterval(() => {
-      setTimeLeft(t => {
-        if (t <= 1) { clearInterval(timerRef.current); finish(); return 0 }
-        return t - 1
-      })
-    }, 1000)
-    return () => clearInterval(timerRef.current)
-  }, [screen, phase]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => () => clearTimeout(nextRef.current), [])
+  }, [next, empezar])
 
   function responder(r) {
-    if (phase !== 'choose') return
-    setElegida(r); setPhase('result')
-    if (esCorrecta(ronda, r)) {
-      setAciertos(a => a + 1)
-      setStreak(s => s + 1)
-      setTimeLeft(t => t + CORRECT_TIME)
-    } else {
-      setStreak(0)
-      setTimeLeft(t => Math.max(0, t - WRONG_TIME))
-    }
-    nextRef.current = setTimeout(() => next(nivel), REVEAL_MS)
+    if (ritmo.fase !== 'jugando' || !ronda) return
+    setElegida(r)
+    const bien = esCorrecta(ronda, r)
+    if (bien) { aciertosRef.current += 1; setAciertos(aciertosRef.current); setStreak(x => x + 1) } else setStreak(0)
+    ritmo.responder(bien, ronda.inst.length)
   }
 
   const seo = {
@@ -147,9 +138,9 @@ export default function LaOrquesta() {
           </button>
           <ComoSeJuega>
             <div className="space-y-2 text-white/70 text-sm">
-              <p>{tr({ es: 'Sienta a la orquesta: toca un instrumento dibujado y luego su zona del plano. La cuerda va junto al director, después el viento madera, el viento metal y, al fondo, la percusión. La familia no la decide el material: la flauta y el saxofón son de metal pero de viento madera, y el piano es de cuerda.', en: 'Seat the orchestra: tap a drawn instrument and then its section of the plan. Strings beside the conductor, then woodwind, brass and percussion at the back. Material does not decide the family: the flute is metal but woodwind, and the piano is a string instrument.', ca: 'Seu l’orquestra: toca un instrument dibuixat i després la seva zona del plànol. La corda va al costat del director, després el vent fusta, el vent metall i, al fons, la percussió. La família no la decideix el material.' })}</p>
+              <p>{tr({ es: 'Sienta a la orquesta: toca un instrumento dibujado y luego su zona del plano. Normalmente la cuerda va junto al director, después el viento madera, el viento metal y, al fondo, la percusión (cada orquesta tiene sus variaciones). La familia no la decide el material: la flauta y el saxofón son de metal pero de viento madera, y el piano es de cuerda.', en: 'Seat the orchestra: tap a drawn instrument and then its section of the plan. Usually strings sit beside the conductor, then woodwind, brass and percussion at the back (each orchestra varies it a little). Material does not decide the family: the flute is metal but woodwind, and the piano is a string instrument.', ca: 'Seu l’orquestra: toca un instrument dibuixat i després la seva zona del plànol. Normalment la corda va al costat del director, després el vent fusta, el vent metall i, al fons, la percussió (cada orquestra hi fa variacions). La família no la decideix el material.' })}</p>
               <p>{tr({ es: 'Otras rondas: unir cada dibujo con su nombre y clasificar los instrumentos por subfamilia, por cómo producen el sonido (arco, lengüeta, labios, macillos…) o según Hornbostel-Sachs (cordófonos, aerófonos, membranófonos e idiófonos).', en: 'Other rounds: match each drawing with its name and sort instruments by subfamily, by how they make their sound or by Hornbostel-Sachs.', ca: 'Altres rondes: unir cada dibuix amb el seu nom i classificar els instruments per subfamília, per com produeixen el so o segons Hornbostel-Sachs.' })}</p>
-              <p className="text-white/40 text-xs pt-1">⏱️ {GAME_TIME}s · {tr({ es: `Acierto +10 y +${CORRECT_TIME}s · Fallo −${WRONG_TIME}s`, en: `Correct +10 and +${CORRECT_TIME}s · Wrong −${WRONG_TIME}s`, ca: `Encert +10 i +${CORRECT_TIME}s · Error −${WRONG_TIME}s` })}</p>
+              <p className="text-white/40 text-xs pt-1">⏱️ {P.base} s · {tr({ es: `Ronda acertada: +10 y +${P.porAccion} s por pieza (hasta +${P.bonusMax} s en la partida) · Fallo −${P.porFallo} s · El reloj se para mientras lees la corrección`, en: `Correct round: +10 and +${P.porAccion} s per piece (up to +${P.bonusMax} s per game) · Wrong −${P.porFallo} s · The clock stops while you read the correction`, ca: `Ronda encertada: +10 i +${P.porAccion} s per peça (fins a +${P.bonusMax} s a la partida) · Error −${P.porFallo} s · El rellotge s’atura mentre llegeixes la correcció` })}</p>
             </div>
           </ComoSeJuega>
         </div>
@@ -174,52 +165,28 @@ export default function LaOrquesta() {
       ...(backPath ? [{ label: tr({ es: '← Volver', en: '← Back', ca: '← Tornar' }), onClick: () => navigate(localPath(backPath)) }] : []),
     ]
     return (
-      <GameEndScreen game="la-orquesta" emoji="🎻" title={tr({ es: 'Tiempo', en: "Time's up", ca: 'Temps' })} score={pts} message={msg}
-        stats={[{ label: tr({ es: 'aciertos', en: 'correct', ca: 'encerts' }), value: aciertos, emoji: '✅' }]}
+      <GameEndScreen game="la-orquesta" emoji="🎻" title={tr({ es: 'Fin de la partida', en: 'Game over', ca: 'Fi de la partida' })} score={pts} message={msg}
+        stats={[
+          { label: tr({ es: 'aciertos', en: 'correct', ca: 'encerts' }), value: aciertos, emoji: '✅' },
+          { label: tr({ es: 'nivel', en: 'level', ca: 'nivell' }), value: tr(DIFS[nivel].label), emoji: DIFS[nivel].emoji },
+          { label: tr({ es: 'segundos', en: 'seconds', ca: 'segons' }), value: jugado, emoji: '⏱️' },
+        ]}
         shareText={shareText} user={user} lang={l}
         onPlayAgain={() => startGame(nivel)} secondaryActions={secondary} />
     )
   }
 
   if (!ronda) return null
-  const timerColor = timeLeft > GAME_TIME * 0.66 ? '#22c55e' : timeLeft > GAME_TIME * 0.28 ? '#f59e0b' : '#ef4444'
-  const timerPct = Math.min(1, timeLeft / GAME_TIME)
-  const isResult = phase === 'result'
-  const acierto = isResult && esCorrecta(ronda, elegida)
+  const isResult = ritmo.fase === 'acierto' || ritmo.fase === 'fallo'
 
   return (
     <div className="relative z-10 flex flex-col items-center min-h-[calc(100vh-4rem)] px-3 sm:px-4 py-4">
       {head}
-      <div className="w-full max-w-[480px] flex items-center justify-between mb-3 px-1">
-        <div>
-          <p className="text-white/40 text-xs uppercase tracking-widest">{DIFS[nivel].emoji} {tr(DIFS[nivel].label)}</p>
-          <p className="text-white font-bold text-lg flex items-center gap-2">
-            {aciertos * 10} {tr({ es: 'puntos', en: 'points', ca: 'punts' })}
-            {streak >= 2 && <span className="flex items-center gap-0.5 text-orange-400 text-sm font-black"><Racha className="w-4 h-4" />{streak}</span>}
-          </p>
-        </div>
-        <div className="relative w-14 h-14">
-          <svg className="absolute inset-0" viewBox="0 0 56 56">
-            <circle cx="28" cy="28" r="24" fill="none" stroke="#ffffff15" strokeWidth="4" />
-            <circle cx="28" cy="28" r="24" fill="none" stroke={timerColor} strokeWidth="4"
-              strokeDasharray={`${2 * Math.PI * 24}`} strokeDashoffset={`${2 * Math.PI * 24 * (1 - timerPct)}`}
-              strokeLinecap="round" style={{ transform: 'rotate(-90deg)', transformOrigin: 'center', transition: 'stroke-dashoffset 1s linear' }} />
-          </svg>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-black text-sm" style={{ color: timerColor }}>{timeLeft}</span>
-          </div>
-        </div>
-      </div>
-
+      <HudPartida niveles={DIFS} nivel={nivel} onCambiarNivel={startGame} puntos={aciertos * 10} racha={streak}
+        restante={ritmo.restante} total={ritmo.total} fase={ritmo.fase} onTerminar={ritmo.terminar} />
       <div className="w-full max-w-[480px]">
         <PreguntaOrquesta key={ronda.id} ronda={ronda} revelado={isResult} elegida={elegida} onResponder={responder} />
-        {isResult && (
-          <p className="text-center text-xs font-bold mt-2">
-            {acierto
-              ? <span className="text-green-400">+10 · +{CORRECT_TIME}s ⏱️{streak >= 2 ? ` · 🔥 ${streak}` : ''}</span>
-              : <span className="text-red-400">−{WRONG_TIME}s ⏱️</span>}
-          </p>
-        )}
+        <PanelRespuesta fase={ritmo.fase} delta={ritmo.delta} racha={streak} onSeguir={ritmo.seguir} />
       </div>
     </div>
   )
